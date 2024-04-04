@@ -1,11 +1,11 @@
 <app-layout>
   <div class="main">
     <div class="container my-5 py-5">
-      <div class="row align-items-center">
+      <div class="row align-items-center" style="position: relative;">
         <div class="col-md-8 col-lg-6 mx-auto">
           <div class="card border-0 mt-5">
             <div class="loader" *ngIf="isLoading">
-              <mat-spinner></mat-spinner>
+              <mat-spinner class="custom-spinner-color"></mat-spinner>
             </div>
             <div class="card-body p-3">
               <h4 *ngIf="">Email Verified! You can now sign in to your account</h4>

@@ -44,16 +44,15 @@ export class VanavihariMaredumilliComponent {
   checkoutDate: Date;
   selected: string = '';
   isChecked: boolean = false;
-  isAddedExtraGuest = false
+  isAddedExtraGuest = false;
   isMobile: boolean = false;
-  expandable:boolean=false
+  expandable: boolean = false;
+  selectedRoom: any;
   @HostBinding('class.sticky')
   get stickyClass() {
-    console.log("this.isMobile000000",this.isMobile)
     return this.isMobile;
   }
 
- 
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -62,28 +61,37 @@ export class VanavihariMaredumilliComponent {
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver
   ) {
-    this.breakpointObserver.observe([
-      Breakpoints.HandsetPortrait,
-      Breakpoints.HandsetLandscape
-    ]).subscribe(result => {
-      console.log("result====",result)
-      this.isMobile = result.matches;
-    });
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .subscribe((result) => {
+        console.log('result====', result);
+        this.isMobile = result.matches;
+      });
     this.selectedSortOption = 'lowToHigh';
 
-    if(this.authService.getSearchData("resort") != '' && this.authService.getSearchData("checkin") != '' && this.authService.getSearchData("checkout") != '') {
+    if (
+      this.authService.getSearchData('resort') != '' &&
+      this.authService.getSearchData('checkin') != '' &&
+      this.authService.getSearchData('checkout') != ''
+    ) {
       this.staticRoomsDetails();
     } else this.fetchRoomList();
   }
 
   ngOnInit(): void {
-    this.roomIds = (this.authService.getBookingRooms() != null && this.authService.getBookingRooms() != '' && this.authService.getBookingRooms().length > 0) ? this.authService.getBookingRooms() : [];
+    this.roomIds =
+      this.authService.getBookingRooms() != null &&
+      this.authService.getBookingRooms() != '' &&
+      this.authService.getBookingRooms().length > 0
+        ? this.authService.getBookingRooms()
+        : [];
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
     }
-    this.fetchRoomListSubscription = this.sharedService.fetchRoomList$.subscribe(() => {
-      this.fetchRoomList();
-    });
+    this.fetchRoomListSubscription =
+      this.sharedService.fetchRoomList$.subscribe(() => {
+        this.fetchRoomList();
+      });
   }
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
@@ -100,336 +108,336 @@ export class VanavihariMaredumilliComponent {
       name: string;
       resort: string;
       max_adult: number;
-    }    
+    }
     // // Sample JSON object with the defined type
     const json: { [key: string]: RoomDetails } = {
-      "4554333000000159043": {
+      '4554333000000159043': {
         id: '4554333000000159043',
         week_day_bed_charge: 500,
-        cottage_type: "Wooden Cottages",
-        max_guest: "4",
+        cottage_type: 'Wooden Cottages',
+        max_guest: '4',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "BULBUL",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159087": {
+        name: 'BULBUL',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159087': {
         id: '4554333000000159087',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Vanya",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159121": {
+        name: 'Vanya',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159121': {
         id: '4554333000000159121',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Jabilli",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 3
-    },
-    "4554333000000159067": {
+        name: 'Jabilli',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 3,
+      },
+      '4554333000000159067': {
         id: '4554333000000159067',
         week_day_bed_charge: 500,
-        cottage_type: "Vihari",
-        max_guest: "2",
+        cottage_type: 'Vihari',
+        max_guest: '2',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "PAMULERU",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 3
-    },
-    "4554333000000159061": {
+        name: 'PAMULERU',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 3,
+      },
+      '4554333000000159061': {
         id: '4554333000000159061',
         week_day_bed_charge: 500,
-        cottage_type: "Vihari",
-        max_guest: "3",
+        cottage_type: 'Vihari',
+        max_guest: '3',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "SOKULERU",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 3
-    },
-    "4554333000000159081": {
+        name: 'SOKULERU',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 3,
+      },
+      '4554333000000159081': {
         id: '4554333000000159081',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Prana",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 3
-    },
-    "4554333000000148003": {
+        name: 'Prana',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 3,
+      },
+      '4554333000000148003': {
         id: '4554333000000148003',
         week_day_bed_charge: 500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "Test Room",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159109": {
+        name: 'Test Room',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159109': {
         id: '4554333000000159109',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Ambara",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000110059": {
+        name: 'Ambara',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000110059': {
         id: '4554333000000110059',
         week_day_bed_charge: 500,
-        cottage_type: "Hill Top Guest House",
-        max_guest: "",
+        cottage_type: 'Hill Top Guest House',
+        max_guest: '',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "Panther",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159127": {
+        name: 'Panther',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159127': {
         id: '4554333000000159127',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Vennela",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159007": {
+        name: 'Vennela',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159007': {
         id: '4554333000000159007',
         week_day_bed_charge: 500,
-        cottage_type: "Pre-Fabricated Cottages",
-        max_guest: "2",
+        cottage_type: 'Pre-Fabricated Cottages',
+        max_guest: '2',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "CHOUSINGHA",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159025": {
+        name: 'CHOUSINGHA',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159025': {
         id: '4554333000000159025',
         week_day_bed_charge: 500,
-        cottage_type: "Deluxe Rooms",
-        max_guest: "5",
+        cottage_type: 'Deluxe Rooms',
+        max_guest: '5',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "BAHUDA",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000110053": {
+        name: 'BAHUDA',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000110053': {
         id: '4554333000000110053',
         week_day_bed_charge: 500,
-        cottage_type: "Hill Top Guest House",
-        max_guest: "",
+        cottage_type: 'Hill Top Guest House',
+        max_guest: '',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "Bonnet",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159103": {
+        name: 'Bonnet',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159103': {
         id: '4554333000000159103',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Aditya",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159049": {
+        name: 'Aditya',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159049': {
         id: '4554333000000159049',
         week_day_bed_charge: 500,
-        cottage_type: "Wooden Cottages",
-        max_guest: "2",
+        cottage_type: 'Wooden Cottages',
+        max_guest: '2',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "WOODPECKER",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159031": {
+        name: 'WOODPECKER',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159031': {
         id: '4554333000000159031',
         week_day_bed_charge: 500,
-        cottage_type: "Deluxe Rooms",
-        max_guest: "4",
+        cottage_type: 'Deluxe Rooms',
+        max_guest: '4',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "TAPATHI",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159055": {
+        name: 'TAPATHI',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159055': {
         id: '4554333000000159055',
         week_day_bed_charge: 500,
-        cottage_type: "Wooden Cottages",
-        max_guest: "3",
+        cottage_type: 'Wooden Cottages',
+        max_guest: '3',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "KINGFISHER",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159133": {
+        name: 'KINGFISHER',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159133': {
         id: '4554333000000159133',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Agathi",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159093": {
+        name: 'Agathi',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159093': {
         id: '4554333000000159093',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Prakruti",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159073": {
+        name: 'Prakruti',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159073': {
         id: '4554333000000159073',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Aranya",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    },
-    "4554333000000159019": {
+        name: 'Aranya',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
+      '4554333000000159019': {
         id: '4554333000000159019',
         week_day_bed_charge: 500,
-        cottage_type: "Deluxe Rooms",
-        max_guest: "4",
+        cottage_type: 'Deluxe Rooms',
+        max_guest: '4',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "NARMADA",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159013": {
+        name: 'NARMADA',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159013': {
         id: '4554333000000159013',
         week_day_bed_charge: 500,
-        cottage_type: "Pre-Fabricated Cottages",
-        max_guest: "3",
+        cottage_type: 'Pre-Fabricated Cottages',
+        max_guest: '3',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "SAMBAR",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000110065": {
+        name: 'SAMBAR',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000110065': {
         id: '4554333000000110065',
         week_day_bed_charge: 500,
-        cottage_type: "Pre-Fabricated Cottages",
-        max_guest: "",
+        cottage_type: 'Pre-Fabricated Cottages',
+        max_guest: '',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "Bear",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000110141": {
+        name: 'Bear',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000110141': {
         id: '4554333000000110141',
         week_day_bed_charge: 500,
-        cottage_type: "Pre-Fabricated Cottages",
-        max_guest: "",
+        cottage_type: 'Pre-Fabricated Cottages',
+        max_guest: '',
         week_day_rate: 2500,
         week_end_bed_charge: 700,
         week_end_rate: 3500,
-        name: "Chital",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159037": {
+        name: 'Chital',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159037': {
         id: '4554333000000159037',
         week_day_bed_charge: 500,
-        cottage_type: "Wooden Cottages",
-        max_guest: "4",
+        cottage_type: 'Wooden Cottages',
+        max_guest: '4',
         week_day_rate: 4000,
         week_end_bed_charge: 700,
         week_end_rate: 4500,
-        name: "HORNBILL",
-        resort: "Vanavihari, Maredumilli",
-        max_adult: 2
-    },
-    "4554333000000159115": {
+        name: 'HORNBILL',
+        resort: 'Vanavihari, Maredumilli',
+        max_adult: 2,
+      },
+      '4554333000000159115': {
         id: '4554333000000159115',
         week_day_bed_charge: 1500,
-        cottage_type: "Jungle Star Cottage 1",
-        max_guest: "2",
+        cottage_type: 'Jungle Star Cottage 1',
+        max_guest: '2',
         week_day_rate: 5000,
         week_end_bed_charge: 1750,
         week_end_rate: 7500,
-        name: "Avani",
-        resort: "Jungle Star, Valamuru",
-        max_adult: 2
-    }
+        name: 'Avani',
+        resort: 'Jungle Star, Valamuru',
+        max_adult: 2,
+      },
     };
-    const jsonArray = Object.keys(json).map(key => {
-        return json[key];
-        // return {
-        //   id: key,
-        //   ...json[key]
-        // };
+    const jsonArray = Object.keys(json).map((key) => {
+      return json[key];
+      // return {
+      //   id: key,
+      //   ...json[key]
+      // };
     });
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
 
     setTimeout(() => {
-       this.loadingRooms = false;
+      this.loadingRooms = false;
     }, 2000);
   }
-  
+
   ngOnDestroy() {
     if (this.fetchRoomListSubscription) {
       this.fetchRoomListSubscription.unsubscribe();
@@ -447,23 +455,31 @@ export class VanavihariMaredumilliComponent {
   // }));
 
   fetchRoomList() {
-    if(this.selectedResort != '' && this.checkinDate != null && this.checkoutDate != null) {
+    if (
+      this.selectedResort != '' &&
+      this.checkinDate != null &&
+      this.checkoutDate != null
+    ) {
       let perm = '';
-      if(this.selectedResort) perm += `&resort=${this.selectedResort}`;
-      if(this.checkinDate) perm += `&checkin=${this.checkinDate}`;
-      if(this.checkoutDate) perm += `&checkout=${this.checkoutDate}`;
+      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
+      if (this.checkinDate) perm += `&checkin=${this.checkinDate}`;
+      if (this.checkoutDate) perm += `&checkout=${this.checkoutDate}`;
       this.http
         .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list'+perm
+          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' +
+            perm
         )
         .subscribe({
           next: (response) => {
-            if (response.code === 3000 && response.result.status === 'success') {
+            if (
+              response.code === 3000 &&
+              response.result.status === 'success'
+            ) {
               const json = response.result.data;
-              const jsonArray = Object.keys(json).map(key => {
+              const jsonArray = Object.keys(json).map((key) => {
                 return {
                   id: key,
-                  ...json[key]
+                  ...json[key],
                 };
               });
               this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
@@ -480,30 +496,32 @@ export class VanavihariMaredumilliComponent {
               'An error occurred while fetching room list. Please try again later.'
             );
           },
-      });
+        });
       setTimeout(() => {
         this.loadingRooms = false;
       }, 2000);
     }
   }
- 
-  removeRoom(room: any, roomId: any) {    
-    this.roomIds = this.roomIds.filter(room => room.id !== roomId);
+
+  removeRoom(room: any, roomId: any) {
+    this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
     if (this.roomIds.length < 1) this.showBookingSummary = false;
     room.is_button_disabled = false;
     this.authService.setBookingRooms(this.roomIds);
-    let rm = this.roomCards.find(rm => rm.id === roomId);
+    let rm = this.roomCards.find((rm) => rm.id === roomId);
     if (rm) rm.is_button_disabled = false;
   }
   checkIfNaN(value: any): boolean {
     return isNaN(value);
   }
   checkExtraGuest(room: any, roomId: any, inputbox: HTMLInputElement) {
-    let rm = this.roomCards.find(rm => rm.id === roomId);
-    if(this.checkIfNaN(inputbox.value)) {
-      if(inputbox.checked) {
+    this.isAddedExtraGuest = inputbox.checked;
+    let rm = this.roomCards.find((rm) => rm.id === roomId);
+    if (this.checkIfNaN(inputbox.value)) {
+      if (inputbox.checked) {
         if (rm) rm.noof_guest = 1;
         room.noof_guest = 1;
+        room.isExtraGuestChecked = true;
       } else {
         if (rm) rm.noof_guest = 0;
         room.noof_guest = 0;
@@ -549,8 +567,10 @@ export class VanavihariMaredumilliComponent {
   }
 
   addRoom(room: any) {
-    let foundRoom = this.roomIds.find(singRoom => singRoom.id === room.id);
-    if (!foundRoom) { this.roomIds.push(room); }
+    let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room.id);
+    if (!foundRoom) {
+      this.roomIds.push(room);
+    }
     this.showBookingSummary = true;
     room.is_button_disabled = true;
     this.authService.setBookingRooms(this.roomIds);
@@ -562,19 +582,28 @@ export class VanavihariMaredumilliComponent {
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
       if (roomId) {
-        totalPrice += roomId.week_day_rate+(roomId.noof_guest*roomId.week_day_bed_charge);
+        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
       }
     }
     return totalPrice;
+  }
+  getRoomCharges() {
+    let roomCharges = 0;
+    for (const roomId of this.roomIds) {
+      if (roomId) {
+        roomCharges += roomId.week_day_rate;
+      }
+    }
+    return roomCharges;
   }
   calculateTotalGst(): number {
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
       if (roomId) {
-        totalPrice += roomId.week_day_rate+(roomId.noof_guest*roomId.week_day_bed_charge);
+        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
       }
     }
-    totalPrice = ((totalPrice*12)/100);
+    totalPrice = (totalPrice * 12) / 100;
     return totalPrice;
   }
   calculatePayablePrice(): number {
@@ -590,7 +619,18 @@ export class VanavihariMaredumilliComponent {
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
-  extraGuest(checked: boolean) {
-    this.isAddedExtraGuest = checked;
+
+  calculateExtraGuestCharges() {
+    const gstChargesPerRoom = 500; // GST charges per room
+    let totalExtraGuestCharges = 0;
+
+    // Loop through each room to check if the checkbox is checked
+    for (const room of this.roomCards) {
+      if (room.isExtraGuestChecked) {
+        totalExtraGuestCharges += gstChargesPerRoom;
+      }
+    }
+
+    return totalExtraGuestCharges;
   }
 }

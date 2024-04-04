@@ -1,13 +1,15 @@
 <app-layout>
-  
+
   <div class="main">
-   
+
     <div class="container my-5 py-5">
-     
-      <div class="row justify-content-between align-items-center">
+
+      <div class="row justify-content-between align-items-center" style="position: relative;">
         <div class="loader" *ngIf="isLoading">
-          <mat-spinner></mat-spinner>
+          <mat-spinner class="custom-spinner-color"></mat-spinner>
         </div>
+
+
         <div class="col-md-5">
           <img src="assets/images/login-image-left.svg" alt="login-image-left" />
         </div>
@@ -19,56 +21,75 @@
                 <h5 class="mb-4">Vanavihari user account</h5>
               </div>
               <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                
+
                 <mat-form-field appearance="outline">
                   <mat-label>Full Name</mat-label>
-                  <input type="text" matInput required formControlName="full_name" name="Full_Name" ngModel placeholder="Enter full name" />
-                  <mat-error *ngIf="form.get('full_name')?.errors?.required && (form.get('full_name')?.dirty || form.get('full_name')?.touched)">
+                  <input type="text" matInput required formControlName="full_name" name="Full_Name" ngModel
+                    placeholder="Enter full name" />
+                  <mat-error
+                    *ngIf="form.get('full_name')?.errors?.required && (form.get('full_name')?.dirty || form.get('full_name')?.touched)">
                     Please enter your full name.
                   </mat-error>
-                  <mat-error *ngIf="form.get('full_name')?.errors?.pattern && (form.get('full_name')?.dirty || form.get('full_name')?.touched)">
+                  <mat-error
+                    *ngIf="form.get('full_name')?.errors?.pattern && (form.get('full_name')?.dirty || form.get('full_name')?.touched)">
                     Please enter a valid full name
                   </mat-error>
                 </mat-form-field>
-                
+
                 <mat-form-field appearance="outline" class="mt-3">
                   <mat-label>Mobile no.</mat-label>
-                  <input type="tel" maxlength="10" minlength="10" matInput required formControlName="mobile_number" name="Mobile_Number" ngModel placeholder="Enter 10 digit mobile no." />
-                  <mat-error *ngIf="form.get('mobile_number')?.invalid && (form.get('mobile_number')?.dirty || form.get('mobile_number')?.touched)">Please enter a valid mobile number</mat-error>
+                  <input type="tel" maxlength="10" minlength="10" matInput required formControlName="mobile_number"
+                    name="Mobile_Number" ngModel placeholder="Enter 10 digit mobile no." />
+                  <mat-error
+                    *ngIf="form.get('mobile_number')?.invalid && (form.get('mobile_number')?.dirty || form.get('mobile_number')?.touched)">Please
+                    enter a valid mobile number</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="mt-3">
                   <mat-label>Email</mat-label>
-                  <input type="email" matInput required formControlName="email_id" name="Email_Id" ngModel placeholder="abc@gmail.com" />
-                  <mat-error *ngIf="form.controls.email_id.invalid && (form.controls.email_id.dirty || form.controls.email_id.touched)">Please enter a valid email address</mat-error>
+                  <input type="email" matInput required formControlName="email_id" name="Email_Id" ngModel
+                    placeholder="abc@gmail.com" />
+                  <mat-error
+                    *ngIf="form.controls.email_id.invalid && (form.controls.email_id.dirty || form.controls.email_id.touched)">Please
+                    enter a valid email address</mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="mt-3">
                   <mat-label>Password</mat-label>
-                  <input type="{{ password_hide ? 'password' : 'text' }}" matInput name="Password" required formControlName="password" ngModel placeholder="Enter Password" />
+                  <input type="{{ password_hide ? 'password' : 'text' }}" matInput name="Password" required
+                    formControlName="password" ngModel placeholder="Enter Password" />
                   <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()">
                     <mat-icon>{{ password_hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                   </button>
-                  <mat-error *ngIf="form.controls.password.errors && (form.controls.password.dirty || form.controls.password.touched)">
-                      <span *ngIf="form.controls.password.errors.required">Password is required.</span>
-                      <!-- <span *ngIf="form.controls.password.errors.minlength">Password must be at least 6 characters long.</span> -->
-                      <span *ngIf="form.controls.password.errors.pattern">password must contain Min 6 chars,max 12 chars, 1 uppercase, number and 1 special char.</span>
+                  <mat-error
+                    *ngIf="form.controls.password.errors && (form.controls.password.dirty || form.controls.password.touched)">
+                    <span *ngIf="form.controls.password.errors.required">Password is required.</span>
+                    <!-- <span *ngIf="form.controls.password.errors.minlength">Password must be at least 6 characters long.</span> -->
+                    <span class="mb-4" *ngIf="form.controls.password.errors.pattern">Password must contain Min 6
+                      chars,max 12 chars,
+                      1 uppercase, number and 1 special char.</span>
                   </mat-error>
-                </mat-form-field>    
-                <mat-form-field appearance="outline" class="mt-3">
+                </mat-form-field>
+                <mat-form-field appearance="outline"
+                  [ngClass]="(form.controls.password.errors && form.controls.password.dirty) ? 'mt-4' : 'mt-3'">
                   <mat-label>Repeat Password</mat-label>
-                  <input type="{{ repeate_password_hide ? 'password' : 'text' }}" matInput name="repeat_password" required formControlName="repeat_password" ngModel placeholder="Repeat Password" />
+                  <input type="{{ repeate_password_hide ? 'password' : 'text' }}" matInput name="repeat_password"
+                    required formControlName="repeat_password" ngModel placeholder="Repeat Password" />
                   <button type="button" mat-icon-button matSuffix (click)="toggleRepeatPasswordVisibility()">
                     <mat-icon>{{ repeate_password_hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                   </button>
-                  
+
                   <!-- <mat-hint><strong>Your data is safe with us</strong> </mat-hint> -->
                   <!-- <mat-hint>{{message.value.length}} / 256</mat-hint> -->
-                  <mat-error *ngIf="form.controls.repeat_password.errors && (form.controls.repeat_password.dirty ||  form.controls.repeat_password.touched) ">
+                  <mat-error
+                    *ngIf="form.controls.repeat_password.errors && (form.controls.repeat_password.dirty ||  form.controls.repeat_password.touched) ">
                     <span *ngIf="form.controls.repeat_password.errors.passwordsNotMatch">Passwords do not match.</span>
                   </mat-error>
                 </mat-form-field>
-                <mat-checkbox  [(ngModel)]="termsAccepted" [ngModelOptions]="{standalone: true}" (change)="openTermsModal($event)" value="" color="primary" class="my-2">I agree to the terms and conditions</mat-checkbox>
-                  
-                <button mat-raised-button color="primary" class="w-100 mt-3" [disabled]="form.invalid || !termsAccepted">Sign Up</button>
+                <mat-checkbox [(ngModel)]="termsAccepted" [ngModelOptions]="{standalone: true}"
+                  (change)="openTermsModal($event)" value="" color="primary" class="my-2">I agree to the terms and
+                  conditions</mat-checkbox>
+
+                <button mat-raised-button color="primary" class="w-100 mt-3"
+                  [disabled]="form.invalid || !termsAccepted">Sign Up</button>
               </form>
 
               <div class="d-flex justify-content-center mt-5">
@@ -81,7 +102,7 @@
       </div>
     </div>
   </div>
-  
+
 </app-layout>
 <!-- <app-confirmation-modal #confirmationModal 
   (newConfirmationEvent)="getConfirmationValue($event)" 
@@ -90,4 +111,3 @@
   [modalBody]="modalBody"
   [modalButtonColor]="modalButtonColor">
 </app-confirmation-modal> -->
-
