@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +13,11 @@ export class AuthService {
   
   private bookingRooms = 'booking_rooms';
   private searchData = 'search_data';
+
+  private refreshRoomsComponentSource = new Subject<void>();
+  refreshRoomsComponent$ = this.refreshRoomsComponentSource.asObservable();
+
+
   constructor(private http: HttpClient) { }
 
   sendDataToServer(apiUri: any, params: any): Observable<any> {
@@ -78,5 +83,9 @@ export class AuthService {
   }
   clearSearchData(): void {
     localStorage.removeItem(this.searchData);
+  }
+
+  refreshRoomsComponent(): void {
+    this.refreshRoomsComponentSource.next();
   }
 }

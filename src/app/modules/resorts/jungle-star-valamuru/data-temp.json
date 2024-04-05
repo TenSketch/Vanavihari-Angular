@@ -1,0 +1,54 @@
+{
+    "status": "success",
+    "data": {
+        4554333000000110053: {
+            "name": "Bonnet",
+            "resort": "Vanavihari",
+            "cottage_type": "Hill Top Guest House",
+            "room_id": "V1",
+            "week_day_rate": 2500.00,
+            "week_end_rate": 3500.00,
+            "week_day_guest_charge": 500,
+            "week_end_guest_charge": 700
+        },
+        4554333000000110059: {
+            "name": "Panther",
+            "resort": "Vanavihari",
+            "cottage_type": "Hill Top Guest House",
+            "room_id": "HTG2",
+            "max_adult": 2,
+            "max_child": 1,
+            "max_guest": 3,
+            "week_day_rate": 2500.00,
+            "week_end_rate": 3500.00,
+            "week_day_guest_charge": 500,
+            "week_end_guest_charge": 700,
+            
+        },
+        4554333000000110065: {
+            "name": "Bear",
+            "resort": "Vanavihari",
+            "cottage_type": "Pre-Fabricated Cottages",
+            "room_id": "PFC1",
+            "max_adult": 2,
+            "max_child": 1,
+            "max_guest": 3,
+            "week_day_rate": 2500.00,
+            "week_end_rate": 3500.00,
+            "week_day_guest_charge": 500,
+            "week_end_guest_charge": 700,
+            
+        },
+        4554333000000110141: {
+            "name": "Chital",
+            "resort": "Vanavihari",
+            "cottage_type": "Pre-Fabricated Cottages",
+            "room_id": "PFC2",
+            "week_day_rate": 2500.00,
+            "week_end_rate": 3500.00,
+            "week_day_guest_charge": 500,
+            "week_end_guest_charge": 700,
+            
+        }
+    }
+}

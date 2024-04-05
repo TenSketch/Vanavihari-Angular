@@ -20,7 +20,8 @@ export class SearchResortComponent implements OnInit {
   selectedAges: string[] = [];
   ageDropdowns: number[];
   RoomValues: any;
-  selectedResort: string = "vanavihari";
+  //selectedResort: string = "vanavihari";
+  selectedResort: string;
   checkinDate: string;
   checkoutDate: string;
 
@@ -114,12 +115,37 @@ export class SearchResortComponent implements OnInit {
       this.roomsCount;
     console.log(this.roomsCount, this.adultsCount);
   }
+  
+  // onResortChange(): void {
+  //   switch (this.selectedResort) {
+  //     case 'vanavihari':
+  //       this.goToVanavihari();
+  //       break;
+  //     case 'jungle-star':
+  //       this.goToJungleStar();
+  //       break;
+  //     default:
+  //       // Handle default case if needed
+  //       break;
+  //   }
+  // }
 
   goToVanavihari() {
     this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
-    this.router.navigate(['/resorts/vanavihari-maredumilli']);
+    //this.router.navigate(['/resorts/vanavihari-maredumilli']);
+    this.router.navigate(['/resorts/rooms']);
+    // this.router.navigate(['/resorts/rooms']).then(() => {
+    //   window.location.reload(); // Reload the page
+    // });
     this.sharedService.triggerFetchRoomList();
+    this.authService.refreshRoomsComponent();
   }
+  // goToJungleStar() {
+  //   this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
+  //   //this.router.navigate(['resorts/jungleStar,Valamuru']);
+  //   this.router.navigate(['/resorts/rooms']);
+  //   this.sharedService.triggerFetchRoomList();
+  // }
   // goToRooms(){
   //   this.router.navigate(['/resorts/rooms' ]);
   // }

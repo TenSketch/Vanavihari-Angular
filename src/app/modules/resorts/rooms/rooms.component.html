@@ -1,119 +1,91 @@
 <app-layout>
-  <div class="main">
-    <section class="page-banner d-grid place-items-center">
-      <!-- <h1 class="display-3 text-center">Vanavihari, Maredumilli</h1> -->
-    </section>
-
-    <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <!-- <li class="breadcrumb-item"><a href="#">Resorts</a></li> -->
-          <li class="breadcrumb-item active" aria-current="page">
-            Vanavihari, Maredumilli
-          </li>
-        </ol>
-      </nav>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="map-container">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-              width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-        </div>
-        <div class="col-md-8 mt-4 mt-lg-0">
-          <h4>About Vanavihari, Maredumilli</h4>
-          <p>
-            Vanavihari resort, situated in the serene landscapes of Maredumilli,
-            beckons eco-tourism aficionados with its abundance of bamboo trees.
-            This guesthouse, committed to community well-being, offers a serene
-            retreat amidst natural surroundings. With its snug cottages and
-            rooms, it conveniently lies close to Amruthathara Waterfalls,
-            promising guests a peaceful ambiance. Nearby street food eateries
-            present the opportunity to savor the distinctive flavor of bamboo
-            biriyani. Stepping out for a night or morning stroll unveils a
-            heavenly experience for visitors.
-          </p>
-        </div>
-      </div>
-      <h2 class="text-center mb-4">Modify Search</h2>
-      <!-- section for search bar - with inputs given in home page search, and user can modify -->
-      <app-search-resort></app-search-resort>
-      <!-- rooms listing section -->
-      <div class="row mt-5">
-        <aside class="">
-          <div class="sort">
-            <mat-form-field>
-              <mat-label>Sort by Price</mat-label>
-              <mat-select [(value)]="selectedSortOption" name="priceSort">
-                <mat-option value="lowToHigh">Low to High</mat-option>
-                <mat-option value="highToLow">High to Low</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="booking-summary-bar" *ngIf="showBookingSummary">
-            <h5><u>Booking Summary</u></h5>
-            <div class="row align-items-center">
-              <div class="col-md-4">
-                <strong>No. of rooms</strong>
-                <p>1</p>
-                <!-- <p>1</p> -->
-              </div>
-              <div class="col-md-4">
-                <strong>Total Price</strong>
-                <p>INR 5600 + GST @12%</p>
-                <!-- <p></p> -->
-              </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary float-end" (click)="goToBooking()">
-                  Proceed
-                </button>
-              </div>
+    <div class="main" *ngIf="selectedResortInfo">
+      <section class="page-banner d-grid place-items-center">
+        <h1 class="display-3 text-center">{{ selectedResortInfo.title }}</h1>
+      </section>
+  
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <!-- <li class="breadcrumb-item"><a href="#">Resorts</a></li> -->
+            <li class="breadcrumb-item active" aria-current="page">
+              {{ selectedResortInfo.title }}
+            </li>
+          </ol>
+        </nav>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
+                width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
-        </aside>
-        <main class="rooms-listing">
-          <div *ngFor="let room of roomCards" class="card mb-3 p-1">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img [src]="room.image" class="card-img" alt="Room Image" />
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-6 text-start details-left">
-                      <p class="mb-0">
-                        <strong>Room name:</strong> {{ room.name }}
-                      </p>
-                      <p class="mb-0">
-                        <strong>Cottage type:</strong> {{ room.cottage_type }}
-                      </p>
-                      <p><strong>Bed type:</strong> {{ room.bed_type }}</p>
-                      <div class="d-flex gap-2">
-                        <span *ngFor="let amenity of room.amenities">
-                          <span>{{ amenity }}</span>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-6 details-right text-end">
-                      <div class="star-rating">{{ room.rating }}</div>
-                      <h5>{{ room.rating }}</h5>
-                      <p class="card-text">
-                        <small class="text-muted">{{ weekDayPrice }}</small>
-                      </p>
-                      <button class="btn btn-primary" (click)="addRoom()">
-                        Add room
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="col-md-8 mt-4 mt-lg-0">
+            <h4>About {{ selectedResortInfo.title }}</h4>
+            <p>
+              {{ selectedResortInfo.about }}
+            </p>
           </div>
-        </main>
+        </div>
+  
+        <div class="policy-section row">
+          <div class="col-sm-12 col-lg-4">
+            <h4 class="custom-h4">Guest Policies & Rates
+            </h4>
+            <ul>
+              <li> <strong>Occupancy:</strong> 2 guests (1 extra allowed)
+              </li>
+              <li> <strong>Amenities:</strong> AC, geyser, western toilet, Prices exclude 12% GST.
+  
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <h4 class="custom-h4">Cancellation
+  
+            </h4>
+            <ul>
+              <li> <strong>
+  
+                  48-72 hours before:</strong> 90% refund
+              </li>
+              <li> <strong> 24-48 hours before:</strong> 80% refund
+              </li>
+              <li> <strong>
+  
+                  Within 24 hours:</strong> No refund
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <h4 class="custom-h4">Check-In/Out:
+  
+            </h4>
+            <ul>
+              <li> <strong>Check-in:</strong> 10:00 AM IST
+              </li>
+              <li> <strong>
+  
+                  Check-out:</strong> 9:00 AM IST
+  
+              </li>
+              <li>
+                Early/late fees may apply (subject to availability)
+  
+              </li>
+            </ul>
+          </div>
+        </div>
+        <h2 class="text-center mb-4">Modify Search</h2>
+        <!-- section for search bar - with inputs given in home page search, and user can modify -->
+        <app-search-resort></app-search-resort>
+        <!-- rooms listing section -->
+        <div class="row mt-5">
+        </div>
       </div>
     </div>
-  </div>
-</app-layout>
+  
+  </app-layout>

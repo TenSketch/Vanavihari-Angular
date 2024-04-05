@@ -68,7 +68,7 @@ export class LayoutComponent implements OnInit {
   }
 
   goToJungleStar() {
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/resorts/jungleStar,Valamuru']);
   }
   goToTourist()
   {
