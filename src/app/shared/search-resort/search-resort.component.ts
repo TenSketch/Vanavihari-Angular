@@ -125,8 +125,17 @@ export class SearchResortComponent implements OnInit {
   // }
 
   onDateChange(type: string, event: any): void {
-    const selectedDate = event.value;
-    const formattedDate = this.formatDate(selectedDate);
+    let formattedDate: string;
+
+    if (event && event instanceof Date) {
+      const year = event.getFullYear();
+      const month = ('0' + (event.getMonth() + 1)).slice(-2);
+      const day = ('0' + event.getDate()).slice(-2);
+      formattedDate = `${year}-${month}-${day}`;
+    } else {
+      formattedDate = '';
+    }
+
     if (type === 'checkin') {
       this.checkinDate = formattedDate;
     } else if (type === 'checkout') {

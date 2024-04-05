@@ -49,7 +49,7 @@ export class VanavihariMaredumilliComponent {
   expandable:boolean=false
   @HostBinding('class.sticky')
   get stickyClass() {
-    console.log("this.isMobile000000",this.isMobile)
+    // console.log("this.isMobile000000",this.isMobile)
     return this.isMobile;
   }
 
