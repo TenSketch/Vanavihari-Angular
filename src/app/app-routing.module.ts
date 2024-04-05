@@ -17,7 +17,7 @@ import { EmailVerificationComponent } from './auth/email-verification/email-veri
 import { ResortListingComponent } from './modules/resort-listing/resort-listing.component';
 import { BookingSummaryComponent } from './modules/booking-summary/booking-summary.component';
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
-// import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
 
 
@@ -30,6 +30,7 @@ const routes: Routes = [
 {path:'about-vanavihari', component:AboutVanavihariComponent}, 
 {path:'my-account/settings', component: SettingsComponent},
 {path:'my-account/my-bookings', component: MyBookingsComponent},
+{path:'resorts/rooms', component: RoomsComponent},
 {path:'resorts/vanavihari-maredumilli', component: VanavihariMaredumilliComponent},
 {path:'resorts/jungleStar,Valamuru', component: JungleStarValamuruComponent},
 {path:'tribal-community', component: TribalCommunityComponent},
