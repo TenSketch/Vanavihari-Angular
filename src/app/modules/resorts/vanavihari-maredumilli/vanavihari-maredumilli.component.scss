@@ -53,7 +53,6 @@ aside {
     // bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
     // position: relative;
   }
 
@@ -91,7 +90,7 @@ main {
 }
 
 .position-sticky-for-mobile {
-  top: 14%;
+  top: 5%;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -113,6 +112,6 @@ main {
   padding: 20px;
   margin: 20px 0px;
 }
-.custom-h4{
+.custom-h4 {
   padding-left: 10px;
 }

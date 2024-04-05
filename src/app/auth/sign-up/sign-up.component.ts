@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import {  FormBuilder, FormGroup, Validators, FormControl, ValidatorFn, AbstractControl, ValidationErrors} from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 // import { ZohoAuthServiceService } from '../../zoho-auth-service.service';
 import { AuthService } from '../../auth.service';
@@ -23,9 +31,9 @@ export class SignUpComponent implements OnInit {
   repeat_password: any;
   password_hide = true;
   repeate_password_hide = true;
-  isChecked:boolean =false
-  termsAccepted: boolean = false
-  isLoading:boolean=false
+  isChecked: boolean = false;
+  termsAccepted: boolean = false;
+  isLoading: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -35,8 +43,7 @@ export class SignUpComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog,
-   
+    private dialog: MatDialog
   ) {}
   // {
   //   this.form = this.formBuilder.group(
@@ -62,55 +69,80 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     // mobile validation function- NO SPACE ALLOWED
-    function mobileNumberValidator(control: FormControl): { [s: string]: boolean } | null {
+    function mobileNumberValidator(
+      control: FormControl
+    ): { [s: string]: boolean } | null {
       const mobileNumberPattern = /^[0-9]*$/;
-    
+
       if (!mobileNumberPattern.test(control.value)) {
-        return { 'invalidMobileNumber': true };
+        return { invalidMobileNumber: true };
       }
-    
+
       return null;
     }
     // full email validation func
-    function emailValidator(control: FormControl): { [s: string]: boolean } | null {
-      if (!control.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+    function emailValidator(
+      control: FormControl
+    ): { [s: string]: boolean } | null {
+      if (
+        !control.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+      ) {
         return { invalidEmail: true };
       }
       return null; // Return null when validation succeeds
     }
-    this.form = this.formBuilder.group({
-      full_name: ['', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')
-    ])],
-      // mobile_number: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
-      mobile_number: ['', Validators.compose([
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10),
-        mobileNumberValidator
-    ])],    
-      // email_id: ['', Validators.compose([Validators.required, Validators.email])],
-      email_id: ['', Validators.compose([Validators.required, emailValidator])],
-      password: ['', Validators.compose([
-        Validators.required,
-        // Validators.minLength(6),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/),
-      ])],
-      repeat_password: ['', Validators.compose([Validators.required])]
-    }, {
-      validators: this.passwordMatchValidator
-    });
+    this.form = this.formBuilder.group(
+      {
+        full_name: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$'),
+          ]),
+        ],
+        // mobile_number: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(10)])],
+        mobile_number: [
+          '',
+          Validators.compose([
+            Validators.required,
+            Validators.minLength(10),
+            Validators.maxLength(10),
+            mobileNumberValidator,
+          ]),
+        ],
+        // email_id: ['', Validators.compose([Validators.required, Validators.email])],
+        email_id: [
+          '',
+          Validators.compose([Validators.required, emailValidator]),
+        ],
+        password: [
+          '',
+          Validators.compose([
+            Validators.required,
+            // Validators.minLength(6),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/
+            ),
+          ]),
+        ],
+        repeat_password: ['', Validators.compose([Validators.required])],
+      },
+      {
+        validators: this.passwordMatchValidator,
+      }
+    );
   }
   onSubmit(): void {
     this.password = this.form.value.password;
     this.repeat_password = this.form.value.repeat_password;
     if (this.form.valid) {
-      this.isLoading=true
+      this.isLoading = true;
       const params = new HttpParams()
         .set('fullname', this.form.value.full_name)
         .set('email', this.form.value.email_id)
         .set('mobile', this.form.value.mobile_number)
         .set('password', this.form.value.password);
-      
+
       this.http
         .get<any>(
           'https://vanavihari-ng.netlify.app/zoho-connect?api_type=register',
@@ -118,27 +150,24 @@ export class SignUpComponent implements OnInit {
         )
         .subscribe({
           next: (response) => {
-            if (response.code == 3000 && response.result.status == 'success'){
-              this.isLoading =false
+            if (response.code == 3000 && response.result.status == 'success') {
+              this.isLoading = false;
               this.showSuccessAlert();
-            }
-            else if (response.code == 3000){
-              this.isLoading =false
+            } else if (response.code == 3000) {
+              this.isLoading = false;
               this.showErrorAlert(response.result.msg);
-            }
-            
-            else {
-              this.isLoading =false
+            } else {
+              this.isLoading = false;
               this.showErrorAlert('Please Check Input Fields!');
-          }
-        },
+            }
+          },
           error: (err) => {
-            this.isLoading =false
+            this.isLoading = false;
             console.error('Error:', err);
           },
         });
     } else {
-      this.isLoading =false
+      this.isLoading = false;
       this.showErrorAlert('Please Fill Form!');
     }
   }
@@ -150,8 +179,9 @@ export class SignUpComponent implements OnInit {
     } else {
       form.get('repeat_password')?.setErrors(null);
     }
-  
-    return null;  }
+
+    return null;
+  }
 
   togglePasswordVisibility(): void {
     this.password_hide = !this.password_hide;
@@ -168,9 +198,10 @@ export class SignUpComponent implements OnInit {
       })
       .afterDismissed()
       .subscribe(() => {
-        
-        this.router.navigate(['/success'],{queryParams: {id:this.form.value.email_id}});
-        this.isLoading =false
+        this.router.navigate(['/success'], {
+          queryParams: { id: this.form.value.email_id },
+        });
+        this.isLoading = false;
       });
   }
   showErrorAlert(msg = '') {
@@ -181,9 +212,9 @@ export class SignUpComponent implements OnInit {
   goToSignin() {
     this.router.navigate(['/sign-in']);
   }
-  
-  openTermsModal(checked:any) {
-    this.termsAccepted = checked.checked
+
+  openTermsModal(checked: any) {
+    this.termsAccepted = checked.checked;
     this.isChecked = false;
     if (!this.isChecked) {
       const dialogRef = this.dialog.open(TermsModalComponentComponent, {
@@ -193,13 +224,13 @@ export class SignUpComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         if (result === 'agree') {
           this.isChecked = true;
-          checked=true
-          this.termsAccepted = checked
-        }else {
+          checked = true;
+          this.termsAccepted = checked;
+        } else {
           this.isChecked = false;
-          checked=false
-          this.termsAccepted = checked
-      }
+          checked = false;
+          this.termsAccepted = checked;
+        }
       });
     }
   }

@@ -157,8 +157,8 @@
                 <small>
                   <!-- {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
                       {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
-                  Total Room Charges: <span class="float-end pb-4 m-0">{{
-                    roomId.week_day_rate+(roomId.week_day_bed_charge*roomId.noof_guest) | currency:'INR
+                  Room Tariff: <span class="float-end pb-4 m-0">{{
+                    roomId.week_day_rate | currency:'INR
                     ':'symbol':'1.2-2' }}</span>
                 </small>
 
@@ -174,31 +174,48 @@
 
                     </mat-form-field>
                   </span>
-                  <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
-                    (ngModelChange)="extraGuest($event)"><label>Add one more guest </label></mat-checkbox>
+                  <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
+                    (ngModelChange)="extraGuest($event)"><label>Add an extra guest </label></mat-checkbox>
                   <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
                       charged</small>
 
 
+                  </div> -->
+                  <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
+                      id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
+                      (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest">
+                    Check any extra guest</label> &nbsp;
+                  <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
+                      charged</small>
                   </div>
-                  <!-- <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id" (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest"> Check any extra guest</label> &nbsp;
-                    <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}" #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center" [id]="'checkextraguestcount' + roomId.id" (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)" *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
+
+
+                  <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
+                    #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
+                    [id]="'checkextraguestcount' + roomId.id"
+                    (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
+                    *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
                 </div>
               </div>
             </div>
             <hr />
             <ng-container *ngIf="showBookingSummary">
               <div class="d-flex justify-content-between pt-1">
-                <span><strong>Room Tariff</strong></span>
-                <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                <span>Room charges</span>
+                <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
-              <div class="d-flex justify-content-between border-bottom border-primary pb-2">
-                <span><strong>GST @ 12%</strong></span>
-                <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
+              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+                <span>Extra guest</span>
+                <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
+
               <div class="d-flex justify-content-between font-weight-bold py-1">
                 <span class="mb-0">Total</span>
-                <span>{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+              </div>
+              <div class="d-flex justify-content-between font-weight-bold py-1">
+                <span class="mb-0">GST @ 12%</span>
+                <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
               <div
                 class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
@@ -222,7 +239,7 @@
                   </mat-panel-title>
 
                 </mat-expansion-panel-header>
-                <div class="accordion-body">
+                <div [ngClass]="{'accordion-body': showBookingSummary}">
                   <div class="border-top py-2 " *ngIf="showBookingSummary; else noBookings">
                     <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
                     <div class="pt-2" *ngFor="let roomId of roomIds">
@@ -234,9 +251,9 @@
 
                       <small>
                         <!-- {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
-                          {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
-                        Total Room Charges: <span class="float-end pb-4 m-0">{{
-                          roomId.week_day_rate+(roomId.week_day_bed_charge*roomId.noof_guest) | currency:'INR
+                            {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
+                        Room Tariff: <span class="float-end pb-4 m-0">{{
+                          roomId.week_day_rate | currency:'INR
                           ':'symbol':'1.2-2' }}</span>
                       </small>
 
@@ -252,36 +269,54 @@
 
                           </mat-form-field>
                         </span>
-                        <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
-                          (ngModelChange)="extraGuest($event)"><label>Add one more guest </label></mat-checkbox>
+                        <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
+                          (ngModelChange)="extraGuest($event)"><label>Add an extra guest </label></mat-checkbox>
                         <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
                             charged</small>
-
-
+      
+      
+                        </div> -->
+                        <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
+                            id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
+                            (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)"
+                            [(ngModel)]="roomId.noof_guest">
+                          Check any extra guest</label> &nbsp;
+                        <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
+                            charged</small>
                         </div>
-                        <!-- <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id" (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest"> Check any extra guest</label> &nbsp;
-                        <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}" #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center" [id]="'checkextraguestcount' + roomId.id" (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)" *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
+
+
+                        <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
+                          #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
+                          [id]="'checkextraguestcount' + roomId.id"
+                          (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
+                          *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
                       </div>
                     </div>
                   </div>
                   <hr />
                   <ng-container *ngIf="showBookingSummary">
                     <div class="d-flex justify-content-between pt-1">
-                      <span><strong>Room Tariff</strong></span>
-                      <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                      <span>Room charges</span>
+                      <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
-                    <div class="d-flex justify-content-between border-bottom border-primary pb-2">
-                      <span><strong>GST @ 12%</strong></span>
-                      <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                    <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+                      <span>Extra guest</span>
+                      <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
+
                     <div class="d-flex justify-content-between font-weight-bold py-1">
                       <span class="mb-0">Total</span>
-                      <span>{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                      <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                      <span class="mb-0">GST @ 12%</span>
+                      <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
                     <div
                       class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
-                      <span class="mb-0 custom-text">Grand Total</span>
-                      <span class="custom-text">{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
+                      <span class="mb-0">Grand Total</span>
+                      <span>{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
                   </ng-container>
                   <button mat-raised-button color="primary" class="w-100 mt-3" (click)="goToBooking()"
@@ -389,7 +424,7 @@
                     </h6>
 
                     <small>(For 2 guests)</small><br>
-                    <h6 class="p-0 m-0"><strong>{{ room.week_day_rate | currency: 'INR ': true: '1.2-2' }} </strong>
+                    <h6 class="p-0 m-0"><strong>{{ 500 | currency: 'INR ': true: '1.2-2' }} </strong>
                     </h6>
                     <small>(For extra guests)</small><br>
                     <small>+GST @ 12%</small>
