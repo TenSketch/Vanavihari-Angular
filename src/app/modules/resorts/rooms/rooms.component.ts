@@ -81,10 +81,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
-    console.log(this.authService.getSearchData('resort') ,
-    this.authService.getSearchData('checkin') ,
-    this.authService.getSearchData('checkout'));
-
+    // console.log(this.authService.getSearchData('resort'), this.authService.getSearchData('checkin'), this.authService.getSearchData('checkout'));
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkoutDate = this.authService.getSearchData('checkout');
     if (
       this.authService.getSearchData('resort') == '' ||
       this.authService.getSearchData('checkin') == '' ||
@@ -128,7 +128,15 @@ export class RoomsComponent implements OnInit, OnDestroy{
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
       console.log('selected resortinfo:', this.selectedResortInfo);
-      
+      if (
+        this.selectedResort != '' &&
+        this.checkinDate != null &&
+        this.checkoutDate != null
+      ) {
+        this.fetchRoomList();
+      } else {
+        this.staticRoomsDetails();
+      }
     }
   }
 
@@ -485,17 +493,29 @@ export class RoomsComponent implements OnInit, OnDestroy{
   //   window.location.reload(); // Reload the page
   // }
 
-  
+  convertDateFormat(dateString: string): string {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    const [monthAbbr, day, year] = dateString.split('/');
+    const formattedDate = `${year}-${months[parseInt(monthAbbr) - 1]}-${day}`;
+
+    return formattedDate;
+  }
   fetchRoomList() {
+    console.log(this.selectedResort, this.checkinDate, this.checkoutDate);
+    
     if (
       this.selectedResort != '' &&
       this.checkinDate != null &&
       this.checkoutDate != null
     ) {
+      console.log("fetch-rooms");
       let perm = '';
       if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-      if (this.checkinDate) perm += `&checkin=${this.checkinDate}`;
-      if (this.checkoutDate) perm += `&checkout=${this.checkoutDate}`;
+      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
+      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
       this.http
         .get<any>(
           'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' +

@@ -3,11 +3,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-search-resort',
   templateUrl: './search-resort.component.html',
   styleUrls: ['./search-resort.component.scss'],
+  providers: [DatePipe]
 })
 export class SearchResortComponent implements OnInit {
   searchForm: FormGroup;
@@ -25,7 +27,7 @@ export class SearchResortComponent implements OnInit {
   checkinDate: string;
   checkoutDate: string;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService) {
+  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     this.searchForm = this.formBuilder.group({
       selectedResort: [],
       checkinDate: [],
@@ -33,24 +35,27 @@ export class SearchResortComponent implements OnInit {
     });
     this.updateAgeDropdowns();
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
+    
+    if(this.authService.getSearchData("resort")) this.selectedResort = this.authService.getSearchData("resort");
+    if(this.authService.getSearchData("checkin")) this.checkinDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkin"));
+    if(this.authService.getSearchData("checkout")) this.checkoutDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkout"));
+    
   }
   ngOnInit(): void {
-    if(this.authService.getSearchData("resort")) this.selectedResort = this.authService.getSearchData("resort");
-    if(this.authService.getSearchData("checkin")) this.checkinDate = this.convertDateFormat(this.authService.getSearchData("checkin"));
-    if(this.authService.getSearchData("checkout")) this.checkoutDate = this.convertDateFormat(this.authService.getSearchData("checkout"));
   }
-  convertDateFormat(dateString: string): string {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-
-    const [day, monthAbbr, year] = dateString.split('-');
-    const monthIndex = months.findIndex(m => m === monthAbbr) + 1;
-    const month = monthIndex < 10 ? `0${monthIndex}` : `${monthIndex}`;
-    const formattedDate = `${year}-${month}-${day}`;
-
-    return formattedDate;
+  formatDateForMatDatepicker(date: string): string {
+    let parts = date.split("/");
+    let y = parseInt(parts[2], 10);
+    let m = parseInt(parts[0], 10) - 1;
+    let d = parseInt(parts[1], 10);
+    let desiredDate = new Date(y, m, d);
+    let day = desiredDate.getDate();
+    let month = desiredDate.getMonth() + 1;
+    let year = desiredDate.getFullYear();
+    return `${year}-${this.pad(month)}-${this.pad(day)}`;
+  }
+  pad(n: number): string {
+    return n < 10 ? '0' + n : '' + n;
   }
   decrementAdults() {
     if (this.adultsCount > 1) {
@@ -113,7 +118,6 @@ export class SearchResortComponent implements OnInit {
       this.childrenCount +
       ' Rooms-' +
       this.roomsCount;
-    console.log(this.roomsCount, this.adultsCount);
   }
   
   // onResortChange(): void {
@@ -130,7 +134,7 @@ export class SearchResortComponent implements OnInit {
   //   }
   // }
 
-  goToVanavihari() {
+  submitSearch() {
     this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
     //this.router.navigate(['/resorts/vanavihari-maredumilli']);
     this.router.navigate(['/resorts/rooms']);
@@ -152,33 +156,18 @@ export class SearchResortComponent implements OnInit {
 
   onDateChange(type: string, event: any): void {
     let formattedDate: string;
-
     if (event && event instanceof Date) {
-      const year = event.getFullYear();
-      const month = ('0' + (event.getMonth() + 1)).slice(-2);
-      const day = ('0' + event.getDate()).slice(-2);
-      formattedDate = `${year}-${month}-${day}`;
+      let year = event.getFullYear();
+      let month = ('0' + (event.getMonth() + 1)).slice(-2);
+      let day = ('0' + event.getDate()).slice(-2);
+      formattedDate = `${month}/${day}/${year}`;
     } else {
       formattedDate = '';
     }
-
     if (type === 'checkin') {
       this.checkinDate = formattedDate;
     } else if (type === 'checkout') {
       this.checkoutDate = formattedDate;
-    }
+    }    
   }
-
-  formatDate(date: Date): string {
-    const monthNames = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    ];
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-    const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
-    return formattedDate;
-  }
-
 }
