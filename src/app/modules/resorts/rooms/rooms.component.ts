@@ -508,12 +508,14 @@ export class RoomsComponent implements OnInit, OnDestroy{
               response.result.status === 'success'
             ) {
               const json = response.result.data;
+              console.log(json);
               const jsonArray = Object.keys(json).map((key) => {
                 return {
                   id: key,
                   ...json[key],
                 };
               });
+              console.log(jsonArray);
               this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
               console.log(this.roomCards);
             } else {
