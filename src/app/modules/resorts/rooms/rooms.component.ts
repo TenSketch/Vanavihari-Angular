@@ -81,11 +81,14 @@ export class RoomsComponent implements OnInit, OnDestroy{
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
+    console.log(this.authService.getSearchData('resort') ,
+    this.authService.getSearchData('checkin') ,
+    this.authService.getSearchData('checkout'));
 
     if (
-      this.authService.getSearchData('resort') != '' &&
-      this.authService.getSearchData('checkin') != '' &&
-      this.authService.getSearchData('checkout') != ''
+      this.authService.getSearchData('resort') == '' ||
+      this.authService.getSearchData('checkin') == '' ||
+      this.authService.getSearchData('checkout') == ''
     ) {
       this.staticRoomsDetails();
     } else this.fetchRoomList();
@@ -96,8 +99,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.getSelectedResortInfo();
     this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
       this.getSelectedResortInfo();
-      this.staticRoomsDetails();
-      this.fetchRoomList();
+      //this.staticRoomsDetails();
+      //this.fetchRoomList();
     });
 
     //Rooms listing
