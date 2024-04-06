@@ -126,15 +126,15 @@ export class RoomsComponent implements OnInit, OnDestroy{
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
       // console.log('selected resortinfo:', this.selectedResortInfo);
-      // if (
-      //   this.selectedResort != '' &&
-      //   this.checkinDate != null &&
-      //   this.checkoutDate != null
-      // ) {
-      //   this.fetchRoomList();
-      // } else {
-      //   this.staticRoomsDetails();
-      // }
+      if (
+        this.selectedResort != '' &&
+        this.checkinDate != null &&
+        this.checkoutDate != null
+      ) {
+        this.fetchRoomList();
+      } else {
+        this.staticRoomsDetails();
+      }
     }
   }
 
@@ -607,12 +607,9 @@ export class RoomsComponent implements OnInit, OnDestroy{
   mapRoomData(data: any[], roomIds: any[]): Room[] {
     // Filter data based on selected resort or show all if no resort is selected
     this.selectedResort = this.authService.getSearchData('resort');
-    const filteredData = this.selectedResort ?
-      data.filter(room => room.resort === this.selectedResort) :
-      data;
-    console.log('filtered data :',filteredData);
-    console.log('selected resort :',this.selectedResort);
-    
+    const filteredData = this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
+    // console.log('filtered data :',filteredData);
+    // console.log('selected resort :',this.selectedResort);
     return filteredData.map((room) => ({
       id: room.id || 'Unknown',
       week_day_bed_charge: room.week_day_bed_charge || 0,
