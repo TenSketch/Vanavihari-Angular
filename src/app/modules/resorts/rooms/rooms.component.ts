@@ -488,6 +488,9 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return formattedDate;
   }
   fetchRoomList() {
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkoutDate = this.authService.getSearchData('checkout');
     if (
       this.selectedResort != '' &&
       this.checkinDate != null &&
