@@ -123,20 +123,18 @@ export class RoomsComponent implements OnInit, OnDestroy{
   }
   getSelectedResortInfo(): void {
     this.selectedResort = this.authService.getSearchData('resort');
-    console.log('selectedResort',this.selectedResort);
-    
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      console.log('selected resortinfo:', this.selectedResortInfo);
-      if (
-        this.selectedResort != '' &&
-        this.checkinDate != null &&
-        this.checkoutDate != null
-      ) {
-        this.fetchRoomList();
-      } else {
-        this.staticRoomsDetails();
-      }
+      // console.log('selected resortinfo:', this.selectedResortInfo);
+      // if (
+      //   this.selectedResort != '' &&
+      //   this.checkinDate != null &&
+      //   this.checkoutDate != null
+      // ) {
+      //   this.fetchRoomList();
+      // } else {
+      //   this.staticRoomsDetails();
+      // }
     }
   }
 
@@ -504,14 +502,11 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return formattedDate;
   }
   fetchRoomList() {
-    console.log(this.selectedResort, this.checkinDate, this.checkoutDate);
-    
     if (
       this.selectedResort != '' &&
       this.checkinDate != null &&
       this.checkoutDate != null
     ) {
-      console.log("fetch-rooms");
       let perm = '';
       if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
       if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
