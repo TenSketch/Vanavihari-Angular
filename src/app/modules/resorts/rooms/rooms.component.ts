@@ -516,7 +516,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
                 };
               });
               console.log(jsonArray);
-              this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
+              this.roomCards = this.mapRoomData(json, this.roomIds);
               console.log(this.roomCards);
             } else {
               this.showErrorAlert(
@@ -566,10 +566,9 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }
     this.authService.setBookingRooms(this.roomIds);
   }
+  
   mapRoomData(data: any[], roomIds: any[]): Room[] {
-    this.selectedResort = this.authService.getSearchData('resort');
-    const filteredData = this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
-    return filteredData.map((room) => ({
+    return data.map((room) => ({
       id: room.id || 'Unknown',
       week_day_bed_charge: room.week_day_bed_charge || 0,
       cottage_type: room.cottage_type || 'Unknown',
@@ -580,14 +579,37 @@ export class RoomsComponent implements OnInit, OnDestroy{
       name: room.name || 'Unknown',
       resort: room.resort || 'Unknown',
       max_adult: room.max_adult || 3,
+      // max_child: room.max_child || 0,
       noof_adult: room.max_adult,
+      // noof_child: room.max_child,
       noof_guest: 0,
       week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
       week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
       is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg',
+      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
     }));
   }
+
+  // mapRoomData(data: any[], roomIds: any[]): Room[] {
+  //   return data.map((room) => ({
+  //     id: room.id || 'Unknown',
+  //     week_day_bed_charge: room.week_day_bed_charge || 0,
+  //     cottage_type: room.cottage_type || 'Unknown',
+  //     max_guest: room.max_guest || 0,
+  //     week_day_rate: room.week_day_rate || 'Unknown',
+  //     week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
+  //     week_end_rate: room.week_end_rate || 'Unknown',
+  //     name: room.name || 'Unknown',
+  //     resort: room.resort || 'Unknown',
+  //     max_adult: room.max_adult || 3,
+  //     noof_adult: room.max_adult,
+  //     noof_guest: 0,
+  //     week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
+  //     week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
+  //     is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
+  //     image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg',
+  //   }));
+  // }
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
     for (const roomId of roomIds) {
       if (roomId.id === room_id) return true;
