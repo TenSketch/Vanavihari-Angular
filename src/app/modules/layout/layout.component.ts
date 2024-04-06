@@ -64,10 +64,12 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/my-account/my-bookings']);
   }
   goToVanavihari() {
+    this.authService.setSearchData( [{ resort: 'vanavihari', checkin: '', checkout: '' }]);
     this.router.navigate(['/resorts/rooms']);
   }
 
   goToJungleStar() {
+    this.authService.setSearchData( [{ resort: 'jungle-star', checkin: '', checkout: '' }]);
     this.router.navigate(['/resorts/rooms']);
   }
   goToTourist()
