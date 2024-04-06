@@ -119,15 +119,15 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      if (
-        this.selectedResort != '' &&
-        this.checkinDate != null &&
-        this.checkoutDate != null
-      ) {
-        this.fetchRoomList();
-      } else {
-        this.staticRoomsDetails();
-      }
+      // if (
+      //   this.selectedResort != '' &&
+      //   this.checkinDate != null &&
+      //   this.checkoutDate != null
+      // ) {
+      //   this.fetchRoomList();
+      // } else {
+      //   this.staticRoomsDetails();
+      // }
     }
   }
   staticRoomsDetails() {
@@ -515,7 +515,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
                 };
               });
               this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-                   
+              console.log(this.roomCards);
             } else {
               this.showErrorAlert(
                 'Failed to fetch room list. Please try again later.'
