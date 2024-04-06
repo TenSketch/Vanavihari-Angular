@@ -81,7 +81,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
-    // console.log(this.authService.getSearchData('resort'), this.authService.getSearchData('checkin'), this.authService.getSearchData('checkout'));
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
@@ -93,17 +92,12 @@ export class RoomsComponent implements OnInit, OnDestroy{
       this.staticRoomsDetails();
     } else this.fetchRoomList();
   }
-
   ngOnInit(): void {
     this.searchResortData = this.authService.getSearchData(null);
     this.getSelectedResortInfo();
     this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
       this.getSelectedResortInfo();
-      //this.staticRoomsDetails();
-      //this.fetchRoomList();
     });
-
-    //Rooms listing
     this.roomIds =
       this.authService.getBookingRooms() != null &&
       this.authService.getBookingRooms() != '' &&
@@ -125,7 +119,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      // console.log('selected resortinfo:', this.selectedResortInfo);
       if (
         this.selectedResort != '' &&
         this.checkinDate != null &&
@@ -137,7 +130,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
       }
     }
   }
-
   staticRoomsDetails() {
     interface RoomDetails {
       id: string;
@@ -479,18 +471,12 @@ export class RoomsComponent implements OnInit, OnDestroy{
       this.loadingRooms = false;
     }, 2000);
   }
-
   ngOnDestroy(): void {
     if (this.fetchRoomListSubscription) {
       this.fetchRoomListSubscription.unsubscribe();
     }
     this.subscription.unsubscribe();
   }
-
-  // refreshPage(): void {
-  //   window.location.reload(); // Reload the page
-  // }
-
   convertDateFormat(dateString: string): string {
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -513,8 +499,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
       this.http
         .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' +
-            perm
+          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
         )
         .subscribe({
           next: (response) => {
@@ -550,7 +535,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
       }, 2000);
     }
   }
-
   removeRoom(room: any, roomId: any) {
     this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
     if (this.roomIds.length < 1) this.showBookingSummary = false;
@@ -580,36 +564,9 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }
     this.authService.setBookingRooms(this.roomIds);
   }
-  // mapRoomData(data: any[], roomIds: any[]): Room[] {
-  //   return data.map((room) => ({
-  //     id: room.id || 'Unknown',
-  //     week_day_bed_charge: room.week_day_bed_charge || 0,
-  //     cottage_type: room.cottage_type || 'Unknown',
-  //     max_guest: room.max_guest || 0,
-  //     week_day_rate: room.week_day_rate || 'Unknown',
-  //     week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
-  //     week_end_rate: room.week_end_rate || 'Unknown',
-  //     name: room.name || 'Unknown',
-  //     resort: room.resort || 'Unknown',
-  //     max_adult: room.max_adult || 3,
-  //     // max_child: room.max_child || 0,
-  //     noof_adult: room.max_adult,
-  //     // noof_child: room.max_child,
-  //     noof_guest: 0,
-  //     week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
-  //     week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
-  //     is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-  //     image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
-  //   }));
-  // }
-
-  //room listing based on selected resort
   mapRoomData(data: any[], roomIds: any[]): Room[] {
-    // Filter data based on selected resort or show all if no resort is selected
     this.selectedResort = this.authService.getSearchData('resort');
     const filteredData = this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
-    // console.log('filtered data :',filteredData);
-    // console.log('selected resort :',this.selectedResort);
     return filteredData.map((room) => ({
       id: room.id || 'Unknown',
       week_day_bed_charge: room.week_day_bed_charge || 0,
@@ -626,11 +583,9 @@ export class RoomsComponent implements OnInit, OnDestroy{
       week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
       week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
       is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
+      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg',
     }));
   }
-  
-
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
     for (const roomId of roomIds) {
       if (roomId.id === room_id) return true;
@@ -642,7 +597,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
       duration: 3000,
     });
   }
-
   addRoom(room: any) {
     let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room.id);
     if (!foundRoom) {
@@ -695,16 +649,13 @@ export class RoomsComponent implements OnInit, OnDestroy{
   }
 
   calculateExtraGuestCharges() {
-    const gstChargesPerRoom = 500; // GST charges per room
+    const gstChargesPerRoom = 500;
     let totalExtraGuestCharges = 0;
-
-    // Loop through each room to check if the checkbox is checked
     for (const room of this.roomCards) {
       if (room.isExtraGuestChecked) {
         totalExtraGuestCharges += gstChargesPerRoom;
       }
     }
-
     return totalExtraGuestCharges;
   }
 
