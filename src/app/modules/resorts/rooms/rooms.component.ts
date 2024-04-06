@@ -508,14 +508,14 @@ export class RoomsComponent implements OnInit, OnDestroy{
               response.result.status === 'success'
             ) {
               const json = response.result.data;
-              // console.log(json);
-              // const jsonArray = Object.keys(json).map((key) => {
-              //   return {
-              //     id: key,
-              //     ...json[key],
-              //   };
-              // });
-              // console.log(jsonArray);
+              console.log(json);
+              const jsonArray = Object.keys(json).map((key) => {
+                return {
+                  id: key,
+                  ...json[key],
+                };
+              });
+              console.log(jsonArray);
               this.roomCards = this.mapRoomData(json, this.roomIds);
               console.log(this.roomCards);
             } else {
@@ -567,8 +567,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.authService.setBookingRooms(this.roomIds);
   }
   mapRoomData(data: any[], roomIds: any[]): Room[] {
-    this.selectedResort = this.authService.getSearchData('resort');
-    const filteredData = this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
+    // this.selectedResort = this.authService.getSearchData('resort');
+    const filteredData = data; // this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
     return filteredData.map((room) => ({
       id: room.id || 'Unknown',
       week_day_bed_charge: room.week_day_bed_charge || 0,
