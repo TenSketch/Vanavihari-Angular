@@ -55,6 +55,8 @@ $nav-bar-height: 5vh;
 
   &.active {
     right: 0;
+    top: 5%;
+    padding-top: 30px;
   }
 
   .overlay {
@@ -83,9 +85,15 @@ $nav-bar-height: 5vh;
       padding: 0;
 
       .sidebar-item {
-        margin-bottom: 10px;
+        margin-bottom: 27px;
 
-        .sidebar-link, .dropdown-item {
+        .sidebar-link{
+          font-size: 18px;
+          color: white !important;
+          gap: 20px !important;
+          text-decoration: none !important;
+          padding-right: 5px!important;
+        .dropdown-item {
           color: $white;
           text-decoration: none!important;
           transition: color 0.3s;
@@ -95,6 +103,7 @@ $nav-bar-height: 5vh;
           }
         }
       }
+    } 
 
       .accordion {
         --bs-accordion-bg: transparent;
@@ -172,4 +181,13 @@ $nav-bar-height: 5vh;
   &::after{
     display: none;
   }
+ 
+}
+.d-flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ml-5{
+  margin-left: 10px;
 }

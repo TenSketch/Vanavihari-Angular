@@ -14,6 +14,7 @@ import { AuthService } from '../../auth.service';
 export class SignInComponent implements OnInit {
   form: FormGroup;
   isLoading: boolean = false;
+  showAlert:boolean=false
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -36,11 +37,14 @@ export class SignInComponent implements OnInit {
         this.showSnackBarAlert(message);
       }
     });
+    
   }
 
   onSubmit() {
+   
     if (this.form.valid) {
       this.isLoading = true;
+      this.showAlert=true
       const params = new HttpParams()
         .set('username', this.form.value.email_address)
         .set('password', this.form.value.password);
@@ -56,8 +60,9 @@ export class SignInComponent implements OnInit {
             if (response.code == 3000 && response.result.status == 'success') {
               this.router.navigate(['/home']);
               this.isLoading = false;
+              this.showAlert=false
               this.showSnackBarAlert(
-                'Login Success. Token: ' + response.result.token,
+                'Login Success',
                 false
               );
               this.authService.setAccessToken(response.result.token);
@@ -92,7 +97,7 @@ export class SignInComponent implements OnInit {
 
   showSnackBarAlert(msg = '', redirect = true) {
     var snackBar = this.snackBar.open(msg, 'Close', {
-      duration: 3000,
+      duration: 5000,
       horizontalPosition: 'right',
     });
     if (redirect) {

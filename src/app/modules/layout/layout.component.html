@@ -53,6 +53,9 @@
             <a class="dropdown-item" (click)="goToMyAccSettings">
               <i class="fa-regular fa-comment fa-flip-horizontal me-3"></i><span>Reviews</span>
             </a>
+            <a class="dropdown-item" (click)="changePasswod()">
+              <i class="fa-solid fa-lock me-3"></i><span>Change Password</span>
+            </a>
             <a class="dropdown-item" (click)="logout()">
               <i class="fa-solid fa-power-off me-3"></i><span>Sign out</span>
             </a>
@@ -60,8 +63,11 @@
         </li>
       </ul>
       <button class="navbar-toggler border-0 p-0 ms-3" type="button" (click)="toggleSidebar()">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" [ngClass]="{'d-none': isSidebarOpen}"></span>
+        <span class="close-icon" [ngClass]="{'d-none': !isSidebarOpen}">X</span>
       </button>
+      
+      
     </div>
   </nav>
 
@@ -91,21 +97,24 @@
 
         </div>
 
-        <li class="sidebar-item">
-          <a class="sidebar-link d-flex gap-2 align-items-center" (click)="toggleSidebar(); goToAboutUs()">
-            <i class="fa-solid fa-info-circle"></i><span>About Us</span>
+        <li class="sidebar-item d-flex  ">
+          <a class="sidebar-link" (click)="toggleSidebar(); goToAboutUs()">
+            <i class="fa-solid fa-info-circle"></i><span class="ml-5">About Us</span>
           </a>
+          <i class="fa-solid fa-chevron-right"></i>
         </li>
-        <li class="sidebar-item">
-          <a class="sidebar-link d-flex gap-2 align-items-center" (click)="toggleSidebar(); goToTourist()">
-            <i class="fa-regular fa-compass"></i><span>Tourist Destinations</span>
+        <li class="sidebar-item d-flex ">
+          <a class="sidebar-link " (click)="toggleSidebar(); goToTourist()">
+            <i class="fa-regular fa-compass"></i><span class="ml-5">Tourist Destinations</span>
           </a>
+          <i class="fa-solid fa-chevron-right"></i>
         </li>
         
-        <li class="sidebar-item">
-          <a class="sidebar-link d-flex gap-2 align-items-center" (click)="toggleSidebar(); goToTribalPg()">
-            <i class="fa-solid fa-users"></i><span>Tribal Community</span>
+        <li class="sidebar-item  d-flex ">
+          <a class="sidebar-link" (click)="toggleSidebar(); goToTribalPg()">
+            <i class="fa-solid fa-users"></i><span class="ml-5">Tribal Community</span>
           </a>
+          <i class="fa-solid fa-chevron-right"></i>
         </li>
         
         <!-- <li class="sidebar-item">
@@ -120,16 +129,18 @@
           </a>
         </li>
         
-        <li class="sidebar-item">
-          <a class="sidebar-link d-flex gap-2 align-items-center d-lg-none" href="mailto:info@vanavihari.com" title="click to send email">
-            <i class="fa-regular fa-envelope"></i><span>info@vanavihari.com</span>
+        <li class="sidebar-item d-flex d-lg-none" >
+          <a class="sidebar-link " href="mailto:info@vanavihari.com" title="click to send email">
+            <i class="fa-regular fa-envelope"></i><span class="ml-5">info@vanavihari.com</span>
           </a>
+          <i class="fa-solid fa-chevron-right"></i>
         </li>
         
-        <li class="sidebar-item">
-          <a class="sidebar-link d-flex gap-2 align-items-center d-lg-none" href="tel:+919494151617" title="call">
-            <i class="fa-solid fa-mobile-screen"></i><span>9494151617</span>
+        <li class="sidebar-item d-flex d-lg-none">
+          <a class="sidebar-link " href="tel:+919494151617" title="call">
+            <i class="fa-solid fa-mobile-screen"></i><span class="ml-5">9494151617</span>
           </a>
+          <i class="fa-solid fa-chevron-right"></i>
         </li>
         
 

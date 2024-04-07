@@ -34,6 +34,7 @@ export class SignUpComponent implements OnInit {
   isChecked: boolean = false;
   termsAccepted: boolean = false;
   isLoading: boolean = false;
+  showAlert:boolean=false
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -137,6 +138,7 @@ export class SignUpComponent implements OnInit {
     this.repeat_password = this.form.value.repeat_password;
     if (this.form.valid) {
       this.isLoading = true;
+      this.showAlert=true
       const params = new HttpParams()
         .set('fullname', this.form.value.full_name)
         .set('email', this.form.value.email_id)
@@ -153,6 +155,7 @@ export class SignUpComponent implements OnInit {
             if (response.code == 3000 && response.result.status == 'success') {
               this.isLoading = false;
               this.showSuccessAlert();
+              this.showAlert=false
             } else if (response.code == 3000) {
               this.isLoading = false;
               this.showErrorAlert(response.result.msg);

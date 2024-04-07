@@ -8,7 +8,6 @@ import { AuthService } from '../../../../app/auth.service';
 import { SharedService } from '../../../shared.service';
 import { Subscription } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-
 interface Room {
   //roomId:string;
   name: string;
@@ -25,13 +24,14 @@ interface Room {
   // max_child: number;
   max_guest: number;
 }
-
 @Component({
   selector: 'app-jungle-star-valamuru',
   templateUrl: './jungle-star-valamuru.component.html',
   styleUrls: ['./jungle-star-valamuru.component.scss']
 })
+
 export class JungleStarValamuruComponent {
+ 
     private fetchRoomListSubscription: Subscription;
     selectedSortOption: string;
     panelOpenState = false;
@@ -48,6 +48,7 @@ export class JungleStarValamuruComponent {
     isMobile: boolean = false;
     expandable: boolean = false;
     selectedRoom: any;
+    bookingTypeResort = "junglestar"
     @HostBinding('class.sticky')
     get stickyClass() {
       return this.isMobile;
@@ -80,11 +81,12 @@ export class JungleStarValamuruComponent {
   
     ngOnInit(): void {
       this.roomIds =
-        this.authService.getBookingRooms() != null &&
-        this.authService.getBookingRooms() != '' &&
-        this.authService.getBookingRooms().length > 0
-          ? this.authService.getBookingRooms()
+        this.authService.getBookingRooms(this.bookingTypeResort) != null &&
+        this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
+        this.authService.getBookingRooms(this.bookingTypeResort).length > 0
+          ? this.authService.getBookingRooms(this.bookingTypeResort)
           : [];
+         
       if (this.roomIds.length > 0) {
         this.showBookingSummary = true;
       }
@@ -92,6 +94,7 @@ export class JungleStarValamuruComponent {
         this.sharedService.fetchRoomList$.subscribe(() => {
           this.fetchRoomList();
         });
+        this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes('jungle star'));
     }
     toggleBookingSummary() {
       this.showBookingSummary = !this.showBookingSummary;
@@ -507,7 +510,7 @@ export class JungleStarValamuruComponent {
       this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
       if (this.roomIds.length < 1) this.showBookingSummary = false;
       room.is_button_disabled = false;
-      this.authService.setBookingRooms(this.roomIds);
+      this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
       let rm = this.roomCards.find((rm) => rm.id === roomId);
       if (rm) rm.is_button_disabled = false;
     }
@@ -530,7 +533,7 @@ export class JungleStarValamuruComponent {
         room.noof_guest = inputbox.value;
         if (rm) rm.noof_guest = inputbox.value;
       }
-      this.authService.setBookingRooms(this.roomIds);
+      this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     }
     mapRoomData(data: any[], roomIds: any[]): Room[] {
       return data.map((room) => ({
@@ -566,14 +569,15 @@ export class JungleStarValamuruComponent {
       });
     }
   
-    addRoom(room: any) {
+    addRoom(room: any,resortKey: string) {
       let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room.id);
       if (!foundRoom) {
+        room.resortKey = resortKey;
         this.roomIds.push(room);
       }
       this.showBookingSummary = true;
       room.is_button_disabled = true;
-      this.authService.setBookingRooms(this.roomIds);
+      this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
       // if(this.selectedResort != '' && this.checkinDate != null && this.checkoutDate != null) {
       // } else alert('please fill search fields');
     }
@@ -633,5 +637,5 @@ export class JungleStarValamuruComponent {
   
       return totalExtraGuestCharges;
     }
+  }
 
-}

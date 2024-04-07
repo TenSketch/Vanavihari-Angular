@@ -56,18 +56,19 @@ export class AuthService {
   }
 
 
-  setBookingRooms(rooms: any[]): void {
-    localStorage.setItem(this.bookingRooms, JSON.stringify(rooms));
+  setBookingRooms(resortType:string,rooms: any[]): void {
+    localStorage.setItem(resortType, JSON.stringify(rooms));
   }
-  getBookingRooms(): any | null {
-    const roomsJson = localStorage.getItem(this.bookingRooms);
+  getBookingRooms(resortType:any): any | null {
+    const roomsJson = localStorage.getItem(resortType);
+    console.log("roomsJson==",roomsJson)
     if (roomsJson) {
       return JSON.parse(roomsJson);
     }
     return null;
   }
-  clearBookingRooms(): void {
-    localStorage.removeItem(this.bookingRooms);
+  clearBookingRooms(resortType:string): void {
+    localStorage.removeItem(resortType);
   }
 
   setSearchData(data: any[]): void {
