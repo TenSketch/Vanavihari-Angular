@@ -64,7 +64,10 @@
       </ul>
       <button class="navbar-toggler border-0 p-0 ms-3" type="button" (click)="toggleSidebar()">
         <span class="navbar-toggler-icon" [ngClass]="{'d-none': isSidebarOpen}"></span>
-        <span class="close-icon" [ngClass]="{'d-none': !isSidebarOpen}">X</span>
+        <!-- <span class="close-icon" [ngClass]="{'d-none': !isSidebarOpen}"><i class="fas fa-window-close"></i></span> -->
+        <button class="close-icon " [ngClass]="{'d-none': !isSidebarOpen}" type="button">
+          <span class="my-1 mx-2 close"><mat-icon>close</mat-icon></span>
+       </button>
       </button>
       
       

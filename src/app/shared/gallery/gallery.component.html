@@ -1,2 +1,18 @@
-<p>gallery works!</p>
+<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Gallery</h5>
+        </div>
+        <div class="modal-body">
+            
+            <h2 class="w3-center">Manual Slideshow</h2>
+            <div>
+                <lightgallery [settings]="settings">
+                    <a *ngFor="let item of imageFilenames" className="gallery-item" [href]="item">
+                      <img className="img-responsive" src="{{ item }}" />
+                    </a>
+                  </lightgallery>
+        </div>
 
+    </div>
+</div>

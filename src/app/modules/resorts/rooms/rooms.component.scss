@@ -90,7 +90,7 @@ main {
 }
 
 .position-sticky-for-mobile {
-  top: 5%;
+  top: 8%;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -114,4 +114,9 @@ main {
 }
 .custom-h4 {
   padding-left: 10px;
+}
+.summary-content{
+  height: 440px;
+  overflow-y: scroll;
+  scrollbar-width: none; 
 }
