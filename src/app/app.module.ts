@@ -68,7 +68,7 @@ import { TermsModalComponentComponent } from './modules/terms-modal-component/te
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
-// import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
 @NgModule({
   declarations: [
@@ -93,8 +93,8 @@ import { BookingSuccessfullComponent } from './modules/booking-successfull/booki
     TermsModalComponentComponent,
     ShowSuccessMessageComponent,
     ChangePasswordComponent,
-    BookingSuccessfullComponent
-    // RoomsComponent,
+    BookingSuccessfullComponent,
+    RoomsComponent
 
   ],
   imports: [

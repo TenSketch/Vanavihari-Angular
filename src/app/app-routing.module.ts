@@ -19,7 +19,7 @@ import { BookingSummaryComponent } from './modules/booking-summary/booking-summa
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
-// import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
 
 
@@ -40,7 +40,7 @@ const routes: Routes = [
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
 {path:'booking-summary', component: BookingSummaryComponent},
 {path:'booking-successfull', component: BookingSuccessfullComponent},
-// {path:'resorts/rooms', component: RoomsComponent},
+{path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},
 {path:'dashboard', component:SettingsComponent},
 
