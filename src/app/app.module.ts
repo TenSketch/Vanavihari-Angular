@@ -66,7 +66,8 @@ import { ResortListingComponent } from './modules/resort-listing/resort-listing.
 import { BookingSummaryComponent } from './modules/booking-summary/booking-summary.component';
 import { TermsModalComponentComponent } from './modules/terms-modal-component/terms-modal-component.component';
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
-import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
 // import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
 @NgModule({
@@ -91,7 +92,8 @@ import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
     BookingSummaryComponent,
     TermsModalComponentComponent,
     ShowSuccessMessageComponent,
-    RoomsComponent,
+    ChangePasswordComponent,
+    BookingSuccessfullComponent
     // RoomsComponent,
 
   ],

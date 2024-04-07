@@ -1,7 +1,7 @@
 import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsComponent } from '../rooms/rooms.component';
@@ -61,6 +61,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
   isMobile: boolean = false;
   expandable: boolean = false;
   selectedRoom: any;
+  bookingTypeResort:any
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -72,7 +73,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private sharedService: SharedService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private route: ActivatedRoute
   ) { 
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -89,21 +91,27 @@ export class RoomsComponent implements OnInit, OnDestroy{
       this.authService.getSearchData('checkin') == '' ||
       this.authService.getSearchData('checkout') == ''
     ) {
+      console.log("")
       this.staticRoomsDetails();
     } else this.fetchRoomList();
   }
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.bookingTypeResort = params['bookingTypeResort'];
+      console.log("this.bookingTypeResort=====",this.bookingTypeResort)
+    })
     this.searchResortData = this.authService.getSearchData(null);
     this.getSelectedResortInfo();
     this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
       this.getSelectedResortInfo();
     });
     this.roomIds =
-      this.authService.getBookingRooms() != null &&
-      this.authService.getBookingRooms() != '' &&
-      this.authService.getBookingRooms().length > 0
-        ? this.authService.getBookingRooms()
+      this.authService.getBookingRooms(this.bookingTypeResort) != null &&
+      this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
+      this.authService.getBookingRooms(this.bookingTypeResort).length > 0
+        ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
+        console.log(" this.roomIds---", this.roomIds)
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
     }
@@ -119,6 +127,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
+      console.log("this.selectedResortInfo-----",this.selectedResortInfo)
       // if (
       //   this.selectedResort != '' &&
       //   this.checkinDate != null &&
@@ -131,6 +140,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }
   }
   staticRoomsDetails() {
+    console.log("staticRoomsDetails")
     interface RoomDetails {
       id: string;
       week_day_bed_charge: number;
@@ -466,6 +476,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
       // };
     });
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
+    this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
+    console.log("this.roomCards------",this.roomCards)
     
     setTimeout(() => {
       this.loadingRooms = false;
@@ -488,6 +500,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return formattedDate;
   }
   fetchRoomList() {
+    console.log("fetchRoomList===")
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
@@ -506,6 +519,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
         )
         .subscribe({
           next: (response) => {
+            console.log("====response",response)
             if (
               response.code === 3000 &&
               response.result.status === 'success'
@@ -544,7 +558,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
     if (this.roomIds.length < 1) this.showBookingSummary = false;
     room.is_button_disabled = false;
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     let rm = this.roomCards.find((rm) => rm.id === roomId);
     if (rm) rm.is_button_disabled = false;
   }
@@ -567,7 +581,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       room.noof_guest = inputbox.value;
       if (rm) rm.noof_guest = inputbox.value;
     }
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
   }
   
   mapRoomData(data: any[], roomIds: any[]): Room[] {
@@ -633,7 +647,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }
     this.showBookingSummary = true;
     room.is_button_disabled = true;
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
   }
   calculateTotalPrice(): number {
     let totalPrice = 0;

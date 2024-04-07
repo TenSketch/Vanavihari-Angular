@@ -17,7 +17,9 @@ import { EmailVerificationComponent } from './auth/email-verification/email-veri
 import { ResortListingComponent } from './modules/resort-listing/resort-listing.component';
 import { BookingSummaryComponent } from './modules/booking-summary/booking-summary.component';
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
-import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
+// import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
 
 
@@ -30,20 +32,20 @@ const routes: Routes = [
 {path:'about-vanavihari', component:AboutVanavihariComponent}, 
 {path:'my-account/settings', component: SettingsComponent},
 {path:'my-account/my-bookings', component: MyBookingsComponent},
-{path:'resorts/rooms', component: RoomsComponent},
 {path:'resorts/vanavihari-maredumilli', component: VanavihariMaredumilliComponent},
-{path:'resorts/jungleStar,Valamuru', component: JungleStarValamuruComponent},
+{path:'resorts/jungleStar-Valamuru', component: JungleStarValamuruComponent},
 {path:'tribal-community', component: TribalCommunityComponent},
 {path:'privacy-policy', component: PrivacyPolicyComponent},
 {path:'terms-and-conditions', component: TermsAndConditionsComponent},
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
 {path:'booking-summary', component: BookingSummaryComponent},
+{path:'booking-successfull', component: BookingSuccessfullComponent},
 // {path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},
 {path:'dashboard', component:SettingsComponent},
 
 { path:'resort-listing', component: ResortListingComponent},
-//
+{ path:'change-password', component: ChangePasswordComponent},
 { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
 { path: '**', redirectTo: '/home' }, // Handle undefined routes (optional)
 

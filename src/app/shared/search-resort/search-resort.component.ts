@@ -4,6 +4,7 @@ import { AuthService } from '../../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search-resort',
@@ -26,8 +27,8 @@ export class SearchResortComponent implements OnInit {
   selectedResort: string;
   checkinDate: string;
   checkoutDate: string;
-
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
+  currentDate: any;
+  constructor(private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     this.searchForm = this.formBuilder.group({
       selectedResort: [],
       checkinDate: [],
@@ -39,7 +40,7 @@ export class SearchResortComponent implements OnInit {
     if(this.authService.getSearchData("resort")) this.selectedResort = this.authService.getSearchData("resort");
     if(this.authService.getSearchData("checkin")) this.checkinDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkin"));
     if(this.authService.getSearchData("checkout")) this.checkoutDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkout"));
-    
+    this.currentDate = new Date();
   }
   ngOnInit(): void {
   }
@@ -170,4 +171,38 @@ export class SearchResortComponent implements OnInit {
       this.checkoutDate = formattedDate;
     }    
   }
+  getCurrentDate() {
+    return this.formatDate(this.currentDate);
+  }
+  checkIfCheckinDateIsCurrentDate() {
+    console.log("this.getCurrentDate()",this.getCurrentDate())
+      if (this.checkinDate === this.getCurrentDate()) {
+        this.snackBar.open('Check-in cannot be processed for the current date.', 'Close', {
+          duration: 5000,
+          horizontalPosition:'right'
+        });
+      }
+    }
+    formatDate(date: Date): string {
+      const monthNames = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
+      const day = date.getDate();
+      const monthIndex = date.getMonth();
+      const year = date.getFullYear();
+      const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
+      console.log('date===', formattedDate);
+      return formattedDate;
+    }
 }

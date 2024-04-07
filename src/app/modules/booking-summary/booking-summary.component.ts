@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -25,11 +25,11 @@ export class BookingSummaryComponent {
   maxAdultCount: number = 2;
   totalPrice: number = 0;
   totalGSTPrice: number = 0;
+  bookingTypeResort:string;
   roomGuestDetails: any[] = [];
-  constructor(private router: Router, private authService: AuthService, private http: HttpClient, private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar) {
-    this.roomDetails = this.authService.getBookingRooms();
+  constructor(private router: Router, private authService: AuthService, private http: HttpClient, private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar,private route: ActivatedRoute) {
+    this.roomDetails = this.authService.getBookingRooms("vanvihari");
     if(this.roomDetails.length > 0) {
-      console.log(this.roomDetails);
       this.adultsCount = 0;
       this.guestCount = 0;
       this.totalPrice = 0;
@@ -58,6 +58,9 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.bookingTypeResort = params['bookingTypeResort'];
+    })
     this.checkInDate = this.authService.getSearchData('checkin');
     this.checkOutDate = this.authService.getSearchData('checkout');
     this.seslectedResort = this.authService.getSearchData('resort');
@@ -74,36 +77,36 @@ export class BookingSummaryComponent {
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
       .set('token', this.authService.getAccessToken()??'');
-    // this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=profile_details', {params}).subscribe({
-    //   next: response => {
-    //     if(response.code == 3000 && response.result.status == 'success') {
-    //       this.form = this.formBuilder.group({
-    //         gname: [response.result.name],
-    //         gphone: [response.result.phone],
-    //         gemail: [response.result.email, Validators.email],
-    //         dob: [response.result.dob, Validators.required],
-    //         nationality: [response.result.nationality],
-    //         gaddress: [response.result.address1],
-    //         address2: [response.result.address2],
-    //         gcity: [response.result.city],
-    //         gstate: [response.result.state],
-    //         gpincode: [response.result.pincode],
-    //         gcountry: [response.result.country]
-    //       });
-    //     } else if (response.code == 3000) {
-    //       this.userService.clearUser();
-    //       alert('Login Error!');
-    //       // this.router.navigate(['/home']);
-    //     } else {
-    //       this.userService.clearUser();
-    //       alert('Login Error!');
-    //       // this.router.navigate(['/home']);
-    //     }
-    //   },
-    //   error: err => {
-    //     console.error('Error:', err);
-    //   }
-    // });
+    this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=profile_details', {params}).subscribe({
+      next: response => {
+        if(response.code == 3000 && response.result.status == 'success') {
+          this.form = this.formBuilder.group({
+            gname: [response.result.name],
+            gphone: [response.result.phone],
+            gemail: [response.result.email, Validators.email],
+            dob: [response.result.dob, Validators.required],
+            nationality: [response.result.nationality],
+            gaddress: [response.result.address1],
+            address2: [response.result.address2],
+            gcity: [response.result.city],
+            gstate: [response.result.state],
+            gpincode: [response.result.pincode],
+            gcountry: [response.result.country]
+          });
+        } else if (response.code == 3000) {
+          this.userService.clearUser();
+          alert('Login Error!');
+          // this.router.navigate(['/home']);
+        } else {
+          this.userService.clearUser();
+          alert('Login Error!');
+          // this.router.navigate(['/home']);
+        }
+      },
+      error: err => {
+        console.error('Error:', err);
+      }
+    });
 
 
   }
@@ -126,8 +129,8 @@ export class BookingSummaryComponent {
     this.router.navigate(['/resorts/vanavihari-maredumilli']);
   }
   submitBooking() {
-    let room_ids = (this.authService.getBookingRooms()).map((room: { id: any; }) => room.id).join(',');
-    if(this.form.valid) {
+    let room_ids = (this.authService.getBookingRooms(this.bookingTypeResort)).map((room: { id: any; }) => room.id).join(',');
+     if(this.form.valid) {
       let params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
       .set('token', this.authService.getAccessToken()??'')
@@ -141,12 +144,14 @@ export class BookingSummaryComponent {
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
+      this.showSnackBarAlert("Reservation Success! Booking Id");
+            this.router.navigate(['/booking-successfull']);
       this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=booking', {params}).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == 'success') {
-            this.authService.clearBookingRooms();
+            this.authService.clearBookingRooms(this.bookingTypeResort);
             this.showSnackBarAlert("Reservation Success! Booking Id: "+response.result.booking_id);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/booking-successfull']);
           } else if (response.code == 3000) {
             this.showSnackBarAlert(response.result.msg);
           } else {
@@ -157,7 +162,7 @@ export class BookingSummaryComponent {
           console.error('Error:', err);
         }
       });
-    }
+     }
   }
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {

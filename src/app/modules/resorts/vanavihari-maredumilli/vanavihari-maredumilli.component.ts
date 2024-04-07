@@ -48,6 +48,7 @@ export class VanavihariMaredumilliComponent {
   isMobile: boolean = false;
   expandable: boolean = false;
   selectedRoom: any;
+  bookingTypeResort = "vanvihari"
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -79,11 +80,12 @@ export class VanavihariMaredumilliComponent {
   }
 
   ngOnInit(): void {
+    
     this.roomIds =
-      this.authService.getBookingRooms() != null &&
-      this.authService.getBookingRooms() != '' &&
-      this.authService.getBookingRooms().length > 0
-        ? this.authService.getBookingRooms()
+      this.authService.getBookingRooms(this.bookingTypeResort) != null &&
+      this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
+      this.authService.getBookingRooms(this.bookingTypeResort).length > 0
+        ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
@@ -92,6 +94,8 @@ export class VanavihariMaredumilliComponent {
       this.sharedService.fetchRoomList$.subscribe(() => {
         this.fetchRoomList();
       });
+      this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes('vanavihari'));
+      
   }
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
@@ -145,7 +149,7 @@ export class VanavihariMaredumilliComponent {
         week_end_rate: 7500,
         name: 'Jabilli',
         resort: 'Jungle Star, Valamuru',
-        max_adult: 3,
+        max_adult: 2,
       },
       '4554333000000159067': {
         id: '4554333000000159067',
@@ -157,7 +161,7 @@ export class VanavihariMaredumilliComponent {
         week_end_rate: 4500,
         name: 'PAMULERU',
         resort: 'Vanavihari, Maredumilli',
-        max_adult: 3,
+        max_adult: 2,
       },
       '4554333000000159061': {
         id: '4554333000000159061',
@@ -169,7 +173,7 @@ export class VanavihariMaredumilliComponent {
         week_end_rate: 4500,
         name: 'SOKULERU',
         resort: 'Vanavihari, Maredumilli',
-        max_adult: 3,
+        max_adult: 2,
       },
       '4554333000000159081': {
         id: '4554333000000159081',
@@ -181,7 +185,7 @@ export class VanavihariMaredumilliComponent {
         week_end_rate: 7500,
         name: 'Prana',
         resort: 'Jungle Star, Valamuru',
-        max_adult: 3,
+        max_adult: 2,
       },
       '4554333000000148003': {
         id: '4554333000000148003',
@@ -476,13 +480,18 @@ export class VanavihariMaredumilliComponent {
               response.result.status === 'success'
             ) {
               const json = response.result.data;
-              const jsonArray = Object.keys(json).map((key) => {
-                return {
+              const jsonArray = Object.keys(json)
+                .map((key) => ({
                   id: key,
                   ...json[key],
-                };
-              });
+                }))
+                .filter((room) =>
+                  room.resort.toLowerCase().includes('vanavihari')
+                );
+
               this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
+              console.log("fetchRoomListthis.roomCards-",this.roomCards)
+
             } else {
               this.showErrorAlert(
                 'Failed to fetch room list. Please try again later.'
@@ -507,7 +516,7 @@ export class VanavihariMaredumilliComponent {
     this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
     if (this.roomIds.length < 1) this.showBookingSummary = false;
     room.is_button_disabled = false;
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     let rm = this.roomCards.find((rm) => rm.id === roomId);
     if (rm) rm.is_button_disabled = false;
   }
@@ -530,7 +539,7 @@ export class VanavihariMaredumilliComponent {
       room.noof_guest = inputbox.value;
       if (rm) rm.noof_guest = inputbox.value;
     }
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
   }
   mapRoomData(data: any[], roomIds: any[]): Room[] {
     return data.map((room) => ({
@@ -573,7 +582,7 @@ export class VanavihariMaredumilliComponent {
     }
     this.showBookingSummary = true;
     room.is_button_disabled = true;
-    this.authService.setBookingRooms(this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     // if(this.selectedResort != '' && this.checkinDate != null && this.checkoutDate != null) {
     // } else alert('please fill search fields');
   }
@@ -614,7 +623,7 @@ export class VanavihariMaredumilliComponent {
     return payablePrice;
   }
   goToBooking() {
-    this.router.navigate(['/booking-summary']);
+    this.router.navigate(['/booking-summary'],{ queryParams: { bookingTypeResort: 'vanvihari' } });
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
