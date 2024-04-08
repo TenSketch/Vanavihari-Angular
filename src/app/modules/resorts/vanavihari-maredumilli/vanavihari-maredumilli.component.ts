@@ -48,7 +48,8 @@ export class VanavihariMaredumilliComponent {
   isMobile: boolean = false;
   expandable: boolean = false;
   selectedRoom: any;
-  bookingTypeResort = "vanvihari"
+  bookingTypeResort = "vanvihari";
+  totalExtraGuestCharges:number;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -518,11 +519,27 @@ export class VanavihariMaredumilliComponent {
     room.is_button_disabled = false;
     this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     let rm = this.roomCards.find((rm) => rm.id === roomId);
-    if (rm) rm.is_button_disabled = false;
+    if (rm) {
+      rm.is_button_disabled = false;
+      // Update the isChecked property of the corresponding room in roomCards array
+      const roomCard = this.roomCards.find((r) => r.id === roomId);
+      if (roomCard) {
+        roomCard.isExtraGuestChecked = false;
+      }
+  
+      // Recalculate the total extra guest charges
+      this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+    }
   }
   checkIfNaN(value: any): boolean {
     return isNaN(value);
   }
+
+  isAnyRoomChecked(): boolean {
+    // Check if any room has the extra guest checkbox checked
+    return this.roomCards.some(room => room.isExtraGuestChecked);
+  }
+
   checkExtraGuest(room: any, roomId: any, inputbox: HTMLInputElement) {
     this.isAddedExtraGuest = inputbox.checked;
     let rm = this.roomCards.find((rm) => rm.id === roomId);
@@ -534,13 +551,22 @@ export class VanavihariMaredumilliComponent {
       } else {
         if (rm) rm.noof_guest = 0;
         room.noof_guest = 0;
+        const roomCard = this.roomCards.find((r) => r.id === roomId);
+        if (roomCard) {
+          roomCard.isExtraGuestChecked = false;
+        }
+        this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
       }
     } else {
       room.noof_guest = inputbox.value;
       if (rm) rm.noof_guest = inputbox.value;
     }
+    // Recalculate the total extra guest charges
+    //this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+
     this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
   }
+
   mapRoomData(data: any[], roomIds: any[]): Room[] {
     return data.map((room) => ({
       id: room.id || 'Unknown',
@@ -630,16 +656,14 @@ export class VanavihariMaredumilliComponent {
   }
 
   calculateExtraGuestCharges() {
-    const gstChargesPerRoom = 500; // GST charges per room
+    const gstChargesPerRoom = 500; 
     let totalExtraGuestCharges = 0;
-
-    // Loop through each room to check if the checkbox is checked
     for (const room of this.roomCards) {
       if (room.isExtraGuestChecked) {
         totalExtraGuestCharges += gstChargesPerRoom;
       }
     }
-
+  
     return totalExtraGuestCharges;
   }
 }

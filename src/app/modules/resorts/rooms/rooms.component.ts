@@ -61,7 +61,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
   isMobile: boolean = false;
   expandable: boolean = false;
   selectedRoom: any;
-  bookingTypeResort:any
+  bookingTypeResort:any;
+  totalExtraGuestCharges: number;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -91,7 +92,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       this.authService.getSearchData('checkin') == '' ||
       this.authService.getSearchData('checkout') == ''
     ) {
-      console.log("")
+      console.log("function call working properly")
       this.staticRoomsDetails();
     } else this.fetchRoomList();
   }
@@ -476,8 +477,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
       // };
     });
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-    this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
-    console.log("this.roomCards------",this.roomCards)
+    // this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
+    // console.log("this.roomCards------",this.roomCards)
     
     setTimeout(() => {
       this.loadingRooms = false;
@@ -560,11 +561,27 @@ export class RoomsComponent implements OnInit, OnDestroy{
     room.is_button_disabled = false;
     this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
     let rm = this.roomCards.find((rm) => rm.id === roomId);
-    if (rm) rm.is_button_disabled = false;
+    if (rm) {
+      rm.is_button_disabled = false;
+      // Update the isChecked property of the corresponding room in roomCards array
+      const roomCard = this.roomCards.find((r) => r.id === roomId);
+      if (roomCard) {
+        roomCard.isExtraGuestChecked = false;
+      }
+  
+      // Recalculate the total extra guest charges
+      this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+    }
   }
   checkIfNaN(value: any): boolean {
     return isNaN(value);
   }
+
+  isAnyRoomChecked(): boolean {
+    // Check if any room has the extra guest checkbox checked
+    return this.roomCards.some(room => room.isExtraGuestChecked);
+  }
+
   checkExtraGuest(room: any, roomId: any, inputbox: HTMLInputElement) {
     this.isAddedExtraGuest = inputbox.checked;
     let rm = this.roomCards.find((rm) => rm.id === roomId);
@@ -576,13 +593,22 @@ export class RoomsComponent implements OnInit, OnDestroy{
       } else {
         if (rm) rm.noof_guest = 0;
         room.noof_guest = 0;
+        const roomCard = this.roomCards.find((r) => r.id === roomId);
+        if (roomCard) {
+          roomCard.isExtraGuestChecked = false;
+        }
+        this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
       }
     } else {
       room.noof_guest = inputbox.value;
       if (rm) rm.noof_guest = inputbox.value;
     }
+    // Recalculate the total extra guest charges
+    //this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+
     this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
   }
+
   
   mapRoomData(data: any[], roomIds: any[]): Room[] {
     return data.map((room) => ({
@@ -685,7 +711,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return payablePrice;
   }
   goToBooking() {
-    this.router.navigate(['/booking-summary']);
+    //this.router.navigate(['/booking-summary']);
+    this.router.navigate(['/booking-summary'],{ queryParams: { bookingTypeResort: this.selectedResort } });
+    console.log(this.selectedResort);
+    
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;

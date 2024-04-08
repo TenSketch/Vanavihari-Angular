@@ -204,7 +204,7 @@
                 <span>Room charges</span>
                 <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
-              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest || isAnyRoomChecked()">
                 <span>Extra guest</span>
                 <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
@@ -296,6 +296,16 @@
                   </div>
                   <hr />
                   <ng-container *ngIf="showBookingSummary">
+                    <div class="d-flex justify-content-between pt-1">
+                      <mat-form-field appearance="outline" class="mat-small">
+                            <mat-label>No. of. Guests</mat-label>
+                            <mat-select required [(ngModel)]="roomId.id" size="small">
+                              <mat-option value="one">1</mat-option>
+                              <mat-option value="two">2</mat-option>
+                            </mat-select>
+                            <mat-hint class="px-0">(Children upto 5 years)</mat-hint>
+                      </mat-form-field>
+                    </div>
                     <div class="d-flex justify-content-between pt-1">
                       <span>Room charges</span>
                       <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
