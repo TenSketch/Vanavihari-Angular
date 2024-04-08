@@ -1,7 +1,7 @@
 <app-layout>
   <div class="main">
     <section class="page-banner d-grid place-items-center">
-      <h1 class="display-3 text-center">Junglestar,valamuru</h1>
+      <h1 class="display-3 text-center">Junglestar Eco Camp,valamuru</h1>
     </section>
 
     <div class="container">
@@ -18,23 +18,16 @@
         <div class="col-md-4">
           <div class="map-container">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sJunglestar%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-              width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.321273036429!2d81.63047557463233!3d17.634936395627708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3725b319b638ff%3A0x6497bd032f830606!2sJUNGLE%20STAR%20ECO%20CAMP!5e0!3m2!1sen!2sin!4v1708782328839!5m2!1sen!2sin"
+                width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
         <div class="col-md-8 mt-4 mt-lg-0">
-          <h4>About Junglestar,valamuru</h4>
+          <h4>About Junglestar Eco Camp, valamuru</h4>
           <p>
-            Junglestar resort, situated in the serene landscapes of Maredumilli,
-            beckons eco-tourism aficionados with its abundance of bamboo trees.
-            This guesthouse, committed to community well-being, offers a serene
-            retreat amidst natural surroundings. With its snug cottages and
-            rooms, it conveniently lies close to Amruthathara Waterfalls,
-            promising guests a peaceful ambiance. Nearby street food eateries
-            present the opportunity to savor the distinctive flavor of bamboo
-            biriyani. Stepping out for a night or morning stroll unveils a
-            heavenly experience for visitors.
+            Situated like an island surrounded by water, Jungle Star Eco Camp offers a picturesque setting atop a hillock. Accessible only via a bridge, the camp features seven cottages where guests leave their cars in the parking area and embark on a short walk over the bridge. For adventure enthusiasts, treks and campfires can be arranged upon request. Diligently maintained by the Andhra Pradesh Forest Department, this camp promises a unique and immersive eco-friendly experience.
+            The accommodation package encompasses the provision of three meals daily, ensuring guests have their breakfast, lunch, and dinner included during their stay.
           </p>
         </div>
       </div>
@@ -47,7 +40,9 @@
             <li> <strong>Occupancy:</strong> 2 guests (1 extra allowed)
             </li>
             <li> <strong>Amenities:</strong> AC, geyser, western toilet, Prices exclude 12% GST.
-
+            </li>
+            <li>
+              <strong>Food:</strong> Room tariff includes three meals/day.
             </li>
           </ul>
         </div>
@@ -204,7 +199,7 @@
                 <span>Room charges</span>
                 <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
-              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest || isAnyRoomChecked()">
                 <span>Extra guest</span>
                 <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>

@@ -172,7 +172,7 @@
                   <span>Room charges</span>
                   <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                 </div>
-                <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+                <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest || isAnyRoomChecked()">
                   <span>Extra guest</span>
                   <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                 </div>

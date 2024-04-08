@@ -142,7 +142,7 @@ export class SearchResortComponent implements OnInit {
     // this.router.navigate(['/resorts/rooms']).then(() => {
     //   window.location.reload(); // Reload the page
     // });
-    this.sharedService.triggerFetchRoomList();
+    //this.sharedService.triggerFetchRoomList();
     this.authService.refreshRoomsComponent();
   }
   // goToJungleStar() {
