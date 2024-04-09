@@ -69,6 +69,7 @@ import { ShowSuccessMessageComponent } from './auth/show-success-message/show-su
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
+import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
     ShowSuccessMessageComponent,
     ChangePasswordComponent,
     BookingSuccessfullComponent,
-    RoomsComponent
+    RoomsComponent,
+    ReadPaymentTransactionResponseComponent
 
   ],
   imports: [

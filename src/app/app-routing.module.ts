@@ -21,6 +21,7 @@ import { ChangePasswordComponent } from './modules/change-password/change-passwo
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 
+import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
 {path:'sign-up', component:SignUpComponent},
 {path:'success', component:ShowSuccessMessageComponent},
 {path:'email-verification/:userid/:token', component: EmailVerificationComponent},
+{path:'payment-transaction-rdurl', component: ReadPaymentTransactionResponseComponent},
 {path:'about-vanavihari', component:AboutVanavihariComponent}, 
 {path:'my-account/settings', component: SettingsComponent},
 {path:'my-account/my-bookings', component: MyBookingsComponent},
