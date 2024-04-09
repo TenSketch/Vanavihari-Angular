@@ -160,7 +160,7 @@ export class BookingSummaryComponent {
 
 
             
-              const bookingId = response.result.booking_id;
+              const bookingId = response.result.booking_id??'BK98623234254';
               const MerchantId = 'VANAVIHARI';
               const CurrencyType = 'INR';
               const SecurityId = 'vanavihari';
