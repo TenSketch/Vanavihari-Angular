@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HmacSHA256, enc } from 'crypto-js';
 
 @Component({
   selector: 'app-booking-summary',
@@ -73,6 +74,8 @@ export class BookingSummaryComponent {
     this.durationOfStay = `${days} day${days>1?'s':''}`;
 
     this.getFullUser = this.userService.getFullUser();
+  }
+  getUserDetails() {
     
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
@@ -108,7 +111,6 @@ export class BookingSummaryComponent {
       }
     });
 
-
   }
   parseDate(dateString: string): Date {
     const parts = dateString.split('-');
@@ -130,6 +132,7 @@ export class BookingSummaryComponent {
   }
   submitBooking() {
     let room_ids = (this.authService.getBookingRooms(this.bookingTypeResort)).map((room: { id: any; }) => room.id).join(',');
+
      if(this.form.valid) {
       let params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
@@ -144,14 +147,52 @@ export class BookingSummaryComponent {
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
-      this.showSnackBarAlert("Reservation Success! Booking Id");
-            this.router.navigate(['/booking-successfull']);
+      // this.showSnackBarAlert("Reservation Success! Booking Id");
+      //       this.router.navigate(['/booking-successfull']);
       this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=booking', {params}).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == 'success') {
             this.authService.clearBookingRooms(this.bookingTypeResort);
             this.showSnackBarAlert("Reservation Success! Booking Id: "+response.result.booking_id);
-            this.router.navigate(['/booking-successfull']);
+            // this.router.navigate(['/booking-successfull']);
+
+
+            
+              const bookingId = response.result.booking_id;
+              const MerchantId = 'VANAVIHARI';
+              const CurrencyType = 'INR';
+              const SecurityId = 'vanavihari';
+              const txtCustomerID = 'BK986239234';
+              const secretKey = 'rmvlozE7R4v9';
+              const amount = 1;
+              const rU = 'http://www.vanavihari.com/meTrnSuccess2.php?bvd=3434243';
+
+              const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|INR|NA|R|vanavihari|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
+
+              const hmac = HmacSHA256(str, secretKey);
+              const checksum = hmac.toString().toUpperCase();
+              const msg = `${str}|${checksum}`;
+
+              let pg_params = new HttpParams()
+              .set('CheckSumKey', secretKey)
+              .set('CheckSum', checksum)
+              .set('msg', msg);
+
+              const form = document.createElement('form');
+              form.method = 'post';
+              form.action = 'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
+              pg_params.keys().forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                const value = pg_params.get(key) || '';
+                input.value = value;
+                form.appendChild(input);
+              });
+              document.body.appendChild(form);
+              form.submit();
+
+
           } else if (response.code == 3000) {
             this.showSnackBarAlert(response.result.msg);
           } else {
@@ -163,6 +204,7 @@ export class BookingSummaryComponent {
         }
       });
      }
+
   }
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {
