@@ -159,49 +159,50 @@ export class BookingSummaryComponent {
             // this.router.navigate(['/booking-successfull']);
 
 
+            console.log(response.result.booking_id);
             
-              const bookingId = response.result.booking_id??'BK98623234254';
-              const MerchantId = 'VANAVIHARI';
-              const CurrencyType = 'INR';
-              const SecurityId = 'vanavihari';
-              const txtCustomerID = 'BK986239234';
-              const secretKey = 'rmvlozE7R4v9';
-              const amount = 1;
-              const rU = 'http://www.vanavihari.com/meTrnSuccess2.php?bvd=3434243';
+              // const bookingId = response.result.booking_id??'BK98623234254';
+              // const MerchantId = 'VANAVIHARI';
+              // const CurrencyType = 'INR';
+              // const SecurityId = 'vanavihari';
+              // const txtCustomerID = 'BK986239234';
+              // const secretKey = 'rmvlozE7R4v9';
+              // const amount = 1;
+              // const rU = 'http://www.vanavihari.com/meTrnSuccess2.php?bvd=3434243';
 
-              const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
+              // const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
 
-              const hmac = HmacSHA256(str, secretKey);
-              const checksum = hmac.toString().toUpperCase();
-              const msg = `${str}|${checksum}`;
+              // const hmac = HmacSHA256(str, secretKey);
+              // const checksum = hmac.toString().toUpperCase();
+              // const msg = `${str}|${checksum}`;
 
-              let pg_params = new HttpParams()
-              .set('MerchantId', MerchantId)
-              .set('CurrencyType', CurrencyType)
-              .set('SecurityId', SecurityId)
-              .set('txtCustomerID', txtCustomerID)
-              .set('txtTxnAmount', amount)
-              .set('txtAdditionalInfo1', bookingId)
-              .set('txtAdditionalInfo2', this.form.value.gname)
-              .set('txtAdditionalInfo3', this.form.value.gphone)
-              .set('RU', secretKey)
-              .set('CheckSumKey', secretKey)
-              .set('CheckSum', checksum)
-              .set('msg', msg);
+              // let pg_params = new HttpParams()
+              // .set('MerchantId', MerchantId)
+              // .set('CurrencyType', CurrencyType)
+              // .set('SecurityId', SecurityId)
+              // .set('txtCustomerID', txtCustomerID)
+              // .set('txtTxnAmount', amount)
+              // .set('txtAdditionalInfo1', bookingId)
+              // .set('txtAdditionalInfo2', this.form.value.gname)
+              // .set('txtAdditionalInfo3', this.form.value.gphone)
+              // .set('RU', secretKey)
+              // .set('CheckSumKey', secretKey)
+              // .set('CheckSum', checksum)
+              // .set('msg', msg);
 
-              const form = document.createElement('form');
-              form.method = 'post';
-              form.action = 'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
-              pg_params.keys().forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                const value = pg_params.get(key) || '';
-                input.value = value;
-                form.appendChild(input);
-              });
-              document.body.appendChild(form);
-              form.submit();
+              // const form = document.createElement('form');
+              // form.method = 'post';
+              // form.action = 'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
+              // pg_params.keys().forEach(key => {
+              //   const input = document.createElement('input');
+              //   input.type = 'hidden';
+              //   input.name = key;
+              //   const value = pg_params.get(key) || '';
+              //   input.value = value;
+              //   form.appendChild(input);
+              // });
+              // document.body.appendChild(form);
+              // form.submit();
 
 
           } else if (response.code == 3000) {
