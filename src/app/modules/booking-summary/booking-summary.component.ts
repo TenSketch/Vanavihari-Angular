@@ -165,7 +165,8 @@ export class BookingSummaryComponent {
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
               const amount = 1;
-              const rU = 'https://vanavihari-ng.netlify.app/#/payment-transaction-rdurl?bvd=3434243';
+              // const rU = 'https://vanavihari-ng.netlify.app/#/payment-transaction-rdurl?bvd=3434243';
+              const rU = 'http://www.vanavihari.com/meTrnSuccess2.php?bvd=3434243';
 
               const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
 
@@ -182,7 +183,7 @@ export class BookingSummaryComponent {
               .set('txtAdditionalInfo1', bookingId)
               .set('txtAdditionalInfo2', this.form.value.gname)
               .set('txtAdditionalInfo3', this.form.value.gphone)
-              .set('RU', secretKey)
+              .set('RU', rU)
               .set('CheckSumKey', secretKey)
               .set('CheckSum', checksum)
               .set('msg', msg);
