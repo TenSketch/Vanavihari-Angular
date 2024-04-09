@@ -74,6 +74,8 @@ export class BookingSummaryComponent {
     this.durationOfStay = `${days} day${days>1?'s':''}`;
 
     this.getFullUser = this.userService.getFullUser();
+
+    // this.getUserDetails();
   }
   getUserDetails() {
     
@@ -167,13 +169,22 @@ export class BookingSummaryComponent {
               const amount = 1;
               const rU = 'http://www.vanavihari.com/meTrnSuccess2.php?bvd=3434243';
 
-              const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|INR|NA|R|vanavihari|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
+              const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
               const msg = `${str}|${checksum}`;
 
               let pg_params = new HttpParams()
+              .set('MerchantId', MerchantId)
+              .set('CurrencyType', CurrencyType)
+              .set('SecurityId', SecurityId)
+              .set('txtCustomerID', txtCustomerID)
+              .set('txtTxnAmount', amount)
+              .set('txtAdditionalInfo1', bookingId)
+              .set('txtAdditionalInfo2', this.form.value.gname)
+              .set('txtAdditionalInfo3', this.form.value.gphone)
+              .set('RU', secretKey)
               .set('CheckSumKey', secretKey)
               .set('CheckSum', checksum)
               .set('msg', msg);
