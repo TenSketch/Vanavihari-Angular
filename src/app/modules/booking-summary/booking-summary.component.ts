@@ -158,6 +158,8 @@ export class BookingSummaryComponent {
             this.showSnackBarAlert("Reservation Success! Booking Id: "+response.result.booking_id);
             // this.router.navigate(['/booking-successfull']);
 
+              console.log(response.result.booking_id);
+            
               const bookingId = response.result.booking_id;
               const MerchantId = 'VANAVIHARI';
               const CurrencyType = 'INR';
