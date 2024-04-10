@@ -1,0 +1,318 @@
+<app-layout>
+  <div class="main">
+    <section id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="assets/img/Vihari-outer.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Vanavihari</h1>
+            <p>
+              Vanavihari resort, nestled in Maredumilli, is a haven for
+              eco-tourism enthusiasts. This community-centric guesthouse offers
+              a peaceful escape surrounded by nature.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="assets/img/Vanavihari-reception.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Vanavihari</h1>
+            <p>
+              Providing cozy cottages and rooms, it sits within easy reach of
+              Maredumilli Waterfalls, ensuring guests enjoy a tranquil
+              environment.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="assets/img/home-gallery-junglestar/junglestar-home-gallery-5.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Jungle Star</h1>
+            <p>
+              Jungle Star Eco Camp, managed by the Andhra Pradesh Forest
+              Department, offers seven cottages atop a hillock, reachable only
+              by a bridge.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="assets/img/jungle.jpeg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Jungle Star</h1>
+            <p>
+              This eco-friendly site provides adventure activities like treks
+              and campfires, nestled deep in the unexplored Eastern Ghats.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="assets/img/amruthadhara.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Amruthadhara Falls</h1>
+            <p>
+              Amruthadhara falls a popular destination for nature lovers,
+              especially during the monsoon season when the falls are at their
+              most spectacular.
+            </p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="assets/img/Rampa-falls.jpg" class="d-block w-100" alt="..." />
+          <div class="carousel-overlay"></div>
+          <div class="carousel-caption p-0">
+            <h1 class="display-3">Rampa Falls</h1>
+            <p>
+              In East Godavari's Agency track, discover Rampa V.S.S nestled in
+              semi-evergreen forests, featuring Neelakanteswara and Rampa
+              waterfalls.
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </section>
+    <section class="my-5">
+      <div class="container">
+        <h2 class="text-center mb-4">Search room availability</h2>
+        <app-search-resort></app-search-resort>
+      </div>
+    </section>
+    <section class="about py-5">
+      <div class="container">
+        <h2 class="text-center">Get to know about Vanavihari</h2>
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+            <p class="text-center mb-0">
+              Welcome to Vanavihari, where Community Based Eco-Tourism (CBET)
+              thrives under the ownership of the Andhra Pradesh Forest
+              Department. Our retreats are lovingly managed by local tribal
+              communities, offering them not just employment but also a deep
+              sense of belonging and pride. A portion of the proceeds from our
+              resorts goes directly to the tribal members, ensuring sustainable
+              livelihoods and security. With the Konda Reddy and Valmiki tribes
+              at the heart of our endeavors, Vanavihari boasts two remarkable
+              retreats: one nestled in Maredumilli and the other, Jungle Star
+              Eco Camp, situated in Valammuru. We extend our heartfelt thanks to
+              the diligent efforts of our DFO and Range Officers, who tirelessly
+              safeguard both the forest and the well-being of our community.
+              Welcome to a journey of nature, culture, and responsible tourism
+              at Vanavihari.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="resort-intro py-5">
+      <div class="container">
+        <h1 class="text-center mb-4">Our Resorts</h1>
+        <div class="row justify-content-around">
+          <!-- <div class="col-md-4"> -->
+            <div class="card border-0">
+              <img src="assets/img/Vanavihari-reception.jpg" class="card-img-top" alt="Vanavihari, Maredumilli" />
+              <div class="card-body text-center">
+                <h5 class="card-title">Vanavihari, Maredumilli</h5>
+                <p class="card-text">
+                  Vanavihari resort, nestled in Maredumilli, is a haven for
+                  eco-tourism enthusiasts with its bamboo-filled surroundings.
+                  This community-centric guesthouse offers a peaceful escape
+                  amidst nature, providing cozy cottages and easy access to
+                  street food restaurants offering bamboo biriyani. A stroll
+                  outside reveals a heavenly experience.
+                </p>
+              </div>
+              <div class="card-footer d-grid place-items-center border-0 bg-transparent">
+                <button mat-raised-button color="primary" (click)="goToVanavihari()">View details</button>
+              </div>
+            </div>
+          <!-- </div> -->
+          <!-- <div class="col-md-4 mt-3 mt-md-0"> -->
+            <div class="card border-0">
+              <img src="assets/img/Jungle_Star-reception-1.jpg" class="card-img-top" alt="Jungle Star, Valamuru" />
+              <div class="card-body text-center">
+                <h5 class="card-title">Jungle Star, Valamuru</h5>
+                <p class="card-text">
+                  Jungle Star Eco Camp offers a unique island-like setting with
+                  seven cottages perched on a hillock, accessed only by a
+                  bridge. Crossing the hanging bridge is thrilling as it sways
+                  over the flowing river below. Surrounded by towering
+                  mountains, the camp provides stunning views. Managed by the
+                  Andhra Pradesh Forest Department, it offers eco-friendly
+                  adventures like treks and campfires in the Eastern Ghats,
+                  promising an unforgettable stay in nature.
+                </p>
+              </div>
+              <div class="card-footer d-grid place-items-center border-0 bg-transparent">
+                <button mat-raised-button color="primary" (click)="goToJungleStar()">View details</button>
+              </div>
+            </div>
+          <!-- </div> -->
+        </div>
+      </div>
+    </section>
+    <!-- section for resorts -->
+    <section class="resorts-gallery-location py-5">
+      <div class="container">
+        <h1 class="text-center mb-4">Vanavihari, Maredumilli</h1>
+        <div class="row">
+          <div class="col-md-8">
+            <h2 class="mb-3 text-center">Gallery</h2>
+            <div class="masonry-layout" id="vanavihari-gallery">
+
+              <lightgallery [settings]="settings">
+                <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
+                  <img className="img-responsive" src="{{ item }}" />
+                </a>
+              </lightgallery>
+              <!-- Loop through the image filenames array and generate HTML elements -->
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 mt-md-0">
+            <h2 class="mb-3 text-center">How to reach?</h2>
+            <address>
+              <i class="fa-solid fa-location-dot"></i>
+              Vanavihari Eco-tourism Complex, Maredumilli, AP-533295.
+            </address>
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
+                width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">From</th>
+                    <th scope="col">Distance</th>
+                    <th scope="col">Travel Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><i class="fa-solid fa-train me-2"></i>Rajahmundry Railway Station</td>
+                    <td>84 km</td>
+                    <td>2 hours</td>
+                  </tr>
+                  <tr>
+                    <td><i class="fa-solid fa-plane-arrival me-2"></i>Rajahmundry Airport</td>
+                    <td>69.7 km</td>
+                    <td>1 hour 30 minutes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resorts-gallery-location py-5">
+      <div class="container">
+        <h1 class="text-center mb-4">Jungle Star, Valamuru</h1>
+        <div class="row">
+          <div class="col-md-8">
+            <h2 class="mb-3 text-center">Gallery</h2>
+            <div class="masonry-layout" id="junglestar-gallery">
+              <lightgallery [settings]="settings">
+                <a *ngFor="let item of imageFilenames1" className="gallery-item" [attr.href]="item">
+                  <img className="img-responsive" src="{{ item }}" />
+                </a>
+              </lightgallery>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 mt-md-0">
+            <h2 class="mb-3 text-center">How to reach?</h2>
+            <address>
+              <i class="fa-solid fa-location-dot"></i>
+              Jungle Star ECO Camp, Valamuru, AP-533295.
+            </address>
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.321273036429!2d81.63047557463233!3d17.634936395627708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3725b319b638ff%3A0x6497bd032f830606!2sJUNGLE%20STAR%20ECO%20CAMP!5e0!3m2!1sen!2sin!4v1708782328839!5m2!1sen!2sin"
+                width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">From</th>
+                    <th scope="col">Distance</th>
+                    <th scope="col">Travel Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><i class="fa-solid fa-train me-2"></i>Rajahmundry Railway Station</td>
+                    <td>94.7 km</td>
+                    <td>2 hours 24 minutes</td>
+                  </tr>
+                  <tr>
+                    <td><i class="fa-solid fa-plane-arrival me-2"></i>Rajahmundry Airport</td>
+                    <td>79.4 km</td>
+                    <td>1 hour 52 minutes</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- testimonials -->
+    <section class="testimonials">
+      <div class="container mt-5">
+        <h2 class="text-center mb-4">Guest Reviews</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <blockquote class="blockquote text-center">
+                <p class="mb-0">
+                  The resort was an absolute paradise! The staff was friendly,
+                  the rooms were luxurious, and the amenities were top-notch. I
+                  can't wait to come back!
+                </p>
+                <br />
+                <footer class="blockquote-footer">John Doe</footer>
+              </blockquote>
+            </div>
+            <div class="carousel-item">
+              <blockquote class="blockquote text-center">
+                <p class="mb-0">
+                  Our family had a fantastic time at the resort. The kids loved
+                  the pool, and we enjoyed the beautiful beach. The service was
+                  exceptional, and we left with unforgettable memories.
+                </p>
+                <br />
+                <footer class="blockquote-footer">Jane Smith</footer>
+              </blockquote>
+            </div>
+            <!-- Add more carousel items as needed -->
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</app-layout>
