@@ -70,6 +70,7 @@ import { ChangePasswordComponent } from './modules/change-password/change-passwo
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
+import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-tra
     ChangePasswordComponent,
     BookingSuccessfullComponent,
     RoomsComponent,
-    ReadPaymentTransactionResponseComponent
+    ReadPaymentTransactionResponseComponent,
+    PaymentPoliciesComponent
 
   ],
   imports: [

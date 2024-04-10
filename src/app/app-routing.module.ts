@@ -20,8 +20,8 @@ import { ShowSuccessMessageComponent } from './auth/show-success-message/show-su
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { BookingSuccessfullComponent } from './modules/booking-successfull/booking-successfull.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
-
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
+import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
 
 
 const routes: Routes = [
@@ -38,6 +38,7 @@ const routes: Routes = [
 {path:'resorts/jungleStar-Valamuru', component: JungleStarValamuruComponent},
 {path:'tribal-community', component: TribalCommunityComponent},
 {path:'privacy-policy', component: PrivacyPolicyComponent},
+{path:'payment-policy', component: PaymentPoliciesComponent},
 {path:'terms-and-conditions', component: TermsAndConditionsComponent},
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
 {path:'booking-summary', component: BookingSummaryComponent},
@@ -45,7 +46,6 @@ const routes: Routes = [
 {path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},
 {path:'dashboard', component:SettingsComponent},
-
 { path:'resort-listing', component: ResortListingComponent},
 { path:'change-password', component: ChangePasswordComponent},
 { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route

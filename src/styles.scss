@@ -2,19 +2,19 @@
 @use "./scss/base/" as *;
 @use "./scss/components/" as *;
 
-html {
-  font-size: 15px;
+// html {
+//   font-size: 16px!important;
 
-  @media (min-width: 600px) {
-    font-size: 14px;
-  }
-}
+//   // @media (min-width: 600px) {
+//   //   font-size: 14px;
+//   // }
+// }
 
 body {
   // background-color: $clr-light;
   font-family: "Open Sans", sans-serif;
   overflow-x: hidden;
-
+  line-height: 1.6;
   &.dark-theme {
     background-color: $clr-dark;
     color: $clr-light;
@@ -39,6 +39,9 @@ h4,
 h5,
 h6 {
   color: $clr-secondary;
+}
+li{
+  margin-top: 1rem;
 }
 
 .container {

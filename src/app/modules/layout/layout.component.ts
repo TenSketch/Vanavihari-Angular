@@ -86,6 +86,10 @@ export class LayoutComponent implements OnInit {
   {
     this.router.navigate(['/privacy-policy']);
   }
+  goToPaymentPolicy()
+  {
+    this.router.navigate(['/payment-policy']);
+  }
   goToAwards()
   {
     this.router.navigate(['/awards-and-publications']);
