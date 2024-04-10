@@ -40,7 +40,7 @@ export class ChangePasswordComponent {
 
       // this.http
       //   .get<any>(
-      //     'https://vanavihari-ng.netlify.app/zoho-connect?api_type=login',
+      //     'https://vanavihari.com/zoho-connect?api_type=login',
       //     { params }
       //   )
       //   .subscribe({

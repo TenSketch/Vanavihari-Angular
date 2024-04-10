@@ -38,7 +38,7 @@ export class SettingsComponent
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
       .set('token', this.authService.getAccessToken()??'');
-    this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=profile_details', {params}).subscribe({
+    this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=profile_details', {params}).subscribe({
       next: response => {
         if(response.code == 3000 && response.result.status == 'success') {
           this.form = this.formBuilder.group({
@@ -93,7 +93,7 @@ export class SettingsComponent
           else params = params.set(key, data[key].toString());
         }
       });
-      this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=edit_profile_details', {params}).subscribe({
+      this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=edit_profile_details', {params}).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == 'success') {
             // this.router.navigate(['/home']);

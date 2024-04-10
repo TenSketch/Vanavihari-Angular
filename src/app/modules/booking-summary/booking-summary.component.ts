@@ -82,7 +82,7 @@ export class BookingSummaryComponent {
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername()??'')
       .set('token', this.authService.getAccessToken()??'');
-    this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=profile_details', {params}).subscribe({
+    this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=profile_details', {params}).subscribe({
       next: response => {
         if(response.code == 3000 && response.result.status == 'success') {
           this.form = this.formBuilder.group({
@@ -151,7 +151,7 @@ export class BookingSummaryComponent {
       });
       // this.showSnackBarAlert("Reservation Success! Booking Id");
       //       this.router.navigate(['/booking-successfull']);
-      this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=booking', {params}).subscribe({
+      this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {params}).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == 'success') {
             this.authService.clearBookingRooms(this.bookingTypeResort);
@@ -167,7 +167,7 @@ export class BookingSummaryComponent {
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
               const amount = 1;
-              const rU = 'https://vanavihari-ng.netlify.app/#/payment-transaction-rdurl?bvd=3434243';
+              const rU = 'https://vanavihari.com/#/payment-transaction-rdurl?bvd=3434243';
 
               const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
 

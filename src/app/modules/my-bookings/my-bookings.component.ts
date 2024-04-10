@@ -16,7 +16,7 @@ export class MyBookingsComponent {
     .set('token', this.userService.getUserToken());
     this.http
       .get<any>(
-        'https://vanavihari-ng.netlify.app/zoho-connect?api_type=booking_history&'+params.toString()
+        'https://vanavihari.com/zoho-connect?api_type=booking_history&'+params.toString()
       )
       .subscribe({
         next: (response) => {

@@ -22,7 +22,7 @@ export class EmailVerificationComponent implements OnInit {
     const verificationUserId = this.route.snapshot.paramMap.get('userid');
     const verificationToken = this.route.snapshot.paramMap.get('token');
     if (verificationToken) {
-      this.http.get<any>('https://vanavihari-ng.netlify.app/zoho-connect?api_type=email_verification&guest_id='+verificationUserId+'&token='+verificationToken).subscribe({
+      this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=email_verification&guest_id='+verificationUserId+'&token='+verificationToken).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == "success") {
             this.router.navigate(['/sign-in'], { queryParams: { message: response.result.msg } });

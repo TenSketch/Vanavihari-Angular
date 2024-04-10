@@ -147,7 +147,7 @@ export class SignUpComponent implements OnInit {
 
       this.http
         .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=register',
+          'https://vanavihari.com/zoho-connect?api_type=register',
           { params }
         )
         .subscribe({

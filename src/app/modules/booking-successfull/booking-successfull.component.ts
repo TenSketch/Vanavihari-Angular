@@ -48,7 +48,7 @@ export class BookingSuccessfullComponent {
       .set('token', this.authService.getAccessToken() ?? '');
     this.http
       .get<any>(
-        'https://vanavihari-ng.netlify.app/zoho-connect?api_type=profile_details',
+        'https://vanavihari.com/zoho-connect?api_type=profile_details',
         { params }
       )
       .subscribe({

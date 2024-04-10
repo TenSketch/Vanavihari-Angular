@@ -516,7 +516,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
       this.http
         .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
+          'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
         )
         .subscribe({
           next: (response) => {

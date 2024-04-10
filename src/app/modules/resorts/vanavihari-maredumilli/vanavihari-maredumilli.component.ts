@@ -471,7 +471,7 @@ export class VanavihariMaredumilliComponent {
       if (this.checkoutDate) perm += `&checkout=${this.checkoutDate}`;
       this.http
         .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' +
+          'https://vanavihari.com/zoho-connect?api_type=room_list' +
             perm
         )
         .subscribe({
