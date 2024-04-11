@@ -1,6 +1,7 @@
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
+    console.log(req);
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
@@ -104,6 +105,10 @@ export default async (req) => {
         method = "GET";
         break;
       case "booking_history":
+        apiUrl = `${zoho_api_uri}Reservation_Histrory?publickey=hxxrtQ7g2t93U1QUbSOq4kj59&${queryParams.toString()}`;
+        method = "GET";
+        break;
+      case "get_payment_response":
         apiUrl = `${zoho_api_uri}Reservation_Histrory?publickey=hxxrtQ7g2t93U1QUbSOq4kj59&${queryParams.toString()}`;
         method = "GET";
         break;
