@@ -142,11 +142,27 @@ export default async (req) => {
 
     const data = await response.json();
     // if(apiType == "get_payment_response") {
-      console.log(data);
+      console.log(data.result.status);
+      if(data.result.status == "success") {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            "Location": 'https://vanavihari.com/#/payment-transaction-rdurl?status=Success',
+          },
+        });
+      } else {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            "Location": 'https://vanavihari.com/#/payment-transaction-rdurl?status=Failed',
+          },
+        });
+      }
+    // } else {
+      return new Response(JSON.stringify(data), {
+        headers: { "Content-Type": "application/json" },
+      });
     // }
-    return new Response(JSON.stringify(data), {
-      headers: { "Content-Type": "application/json" },
-    });
   } catch (error) {
     console.error("Error:", error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
