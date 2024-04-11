@@ -1,7 +1,21 @@
+function parseFormData(body) {
+  const data = {};
+  const params = body.split('&');
+
+  for (let i = 0; i < params.length; i++) {
+    const param = params[i].split('=');
+    const key = decodeURIComponent(param[0]);
+    const value = decodeURIComponent(param[1]);
+    data[key] = value;
+  }
+
+  return data;
+}
+
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
-    const formData = new URLSearchParams(req.body);
+    const formData = parseFormData(req.body);
     const msg = formData.get('msg');
     console.log(msg);
 
