@@ -1,13 +1,6 @@
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
-    const body = await req.text();
- 
-    const formData = new URLSearchParams(body);
-    const msg = formData.get('msg');
-    console.log(msg);
-
-
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
@@ -87,6 +80,12 @@ export default async (req) => {
         method = "GET";
         break;
       case "profile_details":
+        const body = await req.text();
+        const formData = new URLSearchParams(body);
+        const msg = formData.get('msg');
+        const msgres = msg.split('|');
+        console.log(msgres[1]);
+
         if (!queryParams.has("token") || !queryParams.has("email")) {
             return new Response(JSON.stringify({ error: 'Missing required parameters for email verification' }), {
                 status: 400,
