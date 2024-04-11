@@ -167,7 +167,7 @@ export class BookingSummaryComponent {
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
               const amount = 1;
-              const rU = 'https://vanavihari.com/#/payment-transaction-rdurl?bvd=3434243';
+              const rU = 'https://vanavihari.com/zoho-connect?api_type=profile_details';
 
               const str = MerchantId+'|'+bookingId+'|NA|'+amount+'|NA|NA|NA|'+CurrencyType+'|NA|R|'+SecurityId+'|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|'+rU+'&' + Date.now().toFixed().substring(0, 10);
 
