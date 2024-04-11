@@ -1,6 +1,6 @@
 function parseFormData(body) {
   const data = {};
-  const params = body.split('&');
+  const params = body.toString().split('&');
 
   for (let i = 0; i < params.length; i++) {
     const param = params[i].split('=');
