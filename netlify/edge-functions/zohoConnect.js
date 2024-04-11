@@ -84,7 +84,7 @@ export default async (req) => {
         const formData = new URLSearchParams(body);
         const msg = formData.get('msg');
         const msgres = msg.split('|');
-        apiUrl = `${zoho_api_uri}get_payment_response?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${msgres[24].split('-')[0]}`;
+        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${msgres[24].split('-')[0]}`;
         method = "GET";
 
         // if (!queryParams.has("token") || !queryParams.has("email")) {
