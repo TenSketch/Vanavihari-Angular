@@ -28,12 +28,20 @@ export class SearchResortComponent implements OnInit {
   checkinDate: string;
   checkoutDate: string;
   currentDate: any;
+  minDate: Date;
+
   constructor(private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
+    
+     // Set the minimum to the next date from the present date.
+     const currentDate = new Date();
+     currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
+     this.minDate = currentDate;
     this.searchForm = this.formBuilder.group({
       selectedResort: [],
       checkinDate: [],
       checkoutDate: []
     });
+   
     this.updateAgeDropdowns();
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
     

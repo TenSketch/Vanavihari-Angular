@@ -12,18 +12,33 @@
       </div>
       <div class="col-lg-3">
         <mat-form-field appearance="outline">
-          <mat-label>Checkin & Checkout</mat-label>
-          <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
-            <input matStartDate  placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value);; checkIfCheckinDateIsCurrentDate()" />
-            <input matEndDate  placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)" />
-            
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-label>Checkin date</mat-label>
+          <input matInput [min]="minDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value)">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        
       </div>
+      <div class="col-lg-3">
+        <mat-form-field appearance="outline">
+          <mat-label>Checkout date</mat-label>
+          <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Checkin & Checkout</mat-label>
+        <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
+          <input matStartDate [min]="minDate"  placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value)" />
+          <input matEndDate  placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)" />
+          
+        </mat-date-range-input>
+        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field> -->
       
       <div class="col-lg-3">
         <!-- <button mat-raised-button color="primary" (click)="goToSignin()" class="w-100 mt-1">Sign In</button> -->
