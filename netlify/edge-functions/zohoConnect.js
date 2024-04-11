@@ -84,16 +84,17 @@ export default async (req) => {
         const formData = new URLSearchParams(body);
         const msg = formData.get('msg');
         const msgres = msg.split('|');
-        console.log(msgres[1]);
-
-        if (!queryParams.has("token") || !queryParams.has("email")) {
-            return new Response(JSON.stringify({ error: 'Missing required parameters for email verification' }), {
-                status: 400,
-                headers: { 'Content-Type': 'application/json' },
-            });
-        }
-        apiUrl = `${zoho_api_uri}Profile_Details?publickey=7AwGYAgpPRaOUDEzbqYpeFyvs&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}get_payment_response?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${logmsgres[24].split('-')[0]}`;
         method = "GET";
+
+        // if (!queryParams.has("token") || !queryParams.has("email")) {
+        //     return new Response(JSON.stringify({ error: 'Missing required parameters for email verification' }), {
+        //         status: 400,
+        //         headers: { 'Content-Type': 'application/json' },
+        //     });
+        // }
+        // apiUrl = `${zoho_api_uri}Profile_Details?publickey=7AwGYAgpPRaOUDEzbqYpeFyvs&${queryParams.toString()}`;
+        // method = "GET";
         break;
       case "edit_profile_details":
         if (!queryParams.has("token") || !queryParams.has("email")) {
