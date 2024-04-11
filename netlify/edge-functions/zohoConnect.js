@@ -80,20 +80,14 @@ export default async (req) => {
         method = "GET";
         break;
       case "profile_details":
-        const body = await req.text();
-        const formData = new URLSearchParams(body);
-        const msg = formData.get('msg');
-        const msgres = msg.split('|');
-        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${msgres[24].split('-')[1]}`;
+        if (!queryParams.has("token") || !queryParams.has("email")) {
+            return new Response(JSON.stringify({ error: 'Missing required parameters for email verification' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+        apiUrl = `${zoho_api_uri}Profile_Details?publickey=7AwGYAgpPRaOUDEzbqYpeFyvs&${queryParams.toString()}`;
         method = "GET";
-        // if (!queryParams.has("token") || !queryParams.has("email")) {
-        //     return new Response(JSON.stringify({ error: 'Missing required parameters for email verification' }), {
-        //         status: 400,
-        //         headers: { 'Content-Type': 'application/json' },
-        //     });
-        // }
-        // apiUrl = `${zoho_api_uri}Profile_Details?publickey=7AwGYAgpPRaOUDEzbqYpeFyvs&${queryParams.toString()}`;
-        // method = "GET";
         break;
       case "edit_profile_details":
         if (!queryParams.has("token") || !queryParams.has("email")) {
@@ -114,12 +108,12 @@ export default async (req) => {
         method = "GET";
         break;
       case "get_payment_response":
-        // const body = await req.text();
-        // const formData = new URLSearchParams(body);
-        // const msg = formData.get('msg');
-        // const msgres = msg.split('|');
-        // apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${msgres[24].split('-')[1]}`;
-        // method = "GET";
+        const body = await req.text();
+        const formData = new URLSearchParams(body);
+        const msg = formData.get('msg');
+        const msgres = msg.split('|');
+        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&status=${msgres[24].split('-')[1]}`;
+        method = "GET";
         break;
       default:
         return new Response(
@@ -141,9 +135,9 @@ export default async (req) => {
     });
 
     const data = await response.json();
-    // if(apiType == "get_payment_response") {
+    if(apiType == "get_payment_response") {
       console.log(data.result.status);
-      if(data.result.status == "success") {
+      if(data.code == 3000 && data.result.status == "success") {
         return new Response(null, {
           status: 302,
           headers: {
@@ -158,11 +152,11 @@ export default async (req) => {
           },
         });
       }
-    // } else {
+    } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
       });
-    // }
+    }
   } catch (error) {
     console.error("Error:", error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
