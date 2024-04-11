@@ -2,6 +2,8 @@ export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
     console.log(req.headers);
+    console.log(re.Response);
+    console.log(req.perm);
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
