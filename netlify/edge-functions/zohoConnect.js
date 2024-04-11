@@ -141,9 +141,9 @@ export default async (req) => {
     });
 
     const data = await response.json();
-    if(apiType == "get_payment_response") {
+    // if(apiType == "get_payment_response") {
       console.log(data);
-    }
+    // }
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },
     });
