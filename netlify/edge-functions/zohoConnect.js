@@ -2,7 +2,9 @@ export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
     const formData = new URLSearchParams(req.body);
-    console.log(formData);
+    const msg = formData.get('msg');
+    console.log(msg);
+
 
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
