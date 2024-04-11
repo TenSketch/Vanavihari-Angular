@@ -1,9 +1,12 @@
+const querystring = require('querystring');
+
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
-    console.log(req.headers);
-    console.log(req.Response);
-    console.log(req.perm);
+    const formData = querystring.parse(event.body);
+
+    console.log(formData);
+    
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
