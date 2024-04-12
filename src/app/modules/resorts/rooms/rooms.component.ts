@@ -8,6 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 // import { UserService } from '../../user.service';
 import { SharedService } from '../../../shared.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import lgZoom from 'lightgallery/plugins/zoom';
+import { BeforeSlideDetail } from 'lightgallery/lg-events';
+
 
 interface Room {
   //roomId:string;
@@ -32,6 +35,11 @@ interface Room {
   styleUrls: ['./rooms.component.scss']
 })
 export class RoomsComponent implements OnInit, OnDestroy{
+  currentImage: string | null = null;
+  imageFilenames: string[] = [];
+
+  // imageFilenames2: string[] = [];
+
   searchResortData: any;
   resorts: any = {
     'vanavihari': {
@@ -76,7 +84,14 @@ export class RoomsComponent implements OnInit, OnDestroy{
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute
-  ) { 
+  ) {
+    this.currentImage = this.imageFilenames[0];
+    for (let i = 1; i <= 5; i++) {
+    
+      this.imageFilenames.push(
+        `assets/img/bahuda/img-${i}.jpg`
+      );
+    } 
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
@@ -729,6 +744,14 @@ export class RoomsComponent implements OnInit, OnDestroy{
       }
     }
     return totalExtraGuestCharges;
+    
   }
-
+  settings = {
+    counter: false,
+    plugins: [lgZoom], // Include the lgZoom plugin
+  };
+  onBeforeSlide(detail: BeforeSlideDetail): void {
+    const { index, prevIndex } = detail;
+    // console.log(`Slide changed from ${prevIndex} to ${index}`);
+  }
 }
