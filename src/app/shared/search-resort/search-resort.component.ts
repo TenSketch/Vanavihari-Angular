@@ -146,7 +146,7 @@ export class SearchResortComponent implements OnInit {
   submitSearch() {
     this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
     //this.router.navigate(['/resorts/vanavihari-maredumilli']);
-    this.router.navigate(['/resorts/rooms']);
+    this.router.navigate(['/resorts/rooms'],{queryParams:{bookingTypeResort:this.selectedResort}});
     // this.router.navigate(['/resorts/rooms']).then(() => {
     //   window.location.reload(); // Reload the page
     // });

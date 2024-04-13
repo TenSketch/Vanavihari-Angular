@@ -96,7 +96,7 @@
     <div class="container-fluid mt-3">
       <!-- rooms listing section -->
       <div class="row mt-5">
-        <aside class="col-sm-5 col-md-3 h-100"
+        <aside class="col-xs-12 col-md-3 h-100"
           [ngClass]="(isMobile == false) ? 'position-sticky' : 'position-sticky-for-mobile'">
           <!-- <section class="position-sticky"> -->
           <div class="sort rounded-3 p-3 d-none">
@@ -152,14 +152,14 @@
   
   
                     </div> -->
-                  <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
+                    <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
                       id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
                       (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest">
                     Check any extra guest</label> &nbsp;
-                  <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
+                  <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>{{ roomId.week_day_bed_charge | currency:'INR
+                      ':'symbol':'1.2-2' }} </strong><small>+ GST @ 12% will be
                       charged</small>
                   </div>
-
 
                   <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
                       #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
@@ -171,25 +171,25 @@
             </div>
             <hr />
             <ng-container *ngIf="showBookingSummary">
-              <div class="d-flex justify-content-between pt-1">
+              <div class="d-flex pt-1" >
                 <span>Room charges</span>
                 <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
-              <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest || isAnyRoomChecked()">
+              <div class="d-flex pt-1" *ngIf="totalExtraGuestCharges>0">
                 <span>Extra guest</span>
                 <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
 
-              <div class="d-flex justify-content-between font-weight-bold py-1">
+              <div class="d-flex font-weight-bold py-1">
                 <span class="mb-0">Total</span>
                 <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
-              <div class="d-flex justify-content-between font-weight-bold py-1">
+              <div class="d-flex font-weight-bold py-1">
                 <span class="mb-0">GST @ 12%</span>
                 <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
               <div
-                class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
+                class="d-flex border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
                 <span class="mb-0">Grand Total</span>
                 <span>{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
               </div>
@@ -231,12 +231,31 @@
                         <span>
                           <mat-form-field appearance="outline" class="mat-small">
                             <mat-label>No. of. Guests</mat-label>
-                            <mat-select required [(ngModel)]="roomId.id" size="small">
+                            <mat-select required [(ngModel)]="roomId.noof_adult" size="small">
                               <mat-option value="one">1</mat-option>
                               <mat-option value="two">2</mat-option>
                             </mat-select>
                             <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
 
+                          </mat-form-field>
+                        </span>
+                        <span class="">
+                          <mat-form-field appearance="outline" class="mat-small mt-4">
+                            <mat-label>No. of children upto 5 years (10 total no.)</mat-label>
+                            <mat-select required [(ngModel)]="roomId.id" size="small">
+                              <mat-option value="one">1</mat-option>
+                              <mat-option value="two">2</mat-option>
+                              <mat-option value="one">3</mat-option>
+                              <mat-option value="two">4</mat-option>
+                              <mat-option value="one">5</mat-option>
+                              <mat-option value="two">6</mat-option>
+                              <mat-option value="one">7</mat-option>
+                              <mat-option value="two">8</mat-option>
+                              <mat-option value="two">9</mat-option>
+                              <mat-option value="two">10</mat-option>
+                            </mat-select>
+                            <mat-hint class="px-0">Upto 5 years</mat-hint>
+    
                           </mat-form-field>
                         </span>
                         <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
@@ -246,15 +265,15 @@
         
         
                           </div> -->
-                        <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
+                          <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
                             id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
-                            (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)"
-                            [(ngModel)]="roomId.noof_guest">
+                            (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest">
                           Check any extra guest</label> &nbsp;
-                        <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
+                        <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>{{ roomId.week_day_bed_charge | currency:'INR
+                            ':'symbol':'1.2-2' }} </strong><small>+ GST @ 12% will be
                             charged</small>
                         </div>
-
+      
 
                         <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
                             #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
@@ -266,25 +285,25 @@
                   </div>
                   <hr />
                   <ng-container *ngIf="showBookingSummary">
-                    <div class="d-flex justify-content-between pt-1">
+                    <div class="d-flex pt-1">
                       <span>Room charges</span>
                       <span>{{ getRoomCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
-                    <div class="d-flex justify-content-between pt-1" *ngIf="isAddedExtraGuest">
+                    <div class="d-flex pt-1" *ngIf="totalExtraGuestCharges>0">
                       <span>Extra guest</span>
                       <span>{{ calculateExtraGuestCharges() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
 
-                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                    <div class="d-flex font-weight-bold py-1">
                       <span class="mb-0">Total</span>
                       <span>{{ calculateTotalPrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
-                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                    <div class="d-flex font-weight-bold py-1">
                       <span class="mb-0">GST @ 12%</span>
                       <span>{{ calculateTotalGst() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
                     <div
-                      class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
+                      class="d-flex border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
                       <span class="mb-0">Grand Total</span>
                       <span>{{ calculatePayablePrice() | currency:'INR ':'symbol':'1.2-2' }}</span>
                     </div>
@@ -309,7 +328,7 @@
           </ng-template>
           <!-- </section> -->
         </aside>
-        <main class="rooms-listing col-md-9">
+        <div class="rooms-listing col-md-9 col-xs-12">
           <ng-template #loading>
             <div class="text-center">
               <!-- Increase size using Bootstrap utility classes -->
@@ -363,23 +382,51 @@
             </div> -->
 
           <div *ngIf="!loadingRooms; else loading">
-            <div class="card mb-3" *ngFor="let room of roomCards">
-              <div class="row">
-                <div class="col-md-5">
+            <div class="card mb-3 p-1" *ngFor="let room of roomCards; let cardIndex = index">
+              <div  class="image-container">
+                <div class="d-flex block-custom">
+                <div class=" p-2 custom-width">
                   <!-- <img [src]="room.image" alt="Resort Room image"> -->
-                  <div class="masonry-layout">
+                  <div class="w3-content w3-display-container img_{{cardIndex}}">
+                    <ng-container *ngIf="room?.imageFilenames.length>0">
+                      <div *ngFor="let item of room.imageFilenames; let i = index">
+                        <img class="mySlides" src="{{ item }}" alt="Image 1" [style]="i !=0 ? 'display:none;' : ''">
+                      </div>
+                      <button class="w3-button w3-black w3-display-left" (click)="plusDivs(-1,cardIndex)">&#10094;</button>
+                      <button class="w3-button w3-black w3-display-right" (click)="plusDivs(1,cardIndex)">&#10095;</button>
+                    </ng-container>
+                    <ng-container *ngIf="room.imageFilenames.length<1">
+                      <img [src]="room.image" alt="Resort Room image">
+                    </ng-container>
+                    </div>
+                 
+                  <!-- <div class="masonry-layout">
                     <lightgallery [settings]="settings">
                       <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
                         <img className="img-responsive" src="{{ item }}" />
                       </a>
                     </lightgallery>
-                  </div>
+                  </div> -->
                 </div>
-                <div class="col-md-7 row justify-content-between">
-                  <div class="col-md-8">
-                    <h5><span class="text-primary-dark font-weight-bold">Room name: </span>{{ room.name }}</h5>
-                    <h6><span class="text-primary-dark font-weight-bold">Cottage type: </span>{{ room.cottage_type }}</h6>
-                    <h6><span class="text-primary-dark font-weight-bold">Resort name: </span> {{ room.resort }}</h6>
+                <div class=" p-2 side-images">
+                  <!-- <div> <img [src]="room.image" alt="Resort Room image" class="img-dimension">
+                    <img [src]="room.image" alt="Resort Room image" class="img-dimension">
+                    <img [src]="room.image" alt="Resort Room image" class="img-dimension">
+                  </div> -->
+                  <ng-container *ngIf="room.imageFilenames.length > 0">
+                    <div *ngFor="let item of room.imageFilenames.slice(1, 4); let i = index">
+                      <img class="img-dimension" src="{{ item }}" alt="Image {{ i + 1 }}">
+                    </div>
+                  </ng-container>
+                  
+                </div>
+              </div>
+                <div class="w-100 p-2">
+                  <div class="d-flex-start" >
+                  <div class="">
+                    <h3>{{ room.name }}</h3>
+                    <h5>{{ room.cottage_type }}</h5>
+                    <h6>{{ room.resort }}</h6>
                     <!-- {{ room.max_adult }} Guest{{ room.max_adult>1?'s':'' }}
                         {{ room.max_guest?', '+room.max_guest:'' }}        -->
                     <!-- +' Extra Guest'+(room.max_guest>1?'s':'') -->
@@ -397,28 +444,34 @@
                         </mat-form-field>
                         <mat-checkbox [(ngModel)]="isChecked">Extra adult/child over 5</mat-checkbox> -->
                   </div>
-                  <div class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0">
-                    <div class="col-auto">
+                  <div class="">
+                    <div>
                       <h6 class="p-0 m-0"><strong>{{ room.week_day_rate | currency: 'INR ': true: '1.2-2' }} </strong></h6>
-                      <p class="text-primary-dark">For 2 guests</p>
+                      <small>(For 2 guests)</small><br>
                     </div>
-                    <div class="col-auto">
-                      <h6 class="p-0 m-0"><strong>{{ 500 | currency: 'INR ': true: '1.2-2' }} </strong></h6>
-                      <p class="text-primary-dark">For an extra guest</p>
+                    <div>
+                      <h6 class="p-0 m-0"><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }} </strong></h6>
+                      <small>(For extra guest)</small><br>
                     </div>
-                    <div class="col-12"><em>+ GST @ 12%</em></div>
+                    <small>+ GST @ 12%</small>
                     <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
                       <small>+ gst @ 12%</small><br>
                       <small>(for 1 Extra Bed)</small> -->
+                    
                   </div>
-                  <div class="col my-2 pe-0 ">
-                    <button mat-raised-button color="primary" class="float-end float-md-start" (click)="addRoom(room)" [disabled]="room.is_button_disabled">Add room</button>
-                  </div>
+                 
                 </div>
+              
+                  <button class="btn btn-primary float-end" (click)="addRoom(room)"
+                  [disabled]="room.is_button_disabled">
+                  Add room
+                </button>
+                </div>
+               
               </div>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </div>
 

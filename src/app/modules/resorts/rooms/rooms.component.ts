@@ -71,6 +71,8 @@ export class RoomsComponent implements OnInit, OnDestroy{
   selectedRoom: any;
   bookingTypeResort:any;
   totalExtraGuestCharges: number;
+  slideIndex = 1;
+  currentCardIndex: number = 0;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -84,18 +86,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute
-  ) {
-    this.currentImage = this.imageFilenames[0];
-    for (let i = 1; i <= 5; i++) {
-    
-      this.imageFilenames.push(
-        `assets/img/bahuda/img-${i}.jpg`
-      );
-    } 
+  )  {
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
-        console.log('result====', result);
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
@@ -103,39 +97,83 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
     if (
-      this.authService.getSearchData('resort') == '' ||
+    this.authService.getSearchData('resort') == '' ||
       this.authService.getSearchData('checkin') == '' ||
       this.authService.getSearchData('checkout') == ''
     ) {
-      console.log("function call working properly")
-      this.staticRoomsDetails();
-    } else this.fetchRoomList();
+    this.staticRoomsDetails();
+    } else{
+      this.fetchRoomList();
+    } 
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      this.bookingTypeResort = params['bookingTypeResort'];
-      console.log("this.bookingTypeResort=====",this.bookingTypeResort)
-    })
-    this.searchResortData = this.authService.getSearchData(null);
-    this.getSelectedResortInfo();
-    this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
-      this.getSelectedResortInfo();
-    });
-    this.roomIds =
-      this.authService.getBookingRooms(this.bookingTypeResort) != null &&
-      this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
-      this.authService.getBookingRooms(this.bookingTypeResort).length > 0
-        ? this.authService.getBookingRooms(this.bookingTypeResort)
-        : [];
-        console.log(" this.roomIds---", this.roomIds)
-    if (this.roomIds.length > 0) {
-      this.showBookingSummary = true;
+    console.log("showBookingSummary==",this.showBookingSummary)
+    const savedTotalExtraGuestCharges = localStorage.getItem(
+      'totalExtraGuestCharges'
+    );
+    if (savedTotalExtraGuestCharges) {
+      this.totalExtraGuestCharges = parseFloat(savedTotalExtraGuestCharges);
     }
-    this.fetchRoomListSubscription =
-      this.sharedService.fetchRoomList$.subscribe(() => {
-        this.fetchRoomList();
-      });
+   
+    this.route.queryParams.subscribe((params) => {
+      this.bookingTypeResort = params['bookingTypeResort'];
+      this.staticRoomsDetails();
+      this.roomCards = this.roomCards.filter((room) =>
+        room.resort.toLowerCase().includes(this.bookingTypeResort)
+      );
+
+      this.searchResortData = this.authService.getSearchData(null);
+      this.getSelectedResortInfo();
+      this.subscription = this.authService.refreshRoomsComponent$.subscribe(
+        () => {
+          this.getSelectedResortInfo();
+        }
+      );
+
+      this.roomIds =
+        this.authService.getBookingRooms(this.bookingTypeResort) != null &&
+        this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
+        this.authService.getBookingRooms(this.bookingTypeResort).length > 0
+          ? this.authService.getBookingRooms(this.bookingTypeResort)
+          : [];
+      if (this.roomIds.length > 0) {
+        this.roomIds = this.roomIds.filter((room) =>
+          room.resort.toLowerCase().includes(this.bookingTypeResort)
+        );
+       
+        this.showBookingSummary = true;
+       
+        
+      }
+      else{
+        this.showBookingSummary=false
+      }
+      this.fetchRoomListSubscription =
+        this.sharedService.fetchRoomList$.subscribe(() => {
+          this.fetchRoomList();
+        });
+         this.calculateExtraGuestCharges();
+    });
+   
+  
   }
+
+plusDivs(n : number,cardIndex: number) {
+    this.showDivs(this.roomCards[cardIndex].slideIndex += n, cardIndex);
+}
+
+showDivs(n: number, cardIndex: number) {
+  let x = document.querySelectorAll(`.img_${cardIndex} .mySlides`) as any;
+  if (n > x.length) { this.slideIndex = 1; }
+  if (n < 1) { this.slideIndex = x.length; }
+  for (let i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+  }
+  if (x[this.roomCards[cardIndex].slideIndex - 1]) {
+      x[this.roomCards[cardIndex].slideIndex - 1].style.display = "block";
+  }
+}
+
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
   }
@@ -143,7 +181,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      console.log("this.selectedResortInfo-----",this.selectedResortInfo)
       // if (
       //   this.selectedResort != '' &&
       //   this.checkinDate != null &&
@@ -156,7 +193,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }
   }
   staticRoomsDetails() {
-    console.log("staticRoomsDetails")
     interface RoomDetails {
       id: string;
       week_day_bed_charge: number;
@@ -170,7 +206,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
       max_adult: number;
     }
     // // Sample JSON object with the defined type
-    // old json
     const json: { [key: string]: RoomDetails } = {
       '4554333000000159043': {
         id: '4554333000000159043',
@@ -493,8 +528,19 @@ export class RoomsComponent implements OnInit, OnDestroy{
       // };
     });
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-    // this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
-    // console.log("this.roomCards------",this.roomCards)
+    
+    this.roomCards = this.roomCards.map((v)=>{
+      let  imageFilenames =[];
+      for (let i = 1; i <= 4; i++) {
+      
+        imageFilenames.push(
+          `assets/img/${v.name.toLowerCase()}/img-${i}.jpg`
+        );
+      }
+      return {...v, slideIndex :1,imageFilenames}
+    })
+    this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
+    console.log("this.roomCards------",this.roomCards)
     
     setTimeout(() => {
       this.loadingRooms = false;
@@ -517,7 +563,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return formattedDate;
   }
   fetchRoomList() {
-    console.log("fetchRoomList===")
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
@@ -536,22 +581,18 @@ export class RoomsComponent implements OnInit, OnDestroy{
         )
         .subscribe({
           next: (response) => {
-            console.log("====response",response)
             if (
               response.code === 3000 &&
               response.result.status === 'success'
             ) {
               const json = response.result.data;
-              // console.log(json);
               const jsonArray = Object.keys(json).map((key) => {
                 return {
                   id: key,
                   ...json[key],
                 };
               });
-              // console.log(jsonArray);
               this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-              console.log(this.roomCards);
             } else {
               this.showErrorAlert(
                 'Failed to fetch room list. Please try again later.'
@@ -575,7 +616,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
     if (this.roomIds.length < 1) this.showBookingSummary = false;
     room.is_button_disabled = false;
-    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
     let rm = this.roomCards.find((rm) => rm.id === roomId);
     if (rm) {
       rm.is_button_disabled = false;
@@ -584,7 +625,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       if (roomCard) {
         roomCard.isExtraGuestChecked = false;
       }
-  
+
       // Recalculate the total extra guest charges
       this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
     }
@@ -606,27 +647,30 @@ export class RoomsComponent implements OnInit, OnDestroy{
         if (rm) rm.noof_guest = 1;
         room.noof_guest = 1;
         room.isExtraGuestChecked = true;
+        rm.isExtraGuestChecked = true;
       } else {
         if (rm) rm.noof_guest = 0;
         room.noof_guest = 0;
-        const roomCard = this.roomCards.find((r) => r.id === roomId);
-        if (roomCard) {
-          roomCard.isExtraGuestChecked = false;
-        }
+
+        room.isExtraGuestChecked = false;
+        rm.isExtraGuestChecked = false;
         this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
       }
     } else {
       room.noof_guest = inputbox.value;
       if (rm) rm.noof_guest = inputbox.value;
+      rm.isExtraGuestChecked = false;
+      room.isExtraGuestChecked = false;
     }
     // Recalculate the total extra guest charges
-    //this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+    this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
 
-    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
   }
 
   
   mapRoomData(data: any[], roomIds: any[]): Room[] {
+    console.log("mapRoomD========",data)
     return data.map((room) => ({
       id: room.id || 'Unknown',
       week_day_bed_charge: room.week_day_bed_charge || 0,
@@ -637,15 +681,17 @@ export class RoomsComponent implements OnInit, OnDestroy{
       week_end_rate: room.week_end_rate || 'Unknown',
       name: room.name || 'Unknown',
       resort: room.resort || 'Unknown',
-      max_adult: room.max_adult || 3,
+      max_adult: room.max_adult || 2,
       // max_child: room.max_child || 0,
-      noof_adult: room.max_adult,
+      noof_adult: room.max_adult ,
+      noof_children: room. noof_children || 0,
       // noof_child: room.max_child,
       noof_guest: 0,
       week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
       week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
       is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
+      image: room.image || 'assets/img/bonnet/img-1.jpg', // set a default image if it is not available
+     
     }));
   }
 
@@ -684,8 +730,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
   }
   addRoom(room: any) {
     let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room.id);
+    console.log("foundRoom==",foundRoom)
     if (!foundRoom) {
       this.roomIds.push(room);
+      console.log("this.roomIds==",this.roomIds)
     }
     this.showBookingSummary = true;
     room.is_button_disabled = true;
@@ -695,7 +743,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
       if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
+        totalPrice += roomId.week_day_rate + roomId.noof_guest * roomId.week_day_bed_charge;
       }
     }
     return totalPrice;
@@ -713,7 +761,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
       if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
+        totalPrice += roomId.week_day_rate + roomId.noof_guest * roomId.week_day_bed_charge;
       }
     }
     totalPrice = (totalPrice * 12) / 100;
@@ -727,32 +775,34 @@ export class RoomsComponent implements OnInit, OnDestroy{
     return payablePrice;
   }
   goToBooking() {
-    //this.router.navigate(['/booking-summary']);
-    this.router.navigate(['/booking-summary'],{ queryParams: { bookingTypeResort: this.selectedResort } });
-    console.log(this.selectedResort);
     
+    this.loadingRooms = true;
+    //this.router.navigate(['/booking-summary']);
+    setTimeout(() => {
+      this.loadingRooms = false;
+      this.router.navigate(['/booking-summary'], {
+        queryParams: { bookingTypeResort: this.selectedResort },
+      });
+    }, 1000);
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
 
   calculateExtraGuestCharges() {
-    const gstChargesPerRoom = 500;
-    let totalExtraGuestCharges = 0;
-    for (const room of this.roomCards) {
-      if (room.isExtraGuestChecked) {
-        totalExtraGuestCharges += gstChargesPerRoom;
-      }
+    const roomsWithExtraGuests = this.roomIds.filter(
+      (room) => room.isExtraGuestChecked
+    );
+    this.totalExtraGuestCharges = 0;
+    for (const room of roomsWithExtraGuests) {
+      this.totalExtraGuestCharges += room.week_day_bed_charge;
     }
-    return totalExtraGuestCharges;
-    
+    localStorage.setItem(
+      'totalExtraGuestCharges',
+      this.totalExtraGuestCharges.toString()
+    );
+    return this.totalExtraGuestCharges;
   }
-  settings = {
-    counter: false,
-    plugins: [lgZoom], // Include the lgZoom plugin
-  };
-  onBeforeSlide(detail: BeforeSlideDetail): void {
-    const { index, prevIndex } = detail;
-    // console.log(`Slide changed from ${prevIndex} to ${index}`);
-  }
+  
+ 
 }

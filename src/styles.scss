@@ -29,7 +29,7 @@ a {
 }
 
 img {
-  max-width: 100%;
+  // max-width: 100%;
   height: auto;
 }
 h1,
@@ -249,4 +249,15 @@ transform: translate(-50%, -50%);
     border-radius: 5px;
 
   }
+}
+.d-flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.d-flex-start{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 195px;
 }

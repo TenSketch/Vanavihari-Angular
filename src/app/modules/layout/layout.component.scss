@@ -1,6 +1,8 @@
 @use "/src/scss/base/" as *;
 $nav-bar-height: 5vh;
-
+.align-items-baseline{
+  background-color: #fff;
+}
 .navbar {
   height: 8vh;
   &>.container-fluid {
@@ -195,11 +197,7 @@ $nav-bar-height: 5vh;
   }
  
 }
-.d-flex{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 .ml-5{
   margin-left: 10px;
 }

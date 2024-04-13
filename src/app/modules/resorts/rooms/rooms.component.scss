@@ -115,3 +115,63 @@ main {
 .custom-h4 {
   padding-left: 10px;
 }
+
+.mySlides{
+  width: 100%;
+  height: 226px;
+}
+.img-dimension{
+  height: 72px;
+  width: 102px;
+}
+.w3-black{
+    border-radius: 20px;
+}
+.w-100{
+  width: 100%;
+}
+.image-container{
+  display: flex;
+}
+.side-images{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+    
+    @media (max-width: 425px) {
+      .rooms-listing {
+     width: 100%;
+    }
+    .image-container{
+     flex-direction: column;
+    }
+    .side-images{
+      display: flex;
+      width: 100%;
+      justify-content: space-around;
+      flex-direction:row
+    }
+    .block-custom{
+      flex-direction: column;
+    }
+    .d-flex-start{
+      height: 138px;
+    }
+    .custom-width{
+      width: 372px!important;
+    }
+  }
+  @media (max-width: 768px) {
+    .rooms-listing {
+   width: 100%;
+  }
+}
+.custom-width{
+  width: 430px;
+}
+@media (max-width: 1024px) {
+  .custom-width{
+    width: 300px;
+  }
+}
