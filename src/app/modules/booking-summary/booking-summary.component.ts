@@ -272,10 +272,8 @@ export class BookingSummaryComponent {
     const base64UrlPayload = this.urlBase64Encode(jwsPayload);
 
     const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
-
-    const signature = HmacSHA256(unsignedToken, secretKey);
-
-    const base64UrlSignature = signature.toString().toUpperCase();
+    const signature = HmacSHA256(unsignedToken, secretKey).toString(enc.Base64);
+    const base64UrlSignature = this.urlBase64Encode(signature);
 
     const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
 
