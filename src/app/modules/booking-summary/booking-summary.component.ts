@@ -242,9 +242,9 @@ export class BookingSummaryComponent {
 
     const jwsPayload = JSON.stringify({
       "mercid": mercid,
-      "orderid": "order45608988",
+      "orderid": "order45608989",
       "amount": "300.00",
-      "order_date": "2023-07-16T10:59:15+05:30",
+      "order_date": "2024-04-14T10:59:15+05:30",
       "currency": "356",
       "ru": "https://www.merchant.com/",
       "additional_info": {
@@ -254,7 +254,7 @@ export class BookingSummaryComponent {
       "itemcode": "DIRECT",
       "device": {
         "init_channel": "internet",
-        "ip": "103.104.59.11",
+        "ip": "75.2.60.5",
         "user_agent": "Mozilla/5.0(WindowsNT10.0;WOW64;rv:51.0)Gecko/20100101 Firefox/51.0",
         "accept_header": "text/html",
         "fingerprintid": "61b12c18b5d0cf901be34a23ca64bb19",
@@ -284,7 +284,7 @@ export class BookingSummaryComponent {
     const headers = new HttpHeaders({
       "Content-Type": "application/jose",
       "Accept": "application/jose",
-      "BD-Traceid": "20200817132207ABD1K",
+      "BD-Traceid": "20200817132207ABD2K",
       "BD-Timestamp": Date.now().toString()
     });
 
