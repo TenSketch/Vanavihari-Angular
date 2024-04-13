@@ -269,15 +269,23 @@ export class BookingSummaryComponent {
     });
 
     const base64UrlHeader = this.urlBase64Encode(jwsHeader);
-    const base64UrlPayload = this.urlBase64Encode(jwsPayload);
-
-    const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
-    const signature = HmacSHA256(unsignedToken, secretKey).toString(enc.Base64);
-    const base64UrlSignature = this.urlBase64Encode(signature);
-
-    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
-    console.log(jwsToken);
+    console.log(base64UrlHeader);
     
+    const base64UrlPayload = this.urlBase64Encode(jwsPayload);
+    console.log(base64UrlPayload);
+    
+    const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
+    console.log(unsignedToken);
+    
+    const signature = HmacSHA256(unsignedToken, secretKey);
+    console.log(signature);
+    
+    const base64UrlSignature = this.urlBase64Encode(signature.toString());
+    
+    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
+    console.log(jwsToken); // Print JWS Token
+
+    // Make the POST request
     const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
     const headers = new HttpHeaders({
       "Content-Type": "application/jose",
