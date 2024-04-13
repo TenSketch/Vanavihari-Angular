@@ -6,7 +6,7 @@
         <img src="assets/img/logo-vana.png" alt="logo-vana">
       </a>
       <ul class="navbar-nav d-flex flex-row gap-2 gap-lg-3">
-        <li class="nav-item" *ngIf="!isLoggedIn()">
+        <li class="nav-item d-none d-md-block" *ngIf="!isLoggedIn()">
           <a class="nav-link" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
             <i class="fa-solid fa-home me-2"></i>Home </a>
         </li>

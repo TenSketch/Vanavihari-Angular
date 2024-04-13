@@ -1,7 +1,7 @@
 <section class="search-rooms">
   <form #searchForm="ngForm">
-    <div class="row align-items-top justify-content-center gap-3 gap-lg-0">
-      <div class="col-lg-3">
+    <div class="row align-items-center justify-content-center gap-3 gap-lg-0">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Select Resort</mat-label>
           <mat-select required [(ngModel)]="selectedResort" name="SelectResort" [(value)]="selectedResort">
@@ -10,7 +10,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-lg-3">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkin date</mat-label>
           <input matInput [min]="minDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value)">
@@ -19,7 +19,7 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-lg-3">
+      <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkout date</mat-label>
           <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)">
@@ -40,7 +40,7 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field> -->
       
-      <div class="col-lg-3">
+      <div class="col-md-3">
         <!-- <button mat-raised-button color="primary" (click)="goToSignin()" class="w-100 mt-1">Sign In</button> -->
 
         <button mat-raised-button color="primary" class="w-100" [disabled]="searchForm.invalid" (click)="submitSearch()">
