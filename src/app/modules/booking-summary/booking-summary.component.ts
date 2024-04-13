@@ -230,10 +230,10 @@ export class BookingSummaryComponent {
 
 
   
-  generateJWSToken(): void {
+  
+  generateJWSToken() {
     const clientID = "bduatv2apt";
     const secretKey = "DnVd1pJpk3oFOdjNgRRPT1OgwfH1DYku";
-    const mercid = "BDUATV2APT";
 
     const jwsHeader = JSON.stringify({
       "alg": "HS256",
@@ -241,10 +241,10 @@ export class BookingSummaryComponent {
     });
 
     const jwsPayload = JSON.stringify({
-      "mercid": mercid,
-      "orderid": "order45608989",
+      "mercid": "BDUATV2APT",
+      "orderid": "order45608988",
       "amount": "300.00",
-      "order_date": "2024-04-14T10:59:15+05:30",
+      "order_date": "2023-07-16T10:59:15+05:30",
       "currency": "356",
       "ru": "https://www.merchant.com/",
       "additional_info": {
@@ -276,65 +276,30 @@ export class BookingSummaryComponent {
     const base64UrlSignature = this.urlBase64Encode(signature);
 
     const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
-
+    console.log(jwsToken);
+    
     const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
-
     const headers = new HttpHeaders({
       "Content-Type": "application/jose",
       "Accept": "application/jose",
-      "BD-Traceid": "20200817132207ABD2K",
-      "BD-Timestamp": Date.now().toString()
+      "BD-Traceid": "20200817132207ABD1K",
+      "BD-Timestamp": String(Math.floor(Date.now() / 1000)) // Current Unix timestamp
     });
 
-    this.http.post<any>(apiUrl, jwsToken, { headers }).pipe(
-      map(response => {
-        console.log("API Response:");
-        console.log(response);
-
-        const receivedJWSToken = response;
-
-        const [receivedBase64UrlHeader, receivedBase64UrlPayload, receivedBase64UrlSignature] = receivedJWSToken.split(".");
-
-        const receivedJwsHeader = this.urlBase64Decode(receivedBase64UrlHeader);
-        console.log("Received JWS Header:");
-        console.log(JSON.parse(receivedJwsHeader));
-
-        const receivedJwsPayload = this.urlBase64Decode(receivedBase64UrlPayload);
-        console.log("Received JWS Payload:");
-        console.log(JSON.parse(receivedJwsPayload));
-
-        const receivedJwsSignature = this.urlBase64Decode(receivedBase64UrlSignature);
-        console.log("Received JWS Signature:");
-        console.log(receivedJwsSignature);
-
-        // // Verify JWS Signature
-        // const computed_signature = this.HmacSHA256(`${receivedBase64UrlHeader}.${receivedBase64UrlPayload}`, secretKey);
-        // if (computed_signature === receivedJwsSignature) {
-        //   console.log("Signature is valid!");
-
-        //   // Decrypt the JWS Payload (if needed)
-        //   // const decryptedPayload = this.decryptPayload(receivedJwsPayload, secretKey);
-        //   // console.log("Decrypted Payload:");
-        //   // console.log(decryptedPayload);
-        // } else {
-        //   console.log("Signature is invalid!");
-        // }
-      })
-    ).subscribe();
+    this.http.post(apiUrl, jwsToken, { headers }).subscribe(
+      (response) => {
+        console.log("API Response:", response);
+      },
+      (error) => {
+        console.error("Error:", error);
+      }
+    );
   }
 
-  urlBase64Encode(str: string): string {
-    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+  urlBase64Encode(str: string) {
+    return btoa(str)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
   }
-
-  urlBase64Decode(str: string): string {
-    str = (str + '===').slice(0, str.length + (str.length % 4));
-    return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
-  }
-
-  // HmacSHA256(message: string, secretKey: string): string {
-  //   const crypto = require('crypto-js');
-  //   const hash = crypto.HmacSHA256(message, secretKey);
-  //   return hash.toString(crypto.enc.Base64);
-  // }
 }
