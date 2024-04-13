@@ -364,7 +364,7 @@
 
           <div *ngIf="!loadingRooms; else loading">
             <div class="card mb-3 p-1" *ngFor="let room of roomCards">
-              <div class="row g-0 d-flex ">
+              <div class="row g-0">
                 <div class="col-md-4 p-2">
                   <!-- <img [src]="room.image" alt="Resort Room image"> -->
                   <div class="masonry-layout">
@@ -375,11 +375,11 @@
                     </lightgallery>
                   </div>
                 </div>
-                <div class="col-md-8 p-3 ps-0 row m-0">
+                <div class="col-md-8 row">
                   <div class="col-md-8">
-                    <h3>{{ room.name }}</h3>
-                    <h5>{{ room.cottage_type }}</h5>
-                    <h6>{{ room.resort }}</h6>
+                    <h5><span class="text-primary-dark font-weight-bold">Room name: </span>{{ room.name }}</h5>
+                    <h6><span class="text-primary-dark font-weight-bold">Cottage type: </span>{{ room.cottage_type }}</h6>
+                    <h6><span class="text-primary-dark font-weight-bold">Resort name: </span> {{ room.resort }}</h6>
                     <!-- {{ room.max_adult }} Guest{{ room.max_adult>1?'s':'' }}
                         {{ room.max_guest?', '+room.max_guest:'' }}        -->
                     <!-- +' Extra Guest'+(room.max_guest>1?'s':'') -->
@@ -397,24 +397,26 @@
                         </mat-form-field>
                         <mat-checkbox [(ngModel)]="isChecked">Extra adult/child over 5</mat-checkbox> -->
                   </div>
-                  <div class="col-md-4">
-                    <div>
+                  <div class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0">
+                    <div class="col-auto">
                       <h6 class="p-0 m-0"><strong>{{ room.week_day_rate | currency: 'INR ': true: '1.2-2' }} </strong></h6>
                       <small>(For 2 guests)</small><br>
                     </div>
-                    <div>
+                    <div class="col-auto">
                       <h6 class="p-0 m-0"><strong>{{ 500 | currency: 'INR ': true: '1.2-2' }} </strong></h6>
                       <small>(For extra guest)</small><br>
                     </div>
-                    <small>+ GST @ 12%</small>
+                    <div class="col-12"><em>+ GST @ 12%</em></div>
                     <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
                       <small>+ gst @ 12%</small><br>
                       <small>(for 1 Extra Bed)</small> -->
                   </div>
-                  <button class="btn btn-primary w-25 float-end" (click)="addRoom(room)"
-                    [disabled]="room.is_button_disabled">
-                    Add room
-                  </button>
+                  <div class="col">
+                    <button class="btn btn-primary float-end" (click)="addRoom(room)"
+                      [disabled]="room.is_button_disabled">
+                      Add room
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
