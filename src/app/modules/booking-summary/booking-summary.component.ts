@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-booking-summary',
@@ -221,5 +222,121 @@ export class BookingSummaryComponent {
     var snackBar = this.snackBar.open(msg, 'Close', {
       duration: 3000,
     });
+  }
+
+
+
+
+
+
+  
+  generateJWSToken(): void {
+    const clientID = "bduatv2apt";
+    const secretKey = "DnVd1pJpk3oFOdjNgRRPT1OgwfH1DYku";
+    const mercid = "BDUATV2APT";
+
+    const jwsHeader = JSON.stringify({
+      "alg": "HS256",
+      "clientid": clientID
+    });
+
+    const jwsPayload = JSON.stringify({
+      "mercid": mercid,
+      "orderid": "order45608988",
+      "amount": "300.00",
+      "order_date": "2023-07-16T10:59:15+05:30",
+      "currency": "356",
+      "ru": "https://www.merchant.com/",
+      "additional_info": {
+        "additional_info1": "Details1",
+        "additional_info2": "Details2"
+      },
+      "itemcode": "DIRECT",
+      "device": {
+        "init_channel": "internet",
+        "ip": "103.104.59.11",
+        "user_agent": "Mozilla/5.0(WindowsNT10.0;WOW64;rv:51.0)Gecko/20100101 Firefox/51.0",
+        "accept_header": "text/html",
+        "fingerprintid": "61b12c18b5d0cf901be34a23ca64bb19",
+        "browser_tz": "-330",
+        "browser_color_depth": "32",
+        "browser_java_enabled": "false",
+        "browser_screen_height": "601",
+        "browser_screen_width": "657",
+        "browser_language": "en-US",
+        "browser_javascript_enabled": "true"
+      }
+    });
+
+    const base64UrlHeader = this.urlBase64Encode(jwsHeader);
+    const base64UrlPayload = this.urlBase64Encode(jwsPayload);
+
+    const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
+
+    const signature = this.HmacSHA256(unsignedToken, secretKey);
+
+    const base64UrlSignature = this.urlBase64Encode(signature);
+
+    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
+
+    const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
+
+    const headers = new HttpHeaders({
+      "Content-Type": "application/jose",
+      "Accept": "application/jose",
+      "BD-Traceid": "20200817132207ABD1K",
+      "BD-Timestamp": Date.now().toString()
+    });
+
+    this.http.post<any>(apiUrl, jwsToken, { headers }).pipe(
+      map(response => {
+        console.log("API Response:");
+        console.log(response);
+
+        const receivedJWSToken = response;
+
+        const [receivedBase64UrlHeader, receivedBase64UrlPayload, receivedBase64UrlSignature] = receivedJWSToken.split(".");
+
+        const receivedJwsHeader = this.urlBase64Decode(receivedBase64UrlHeader);
+        console.log("Received JWS Header:");
+        console.log(JSON.parse(receivedJwsHeader));
+
+        const receivedJwsPayload = this.urlBase64Decode(receivedBase64UrlPayload);
+        console.log("Received JWS Payload:");
+        console.log(JSON.parse(receivedJwsPayload));
+
+        const receivedJwsSignature = this.urlBase64Decode(receivedBase64UrlSignature);
+        console.log("Received JWS Signature:");
+        console.log(receivedJwsSignature);
+
+        // Verify JWS Signature
+        const computed_signature = this.HmacSHA256(`${receivedBase64UrlHeader}.${receivedBase64UrlPayload}`, secretKey);
+        if (computed_signature === receivedJwsSignature) {
+          console.log("Signature is valid!");
+
+          // Decrypt the JWS Payload (if needed)
+          // const decryptedPayload = this.decryptPayload(receivedJwsPayload, secretKey);
+          // console.log("Decrypted Payload:");
+          // console.log(decryptedPayload);
+        } else {
+          console.log("Signature is invalid!");
+        }
+      })
+    ).subscribe();
+  }
+
+  urlBase64Encode(str: string): string {
+    return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
+  }
+
+  urlBase64Decode(str: string): string {
+    str = (str + '===').slice(0, str.length + (str.length % 4));
+    return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
+  }
+
+  HmacSHA256(message: string, secretKey: string): string {
+    const crypto = require('crypto-js');
+    const hash = crypto.HmacSHA256(message, secretKey);
+    return hash.toString(crypto.enc.Base64);
   }
 }
