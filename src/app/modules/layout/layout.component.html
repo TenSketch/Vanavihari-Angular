@@ -1,9 +1,9 @@
 <header>
-  <nav class="navbar navbar-light py-1 fixed-top bg-light">
-    <div class="container-fluid">
+  <nav class="navbar navbar-light py-0 fixed-top bg-light">
+    <div class="container-fluid align-items-baseline">
       
       <a class="navbar-brand me-auto py-0" href="#">
-        <img src="assets/img/logo-vana.png" alt="logo-vana">
+        <img class="mb-md-2" src="assets/img/logo-vana.png" alt="logo-vana">
       </a>
       <ul class="navbar-nav d-flex flex-row gap-2 gap-lg-3">
         <li class="nav-item d-none d-md-block" *ngIf="!isLoggedIn()">
@@ -62,9 +62,10 @@
           </div>
         </li>
       </ul>
-      <button class="navbar-toggler border-0 p-0 ms-3" type="button" (click)="toggleSidebar()">
-        <span class="navbar-toggler-icon" [ngClass]="{'d-none': isSidebarOpen}"></span>
-        <span class="close-icon" [ngClass]="{'d-none': !isSidebarOpen}">X</span>
+      <button class="navbar-toggler border-0" type="button" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars fa-2xl" [ngClass]="{'d-none': isSidebarOpen}"></i>
+        <!-- <span class="navbar-toggler-icon" ></span> -->
+        <i class="fa-solid fa-xmark fa-2xl" [ngClass]="{'d-none': !isSidebarOpen}"></i>
       </button>
       
       

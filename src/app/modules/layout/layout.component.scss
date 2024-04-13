@@ -2,6 +2,7 @@
 $nav-bar-height: 5vh;
 
 .navbar {
+  height: 8vh;
   &>.container-fluid {
     justify-content: start;
   }
@@ -14,7 +15,13 @@ $nav-bar-height: 5vh;
     }
   }
 
-  .navbar-toggler {
+.navbar-toggler {
+    width: 50px;
+    // background-color: red;
+    .fa-2xl{
+      font-size: 1.8rem!important;
+      // cursor: pointer;
+    }
     &:focus {
       box-shadow: none;
     }
