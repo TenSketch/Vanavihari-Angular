@@ -274,14 +274,11 @@ export class BookingSummaryComponent {
     const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
 
     // Calculate HMACSHA256 signature
-    const signature = HmacSHA256(unsignedToken, secretKey);
-    const base64UrlSignature = this.urlBase64Encode(signature.toString());
-    console.log(base64UrlSignature);
-    
-    
-    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
-    console.log(jwsToken); // Print JWS Token
+    const signature = HmacSHA256(unsignedToken, secretKey).toString(enc.Base64);
 
+    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + signature;
+    console.log(jwsToken); // Print JWS Token
+    
     // Make the POST request
     const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
     const headers = new HttpHeaders({
@@ -302,6 +299,7 @@ export class BookingSummaryComponent {
   }
 
   urlBase64Encode(str: string) {
+    // Function to add padding to the base64 URL encoding
     let encodedStr = btoa(str).replace(/\+/g, '-').replace(/\//g, '_');
     const padding = '='.repeat((4 - encodedStr.length % 4) % 4);
     return encodedStr + padding;
