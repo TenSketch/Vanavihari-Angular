@@ -1,12 +1,12 @@
 <header>
-  <nav class="navbar navbar-light py-1 fixed-top bg-light">
-    <div class="container-fluid">
+  <nav class="navbar navbar-light py-0 fixed-top bg-light">
+    <div class="container-fluid align-items-baseline">
       
       <a class="navbar-brand me-auto py-0" href="#">
-        <img src="assets/img/logo-vana.png" alt="logo-vana">
+        <img class="mb-md-2" src="assets/img/logo-vana.png" alt="logo-vana">
       </a>
       <ul class="navbar-nav d-flex flex-row gap-2 gap-lg-3">
-        <li class="nav-item" *ngIf="!isLoggedIn()">
+        <li class="nav-item d-none d-md-block" *ngIf="!isLoggedIn()">
           <a class="nav-link" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
             <i class="fa-solid fa-home me-2"></i>Home </a>
         </li>
@@ -62,9 +62,10 @@
           </div>
         </li>
       </ul>
-      <button class="navbar-toggler border-0 p-0 ms-3" type="button" (click)="toggleSidebar()">
-        <span class="navbar-toggler-icon" [ngClass]="{'d-none': isSidebarOpen}"></span>
-        <span class="close-icon" [ngClass]="{'d-none': !isSidebarOpen}">X</span>
+      <button class="navbar-toggler border-0" type="button" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars fa-2xl" [ngClass]="{'d-none': isSidebarOpen}"></i>
+        <!-- <span class="navbar-toggler-icon" ></span> -->
+        <i class="fa-solid fa-xmark fa-2xl" [ngClass]="{'d-none': !isSidebarOpen}"></i>
       </button>
       
       
@@ -79,25 +80,25 @@
       <!-- Sidebar content goes here -->
       <ul class="sidebar-menu list-unstyled">
         <div class="accordion d-lg-none" id="accordionExample">
-          <div class="accordion-item">
+          <div class="accordion-item pb-2">
             <h2 class="accordion-header" id="headingOne">
               <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
                 aria-expanded="true" aria-controls="collapseOne">
-                Book Resort
+                <i class="fa-solid fa-hotel me-2"></i> Book Resort
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
-                <a class="dropdown-item" (click)="toggleSidebar(); goToVanavihari()">Vanavihari, Maredumilli</a>
-                <a class="dropdown-item" (click)="toggleSidebar(); goToJungleStar()">Jungle Star, Valamuru</a>
+                <a class="dropdown-item ps-4" (click)="toggleSidebar(); goToVanavihari()">Vanavihari, Maredumilli</a>
+                <a class="dropdown-item ps-4" (click)="toggleSidebar(); goToJungleStar()">Jungle Star, Valamuru</a>
               </div>
             </div>
           </div>
 
         </div>
 
-        <li class="sidebar-item d-flex  ">
+        <li class="sidebar-item d-flex  mt-2">
           <a class="sidebar-link" (click)="toggleSidebar(); goToAboutUs()">
             <i class="fa-solid fa-info-circle"></i><span class="ml-5">About Us</span>
           </a>

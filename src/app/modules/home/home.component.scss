@@ -50,28 +50,9 @@ $card-flex-basis: 35%;
      flex-basis: $card-flex-basis;
     }
     min-height: 55dvh;
-    .card-body{
+    // .card-body{
 
-    }
-  }
-}
-
-// masonry layout
-.masonry-layout {
-  column-count: 3;
-  gap: 0.5em;
-}
-
-.masonry-layout-item {
-  display: inline-block;
-  // background: #eee;
-  margin: 0 0 0.5em;
-  width: 100%;
-  box-shadow: 0 0 3px 5px rgba(199, 199, 199, 0.699);
-
-  img {
-    border-radius: 5px;
-
+    // }
   }
 }
 

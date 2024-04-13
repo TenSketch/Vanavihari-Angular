@@ -85,7 +85,7 @@
                   </mat-error>
                 </mat-form-field>
                 <mat-checkbox [(ngModel)]="termsAccepted" [ngModelOptions]="{standalone: true}"
-                  (change)="openTermsModal($event)" value="" color="primary" class="my-2">I agree to the terms and
+                  (change)="openTermsModal($event)" value="" color="primary" class="">I agree to the terms and
                   conditions</mat-checkbox>
 
                 <button mat-raised-button color="primary" class="w-100 mt-3"
@@ -95,7 +95,7 @@
                   </div>
               </form>
 
-              <div class="d-flex justify-content-center mt-5">
+              <div class="d-flex justify-content-center mt-2">
                 <!-- <a class="text-danger">Reset fields</a> -->
                 <a class="text-info-emphasis" (click)="goToSignin()">Already have an account? Sign In</a>
               </div>
