@@ -269,18 +269,15 @@ export class BookingSummaryComponent {
     });
 
     const base64UrlHeader = this.urlBase64Encode(jwsHeader);
-    console.log(base64UrlHeader);
-    
     const base64UrlPayload = this.urlBase64Encode(jwsPayload);
-    console.log(base64UrlPayload);
-    
+
     const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
-    console.log(unsignedToken);
-    
+
+    // Calculate HMACSHA256 signature
     const signature = HmacSHA256(unsignedToken, secretKey);
-    console.log(signature);
-    
     const base64UrlSignature = this.urlBase64Encode(signature.toString());
+    console.log(base64UrlSignature);
+    
     
     const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
     console.log(jwsToken); // Print JWS Token
@@ -305,9 +302,8 @@ export class BookingSummaryComponent {
   }
 
   urlBase64Encode(str: string) {
-    return btoa(str)
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
+    let encodedStr = btoa(str).replace(/\+/g, '-').replace(/\//g, '_');
+    const padding = '='.repeat((4 - encodedStr.length % 4) % 4);
+    return encodedStr + padding;
   }
 }
