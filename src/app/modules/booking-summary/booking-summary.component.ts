@@ -273,9 +273,9 @@ export class BookingSummaryComponent {
 
     const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
 
-    const signature = this.HmacSHA256(unsignedToken, secretKey);
+    const signature = HmacSHA256(unsignedToken, secretKey);
 
-    const base64UrlSignature = this.urlBase64Encode(signature);
+    const base64UrlSignature = signature.toString().toUpperCase();
 
     const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + base64UrlSignature;
 
@@ -309,18 +309,18 @@ export class BookingSummaryComponent {
         console.log("Received JWS Signature:");
         console.log(receivedJwsSignature);
 
-        // Verify JWS Signature
-        const computed_signature = this.HmacSHA256(`${receivedBase64UrlHeader}.${receivedBase64UrlPayload}`, secretKey);
-        if (computed_signature === receivedJwsSignature) {
-          console.log("Signature is valid!");
+        // // Verify JWS Signature
+        // const computed_signature = this.HmacSHA256(`${receivedBase64UrlHeader}.${receivedBase64UrlPayload}`, secretKey);
+        // if (computed_signature === receivedJwsSignature) {
+        //   console.log("Signature is valid!");
 
-          // Decrypt the JWS Payload (if needed)
-          // const decryptedPayload = this.decryptPayload(receivedJwsPayload, secretKey);
-          // console.log("Decrypted Payload:");
-          // console.log(decryptedPayload);
-        } else {
-          console.log("Signature is invalid!");
-        }
+        //   // Decrypt the JWS Payload (if needed)
+        //   // const decryptedPayload = this.decryptPayload(receivedJwsPayload, secretKey);
+        //   // console.log("Decrypted Payload:");
+        //   // console.log(decryptedPayload);
+        // } else {
+        //   console.log("Signature is invalid!");
+        // }
       })
     ).subscribe();
   }
@@ -334,9 +334,9 @@ export class BookingSummaryComponent {
     return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
   }
 
-  HmacSHA256(message: string, secretKey: string): string {
-    const crypto = require('crypto-js');
-    const hash = crypto.HmacSHA256(message, secretKey);
-    return hash.toString(crypto.enc.Base64);
-  }
+  // HmacSHA256(message: string, secretKey: string): string {
+  //   const crypto = require('crypto-js');
+  //   const hash = crypto.HmacSHA256(message, secretKey);
+  //   return hash.toString(crypto.enc.Base64);
+  // }
 }
