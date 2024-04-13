@@ -288,7 +288,7 @@ export class BookingSummaryComponent {
       "BD-Timestamp": Date.now().toString()
     });
 
-    this.http.post<any>(apiUrl, jwsToken, { headers }).pipe(
+    this.http.post<any>(apiUrl, 'eyJhbGciOiJIUzI1NiIsImNsaWVudGlkIjoiYmR1YXR2MmFwdCJ9.eyJtZXJjaWQiOiJCRFVBVFYyQVBUIiwib3JkZXJpZCI6Im9yZGVyNDU2MDg5ODgiLCJhbW91bnQiOiIzMDAuMDAiLCJvcmRlcl9kYXRlIjoiMjAyMy0wNy0xNlQxMDo1OToxNSswNTozMCIsImN1cnJlbmN5IjoiMzU2IiwicnUiOiJodHRwczpcL1wvd3d3Lm1lcmNoYW50LmNvbVwvIiwiYWRkaXRpb25hbF9pbmZvIjp7ImFkZGl0aW9uYWxfaW5mbzEiOiJEZXRhaWxzMSIsImFkZGl0aW9uYWxfaW5mbzIiOiJEZXRhaWxzMiJ9LCJpdGVtY29kZSI6IkRJUkVDVCIsImRldmljZSI6eyJpbml0X2NoYW5uZWwiOiJpbnRlcm5ldCIsImlwIjoiMTAzLjEwNC41OS4xMSIsInVzZXJfYWdlbnQiOiJNb3ppbGxhXC81LjAoV2luZG93c05UMTAuMDtXT1c2NDtydjo1MS4wKUdlY2tvXC8yMDEwMDEwMSBGaXJlZm94XC81MS4wIiwiYWNjZXB0X2hlYWRlciI6InRleHRcL2h0bWwiLCJmaW5nZXJwcmludGlkIjoiNjFiMTJjMThiNWQwY2Y5MDFiZTM0YTIzY2E2NGJiMTkiLCJicm93c2VyX3R6IjoiLTMzMCIsImJyb3dzZXJfY29sb3JfZGVwdGgiOiIzMiIsImJyb3dzZXJfamF2YV9lbmFibGVkIjoiZmFsc2UiLCJicm93c2VyX3NjcmVlbl9oZWlnaHQiOiI2MDEiLCJicm93c2VyX3NjcmVlbl93aWR0aCI6IjY1NyIsImJyb3dzZXJfbGFuZ3VhZ2UiOiJlbi1VUyIsImJyb3dzZXJfamF2YXNjcmlwdF9lbmFibGVkIjoidHJ1ZSJ9fQ.8KQVpe6KPTjOGgv4y9wdlWaLlsgiUIQ3iP3tFqHgsZY', { headers }).pipe(
       map(response => {
         console.log("API Response:");
         console.log(response);
