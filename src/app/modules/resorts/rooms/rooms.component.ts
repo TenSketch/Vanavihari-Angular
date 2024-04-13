@@ -170,6 +170,7 @@ export class RoomsComponent implements OnInit, OnDestroy{
       max_adult: number;
     }
     // // Sample JSON object with the defined type
+    // old json
     const json: { [key: string]: RoomDetails } = {
       '4554333000000159043': {
         id: '4554333000000159043',
