@@ -40,10 +40,18 @@ export default async (req) => {
             "browser_javascript_enabled": "true"
           }
         });
+        const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
+
+        // Calculate HMAC SHA256
+        const crypto = require('crypto');
+        const signature = crypto.createHmac('sha256', secretKey).update(unsignedToken).digest('base64');
+        const base64UrlSignature = urlBase64Encode(signature);
       
-        const base64UrlHeader = urlBase64Encode(jwsHeader);
-        const base64UrlPayload = urlBase64Encode(jwsPayload);
-        return new Response(JSON.stringify({'status':'success', 'base64UrlHeader':base64UrlHeader, 'base64UrlPayload':base64UrlPayload}), {
+        const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
+      
+
+
+        return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             headers: { "Content-Type": "application/json" },
           });
     }
