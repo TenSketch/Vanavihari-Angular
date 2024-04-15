@@ -53,37 +53,7 @@ export default async (req) => {
         
         const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
-
-        const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
-        const headers = {
-          "Content-Type": "application/jose",
-          "Accept": "application/jose",
-          "BD-Traceid": "20200817132207ABD1K",
-          "BD-Timestamp": String(Math.floor(Date.now() / 1000)) // Current Unix timestamp
-        };
-        const fetchOptions = {
-            method: "POST",
-            body: jwsToken,
-            headers: headers,
-        };
-        console.log(apiUrl);
-        console.log(fetchOptions);
-        // fetch(apiUrl, fetchOptions)
-        // .then(response => {
-        //     if (!response.ok) {
-        //     throw new Error(`HTTP error! status: ${response.status}`);
-        //     }
-        //     return response.json();
-        // })
-        // .then(data => {
-        //     console.log("API Response:", data);
-        //     // Handle the API response data here
-        // })
-        // .catch(error => {
-        //     console.error("Error:", error);
-        //     // Handle errors here
-        // });
-
+ 
         return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             headers: { "Content-Type": "application/json" },
         });
