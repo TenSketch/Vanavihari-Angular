@@ -1,15 +1,15 @@
-const crypto = require('crypto');
+// const crypto = require('crypto');
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
-function calculateHmacSha256(data, key) {
-    const hmac = crypto.createHmac('sha256', key);
-    hmac.update(data);
-    const digest = hmac.digest('base64');
-    return digest;
-}
+// function calculateHmacSha256(data, key) {
+//     const hmac = crypto.createHmac('sha256', key);
+//     hmac.update(data);
+//     const digest = hmac.digest('base64');
+//     return digest;
+// }
 export default async (req) => {
     try {
         const clientID = "tech234sdf";
@@ -48,15 +48,15 @@ export default async (req) => {
           }
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
-        const signature = calculateHmacSha256(unsignedToken, secretKey);
+        // const signature = calculateHmacSha256(unsignedToken, secretKey);
         
-        const base64UrlSignature = urlBase64Encode(signature);
+        // const base64UrlSignature = urlBase64Encode(signature);
         
-        const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
+        // const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
 
 
-        return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
+        return new Response(JSON.stringify({'status':'success', 'unsignedToken':unsignedToken }), {
             headers: { "Content-Type": "application/json" },
         });
     }
