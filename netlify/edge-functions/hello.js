@@ -47,15 +47,15 @@ export default async (req) => {
           }
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
-        const signature = calculateHmacSha256(unsignedToken, secretKey);
+        // const signature = calculateHmacSha256(unsignedToken, secretKey);
         
-        const base64UrlSignature = urlBase64Encode(signature);
+        // const base64UrlSignature = urlBase64Encode(signature);
         
-        const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
+        // const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
 
 
-        return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
+        return new Response(JSON.stringify({'status':'success', 'jwsToken':unsignedToken }), {
             headers: { "Content-Type": "application/json" },
         });
     }
