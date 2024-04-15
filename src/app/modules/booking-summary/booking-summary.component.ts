@@ -7,6 +7,7 @@ import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
 import { map } from 'rxjs/operators';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-booking-summary',
@@ -232,76 +233,27 @@ export class BookingSummaryComponent {
   
   
   generateJWSToken() {
-    const clientID = "bduatv2apt";
-    const secretKey = "DnVd1pJpk3oFOdjNgRRPT1OgwfH1DYku";
-
-    const jwsHeader = JSON.stringify({
-      "alg": "HS256",
-      "clientid": clientID
-    });
-
-    const jwsPayload = JSON.stringify({
-      "mercid": "BDUATV2APT",
-      "orderid": "order45608988",
-      "amount": "300.00",
-      "order_date": "2023-07-16T10:59:15+05:30",
-      "currency": "356",
-      "ru": "https://www.merchant.com/",
-      "additional_info": {
-        "additional_info1": "Details1",
-        "additional_info2": "Details2"
-      },
-      "itemcode": "DIRECT",
-      "device": {
-        "init_channel": "internet",
-        "ip": "75.2.60.5",
-        "user_agent": "Mozilla/5.0(WindowsNT10.0;WOW64;rv:51.0)Gecko/20100101 Firefox/51.0",
-        "accept_header": "text/html",
-        "fingerprintid": "61b12c18b5d0cf901be34a23ca64bb19",
-        "browser_tz": "-330",
-        "browser_color_depth": "32",
-        "browser_java_enabled": "false",
-        "browser_screen_height": "601",
-        "browser_screen_width": "657",
-        "browser_language": "en-US",
-        "browser_javascript_enabled": "true"
+    this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=create_order_id_payment').subscribe({
+      next: response => {
+        console.log(response);
       }
     });
-
-    const base64UrlHeader = this.urlBase64Encode(jwsHeader);
-    const base64UrlPayload = this.urlBase64Encode(jwsPayload);
-
-    const unsignedToken = base64UrlHeader + "." + base64UrlPayload;
-
-    // Calculate HMACSHA256 signature
-    const signature = HmacSHA256(unsignedToken, secretKey).toString(enc.Base64);
-
-    const jwsToken = base64UrlHeader + "." + base64UrlPayload + "." + signature;
-    console.log(jwsToken); // Print JWS Token
-    
-    // Make the POST request
-    const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
-    const headers = new HttpHeaders({
-      "Content-Type": "application/jose",
-      "Accept": "application/jose",
-      "BD-Traceid": "20200817132207ABD1K",
-      "BD-Timestamp": String(Math.floor(Date.now() / 1000)) // Current Unix timestamp
-    });
-
-    this.http.post(apiUrl, jwsToken, { headers }).subscribe(
-      (response) => {
-        console.log("API Response:", response);
-      },
-      (error) => {
-        console.error("Error:", error);
-      }
-    );
   }
-
-  urlBase64Encode(str: string) {
-    // Function to add padding to the base64 URL encoding
-    let encodedStr = btoa(str).replace(/\+/g, '-').replace(/\//g, '_');
-    const padding = '='.repeat((4 - encodedStr.length % 4) % 4);
-    return encodedStr + padding;
+  urlBase64Encode(str: string): string {
+    let base64 = btoa(unescape(encodeURIComponent(str)));
+    const padding = '='.repeat((4 - base64.length % 4) % 4); // Add padding if necessary
+    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  }
+  urlBase64Decode(str: string): string {
+    str = (str + '===').slice(0, str.length + (str.length % 4));
+    return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
+  }
+  utf8Encode(str: string): Uint8Array {
+    const utf8 = unescape(encodeURIComponent(str));
+    const arr = new Uint8Array(utf8.length);
+    for (let i = 0; i < utf8.length; i++) {
+      arr[i] = utf8.charCodeAt(i);
+    }
+    return arr;
   }
 }
