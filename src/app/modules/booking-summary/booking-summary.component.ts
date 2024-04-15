@@ -6,8 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
-import { map } from 'rxjs/operators';
-import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-booking-summary',
