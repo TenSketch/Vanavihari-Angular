@@ -1,4 +1,4 @@
-const jsrsasign = require('jsrsasign');
+import { HmacSHA256, enc } from 'crypto-js';
 
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
@@ -44,9 +44,11 @@ export default async (req) => {
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
 
-        const signature = jsrsasign.jws.JWS.sign(null, {alg: "HS256", "cty": "JWT"}, unsignedToken, secretKey);
-        const base64UrlSignature = urlBase64Encode(signature);
-      
+        const signature = HmacSHA256(unsignedToken, secretKey);
+        console.log(signature);
+
+        const base64UrlSignature = this.urlBase64Encode(this.utf8Encode(signature.toString(enc.Latin1))); // Use Latin1 encoding
+        
         const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
 
