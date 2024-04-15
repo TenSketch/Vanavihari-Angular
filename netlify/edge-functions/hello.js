@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const fetch = require('node-fetch');
 
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
@@ -73,11 +72,10 @@ export default async (req) => {
             body: jwsToken,
             headers: headers,
         });
-        console.log(response);
         if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+    
         const responseData = await response.json();
         console.log("API Response:", responseData);
         
