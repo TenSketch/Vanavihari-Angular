@@ -1,12 +1,21 @@
-export default async (req) => {
+// Define urlBase64Encode function
+function urlBase64Encode(str) {
+    // Function to add padding to the base64 URL encoding
+    let encodedStr = Buffer.from(str).toString('base64').replace(/\+/g, '-').replace(/\//g, '_');
+    const padding = '='.repeat((4 - encodedStr.length % 4) % 4);
+    return encodedStr + padding;
+  }
+  
+  // Define the Edge Function
+exports.handler = async function(event) {
     const clientID = "tech234sdf";
     const secretKey = "YugsdGsdifugHGasgsd";
-
+  
     const jwsHeader = JSON.stringify({
       "alg": "HS256",
       "clientid": clientID
     });
-
+  
     const jwsPayload = JSON.stringify({
       "mercid": "TECH234SDF",
       "orderid": "order45608988",
@@ -34,26 +43,14 @@ export default async (req) => {
         "browser_javascript_enabled": "true"
       }
     });
-
-    const jsonStr = JSON.stringify(jwsHeader);
-    const base64UrlHeader = urlBase64Encode(jsonStr);
-
-
-    const responseBody = {
-      token: base64UrlHeader
-    };
+  
+    const base64UrlHeader = urlBase64Encode(jwsHeader);
+  
+    // Rest of your code to make API request with base64UrlHeader
   
     return {
       statusCode: 200,
-      body: JSON.stringify(responseBody),
-      headers: {
-        "Content-Type": "application/json"
-      }
+      body: JSON.stringify({ message: "Hello from Netlify Edge Function!" }),
     };
-}
-function urlBase64Encode(str) {
-    let base64 = btoa(unescape(encodeURIComponent(str)));
-    const padding = '='.repeat((4 - base64.length % 4) % 4);
-    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-}
-export const config = { path: "/test" };
+  };
+  export const config = { path: "/test" };  
