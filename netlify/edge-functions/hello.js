@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
@@ -55,7 +54,8 @@ export default async (req) => {
         
         const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
-            
+
+
         return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             headers: { "Content-Type": "application/json" },
         });
