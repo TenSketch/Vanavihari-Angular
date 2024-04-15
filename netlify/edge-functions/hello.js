@@ -47,7 +47,7 @@ export default async (req) => {
           }
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
-        // const signature = calculateHmacSha256(unsignedToken, secretKey);
+        const signature = calculateHmacSha256(unsignedToken, secretKey);
         
         // const base64UrlSignature = urlBase64Encode(signature);
         
@@ -55,7 +55,7 @@ export default async (req) => {
       
 
 
-        return new Response(JSON.stringify({'status':'success', 'jwsToken':unsignedToken }), {
+        return new Response(JSON.stringify({'status':'success', 'signature':signature }), {
             headers: { "Content-Type": "application/json" },
         });
     }
