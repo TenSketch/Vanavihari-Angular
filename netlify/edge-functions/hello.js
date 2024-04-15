@@ -61,21 +61,29 @@ export default async (req) => {
           "BD-Traceid": "20200817132207ABD1K",
           "BD-Timestamp": String(Math.floor(Date.now() / 1000)) // Current Unix timestamp
         };
-        const response = await fetch(apiUrl, {
-            method: 'POST',
+        const fetchOptions = {
+            method: "POST",
             body: jwsToken,
             headers: headers,
-          });
-      
-          if (!response.ok) {
+        };
+        
+        fetch(apiUrl, fetchOptions)
+        .then(response => {
+            if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
-          }
-      
-          const responseData = await response.json();
-          console.log("API Response:", responseData);
-      
-          // Return the response
-          return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("API Response:", data);
+            // Handle the API response data here
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            // Handle errors here
+        });
+
+          return new Response(JSON.stringify({'status':'success'}), {
             status: 200,
             headers: {
               "Content-Type": "application/json",
