@@ -1,10 +1,10 @@
+const crypto = require('crypto-js');
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
 function calculateHmacSha256(data, key) {
-    const crypto = require('crypto-js');
     const hmac = crypto.createHmac('sha256', key);
     hmac.update(data);
     const digest = hmac.digest('base64');
