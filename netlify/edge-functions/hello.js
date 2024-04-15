@@ -67,23 +67,23 @@ export default async (req) => {
             "BD-Timestamp": String(Math.floor(Date.now() / 1000)) // Current Unix timestamp
         };
 
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            body: jwsToken,
-            headers: headers,
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // const response = await fetch(apiUrl, {
+        //     method: 'POST',
+        //     body: jwsToken,
+        //     headers: headers,
+        // });
+        // if (!response.ok) {
+        //     throw new Error(`HTTP error! status: ${response.status}`);
+        // }
     
-        const responseData = await response.json();
-        console.log("API Response:", responseData);
+        // const responseData = await response.json();
+        // console.log("API Response:", responseData);
         
-        // Return the response
-        return {
-            statusCode: 200,
-            body: JSON.stringify(responseData),
-        };
+        // // Return the response
+        // return {
+        //     statusCode: 200,
+        //     body: JSON.stringify(responseData),
+        // };
             
         // return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
         //     headers: { "Content-Type": "application/json" },
