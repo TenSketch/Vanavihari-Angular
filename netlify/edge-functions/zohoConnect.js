@@ -1,5 +1,3 @@
-import { Buffer } from 'buffer';
-
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
@@ -215,7 +213,7 @@ export default async (req) => {
   }
 };
 function urlBase64Encode(str) {
-  let base64 = Buffer.from(str, 'binary').toString('base64');
+  let base64 = btoa(unescape(encodeURIComponent(str)));
   const padding = '='.repeat((4 - base64.length % 4) % 4);
   return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
