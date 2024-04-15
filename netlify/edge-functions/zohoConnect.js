@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   try {
