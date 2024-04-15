@@ -233,7 +233,7 @@ export class BookingSummaryComponent {
   
   
   generateJWSToken() {
-    this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=create_order_id_payment').subscribe({
+    this.http.get<any>('https://vanavihari.com/test').subscribe({
       next: response => {
         console.log(response);
       }
