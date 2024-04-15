@@ -1,3 +1,5 @@
+const jsrsasign = require('jsrsasign');
+
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
@@ -42,9 +44,7 @@ export default async (req) => {
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
 
-        // Calculate HMAC SHA256
-        const crypto = require('crypto');
-        const signature = crypto.createHmac('sha256', secretKey).update(unsignedToken).digest('base64');
+        const signature = jsrsasign.jws.JWS.sign(null, {alg: "HS256", "cty": "JWT"}, unsignedToken, secretKey);
         const base64UrlSignature = urlBase64Encode(signature);
       
         const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
