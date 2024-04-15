@@ -4,6 +4,7 @@ function urlBase64Encode(str) {
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
 function calculateHmacSha256(data, key) {
+    const crypto = require('crypto-js');
     const hmac = crypto.createHmac('sha256', key);
     hmac.update(data);
     const digest = hmac.digest('base64');
