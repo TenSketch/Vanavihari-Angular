@@ -29,6 +29,7 @@
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "escape-html": "^1.0.3",
+    "hash.js": "^1.1.7",
     "http-proxy-middleware": "^2.0.6",
     "jsrsasign": "^11.1.0",
     "lightgallery": "^2.7.2",
