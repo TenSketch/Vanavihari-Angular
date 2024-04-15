@@ -44,12 +44,13 @@ export default async (req) => {
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
 
-        const signature = HmacSHA256(unsignedToken, secretKey);
-        console.log(signature);
+        console.log(unsignedToken);
+        // const signature = HmacSHA256(unsignedToken, secretKey);
+        // console.log(signature);
 
-        const base64UrlSignature = this.urlBase64Encode(this.utf8Encode(signature.toString(enc.Latin1))); // Use Latin1 encoding
+        // const base64UrlSignature = this.urlBase64Encode(this.utf8Encode(signature.toString(enc.Latin1))); // Use Latin1 encoding
         
-        const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
+        // const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
 
 
