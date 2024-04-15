@@ -230,10 +230,12 @@ export class BookingSummaryComponent {
 
 
 
-  
-  
   generateJWSToken() {
-    this.http.post<any>('https://vanavihari.com/test', {}, {});
+    this.http.post<any>('https://vanavihari.com/test', {}).subscribe({
+      next: response => {
+        console.log(response);
+      }
+    });
   }
   urlBase64Encode(str: string): string {
     let base64 = btoa(unescape(encodeURIComponent(str)));
