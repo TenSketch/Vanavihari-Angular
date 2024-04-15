@@ -1,7 +1,14 @@
+const crypto = require('crypto');
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+function calculateHmacSha256(data, key) {
+    const hmac = crypto.createHmac('sha256', key);
+    hmac.update(data);
+    const digest = hmac.digest('base64');
+    return digest;
 }
 export default async (req) => {
     try {
@@ -41,6 +48,7 @@ export default async (req) => {
           }
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
+        const hmacSha256 = calculateHmacSha256(unsignedToken, secretKey);
 
         // const signature = HmacSHA256(unsignedToken, secretKey);
         // console.log(signature);
@@ -51,7 +59,7 @@ export default async (req) => {
       
 
 
-        return new Response(JSON.stringify({'status':'success', 'jwsToken':unsignedToken }), {
+        return new Response(JSON.stringify({'status':'success', 'jwsToken':hmacSha256 }), {
             headers: { "Content-Type": "application/json" },
         });
     }
