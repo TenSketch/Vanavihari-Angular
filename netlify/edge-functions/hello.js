@@ -66,32 +66,27 @@ export default async (req) => {
             body: jwsToken,
             headers: headers,
         };
-        
-        fetch(apiUrl, fetchOptions)
-        .then(response => {
-            if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("API Response:", data);
-            // Handle the API response data here
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            // Handle errors here
-        });
-
-          return new Response(JSON.stringify({'status':'success'}), {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        // return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
-        //     headers: { "Content-Type": "application/json" },
+        console.log(apiUrl);
+        console.log(fetchOptions);
+        // fetch(apiUrl, fetchOptions)
+        // .then(response => {
+        //     if (!response.ok) {
+        //     throw new Error(`HTTP error! status: ${response.status}`);
+        //     }
+        //     return response.json();
+        // })
+        // .then(data => {
+        //     console.log("API Response:", data);
+        //     // Handle the API response data here
+        // })
+        // .catch(error => {
+        //     console.error("Error:", error);
+        //     // Handle errors here
         // });
+
+        return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
+            headers: { "Content-Type": "application/json" },
+        });
     }
     catch
     {
