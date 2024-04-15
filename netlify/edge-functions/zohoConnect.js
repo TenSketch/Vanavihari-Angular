@@ -155,12 +155,17 @@ export default async (req) => {
         const jsonStr = JSON.stringify(jwsHeader);
         const base64UrlHeader = urlBase64Encode(jsonStr);
 
+
+        const responseBody = {
+          token: base64UrlHeader
+        };
+      
         return {
           statusCode: 200,
-          body: JSON.stringify({ token: base64UrlHeader }),
+          body: JSON.stringify(responseBody),
           headers: {
-            "Content-Type": "application/json",
-          },
+            "Content-Type": "application/json"
+          }
         };
       default:
         return new Response(
