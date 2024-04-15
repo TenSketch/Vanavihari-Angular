@@ -1,6 +1,9 @@
 export default async (req) => {
     try {
         console.log('test');
+        return new Response(JSON.stringify({'status':'success'}), {
+            headers: { "Content-Type": "application/json" },
+          });
     }
     catch
     {
