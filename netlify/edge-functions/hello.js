@@ -54,7 +54,7 @@ export default async (req) => {
       
 
 
-        return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
+        return new Response(JSON.stringify({'status':'success', 'jwsToken':unsignedToken }), {
             headers: { "Content-Type": "application/json" },
         });
     }
