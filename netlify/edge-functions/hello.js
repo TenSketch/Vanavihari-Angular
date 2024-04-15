@@ -42,7 +42,7 @@ export default async (req) => {
         });
       
         const base64UrlHeader = urlBase64Encode(jwsHeader);
-        return new Response(JSON.stringify({'status':'success', 'urlBase64Encode':urlBase64Encode}), {
+        return new Response(JSON.stringify({'status':'success', 'base64UrlHeader':base64UrlHeader}), {
             headers: { "Content-Type": "application/json" },
           });
     }
