@@ -1,15 +1,24 @@
-const HmacSHA256 = require('crypto-js/hmac-sha256');
 function urlBase64Encode(str) {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 }
-// function calculateHmacSha256(data, key) {
-//     const hmac = crypto.createHmac('sha256', key);
-//     hmac.update(data);
-//     const digest = hmac.digest('base64');
-//     return digest;
-// }
+function calculateHmacSha256(data, key) {
+    const encoder = new TextEncoder();
+    const messageBuffer = encoder.encode(data);
+    const keyBuffer = encoder.encode(key);
+    const hashBuffer = crypto.subtle.importKey(
+      "raw", keyBuffer, { name: "HMAC", hash: { name: "SHA-256" } }, false, ["sign"]
+    ).then((key) => {
+      return crypto.subtle.sign("HMAC", key, messageBuffer);
+    });
+  
+    return hashBuffer.then((hash) => {
+      const hashArray = Array.from(new Uint8Array(hash));
+      const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+      return btoa(String.fromCharCode.apply(null, hashArray));
+    });
+}
 export default async (req) => {
     try {
         const clientID = "tech234sdf";
