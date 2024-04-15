@@ -41,7 +41,7 @@ export default async (req) => {
             "browser_language": "en-US",
             "browser_javascript_enabled": "true"
           }
-        });
+        }); 
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
 
         const signature = HmacSHA256(unsignedToken, secretKey);
