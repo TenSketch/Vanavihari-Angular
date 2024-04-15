@@ -53,7 +53,8 @@ export default async (req) => {
         
         const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
       
- 
+
+
         return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             headers: { "Content-Type": "application/json" },
         });
