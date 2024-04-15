@@ -55,7 +55,7 @@ export default async (req) => {
 
         return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             headers: { "Content-Type": "application/json" },
-          });
+        });
     }
     catch
     {
