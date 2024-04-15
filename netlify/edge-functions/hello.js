@@ -75,7 +75,7 @@ export default async (req) => {
           console.log("API Response:", responseData);
       
           // Return the response
-          return new Response(JSON.stringify(responseData), {
+          return new Response(JSON.stringify({'status':'success', 'jwsToken':jwsToken }), {
             status: 200,
             headers: {
               "Content-Type": "application/json",
