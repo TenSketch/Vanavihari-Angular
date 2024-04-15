@@ -159,6 +159,14 @@ export default async (req) => {
         const responseBody = {
           token: base64UrlHeader
         };
+      
+        return {
+          statusCode: 200,
+          body: JSON.stringify(responseBody),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        };
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
@@ -168,13 +176,15 @@ export default async (req) => {
           }
         );
     }
+    return false;
     const response = await fetch(apiUrl, {
       method: method,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        // 'Access-Control-Allow-Origin': 'https://www.zohoapis.com',
       },
-      ...(responseBody && { body: JSON.stringify(responseBody) }),
+      // body: JSON.stringify(requestBody), // Include any request body if needed
     });
 
     const data = await response.json();
