@@ -1,9 +1,9 @@
-import crypto from 'crypto';
-function urlBase64Encode(str) {
-    let base64 = btoa(unescape(encodeURIComponent(str)));
-    const padding = '='.repeat((4 - base64.length % 4) % 4);
-    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-}
+import { Aes } from "https://deno.land/x/crypto/aes.ts";
+// function urlBase64Encode(str) {
+//     let base64 = btoa(unescape(encodeURIComponent(str)));
+//     const padding = '='.repeat((4 - base64.length % 4) % 4);
+//     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+// }
 function calculateHmacSha256(data, key) {
     const hmac = crypto.createHmac('sha256', key);
     hmac.update(data);
@@ -48,7 +48,7 @@ export default async (req) => {
           }
         });
         const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
-        const signature = calculateHmacSha256(unsignedToken, secretKey);
+        // const signature = calculateHmacSha256(unsignedToken, secretKey);
         
         // const base64UrlSignature = urlBase64Encode(signature);
         
