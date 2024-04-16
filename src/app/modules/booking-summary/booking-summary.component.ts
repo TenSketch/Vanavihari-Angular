@@ -222,4 +222,34 @@ export class BookingSummaryComponent {
       duration: 3000,
     });
   }
+
+
+
+
+
+
+  generateJWSToken() {
+    this.http.post<any>('https://vanavihari.com/test', {}).subscribe({
+      next: response => {
+        console.log(response);
+      }
+    });
+  }
+  urlBase64Encode(str: string): string {
+    let base64 = btoa(unescape(encodeURIComponent(str)));
+    const padding = '='.repeat((4 - base64.length % 4) % 4);
+    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+  }
+  urlBase64Decode(str: string): string {
+    str = (str + '===').slice(0, str.length + (str.length % 4));
+    return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
+  }
+  utf8Encode(str: string): Uint8Array {
+    const utf8 = unescape(encodeURIComponent(str));
+    const arr = new Uint8Array(utf8.length);
+    for (let i = 0; i < utf8.length; i++) {
+      arr[i] = utf8.charCodeAt(i);
+    }
+    return arr;
+  }
 }
