@@ -11,6 +11,9 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 
+import * as data from '../../../../assets/json/rooms.json';
+
+
 
 interface Room {
   //roomId:string;
@@ -32,34 +35,36 @@ interface Room {
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.scss']
+  styleUrls: ['./rooms.component.scss'],
 })
-export class RoomsComponent implements OnInit, OnDestroy{
+export class RoomsComponent implements OnInit {
   currentImage: string | null = null;
   imageFilenames: string[] = [];
-
+  roomData: any;
+  filteredRoomData: any;
   // imageFilenames2: string[] = [];
+  noof_guests: any;
+  isWeekend: boolean = false; // Variable to determine if it's a weekend
 
   searchResortData: any;
   resorts: any = {
-    'vanavihari': {
+    vanavihari: {
       title: 'Vanavihari',
-      about: 'About Vanavihari'
+      about: 'About Vanavihari',
     },
     'jungle-star': {
       title: 'Jungle Star',
-      about: 'About Jungle Star'
-    }
+      about: 'About Jungle Star',
+    },
   };
   selectedResortInfo: any = {};
   private subscription: Subscription;
-  private fetchRoomListSubscription: Subscription;
   selectedSortOption: string;
   panelOpenState = false;
   showBookingSummary: boolean = false;
   roomCards: any[] = [];
   roomIds: any[] = [];
-  loadingRooms: boolean = true;
+  loadingRooms: boolean = false;
   selectedResort: string;
   checkinDate: Date;
   checkoutDate: Date;
@@ -69,8 +74,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
   isMobile: boolean = false;
   expandable: boolean = false;
   selectedRoom: any;
-  bookingTypeResort:any;
+  bookingTypeResort: any;
   totalExtraGuestCharges: number;
+  noof_guest: number | null = null; // Initialize it with null or any default value
+
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -83,15 +90,32 @@ export class RoomsComponent implements OnInit, OnDestroy{
     private authService: AuthService,
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    
   ) {
+    
+
+   
+
+    // for navigation filter
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.fetchRoomList();
+
+    // this.filteredRoomData = this.roomData;
+    this.subscription = this.authService.buttonClick$.subscribe(() => {
+      // Retrieve data when button is clicked
+      this.selectedResort = this.authService.getSearchData('resort');
+      this.checkinDate = this.authService.getSearchData('checkin');
+      this.checkoutDate = this.authService.getSearchData('checkout');
+      console.log(this.selectedResort);
+      this.fetchRoomList();
+    });
+    this.checkIfWeekend(); // Check if it's a weekend on component initialization
+
     this.currentImage = this.imageFilenames[0];
     for (let i = 1; i <= 5; i++) {
-    
-      this.imageFilenames.push(
-        `assets/img/bahuda/img-${i}.jpg`
-      );
-    } 
+      this.imageFilenames.push(`assets/img/bahuda/img-${i}.jpg`);
+    }
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
@@ -99,43 +123,36 @@ export class RoomsComponent implements OnInit, OnDestroy{
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
+
     this.selectedResort = this.authService.getSearchData('resort');
+    console.log(this.selectedResort);
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    if (
-      this.authService.getSearchData('resort') == '' ||
-      this.authService.getSearchData('checkin') == '' ||
-      this.authService.getSearchData('checkout') == ''
-    ) {
-      console.log("function call working properly")
-      this.staticRoomsDetails();
-    } else this.fetchRoomList();
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
-      console.log("this.bookingTypeResort=====",this.bookingTypeResort)
-    })
+      console.log('this.bookingTypeResort=====', this.bookingTypeResort);
+    });
     this.searchResortData = this.authService.getSearchData(null);
     this.getSelectedResortInfo();
-    this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
-      this.getSelectedResortInfo();
-    });
+    this.subscription = this.authService.refreshRoomsComponent$.subscribe(
+      () => {
+        this.getSelectedResortInfo();
+      }
+    );
     this.roomIds =
       this.authService.getBookingRooms(this.bookingTypeResort) != null &&
       this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
       this.authService.getBookingRooms(this.bookingTypeResort).length > 0
         ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
-        console.log(" this.roomIds---", this.roomIds)
+    console.log(' this.roomIds---', this.roomIds);
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
     }
-    this.fetchRoomListSubscription =
-      this.sharedService.fetchRoomList$.subscribe(() => {
-        this.fetchRoomList();
-      });
   }
+
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
   }
@@ -143,20 +160,11 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      console.log("this.selectedResortInfo-----",this.selectedResortInfo)
-      // if (
-      //   this.selectedResort != '' &&
-      //   this.checkinDate != null &&
-      //   this.checkoutDate != null
-      // ) {
-      //   this.fetchRoomList();
-      // } else {
-      //   this.staticRoomsDetails();
-      // }
+      console.log('this.selectedResortInfo-----', this.selectedResortInfo);
     }
   }
   staticRoomsDetails() {
-    console.log("staticRoomsDetails")
+    console.log('staticRoomsDetails');
     interface RoomDetails {
       id: string;
       week_day_bed_charge: number;
@@ -495,137 +503,92 @@ export class RoomsComponent implements OnInit, OnDestroy{
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
     // this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
     // console.log("this.roomCards------",this.roomCards)
-    
+
     setTimeout(() => {
       this.loadingRooms = false;
     }, 2000);
   }
-  ngOnDestroy(): void {
-    if (this.fetchRoomListSubscription) {
-      this.fetchRoomListSubscription.unsubscribe();
-    }
-    this.subscription.unsubscribe();
-  }
+
   convertDateFormat(dateString: string): string {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     const [monthAbbr, day, year] = dateString.split('/');
     const formattedDate = `${year}-${months[parseInt(monthAbbr) - 1]}-${day}`;
 
     return formattedDate;
   }
+
+  filterByResort(selectResort: string): any[] {
+    return this.roomData.filter(
+      (room: { Select_Resort: string }) => room.Select_Resort == selectResort
+    );
+  }
+
   fetchRoomList() {
-    console.log("fetchRoomList===")
-    this.selectedResort = this.authService.getSearchData('resort');
-    this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkoutDate = this.authService.getSearchData('checkout');
-    if (
-      this.selectedResort != '' &&
-      this.checkinDate != null &&
-      this.checkoutDate != null
-    ) {
-      let perm = '';
-      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
-      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
-      this.http
-        .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
-        )
-        .subscribe({
-          next: (response) => {
-            console.log("====response",response)
-            if (
-              response.code === 3000 &&
-              response.result.status === 'success'
-            ) {
-              const json = response.result.data;
-              // console.log(json);
-              const jsonArray = Object.keys(json).map((key) => {
-                return {
-                  id: key,
-                  ...json[key],
-                };
-              });
-              // console.log(jsonArray);
-              this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-              console.log(this.roomCards);
-            } else {
-              this.showErrorAlert(
-                'Failed to fetch room list. Please try again later.'
-              );
-            }
-            this.loadingRooms = false;
-          },
-          error: (err) => {
-            console.error('Error:', err);
-            this.showErrorAlert(
-              'An error occurred while fetching room list. Please try again later.'
-            );
-          },
-        });
-      setTimeout(() => {
-        this.loadingRooms = false;
-      }, 2000);
-    }
+
+    this.http.get<any[]>('./assets/json/rooms.json').subscribe(data => {
+      console.log(data)
+      this.roomData = data;
+      this.filteredRoomData = this.filterByResort(this.selectedResort);
+    });
+    
+    console.log(this.roomData);
+    console.log(this.filteredRoomData);
   }
-  removeRoom(room: any, roomId: any) {
-    this.roomIds = this.roomIds.filter((room) => room.id !== roomId);
-    if (this.roomIds.length < 1) this.showBookingSummary = false;
-    room.is_button_disabled = false;
-    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
-    let rm = this.roomCards.find((rm) => rm.id === roomId);
-    if (rm) {
-      rm.is_button_disabled = false;
-      // Update the isChecked property of the corresponding room in roomCards array
-      const roomCard = this.roomCards.find((r) => r.id === roomId);
-      if (roomCard) {
-        roomCard.isExtraGuestChecked = false;
-      }
+ 
+
   
-      // Recalculate the total extra guest charges
-      this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
-    }
-  }
-  checkIfNaN(value: any): boolean {
-    return isNaN(value);
-  }
 
   isAnyRoomChecked(): boolean {
     // Check if any room has the extra guest checkbox checked
-    return this.roomCards.some(room => room.isExtraGuestChecked);
+    return this.roomData.some(
+      (room: { isExtraGuestChecked: any }) => room.isExtraGuestChecked
+    );
   }
 
-  checkExtraGuest(room: any, roomId: any, inputbox: HTMLInputElement) {
-    this.isAddedExtraGuest = inputbox.checked;
-    let rm = this.roomCards.find((rm) => rm.id === roomId);
-    if (this.checkIfNaN(inputbox.value)) {
-      if (inputbox.checked) {
-        if (rm) rm.noof_guest = 1;
-        room.noof_guest = 1;
-        room.isExtraGuestChecked = true;
-      } else {
-        if (rm) rm.noof_guest = 0;
-        room.noof_guest = 0;
-        const roomCard = this.roomCards.find((r) => r.id === roomId);
-        if (roomCard) {
-          roomCard.isExtraGuestChecked = false;
-        }
-        this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
-      }
-    } else {
-      room.noof_guest = inputbox.value;
-      if (rm) rm.noof_guest = inputbox.value;
+  extraGuestCount: number = 0; // Initialize total extra guests count
+
+  checkExtraGuest(roomId: any, inputbox: HTMLInputElement) {
+    const room = this.roomData.find((r: any) => r._id === roomId);
+    console.log(room)
+    
+    if (room) {
+      // const isChecked: boolean = (inputbox as HTMLInputElement).checked;
+      room.noof_guest = 1;
+     
     }
-    // Recalculate the total extra guest charges
-    //this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+    this.calculateExtraGuestCount()
+}
 
-    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
-  }
+
+
+calculateExtraGuestCount() {
+    // Reset count
+    this.extraGuestCount = 0;
+    // Loop through rooms to count extra guests
+    for (const room of this.roomData) {
+        if (room.noof_guest) {
+            this.extraGuestCount += room.noof_guest;
+        }
+    }
+    console.log(this.extraGuestCount)
+}
+
 
   
+
   mapRoomData(data: any[], roomIds: any[]): Room[] {
     return data.map((room) => ({
       id: room.id || 'Unknown',
@@ -649,77 +612,116 @@ export class RoomsComponent implements OnInit, OnDestroy{
     }));
   }
 
-  // mapRoomData(data: any[], roomIds: any[]): Room[] {
-  // this.selectedResort = this.authService.getSearchData('resort');
-  // const filteredData = this.selectedResort ? data.filter(room => room.resort === this.selectedResort) : data;
-  //   return filteredData.map((room) => ({
-  //     id: room.id || 'Unknown',
-  //     week_day_bed_charge: room.week_day_bed_charge || 0,
-  //     cottage_type: room.cottage_type || 'Unknown',
-  //     max_guest: room.max_guest || 0,
-  //     week_day_rate: room.week_day_rate || 'Unknown',
-  //     week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
-  //     week_end_rate: room.week_end_rate || 'Unknown',
-  //     name: room.name || 'Unknown',
-  //     resort: room.resort || 'Unknown',
-  //     max_adult: room.max_adult || 3,
-  //     noof_adult: room.max_adult,
-  //     noof_guest: 0,
-  //     week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
-  //     week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
-  //     is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-  //     image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg',
-  //   }));
-  // }
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
     for (const roomId of roomIds) {
       if (roomId.id === room_id) return true;
     }
     return false;
   }
+
   showErrorAlert(msg = '') {
     this.snackBar.open(msg, 'Close', {
       duration: 3000,
     });
   }
+
+  findRoomById(id: string) {
+    return this.roomData.find((room: { _id: any }) => room._id === id);
+  }
+
+  checkIfWeekend(): void {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+    this.isWeekend = currentDay === 0 || currentDay === 6; // Check if it's Saturday or Sunday
+  }
+
   addRoom(room: any) {
-    let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room.id);
-    if (!foundRoom) {
-      this.roomIds.push(room);
-    }
+    console.log(room);
+    let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room._id);
+    console.log(foundRoom);
+
+    this.roomIds.push(room._id);
+
     this.showBookingSummary = true;
     room.is_button_disabled = true;
-    this.authService.setBookingRooms(this.bookingTypeResort,this.roomIds);
+    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
   }
+
+  removeRoom(room: any, roomId: any) {
+    const indexToRemove = this.roomIds.indexOf(roomId);
+
+    // If the value is found, remove it from the array
+    if (indexToRemove !== -1) {
+      this.roomIds.splice(indexToRemove, 1);
+    }
+
+    // room.is_button_disabled = false;
+    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
+    // let rm = this.roomCards.find((rm) => rm.id === roomId);
+    // if (rm) {
+    //   rm.is_button_disabled = false;
+    //   // Update the isChecked property of the corresponding room in roomCards array
+    //   const roomCard = this.roomCards.find((r) => r.id === roomId);
+    //   if (roomCard) {
+    //     roomCard.isExtraGuestChecked = false;
+    //   }
+
+    //   // Recalculate the total extra guest charges
+    //   this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
+    // }
+  }
+
   calculateTotalPrice(): number {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    const isWeekend = currentDay === 0 || currentDay === 6; // Sunday or Saturday are considered weekend days
+
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
-      if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
+      const room = this.roomData.find(
+        (room: { _id: any }) => room._id === roomId
+      );
+      if (room) {
+        const rate = isWeekend
+          ? parseFloat(room.Week_End_Rate)
+          : parseFloat(room.Week_Days_Rate);
+        totalPrice += rate + parseInt(room.Max_Allowed_Guest) * 500;
       }
     }
     return totalPrice;
   }
-  getRoomCharges() {
+
+  getRoomCharges(): number {
     let roomCharges = 0;
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
+
     for (const roomId of this.roomIds) {
-      if (roomId) {
-        roomCharges += roomId.week_day_rate;
+      const room = this.roomData.find((r: { _id: any }) => r._id === roomId);
+      if (room) {
+        if (currentDay === 0 || currentDay === 6) {
+          // It's a weekend (Sunday or Saturday)
+          roomCharges += parseFloat(room.Week_End_Rate);
+        } else {
+          // It's a weekday (Monday to Friday)
+          roomCharges += parseFloat(room.Week_Days_Rate);
+        }
       }
     }
+
     return roomCharges;
   }
+
   calculateTotalGst(): number {
-    let totalPrice = 0;
-    for (const roomId of this.roomIds) {
-      if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * 500;
-      }
-    }
-    totalPrice = (totalPrice * 12) / 100;
+    let totalPrice = this.calculateTotalPrice();
+    const gstRate = 12; // GST rate is 12%
+
+    totalPrice = (totalPrice * gstRate) / 100;
     return totalPrice;
   }
+
   calculatePayablePrice(): number {
+    // console.log(this.checkExtraGuests())
     const totalPrice = this.calculateTotalPrice();
     const gstPercentage = 0.12; // GST @12%
     const gstAmount = totalPrice * gstPercentage;
@@ -728,9 +730,10 @@ export class RoomsComponent implements OnInit, OnDestroy{
   }
   goToBooking() {
     //this.router.navigate(['/booking-summary']);
-    this.router.navigate(['/booking-summary'],{ queryParams: { bookingTypeResort: this.selectedResort } });
+    this.router.navigate(['/booking-summary'], {
+      queryParams: { bookingTypeResort: this.selectedResort },
+    });
     console.log(this.selectedResort);
-    
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
@@ -745,7 +748,6 @@ export class RoomsComponent implements OnInit, OnDestroy{
       }
     }
     return totalExtraGuestCharges;
-    
   }
   settings = {
     counter: false,

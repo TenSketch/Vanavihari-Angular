@@ -16,6 +16,7 @@ export class AuthService {
 
   private refreshRoomsComponentSource = new Subject<void>();
   refreshRoomsComponent$ = this.refreshRoomsComponentSource.asObservable();
+  buttonClick$: Subject<void> = new Subject<void>();
 
 
   constructor(private http: HttpClient) { }

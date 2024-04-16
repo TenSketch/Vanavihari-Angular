@@ -210,6 +210,7 @@ export class SignUpComponent implements OnInit {
   showErrorAlert(msg = '') {
     this.snackBar.open(msg, 'Close', {
       duration: 3000,
+      
     });
   }
   goToSignin() {
