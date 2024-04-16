@@ -4,49 +4,73 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Select Resort</mat-label>
-          <mat-select required [(ngModel)]="selectedResort" name="SelectResort" [(value)]="selectedResort">
-            <mat-option value="vanavihari">Vanavihari, Maredumilli</mat-option>
-            <mat-option value="jungle-star">Jungle Star, Valamuru</mat-option>
+          <mat-select
+            required
+            [(ngModel)]="selectedResort"
+            name="SelectResort"
+            [(value)]="selectedResort"
+          >
+            <mat-option value="Vanavihari, Maredumilli">Vanavihari, Maredumilli</mat-option>
+            <mat-option value="Jungle Star, Valamuru">Jungle Star, Valamuru</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkin date</mat-label>
-          <input matInput [min]="minDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value)">
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="picker"
+            (click)="picker.open()"
+            placeholder="Checkin date"
+            name="CheckinDate"
+            [(ngModel)]="checkinDate"
+            #checkinDateInput="ngModel"
+            required
+          />
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="checkinDateInput.invalid">Checkin date is required</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkout date</mat-label>
-          <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)">
+          <input
+            matInput
+            [matDatepicker]="picker1"
+            (click)="picker1.open()"
+            placeholder="Checkout date"
+            name="CheckOutDate"
+            [(ngModel)]="checkoutDate"
+            #checkoutDateInput="ngModel"
+            required
+          />
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
+          <mat-error *ngIf="checkoutDateInput.invalid">Checkout date is required</mat-error>
         </mat-form-field>
       </div>
-      <!-- <mat-form-field appearance="outline">
-        <mat-label>Checkin & Checkout</mat-label>
-        <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
-          <input matStartDate [min]="minDate"  placeholder="Checkin date" name="CheckinDate"  (dateChange)="checkinDate = formatDate($event.value)" />
-          <input matEndDate  placeholder="Checkout date" name="CheckOutDate"  (dateChange)="checkoutDate = formatDate($event.value)" />
-          
-        </mat-date-range-input>
-        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field> -->
-      
-      <div class="col-md-3">
-        <!-- <button mat-raised-button color="primary" (click)="goToSignin()" class="w-100 mt-1">Sign In</button> -->
 
-        <button mat-raised-button color="primary" class="w-100" [disabled]="searchForm.invalid" (click)="submitSearch()">
+      <div class="col-md-3">
+        <button
+          mat-raised-button
+          color="primary"
+          class="w-100"
+          [disabled]="!searchForm.valid"
+          (click)="submitSearch()"
+        >
           Search
         </button>
-       
       </div>
     </div>
   </form>

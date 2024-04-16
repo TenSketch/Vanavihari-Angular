@@ -262,6 +262,7 @@ export class BookingSummaryComponent {
     }
     return arr;
   }
+
   changeSelection() {
     this.authService.refreshRoomsComponent();
     if (this.seslectedResort === 'vanavihari') {
@@ -274,4 +275,5 @@ export class BookingSummaryComponent {
       });
     }
   }
+
 }

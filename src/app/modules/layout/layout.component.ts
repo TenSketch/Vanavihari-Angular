@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../user.service';
 import { AuthService } from '../../auth.service';
+import { SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +10,7 @@ import { AuthService } from '../../auth.service';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService, private authService: AuthService) {}
+  constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService) {}
   accountusername: string = 'John Doe';
   isSidebarOpen: boolean = false;
 
@@ -64,13 +65,16 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/my-account/my-bookings']);
   }
   goToVanavihari() {
+
     this.authService.setSearchData( [{ resort: 'vanavihari', checkin: '', checkout: '' }]);
     this.authService.refreshRoomsComponent();
     this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanavihari' } });
+
     
   }
 
   goToJungleStar() {
+
     this.authService.setSearchData( [{ resort: 'jungle-star', checkin: '', checkout: '' }]);
     this.authService.refreshRoomsComponent();
     this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "jungle" } });
