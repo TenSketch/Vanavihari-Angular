@@ -65,19 +65,20 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/my-account/my-bookings']);
   }
   goToVanavihari() {
-
-    this.authService.setSearchData( [{ resort: 'vanavihari', checkin: '', checkout: '' }]);
-    this.authService.refreshRoomsComponent();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanavihari' } });
-
+    this.authService.setSearchData( [{ resort:'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
+    
+    this.searchService.setSearchCriteria('Vanavihari, Maredumilli')
+    this.authService.buttonClick$.next();
+    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanvihari' } });
     
   }
 
   goToJungleStar() {
-
-    this.authService.setSearchData( [{ resort: 'jungle-star', checkin: '', checkout: '' }]);
-    this.authService.refreshRoomsComponent();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "jungle" } });
+    this.authService.setSearchData( [{ resort:'Jungle Star, Valamuru', checkin: '', checkout: '' }]);
+    
+    this.searchService.setSearchCriteria('Jungle Star, Valamuru')
+    this.authService.buttonClick$.next();
+    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "junglestar" } });
   }
   goToTourist()
   {

@@ -135,38 +135,19 @@
                 </small>
 
                 <div class="custom-dropdown">
-
-                  <span>
-                    <mat-form-field appearance="outline" class="mat-small">
-                      <mat-label>No. of. Guests</mat-label>
-                      <mat-select required [(ngModel)]="roomId.id" size="small">
-                        <mat-option value="one">1</mat-option>
-                        <mat-option value="two">2</mat-option>
-                      </mat-select>
-                      <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
-
-                    </mat-form-field>
-                  </span>
-                  <span class="">
-                    <mat-form-field appearance="outline" class="mat-small mt-4">
-                      <mat-label>No. of children upto 5 years (10 total no.)</mat-label>
-                      <mat-select required [(ngModel)]="roomId.id" size="small">
-                        <mat-option value="one">1</mat-option>
-                        <mat-option value="two">2</mat-option>
-                        <mat-option value="one">3</mat-option>
-                        <mat-option value="two">4</mat-option>
-                        <mat-option value="one">5</mat-option>
-                        <mat-option value="two">6</mat-option>
-                        <mat-option value="one">7</mat-option>
-                        <mat-option value="two">8</mat-option>
-                        <mat-option value="two">9</mat-option>
-                        <mat-option value="two">10</mat-option>
-                      </mat-select>
-                      <mat-hint class="px-0">Upto 5 years</mat-hint>
-
-                    </mat-form-field>
-                  </span>
-
+                    <span>
+                      <span>
+                        <mat-form-field appearance="outline" class="mat-small">
+                          <mat-label>No. of Guests</mat-label>
+                          <mat-select required [(ngModel)]="noof_guest" size="small">
+                            <mat-option value="1">1</mat-option>
+                            <mat-option value="2">2</mat-option>
+                          </mat-select>
+                          <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
+                        </mat-form-field>
+                      </span>
+                      
+                    </span>
                   <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
                       (ngModelChange)="extraGuest($event)"><label>Add an extra guest </label></mat-checkbox>
                     <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
@@ -178,8 +159,7 @@
                       id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
                       (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)" [(ngModel)]="roomId.noof_guest">
                     Check any extra guest</label> &nbsp;
-                  <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>{{ roomId.week_day_bed_charge | currency:'INR
-                    ':'symbol':'1.2-2' }}  </strong><small>+ GST @ 12% will be
+                  <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
                       charged</small>
                   </div>
 
@@ -263,25 +243,6 @@
 
                           </mat-form-field>
                         </span>
-                        <span class="">
-                          <mat-form-field appearance="outline" class="mat-small mt-4">
-                            <mat-label>No. of children upto 5 years (10 total no.)</mat-label>
-                            <mat-select required [(ngModel)]="roomId.id" size="small">
-                              <mat-option value="one">1</mat-option>
-                              <mat-option value="two">2</mat-option>
-                              <mat-option value="one">3</mat-option>
-                              <mat-option value="two">4</mat-option>
-                              <mat-option value="one">5</mat-option>
-                              <mat-option value="two">6</mat-option>
-                              <mat-option value="one">7</mat-option>
-                              <mat-option value="two">8</mat-option>
-                              <mat-option value="two">9</mat-option>
-                              <mat-option value="two">10</mat-option>
-                            </mat-select>
-                            <mat-hint class="px-0">Upto 5 years</mat-hint>
-
-                          </mat-form-field>
-                        </span>
                         <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
                             (ngModelChange)="extraGuest($event)"><label>Add an extra guest </label></mat-checkbox>
                           <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
@@ -289,17 +250,14 @@
         
         
                           </div> -->
-
-                        <label for="checkextraguest{{roomId.id}}"><input type="checkbox" #checkextraguest
-                            id="checkextraguest{{roomId.id}}" [id]="'checkextraguest' + roomId.id"
-                            (change)="checkExtraGuest(roomId, roomId.id, checkextraguest)"
-                            [(ngModel)]="roomId.noof_guest">
-                          Check any extra guest</label> &nbsp;
-                        <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>{{ roomId.week_day_bed_charge | currency:'INR
-                          ':'symbol':'1.2-2' }} </strong><small>+ GST @ 12% will be
-                            charged</small>
-                        </div>
-
+                          <label for="checkextraguest{{roomId}}">Check any extra guest</label>
+                          <input type="checkbox" #checkextraguest id="checkextraguest{{roomId}}"
+                                 [checked]="findRoomById(roomId)?.noof_guest === 1" 
+                                 (change)="checkExtraGuest(roomId, checkextraguest)">
+                          <div *ngIf="findRoomById(roomId)?.noof_guest === 1" class="pt-3">
+                            <strong>INR 500 </strong><small>+ GST @ 12% will be charged</small>
+                          </div>
+                          
 
 
                         <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
@@ -393,7 +351,7 @@
                       <p class="text-primary-dark">For 2 guests</p>
                     </div>
                     <div class="col-auto">
-                      <h6 class="p-0 m-0"><strong>{{  room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></h6>
+                      <h6 class="p-0 m-0"><strong>{{ 500 | currency: 'INR ': true: '1.2-2' }} </strong></h6>
                       <p class="text-primary-dark">For an extra guest</p>
                     </div>
                     <div class="col-12"><em>+ GST @ 12%</em></div>

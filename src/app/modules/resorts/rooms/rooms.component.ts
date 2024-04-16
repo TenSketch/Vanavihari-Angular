@@ -77,7 +77,7 @@ export class RoomsComponent implements OnInit {
   bookingTypeResort: any;
   totalExtraGuestCharges: number;
   noof_guest: number | null = null; // Initialize it with null or any default value
-private fetchRoomListSubscription:Subscription;
+
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -130,49 +130,27 @@ private fetchRoomListSubscription:Subscription;
     this.checkoutDate = this.authService.getSearchData('checkout');
   }
   ngOnInit(): void {
-
-    const savedTotalExtraGuestCharges = localStorage.getItem(
-      'totalExtraGuestCharges'
-    );
-    if (savedTotalExtraGuestCharges) {
-      this.totalExtraGuestCharges = parseFloat(savedTotalExtraGuestCharges);
-    }
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
-    this.staticRoomsDetails()
+      console.log('this.bookingTypeResort=====', this.bookingTypeResort);
+    });
     this.searchResortData = this.authService.getSearchData(null);
     this.getSelectedResortInfo();
- 
-    this.subscription = this.authService.refreshRoomsComponent$.subscribe(() => {
-      this.getSelectedResortInfo();
-    });
-
-
+    this.subscription = this.authService.refreshRoomsComponent$.subscribe(
+      () => {
+        this.getSelectedResortInfo();
+      }
+    );
+    this.roomIds =
       this.authService.getBookingRooms(this.bookingTypeResort) != null &&
       this.authService.getBookingRooms(this.bookingTypeResort) != '' &&
       this.authService.getBookingRooms(this.bookingTypeResort).length > 0
         ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
-
-        if (this.roomIds.length > 0) {
-          this.roomIds = this.roomIds.filter((room) =>
-            room.resort.toLowerCase().includes(this.bookingTypeResort)
-          );
-  
-          this.showBookingSummary = true;
-  
-  
-        }
-        else{
-          this.showBookingSummary=false
-        }
-    this.fetchRoomListSubscription =
-      this.sharedService.fetchRoomList$.subscribe(() => {
-        this.fetchRoomList();
-      });
-      this.calculateExtraGuestCharges();
-    })
-
+    console.log(' this.roomIds---', this.roomIds);
+    if (this.roomIds.length > 0) {
+      this.showBookingSummary = true;
+    }
   }
 
   toggleBookingSummary() {
@@ -182,18 +160,7 @@ private fetchRoomListSubscription:Subscription;
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-
-      console.log("this.selectedResortInfo-----",this.selectedResortInfo)
-      if (
-        this.selectedResort != '' &&
-        this.checkinDate != null &&
-        this.checkoutDate != null
-      ) {
-        this.fetchRoomList();
-      } else {
-        this.staticRoomsDetails();
-      }
-
+      console.log('this.selectedResortInfo-----', this.selectedResortInfo);
     }
   }
   staticRoomsDetails() {
@@ -534,7 +501,7 @@ private fetchRoomListSubscription:Subscription;
       // };
     });
     this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-    this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
+    // this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
     // console.log("this.roomCards------",this.roomCards)
 
     setTimeout(() => {
@@ -580,9 +547,7 @@ private fetchRoomListSubscription:Subscription;
     console.log(this.roomData);
     console.log(this.filteredRoomData);
   }
-  checkIfNaN(value:any):boolean{
-    return isNaN(value)
-  }
+ 
 
   
 
@@ -593,49 +558,33 @@ private fetchRoomListSubscription:Subscription;
     );
   }
 
-  checkExtraGuest(room: any, roomId: any, inputbox: HTMLInputElement) {
-    this.isAddedExtraGuest = inputbox.checked;
-    let rm = this.roomCards.find((rm) => rm.id === roomId);
-    if (this.checkIfNaN(inputbox.value)) {
-      if (inputbox.checked) {
-        if (rm) rm.noof_guest = 1;
-        room.noof_guest = 1;
-        room.isExtraGuestChecked = true;
-        rm.isExtraGuestChecked = true;
-      } else {
-        if (rm) rm.noof_guest = 0;
-        room.noof_guest = 0;
-        const roomCard = this.roomCards.find((r) => r.id === roomId);
-        if (roomCard) {
-          roomCard.isExtraGuestChecked = false;
-        }
-        room.isExtraGuestChecked = false;
-        rm.isExtraGuestChecked = false;
-        this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
-      }
-    } else {
-      room.noof_guest = inputbox.value;
-      if (rm) rm.noof_guest = inputbox.value;
-      room.isExtraGuestChecked = false;
-      rm.isExtraGuestChecked = false;
+  extraGuestCount: number = 0; // Initialize total extra guests count
 
+  checkExtraGuest(roomId: any, inputbox: HTMLInputElement) {
+    const room = this.roomData.find((r: any) => r._id === roomId);
+    console.log(room)
+    
+    if (room) {
+      // const isChecked: boolean = (inputbox as HTMLInputElement).checked;
+      room.noof_guest = 1;
+     
     }
-    // this.calculateExtraGuestCount()
+    this.calculateExtraGuestCount()
 }
 
 
 
-// calculateExtraGuestCount() {
-//     // Reset count
-//     this.extraGuestCount = 0;
-//     // Loop through rooms to count extra guests
-//     for (const room of this.roomData) {
-//         if (room.noof_guest) {
-//             this.extraGuestCount += room.noof_guest;
-//         }
-//     }
-//     console.log(this.extraGuestCount)
-// }
+calculateExtraGuestCount() {
+    // Reset count
+    this.extraGuestCount = 0;
+    // Loop through rooms to count extra guests
+    for (const room of this.roomData) {
+        if (room.noof_guest) {
+            this.extraGuestCount += room.noof_guest;
+        }
+    }
+    console.log(this.extraGuestCount)
+}
 
 
   
@@ -729,10 +678,14 @@ private fetchRoomListSubscription:Subscription;
 
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
-
-      if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * roomId.week_day_bed_charge;
-
+      const room = this.roomData.find(
+        (room: { _id: any }) => room._id === roomId
+      );
+      if (room) {
+        const rate = isWeekend
+          ? parseFloat(room.Week_End_Rate)
+          : parseFloat(room.Week_Days_Rate);
+        totalPrice += rate + parseInt(room.Max_Allowed_Guest) * 500;
       }
     }
     return totalPrice;
@@ -760,15 +713,10 @@ private fetchRoomListSubscription:Subscription;
   }
 
   calculateTotalGst(): number {
+    let totalPrice = this.calculateTotalPrice();
+    const gstRate = 12; // GST rate is 12%
 
-    let totalPrice = 0;
-    for (const roomId of this.roomIds) {
-      if (roomId) {
-        totalPrice += roomId.week_day_rate + roomId.noof_guest * roomId.week_day_bed_charge;
-      }
-    }
-    totalPrice = (totalPrice * 12) / 100;
-
+    totalPrice = (totalPrice * gstRate) / 100;
     return totalPrice;
   }
 
@@ -781,37 +729,25 @@ private fetchRoomListSubscription:Subscription;
     return payablePrice;
   }
   goToBooking() {
-
-    this.loadingRooms = true;
-    setTimeout(() => {
-      this.loadingRooms = false;
-      this.router.navigate(['/booking-summary'], {
-        queryParams: { bookingTypeResort: this.selectedResort },
-      });
-    }, 1000);
-    
-
+    //this.router.navigate(['/booking-summary']);
+    this.router.navigate(['/booking-summary'], {
+      queryParams: { bookingTypeResort: this.selectedResort },
+    });
+    console.log(this.selectedResort);
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
 
   calculateExtraGuestCharges() {
-    const roomsWithExtraGuests = this.roomIds.filter(
-      (room) => room.isExtraGuestChecked
-    );
-    this.totalExtraGuestCharges = 0;
-    for (const room of roomsWithExtraGuests) {
-      this.totalExtraGuestCharges += room.week_day_bed_charge;
+    const gstChargesPerRoom = 500;
+    let totalExtraGuestCharges = 0;
+    for (const room of this.roomCards) {
+      if (room.isExtraGuestChecked) {
+        totalExtraGuestCharges += gstChargesPerRoom;
+      }
     }
-
-    localStorage.setItem(
-      'totalExtraGuestCharges',
-      this.totalExtraGuestCharges.toString()
-    );
-    return this.totalExtraGuestCharges;
-    
-
+    return totalExtraGuestCharges;
   }
   settings = {
     counter: false,

@@ -29,17 +29,7 @@ export class BookingSummaryComponent {
   bookingTypeResort:string;
   roomGuestDetails: any[] = [];
   constructor(private router: Router, private authService: AuthService, private http: HttpClient, private formBuilder: FormBuilder, private userService: UserService, private snackBar: MatSnackBar,private route: ActivatedRoute) {
-    // this.roomDetails = this.authService.getBookingRooms("vanvihari");
-    this.route.queryParams.subscribe((params) => {
-      this.bookingTypeResort = params['bookingTypeResort'];
-    });
-    if (this.bookingTypeResort === 'jungle-star') {
-      this.roomDetails = this.authService.getBookingRooms('jungle');
-    } else {
-      this.roomDetails = this.authService.getBookingRooms(
-        this.bookingTypeResort
-      );
-    }
+    this.roomDetails = this.authService.getBookingRooms("vanvihari");
     if(this.roomDetails.length > 0) {
       this.adultsCount = 0;
       this.guestCount = 0;
@@ -261,19 +251,6 @@ export class BookingSummaryComponent {
       arr[i] = utf8.charCodeAt(i);
     }
     return arr;
-  }
-
-  changeSelection() {
-    this.authService.refreshRoomsComponent();
-    if (this.seslectedResort === 'vanavihari') {
-      this.router.navigate(['/resorts/rooms'], {
-        queryParams: { bookingTypeResort: 'vanavihari' },
-      });
-    } else {
-      this.router.navigate(['/resorts/rooms'], {
-        queryParams: { bookingTypeResort: 'jungle' },
-      });
-    }
   }
 
 }
