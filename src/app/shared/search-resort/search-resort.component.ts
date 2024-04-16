@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SharedService } from '../../shared.service';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SearchService } from 'src/app/search.service';
 
 @Component({
   selector: 'app-search-resort',
@@ -30,7 +31,7 @@ export class SearchResortComponent implements OnInit {
   currentDate: any;
   minDate: Date;
 
-  constructor(private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
+  constructor(private searchService:SearchService,private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     
      // Set the minimum to the next date from the present date.
      const currentDate = new Date();
@@ -144,16 +145,14 @@ export class SearchResortComponent implements OnInit {
   // }
 
   submitSearch() {
+    console.log(this.selectedResort)
     this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
-    //this.router.navigate(['/resorts/vanavihari-maredumilli']);
-    this.router.navigate(['/resorts/rooms']);
-    // this.router.navigate(['/resorts/rooms']).then(() => {
-    //   window.location.reload(); // Reload the page
-    // });
-    //this.sharedService.triggerFetchRoomList();
-    this.authService.refreshRoomsComponent();
+    console.log(this.selectedResort)
+    this.searchService.setSearchCriteria(this.selectedResort)
+    this.authService.buttonClick$.next();
+    this.router.navigate(['resorts/rooms']);
   }
-  // goToJungleStar() {
+  // goToJungleStar() { 
   //   this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
   //   //this.router.navigate(['resorts/jungleStar,Valamuru']);
   //   this.router.navigate(['/resorts/rooms']);

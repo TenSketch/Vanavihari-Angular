@@ -144,6 +144,8 @@ import { PaymentPoliciesComponent } from './modules/payment-policies/payment-pol
     LightgalleryModule,
     RouterModule,
     SharedModule,
+    ReactiveFormsModule,
+
 
   ],
   exports: [
