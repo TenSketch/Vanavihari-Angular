@@ -1,22 +1,21 @@
-import { Aes } from "https://deno.land/x/crypto/aes.ts";
-import { Cbc, Padding } from "https://deno.land/x/crypto/block-modes.ts";
+import * as jose from 'node:jose';
 
-function urlBase64Encode(str) {
-    let base64 = btoa(unescape(encodeURIComponent(str)));
-    const padding = '='.repeat((4 - base64.length % 4) % 4);
-    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-}
-function calculateHmacSha256(data, key) {
-  const dataUint8 = new TextEncoder().encode(data);
-  const keyUint8 = new TextEncoder().encode(key);
-  const encrypted = Aes.encrypt(dataUint8, keyUint8, {
-      mode: new Cbc(new Uint8Array(16)),
-      padding: Padding.PKCS7
-  });
-  const base64 = btoa(String.fromCharCode(...encrypted));
-  const base64Url = base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
-  return base64Url;
-}
+// function urlBase64Encode(str) {
+//     let base64 = btoa(unescape(encodeURIComponent(str)));
+//     const padding = '='.repeat((4 - base64.length % 4) % 4);
+//     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+// }
+// function calculateHmacSha256(data, key) {
+//   const dataUint8 = new TextEncoder().encode(data);
+//   const keyUint8 = new TextEncoder().encode(key);
+//   const encrypted = Aes.encrypt(dataUint8, keyUint8, {
+//       mode: new Cbc(new Uint8Array(16)),
+//       padding: Padding.PKCS7
+//   });
+//   const base64 = btoa(String.fromCharCode(...encrypted));
+//   const base64Url = base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+//   return base64Url;
+// }
 export default async (req) => {
     try {
         const clientID = "tech234sdf";
@@ -54,11 +53,11 @@ export default async (req) => {
             "browser_javascript_enabled": "true"
           }
         });
-        const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
-        const signature = calculateHmacSha256(unsignedToken, secretKey);
+        // const unsignedToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}`;
+        // const signature = calculateHmacSha256(unsignedToken, secretKey);
         // const base64UrlSignature = urlBase64Encode(signature);
         // const jwsToken = `${urlBase64Encode(jwsHeader)}.${urlBase64Encode(jwsPayload)}.${base64UrlSignature}`;
-        return new Response(JSON.stringify({'status':'success', 'signature':signature }), {
+        return new Response(JSON.stringify({'status':'success', 'jwsPayload':jwsPayload }), {
             headers: { "Content-Type": "application/json" },
         });
     }
