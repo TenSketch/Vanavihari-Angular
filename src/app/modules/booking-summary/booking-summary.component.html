@@ -6,16 +6,15 @@
                 <div class="row gap-4">
                     <div class="col-md-4">
                         <div class="card">
-                            <h5><strong>Resort name:</strong> Vanavihari, Maredumilli</h5>
+                            <h5><strong>Resort name:</strong> {{resortName}}</h5>
                             <!-- <h6><strong>Cottage type:</strong> Wooden Cottage</h6>
                             <p><strong>Room name: Hornbill</strong></p> -->
 
                             <div class="pb-4">
-                                <div class="pt-2" *ngFor="let roomId of roomDetails">
-                                    <p class="m-0"><strong class="me-2">Room Name: {{ roomId.name }}</strong></p>
+                                <div class="pt-2" *ngFor="let roomId of guestDetails">
+                                    <p class="m-0"><strong class="me-2">Room Name: {{ roomId.roomName }}</strong></p>
                                     <small>
-                                        {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
-                                        {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }}
+                                    Guest: {{ roomId.numGuests }}
                                         <span class="float-end pb-0 m-0">{{ roomId.week_day_rate+(roomId.week_day_bed_charge*roomId.noof_guest) | currency:'INR':'symbol':'1.2-2' }}</span>
                                     </small>
                                 </div>
@@ -39,25 +38,37 @@
                         <!-- Booking Details Card -->
                         <div class="card">
                             <h5>Your booking details</h5>
+                            <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="checkinDatepicker" placeholder="Check-in date" [(ngModel)]="checkinDate">
+                                <mat-datepicker-toggle matSuffix [for]="checkinDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #checkinDatepicker></mat-datepicker>
+                              </mat-form-field>
+                              
+                              <mat-form-field class="example-full-width">
+                                <input matInput [matDatepicker]="checkoutDatepicker" placeholder="Check-out date" [(ngModel)]="checkoutDate">
+                                <mat-datepicker-toggle matSuffix [for]="checkoutDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #checkoutDatepicker></mat-datepicker>
+                              </mat-form-field>
+                              
                             <div class="d-flex">
                                 <div class="col">
                                     <p>Check-in</p>
-                                    <h6>{{checkInDate}}</h6>
-                                    <p>10:00 AM IST</p>
+                                    <h6>{{checkinDate}}</h6>
+                                    <!-- <p>10:00 AM IST</p> -->
                                 </div>
                                 <div class="col">
                                     <p>Check-out</p>
-                                    <h6>{{checkOutDate}}</h6>
-                                    <p>09:00 AM IST</p>
+                                    <h6>{{checkoutDate}}</h6>
+                                    <!-- <p>09:00 AM IST</p> -->
                                 </div>
                             </div>
-                            <p>Duration of stay: <strong>{{durationOfStay}}</strong></p>
+                            <p>Duration of stay: <strong>{{calculateDurationOfStay()}} days</strong></p>
                         </div>
                         <div class="card">
                             <h5>Room & Guests Details</h5>
                             <p>Total Number of Rooms: <span id="totalRooms">{{roomDetails.length}}</span></p>
-                            <p>Guest:<span >{{roomDetails.length}}</span> </p>
-                            <p>Extra Guest: {{guestCount}}</p>
+                            <p>Guest:<span >{{totalGuests}}</span> </p>
+                            <p>Extra Guest: {{extra_guests}}</p>
                             <a class="font-weight-bold" (click)="goToVanavihari()">Change your selection</a>
                         </div>
                         <div class="card">
@@ -65,7 +76,7 @@
                             <p><strong>Total Room Price:</strong> {{ totalPrice | currency:'INR ':'symbol':'1.2-2' }}</p>
                             <!-- <p>Total room tarri: 5400</p> -->
                             <p><strong>GST @12%:</strong> {{ totalGSTPrice | currency:'INR ':'symbol':'1.2-2' }}</p>
-                            <h4><strong>Grand Total:</strong> {{ (totalPrice+totalGSTPrice) | currency:'INR ':'symbol':'1.2-2' }}</h4>
+                            <h4><strong>Grand Total:</strong> {{ (totalPrice+totalGSTPrice+(extra_guests*500))*durationOfStay | currency:'INR ':'symbol':'1.2-2' }}</h4>
                         </div>
                         <!-- card for Cancellation fees -->
                         <div class="card">
