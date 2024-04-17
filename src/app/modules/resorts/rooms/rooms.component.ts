@@ -1,4 +1,10 @@
-import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostBinding,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,8 +18,8 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 
 import * as data from '../../../../assets/json/rooms.json';
-
-
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatSelectChange } from '@angular/material/select';
 
 interface Room {
   //roomId:string;
@@ -64,6 +70,8 @@ export class RoomsComponent implements OnInit {
   showBookingSummary: boolean = false;
   roomCards: any[] = [];
   roomIds: any[] = [];
+  extraGuestsIds: any[] = [];
+  noofGuestsIds: any[] = [];
   loadingRooms: boolean = false;
   selectedResort: string;
   checkinDate: Date;
@@ -75,9 +83,13 @@ export class RoomsComponent implements OnInit {
   expandable: boolean = false;
   selectedRoom: any;
   bookingTypeResort: any;
+  extraGuestsType: any;
   totalExtraGuestCharges: number;
   noof_guest: number | null = null; // Initialize it with null or any default value
+  extraChildren: number = 0;
 
+  addExtraGuestCharge = false;
+  removeExtraGuestCharge = false;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -91,11 +103,9 @@ export class RoomsComponent implements OnInit {
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute,
-    
+    private cdr: ChangeDetectorRef
   ) {
-    
-
-   
+    this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
@@ -107,7 +117,6 @@ export class RoomsComponent implements OnInit {
       this.selectedResort = this.authService.getSearchData('resort');
       this.checkinDate = this.authService.getSearchData('checkin');
       this.checkoutDate = this.authService.getSearchData('checkout');
-      console.log(this.selectedResort);
       this.fetchRoomList();
     });
     this.checkIfWeekend(); // Check if it's a weekend on component initialization
@@ -119,20 +128,17 @@ export class RoomsComponent implements OnInit {
     this.breakpointObserver
       .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
       .subscribe((result) => {
-        console.log('result====', result);
         this.isMobile = result.matches;
       });
     this.selectedSortOption = 'lowToHigh';
 
     this.selectedResort = this.authService.getSearchData('resort');
-    console.log(this.selectedResort);
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
   }
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
-      console.log('this.bookingTypeResort=====', this.bookingTypeResort);
     });
     this.searchResortData = this.authService.getSearchData(null);
     this.getSelectedResortInfo();
@@ -147,10 +153,13 @@ export class RoomsComponent implements OnInit {
       this.authService.getBookingRooms(this.bookingTypeResort).length > 0
         ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
-    console.log(' this.roomIds---', this.roomIds);
-    if (this.roomIds.length > 0) {
-      this.showBookingSummary = true;
-    }
+
+    this.authService.clearBookingRooms(this.bookingTypeResort);
+
+    // if(this.roomIds.length>0){
+    //   this.showBookingSummary = true;
+
+    // }
   }
 
   toggleBookingSummary() {
@@ -160,353 +169,7 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
       this.selectedResortInfo = this.resorts[this.selectedResort];
-      console.log('this.selectedResortInfo-----', this.selectedResortInfo);
     }
-  }
-  staticRoomsDetails() {
-    console.log('staticRoomsDetails');
-    interface RoomDetails {
-      id: string;
-      week_day_bed_charge: number;
-      cottage_type: string;
-      max_guest: string;
-      week_day_rate: number;
-      week_end_bed_charge: number;
-      week_end_rate: number;
-      name: string;
-      resort: string;
-      max_adult: number;
-    }
-    // // Sample JSON object with the defined type
-    // old json
-    const json: { [key: string]: RoomDetails } = {
-      '4554333000000159043': {
-        id: '4554333000000159043',
-        week_day_bed_charge: 500,
-        cottage_type: 'Wooden Cottages',
-        max_guest: '4',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'BULBUL',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159087': {
-        id: '4554333000000159087',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Vanya',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159121': {
-        id: '4554333000000159121',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Jabilli',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 3,
-      },
-      '4554333000000159067': {
-        id: '4554333000000159067',
-        week_day_bed_charge: 500,
-        cottage_type: 'Vihari',
-        max_guest: '2',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'PAMULERU',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 3,
-      },
-      '4554333000000159061': {
-        id: '4554333000000159061',
-        week_day_bed_charge: 500,
-        cottage_type: 'Vihari',
-        max_guest: '3',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'SOKULERU',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 3,
-      },
-      '4554333000000159081': {
-        id: '4554333000000159081',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Prana',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 3,
-      },
-      '4554333000000148003': {
-        id: '4554333000000148003',
-        week_day_bed_charge: 500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'Test Room',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159109': {
-        id: '4554333000000159109',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Ambara',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000110059': {
-        id: '4554333000000110059',
-        week_day_bed_charge: 500,
-        cottage_type: 'Hill Top Guest House',
-        max_guest: '',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'Panther',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159127': {
-        id: '4554333000000159127',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Vennela',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159007': {
-        id: '4554333000000159007',
-        week_day_bed_charge: 500,
-        cottage_type: 'Pre-Fabricated Cottages',
-        max_guest: '2',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'CHOUSINGHA',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159025': {
-        id: '4554333000000159025',
-        week_day_bed_charge: 500,
-        cottage_type: 'Deluxe Rooms',
-        max_guest: '5',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'BAHUDA',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000110053': {
-        id: '4554333000000110053',
-        week_day_bed_charge: 500,
-        cottage_type: 'Hill Top Guest House',
-        max_guest: '',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'Bonnet',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159103': {
-        id: '4554333000000159103',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Aditya',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159049': {
-        id: '4554333000000159049',
-        week_day_bed_charge: 500,
-        cottage_type: 'Wooden Cottages',
-        max_guest: '2',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'WOODPECKER',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159031': {
-        id: '4554333000000159031',
-        week_day_bed_charge: 500,
-        cottage_type: 'Deluxe Rooms',
-        max_guest: '4',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'TAPATHI',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159055': {
-        id: '4554333000000159055',
-        week_day_bed_charge: 500,
-        cottage_type: 'Wooden Cottages',
-        max_guest: '3',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'KINGFISHER',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159133': {
-        id: '4554333000000159133',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Agathi',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159093': {
-        id: '4554333000000159093',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Prakruti',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159073': {
-        id: '4554333000000159073',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Aranya',
-        resort: 'Jungle Star, Valamuru',
-        max_adult: 2,
-      },
-      '4554333000000159019': {
-        id: '4554333000000159019',
-        week_day_bed_charge: 500,
-        cottage_type: 'Deluxe Rooms',
-        max_guest: '4',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'NARMADA',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000159013': {
-        id: '4554333000000159013',
-        week_day_bed_charge: 500,
-        cottage_type: 'Pre-Fabricated Cottages',
-        max_guest: '3',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'SAMBAR',
-        resort: 'Vanavihari, Maredumilli',
-        max_adult: 2,
-      },
-      '4554333000000110065': {
-        id: '4554333000000110065',
-        week_day_bed_charge: 500,
-        cottage_type: 'Pre-Fabricated Cottages',
-        max_guest: '',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'Bear',
-        resort: 'vanavihari',
-        max_adult: 2,
-      },
-      '4554333000000110141': {
-        id: '4554333000000110141',
-        week_day_bed_charge: 500,
-        cottage_type: 'Pre-Fabricated Cottages',
-        max_guest: '',
-        week_day_rate: 2500,
-        week_end_bed_charge: 700,
-        week_end_rate: 3500,
-        name: 'Chital',
-        resort: 'vanavihari',
-        max_adult: 2,
-      },
-      '4554333000000159037': {
-        id: '4554333000000159037',
-        week_day_bed_charge: 500,
-        cottage_type: 'Wooden Cottages',
-        max_guest: '4',
-        week_day_rate: 4000,
-        week_end_bed_charge: 700,
-        week_end_rate: 4500,
-        name: 'HORNBILL',
-        resort: 'vanavihari',
-        max_adult: 2,
-      },
-      '4554333000000159115': {
-        id: '4554333000000159115',
-        week_day_bed_charge: 1500,
-        cottage_type: 'Jungle Star Cottage 1',
-        max_guest: '2',
-        week_day_rate: 5000,
-        week_end_bed_charge: 1750,
-        week_end_rate: 7500,
-        name: 'Avani',
-        resort: 'jungle-star',
-        max_adult: 2,
-      },
-    };
-    const jsonArray = Object.keys(json).map((key) => {
-      return json[key];
-      // return {
-      //   id: key,
-      //   ...json[key]
-      // };
-    });
-    this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
-    // this.roomCards = this.roomCards.filter(room => room.resort.toLowerCase().includes(this.bookingTypeResort));
-    // console.log("this.roomCards------",this.roomCards)
-
-    setTimeout(() => {
-      this.loadingRooms = false;
-    }, 2000);
   }
 
   convertDateFormat(dateString: string): string {
@@ -537,79 +200,17 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
-
-    this.http.get<any[]>('./assets/json/rooms.json').subscribe(data => {
-      console.log(data)
+    this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
       this.roomData = data;
       this.filteredRoomData = this.filterByResort(this.selectedResort);
     });
-    
-    console.log(this.roomData);
-    console.log(this.filteredRoomData);
   }
- 
-
-  
 
   isAnyRoomChecked(): boolean {
     // Check if any room has the extra guest checkbox checked
     return this.roomData.some(
       (room: { isExtraGuestChecked: any }) => room.isExtraGuestChecked
     );
-  }
-
-  extraGuestCount: number = 0; // Initialize total extra guests count
-
-  checkExtraGuest(roomId: any, inputbox: HTMLInputElement) {
-    const room = this.roomData.find((r: any) => r._id === roomId);
-    console.log(room)
-    
-    if (room) {
-      // const isChecked: boolean = (inputbox as HTMLInputElement).checked;
-      room.noof_guest = 1;
-     
-    }
-    this.calculateExtraGuestCount()
-}
-
-
-
-calculateExtraGuestCount() {
-    // Reset count
-    this.extraGuestCount = 0;
-    // Loop through rooms to count extra guests
-    for (const room of this.roomData) {
-        if (room.noof_guest) {
-            this.extraGuestCount += room.noof_guest;
-        }
-    }
-    console.log(this.extraGuestCount)
-}
-
-
-  
-
-  mapRoomData(data: any[], roomIds: any[]): Room[] {
-    return data.map((room) => ({
-      id: room.id || 'Unknown',
-      week_day_bed_charge: room.week_day_bed_charge || 0,
-      cottage_type: room.cottage_type || 'Unknown',
-      max_guest: room.max_guest || 0,
-      week_day_rate: room.week_day_rate || 'Unknown',
-      week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
-      week_end_rate: room.week_end_rate || 'Unknown',
-      name: room.name || 'Unknown',
-      resort: room.resort || 'Unknown',
-      max_adult: room.max_adult || 3,
-      // max_child: room.max_child || 0,
-      noof_adult: room.max_adult,
-      // noof_child: room.max_child,
-      noof_guest: 0,
-      week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
-      week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
-      is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
-    }));
   }
 
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
@@ -626,7 +227,7 @@ calculateExtraGuestCount() {
   }
 
   findRoomById(id: string) {
-    return this.roomData.find((room: { _id: any }) => room._id === id);
+    return this.roomData.find((room: { Room_Id: any }) => room.Room_Id === id);
   }
 
   checkIfWeekend(): void {
@@ -636,39 +237,33 @@ calculateExtraGuestCount() {
   }
 
   addRoom(room: any) {
-    console.log(room);
-    let foundRoom = this.roomIds.find((singRoom) => singRoom.id === room._id);
-    console.log(foundRoom);
-
-    this.roomIds.push(room._id);
-
+    this.addExtraGuestCharge = false;
+    this.removeExtraGuestCharge = false;
+    this.roomIds.push(room.Room_Id);
     this.showBookingSummary = true;
     room.is_button_disabled = true;
     this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
   }
 
-  removeRoom(room: any, roomId: any) {
+  removeRoom(roomIds: any, roomId: any) {
+    const room = this.roomData.find(
+      (room: { Room_Id: any }) => room.Room_Id === roomId
+    );
+    if (room) {
+      room.is_button_disabled = false;
+    }
+
     const indexToRemove = this.roomIds.indexOf(roomId);
 
-    // If the value is found, remove it from the array
     if (indexToRemove !== -1) {
       this.roomIds.splice(indexToRemove, 1);
     }
 
-    // room.is_button_disabled = false;
-    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
-    // let rm = this.roomCards.find((rm) => rm.id === roomId);
-    // if (rm) {
-    //   rm.is_button_disabled = false;
-    //   // Update the isChecked property of the corresponding room in roomCards array
-    //   const roomCard = this.roomCards.find((r) => r.id === roomId);
-    //   if (roomCard) {
-    //     roomCard.isExtraGuestChecked = false;
-    //   }
+    if (this.roomIds.length == 0) {
+      this.showBookingSummary = false;
+    }
 
-    //   // Recalculate the total extra guest charges
-    //   this.totalExtraGuestCharges = this.calculateExtraGuestCharges();
-    // }
+    this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
   }
 
   calculateTotalPrice(): number {
@@ -679,15 +274,16 @@ calculateExtraGuestCount() {
     let totalPrice = 0;
     for (const roomId of this.roomIds) {
       const room = this.roomData.find(
-        (room: { _id: any }) => room._id === roomId
+        (room: { Room_Id: any }) => room.Room_Id === roomId
       );
       if (room) {
         const rate = isWeekend
           ? parseFloat(room.Week_End_Rate)
           : parseFloat(room.Week_Days_Rate);
-        totalPrice += rate + parseInt(room.Max_Allowed_Guest) * 500;
+        totalPrice = this.getRoomCharges();
       }
     }
+
     return totalPrice;
   }
 
@@ -697,7 +293,9 @@ calculateExtraGuestCount() {
     const currentDay = currentDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
 
     for (const roomId of this.roomIds) {
-      const room = this.roomData.find((r: { _id: any }) => r._id === roomId);
+      const room = this.roomData.find(
+        (r: { Room_Id: any }) => r.Room_Id === roomId
+      );
       if (room) {
         if (currentDay === 0 || currentDay === 6) {
           // It's a weekend (Sunday or Saturday)
@@ -721,32 +319,99 @@ calculateExtraGuestCount() {
   }
 
   calculatePayablePrice(): number {
-    // console.log(this.checkExtraGuests())
     const totalPrice = this.calculateTotalPrice();
     const gstPercentage = 0.12; // GST @12%
     const gstAmount = totalPrice * gstPercentage;
-    const payablePrice = totalPrice + gstAmount;
+    let payablePrice = totalPrice + gstAmount;
+
+    // if (this.addExtraGuestCharge) {
+    //   // this.addExtraGuestCharge = false
+    //   return (payablePrice += 500);
+    // }
+    // if (this.removeExtraGuestCharge) {
+    //   return (payablePrice -= 500);
+    // }
+    let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
+    let totalExtraGuests = extraGuests?.length;
+    if (totalExtraGuests > 0) {
+      return (payablePrice = payablePrice + totalExtraGuests * 500);
+    }
+
     return payablePrice;
   }
   goToBooking() {
-    //this.router.navigate(['/booking-summary']);
-    this.router.navigate(['/booking-summary'], {
-      queryParams: { bookingTypeResort: this.selectedResort },
-    });
-    console.log(this.selectedResort);
+    let summary = {
+      booking_rooms: localStorage.getItem('booking_rooms'),
+      noof_guests: localStorage.getItem('noof_guests'),
+      extra_guests: localStorage.getItem('extra_guests'),
+      extra_children: this.extraChildren,
+      grand_total: this.calculatePayablePrice(),
+      room_charges: this.getRoomCharges(),
+      total_gst: this.calculateTotalGst(),
+    };
+
+    let summaryData = JSON.stringify(summary);
+
+    localStorage.setItem('summaryData', summaryData);
+    this.router.navigate(['/booking-summary']);
   }
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
 
-  calculateExtraGuestCharges() {
-    const gstChargesPerRoom = 500;
-    let totalExtraGuestCharges = 0;
-    for (const room of this.roomCards) {
-      if (room.isExtraGuestChecked) {
-        totalExtraGuestCharges += gstChargesPerRoom;
-      }
+  // no. of guests
+  noOfGuestAction(event: MatSelectChange, roomId: string) {
+    const selectedValue = event.value;
+
+    this.handleNoOfGuests(selectedValue, roomId);
+  }
+
+  handleNoOfGuests(selectedValue: any, roomId: string) {
+    this.noofGuestsIds.push(roomId + ':' + selectedValue);
+
+    this.authService.setNoOfGuests(this.noofGuestsIds);
+  }
+
+  // extra guest
+  extraGuestActions(event: MatCheckboxChange, roomId: string) {
+    if (event.checked) {
+      // Call function when checkbox is checked
+      this.addExtraGuest(roomId);
+    } else {
+      // Call function when checkbox is unchecked
+      this.removeExtraGuest(roomId);
     }
+  }
+
+  addExtraGuest(roomId: string) {
+    this.isAddedExtraGuest = true;
+
+    this.extraGuestsIds.push(roomId);
+    this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
+
+    this.calculatePayablePrice();
+  }
+
+  removeExtraGuest(roomId: string) {
+    this.addExtraGuestCharge = false;
+    this.isAddedExtraGuest = false;
+    const indexToRemove = this.extraGuestsIds.indexOf(roomId);
+
+    if (indexToRemove !== -1) {
+      this.extraGuestsIds.splice(indexToRemove, 1);
+    }
+
+    this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
+
+    this.removeExtraGuestCharge = true;
+    this.calculatePayablePrice();
+  }
+
+  calculateExtraGuestCharges() {
+    let totalExtraGuestCharges = 0;
+    let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
+    let totalExtraGuests = extraGuests?.length;
+    totalExtraGuestCharges = totalExtraGuests * 500;
     return totalExtraGuestCharges;
   }
   settings = {
@@ -755,6 +420,5 @@ calculateExtraGuestCount() {
   };
   onBeforeSlide(detail: BeforeSlideDetail): void {
     const { index, prevIndex } = detail;
-    // console.log(`Slide changed from ${prevIndex} to ${index}`);
   }
 }

@@ -12,6 +12,8 @@ export class AuthService {
   private apiCommonUrl = 'https://www.zohoapis.com/creator/custom/vanavihari';
   
   private bookingRooms = 'booking_rooms';
+  private extraGuests = 'extra_guests';
+  private noofGuests = 'noof_guests'
   private searchData = 'search_data';
 
   private refreshRoomsComponentSource = new Subject<void>();
@@ -58,10 +60,15 @@ export class AuthService {
 
 
   setBookingRooms(resortType:string,rooms: any[]): void {
-    console.log(resortType);
-    console.log(rooms);
     localStorage.setItem(this.bookingRooms, JSON.stringify(rooms));
   }
+  setExtraGuests(resortType:string,guests: any[]): void {
+    localStorage.setItem(this.extraGuests, JSON.stringify(guests));
+  }
+  setNoOfGuests(noofguests: any[]): void {
+    localStorage.setItem(this.noofGuests, JSON.stringify(noofguests));
+  }
+
   getBookingRooms(resortType:any): any | null {
     const roomsJson = localStorage.getItem(this.bookingRooms);
     if (roomsJson) {
@@ -69,8 +76,28 @@ export class AuthService {
     }
     return null;
   }
+
+  getExtraGuests(resortType:any): any | null {
+    const listExtraGuests = localStorage.getItem(this.extraGuests);
+    if (listExtraGuests) {
+      return JSON.parse(listExtraGuests);
+    }
+    return null;
+  }
+
+  getNoOfGuests(resortType:any): any | null {
+    const listNoOfGuests = localStorage.getItem(this.noofGuests);
+    if (listNoOfGuests) {
+      return JSON.parse(listNoOfGuests);
+    }
+    return null;
+  }
+
   clearBookingRooms(resortType:string): void {
     localStorage.removeItem(this.bookingRooms);
+    localStorage.removeItem(this.extraGuests);
+    localStorage.removeItem(this.noofGuests);
+
   }
 
   setSearchData(data: any[]): void {
