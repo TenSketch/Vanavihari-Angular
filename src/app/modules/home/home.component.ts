@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   currentImage: string | null = null;
   items: GalleryItem[] = [];
   resortTypeId:String
-
+  localLightBox : any
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
     public gallery: Gallery,
     public lightbox: Lightbox
   ) {
+
     for (let i = 2; i <= 16; i++) {
       this.imageFilenames.push(
         `assets/img/home-gallery/vanavihari-home-gallery-${i}.jpg`
@@ -82,6 +83,7 @@ export class HomeComponent implements OnInit {
   openLightbox(index: number, id: string) {
     this.resortTypeId = id;
     this.ngOnInit()
+    this.lightbox.setConfig({closeIcon: `<img src="assets/images/close.jpg">`});
     this.lightbox.open(index);
   }
   
