@@ -98,12 +98,12 @@ export default async (req) => {
 
         fetch(apiUrl, options)
         .then(response => {
+          // console.log('Response status:', response.status);
             console.log(response);
-            // console.log('Response status:', response.status);
-            // return response.json();
+            return response.json();
         })
         .then(data => {
-            // console.log('Response data:', data);
+            console.log('Response data:', data);
 
             // return new Response(JSON.stringify({'status':'success', 'data':data }), {
             //     headers: { "Content-Type": "application/json" },
