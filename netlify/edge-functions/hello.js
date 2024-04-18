@@ -1,9 +1,15 @@
 import { CompactSign, jwtVerify } from 'jose';
+import { createHmac } from 'crypto';
 
 function urlBase64Encode(str) {
     let base64 = btoa(encodeURIComponent(str));
     const padding = '='.repeat((4 - base64.length % 4) % 4);
     return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+}
+function calculateHmacSha256(data, key) {
+  const hmac = createHmac('sha256', key);
+  hmac.update(data);
+  return hmac.digest('base64');
 }
 // function calculateHmacSha256(data, key) {
 //   const dataUint8 = new TextEncoder().encode(data);
@@ -21,20 +27,20 @@ export default async (req) => {
       const clientID = "bduatv2apt";
       const secretKey = "DnVd1pJpk3oFOdjNgRRPT1OgwfH1DYku";
   
-      const secretKeyUint8 = new TextEncoder().encode(secretKey);
-      const jwk = {
-        kty: 'oct',
-        alg: 'HS256',
-        k: secretKeyUint8
-      };
+      // const secretKeyUint8 = new TextEncoder().encode(secretKey);
+      // const jwk = {
+      //   kty: 'oct',
+      //   alg: 'HS256',
+      //   k: secretKeyUint8
+      // };
   
       const jwsHeader = {
         "alg": "HS256",
         "clientid": clientID
       };
       const jwsPayload = {
-        "mercid": "test",
-        "orderid": "order45608988",
+        "mercid": "BDUATV2APT",
+        "orderid": "order45608928",
         "amount": "300.00",
         "order_date": "2023-07-16T10:59:15+05:30",
         "currency": "356",
@@ -46,7 +52,7 @@ export default async (req) => {
         "itemcode": "DIRECT",
         "device": {
             "init_channel": "internet",
-            "ip": "103.104.59.11",
+            "ip": "75.2.60.5",
             "user_agent": "Mozilla/5.0(WindowsNT10.0;WOW64;rv:51.0)Gecko/20100101 Firefox/51.0",
             "accept_header": "text/html",
             "fingerprintid": "61b12c18b5d0cf901be34a23ca64bb19",
@@ -60,19 +66,28 @@ export default async (req) => {
         }
     };
     
-    // const base64UrlPayload = Buffer.from(JSON.stringify(jwsPayload)).toString('base64');
-      const jwsPayloadUint8 = new TextEncoder().encode(jwsPayload);
-      const jwsToken = await new CompactSign(jwsPayloadUint8)
-        .setProtectedHeader(jwsHeader)
-        .sign(new TextEncoder().encode(jwk));
+    const base64UrlPayload = Buffer.from(JSON.stringify(jwsPayload)).toString('base64');
+    const base64UrlHeader = Buffer.from(JSON.stringify(jwsHeader)).toString('base64');
+    console.log(base64UrlHeader+'.'+base64UrlPayload);
 
+    
+    
+    const signature = createHmac('sha256', secretKey).update(base64UrlHeader+'.'+base64UrlPayload).digest('base64');
+    console.log(signature);
+    // const signatureBase64 = Buffer.from(signature, 'base64').toString('base64');
 
+    const jwsToken = base64UrlHeader+'.'+base64UrlPayload+'.'+signature;
+      // const jwsPayloadUint8 = new TextEncoder().encode(base64UrlPayload);
+      // const jwsToken = await new CompactSign(jwsPayloadUint8)
+      //   .setProtectedHeader(jwsHeader)
+      //   .sign(new TextEncoder().encode(jwk));
+      // console.log(jwsToken);
 
         const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
         const headers = {
             "Content-Type": "application/jose",
             "Accept": "application/jose",
-            "BD-Traceid": "20201817132207ABD1K",
+            "BD-Traceid": "20201817132207ABD2K",
             "BD-Timestamp": `${Math.floor(Date.now() / 1000)}`
         };
         const options = {
@@ -83,15 +98,16 @@ export default async (req) => {
 
         fetch(apiUrl, options)
         .then(response => {
-            console.log('Response status:', response.status);
-            return response.json();
+            console.log(response);
+            // console.log('Response status:', response.status);
+            // return response.json();
         })
         .then(data => {
-            console.log('Response data:', data);
+            // console.log('Response data:', data);
 
-            return new Response(JSON.stringify({'status':'success', 'data':data }), {
-                headers: { "Content-Type": "application/json" },
-            });
+            // return new Response(JSON.stringify({'status':'success', 'data':data }), {
+            //     headers: { "Content-Type": "application/json" },
+            // });
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
@@ -101,7 +117,7 @@ export default async (req) => {
 
 
             
-      return new Response(JSON.stringify({'status':'success', 'jws':base64UrlPayload }), {
+      return new Response(JSON.stringify({'status':'success' }), {
           headers: { "Content-Type": "application/json" },
       });
     }
