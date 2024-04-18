@@ -1,38 +1,10 @@
 import { CompactSign, jwtVerify } from 'jose';
 import { createHmac } from 'crypto';
 
-function urlBase64Encode(str) {
-    let base64 = btoa(encodeURIComponent(str));
-    const padding = '='.repeat((4 - base64.length % 4) % 4);
-    return (base64 + padding).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-}
-function calculateHmacSha256(data, key) {
-  const hmac = createHmac('sha256', key);
-  hmac.update(data);
-  return hmac.digest('base64');
-}
-// function calculateHmacSha256(data, key) {
-//   const dataUint8 = new TextEncoder().encode(data);
-//   const keyUint8 = new TextEncoder().encode(key);
-//   const encrypted = Aes.encrypt(dataUint8, keyUint8, {
-//       mode: new Cbc(new Uint8Array(16)),
-//       padding: Padding.PKCS7
-//   });
-//   const base64 = btoa(String.fromCharCode(...encrypted));
-//   const base64Url = base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
-//   return base64Url;
-// }
 export default async (req) => {
     try {
       const clientID = "bduatv2apt";
       const secretKey = "DnVd1pJpk3oFOdjNgRRPT1OgwfH1DYku";
-  
-      // const secretKeyUint8 = new TextEncoder().encode(secretKey);
-      // const jwk = {
-      //   kty: 'oct',
-      //   alg: 'HS256',
-      //   k: secretKeyUint8
-      // };
   
       const jwsHeader = {
         "alg": "HS256",
@@ -74,20 +46,20 @@ export default async (req) => {
     
     const signature = createHmac('sha256', secretKey).update(base64UrlHeader+'.'+base64UrlPayload).digest('base64');
     console.log(signature);
-    // const signatureBase64 = Buffer.from(signature, 'base64').toString('base64');
-
     const jwsToken = base64UrlHeader+'.'+base64UrlPayload+'.'+signature; 
 
+
+        const timeStamp = Math.floor(Date.now() / 1000);
         const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
         const headers = {
             "Content-Type": "application/jose",
             "Accept": "application/jose",
-            "BD-Traceid": "20201817132207ABD2K",
-            "BD-Timestamp": `${Math.floor(Date.now() / 1000)}`
+            "BD-Traceid": "20201817132207AB65K",
+            "BD-Timestamp": `${timeStamp}`
         };
         const options = {
             method: 'POST',
-            body: jwsToken, // Assuming jwsToken is your payload
+            body: jwsToken,
             headers: headers
         };
 
@@ -100,8 +72,11 @@ export default async (req) => {
         .then(data => {
             console.log('Response data:', data);
             const dataOutput = data.split('.');
-            var utf8encoded = (Buffer(dataOutput[1], 'base64')).toString('utf8');
-            console.log(utf8encoded);
+            var encodeResHead = (Buffer(dataOutput[0], 'base64')).toString('utf8');
+            var encodeRes = (Buffer(dataOutput[1], 'base64')).toString('utf8');
+            console.log(encodeResHead);
+            console.log(encodeRes);
+            console.log(timeStamp);
  
         })
         .catch(error => {
