@@ -1,4 +1,4 @@
-import { CompactSign, jwtVerify } from 'jose';
+// import { CompactSign, jwtVerify } from 'jose';
 import { createHmac } from 'crypto';
 
 function urlBase64Encode(str) {
@@ -83,12 +83,13 @@ export default async (req) => {
       //   .sign(new TextEncoder().encode(jwk));
       // console.log(jwsToken);
 
+        const timeStamp = Math.floor(Date.now() / 1000);
         const apiUrl = "https://uat1.billdesk.com/u2/payments/ve1_2/orders/create";
         const headers = {
             "Content-Type": "application/jose",
             "Accept": "application/jose",
-            "BD-Traceid": "20201817132207ABD2K",
-            "BD-Timestamp": `${Math.floor(Date.now() / 1000)}`
+            "BD-Traceid": "20201817132207AB78K",
+            "BD-Timestamp": `${timeStamp}`
         };
         const options = {
             method: 'POST',
@@ -105,8 +106,13 @@ export default async (req) => {
         .then(data => {
             console.log('Response data:', data);
             const dataOutput = data.split('.');
-            var utf8encoded = (Buffer(dataOutput[1], 'base64')).toString('utf8');
-            console.log(utf8encoded);
+            var dataResStatue = (Buffer(dataOutput[0], 'base64')).toString('utf8');
+            var dataResResp = (Buffer(dataOutput[1], 'base64')).toString('utf8');
+            // var dataResHmac = (Buffer(dataOutput[3], 'base64')).toString('utf8');
+            console.log(dataResStatue);
+            console.log(dataResResp);
+            console.log(timeStamp);
+            // console.log(dataResHmac);
 
             // return new Response(JSON.stringify({'status':'success', 'data':data }), {
             //     headers: { "Content-Type": "application/json" },
