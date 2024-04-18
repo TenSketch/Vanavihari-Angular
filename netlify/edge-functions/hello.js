@@ -100,10 +100,13 @@ export default async (req) => {
         .then(response => {
           // console.log('Response status:', response.status);
             console.log(response);
-            return response.json();
+            return response.text();
         })
         .then(data => {
             console.log('Response data:', data);
+            const dataOutput = data.split('.');
+            var utf8encoded = (Buffer(dataOutput[1], 'base64')).toString('utf8');
+            console.log(utf8encoded);
 
             // return new Response(JSON.stringify({'status':'success', 'data':data }), {
             //     headers: { "Content-Type": "application/json" },
