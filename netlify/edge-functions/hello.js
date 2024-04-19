@@ -54,7 +54,7 @@ export default async (req) => {
         const headers = {
             "Content-Type": "application/jose",
             "Accept": "application/jose",
-            "BD-Traceid": "20201817132207AB65K",
+            "BD-Traceid": "20201817132207AB72K",
             "BD-Timestamp": `${timeStamp}`
         };
         const options = {
