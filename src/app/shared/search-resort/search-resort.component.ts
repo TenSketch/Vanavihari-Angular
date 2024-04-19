@@ -50,9 +50,22 @@ export class SearchResortComponent implements OnInit {
     if(this.authService.getSearchData("checkin")) this.checkinDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkin"));
     if(this.authService.getSearchData("checkout")) this.checkoutDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkout"));
     this.currentDate = new Date();
+    this.checkinDate = this.authService.getSearchData('checkin')
+    this.checkoutDate = this.authService.getSearchData('checkout')
   }
   ngOnInit(): void {
   }
+
+
+  setMinCheckoutDate(){
+    if (this.checkinDate) {
+      const minDate = new Date(this.checkinDate);
+      minDate.setDate(minDate.getDate() + 1); // Add one day to the checkinDate
+      return minDate;
+    }
+    return null;
+  }
+
   formatDateForMatDatepicker(date: string): string {
     let parts = date.split("/");
     let y = parseInt(parts[2], 10);
@@ -130,19 +143,7 @@ export class SearchResortComponent implements OnInit {
       this.roomsCount;
   }
   
-  // onResortChange(): void {
-  //   switch (this.selectedResort) {
-  //     case 'vanavihari':
-  //       this.goToVanavihari();
-  //       break;
-  //     case 'jungle-star':
-  //       this.goToJungleStar();
-  //       break;
-  //     default:
-  //       // Handle default case if needed
-  //       break;
-  //   }
-  // }
+ 
 
   submitSearch() {
     console.log(this.selectedResort)

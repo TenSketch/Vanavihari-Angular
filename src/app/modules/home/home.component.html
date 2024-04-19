@@ -168,12 +168,17 @@
           <div class="row">
             <div class="col-md-8">
               <h2 class="mb-3 text-center">Gallery</h2>
-              <div class="masonry-layout" id="vanavihari-gallery">
+              <div class="" id="vanavihari-gallery">
   
                 <lightgallery [settings]="settings">
-                  <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
-                    <img className="img-responsive" src="{{ item }}" />
+                 
+                  <div class="gcontainer">
+                    <div class="gcard-container">
+                       <a *ngFor="let item of imageFilenames" class="gcard" [attr.href]="item">
+                    <img className="" src="{{ item }}" />
                   </a>
+                    </div>
+                  </div>
                 </lightgallery>
                 <!-- Loop through the image filenames array and generate HTML elements -->
               </div>
@@ -224,12 +229,15 @@
           <div class="row">
             <div class="col-md-8">
               <h2 class="mb-3 text-center">Gallery</h2>
-              <div class="masonry-layout" id="junglestar-gallery">
-                <lightgallery [settings]="settings">
-                  <a *ngFor="let item of imageFilenames1" className="gallery-item" [attr.href]="item">
-                    <img className="img-responsive" src="{{ item }}" />
-                  </a>
-                </lightgallery>
+              <div class="" id="junglestar-gallery">
+                <div class="gcontainer">
+                  
+                  <div class="gcard-container">
+                     <a *ngFor="let item of imageFilenames1" class="gcard" [attr.href]="item">
+                  <img className="" src="{{ item }}" />
+                </a>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-md-4 mt-3 mt-md-0">

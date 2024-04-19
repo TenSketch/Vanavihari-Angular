@@ -65,6 +65,7 @@ export class SignInComponent implements OnInit {
                 'Login Success',
                 false
               );
+              console.log(response.result.token)
               this.authService.setAccessToken(response.result.token);
               this.authService.setAccountUsername(
                 this.form.value.email_address
