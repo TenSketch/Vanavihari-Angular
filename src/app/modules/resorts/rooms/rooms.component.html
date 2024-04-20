@@ -152,16 +152,11 @@
                     <span>
                       <mat-form-field appearance="outline" class="mat-small">
                         <mat-label>No. of Guests</mat-label>
-                        <mat-select
-                          (selectionChange)="noOfGuestAction($event, roomId)"
-                          size="small"
-                        >
+                        <mat-select (selectionChange)="noOfGuestAction($event, roomId)" size="small">
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
                         </mat-select>
-                        <mat-hint class="px-0"
-                          >Adults/Child over 5 yrs</mat-hint
-                        >
+                        <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
                       </mat-form-field>
                     </span>
                     <mat-checkbox
@@ -189,10 +184,9 @@
             </div>
             <hr />
             <ng-container *ngIf="showBookingSummary">
-              <label for="">No of children (extra choldren)</label>
               <mat-form-field appearance="outline" class="mat-small mt-4">
-                <mat-label>{{extraChildren}}</mat-label>
-                <mat-select required [(ngModel)]="extraChildren" size="small">
+                <mat-label>No. of children upto 5 years (10 total no.)</mat-label>
+                <mat-select required [(ngModel)]="extraChildren"  size="small">
                   <mat-option value="1">1</mat-option>
                   <mat-option value="2">2</mat-option>
                   <mat-option value="3">3</mat-option>
@@ -204,9 +198,9 @@
                   <mat-option value="9">9</mat-option>
                   <mat-option value="10">10</mat-option>
                 </mat-select>
-                <mat-hint class="px-0">Up to 5 years</mat-hint>
+                <mat-hint class="px-0">Upto 5 years</mat-hint>
+
               </mat-form-field>
-              
               <div class="d-flex justify-content-between pt-1">
                 <span>Room charges</span>
                 <span>{{
@@ -313,7 +307,7 @@
                             appearance="outline"
                             class="mat-small"
                           >
-                            <mat-label>{{noof_guests}}</mat-label>
+                            <mat-label>No. of. Guests</mat-label>
                             <mat-select
                               required
                               [(ngModel)]="roomId.id"
@@ -451,6 +445,7 @@
           </ng-template>
 
           <div *ngIf="!loadingRooms; else loading">
+            
             <div class="card mb-3" *ngFor="let room of filteredRoomData">
               <div class="row">
                 <div class="col-md-5">
@@ -515,14 +510,15 @@
                   </div>
                   <div class="col my-2 pe-0">
                     <button
-                      mat-raised-button
-                      color="primary"
-                      class="float-end float-md-start"
-                      [disabled]="room.is_button_disabled"
-                      (click)="addRoom(room)"
+                    mat-raised-button
+                    color="primary"
+                    class="float-end float-md-start"
+                    [disabled]="room.is_button_disabled"
+                    (click)="addRoom(room);"
                     >
-                      Add room
-                    </button>
+                    
+                    Add room
+                  </button>
                   </div>
                 </div>
               </div>

@@ -36,9 +36,8 @@ export class BookingSummaryComponent {
   guestDetails: any[];
   totalGuests: any;
   extra_guests: any;
-  extra_children : any;
-  // checkinDate: Date;
-  // checkoutDate: Date;
+  checkinDate: Date;
+  checkoutDate: Date;
 
   constructor(
     private router: Router,
@@ -91,8 +90,8 @@ export class BookingSummaryComponent {
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
-    this.checkInDate = this.authService.getSearchData('checkin');
-    this.checkOutDate = this.authService.getSearchData('checkout');
+    // this.checkInDate = this.authService.getSearchData('checkin');
+    // this.checkOutDate = this.authService.getSearchData('checkout');
     this.seslectedResort = this.authService.getSearchData('resort');
 
     const startDate = this.parseDate(this.checkInDate);
@@ -202,7 +201,6 @@ export class BookingSummaryComponent {
     //   }
     // });
 
-    this.extra_children = JSON.parse(this.summaryData.extra_children)
     const roomIdsWithGuests = JSON.parse(this.summaryData.noof_guests);
 
     roomIdsWithGuests.forEach(
@@ -243,13 +241,7 @@ export class BookingSummaryComponent {
     this.router.navigate(['/sign-in']);
   }
   goToVanavihari() {
-    const result = confirm('Are you sure you want to proceed?');
-
-    if (result) {
-      this.router.navigate(['/resorts/rooms']);
-    } else {
-      console.log('User cancelled');
-    }
+    this.router.navigate(['/resorts/rooms']);
   }
 
   submitBooking() {
@@ -363,10 +355,8 @@ export class BookingSummaryComponent {
   }
 
   calculateDurationOfStay() {
-    if (this.checkInDate && this.checkOutDate) {
-      const timeDiff =
-        new Date(Date.parse(this.checkOutDate)).getTime() -
-        new Date(Date.parse(this.checkInDate)).getTime();
+    if (this.checkinDate && this.checkoutDate) {
+      const timeDiff = this.checkoutDate.getTime() - this.checkinDate.getTime();
       this.durationOfStay = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days and round up
     } else {
       this.durationOfStay = 1; // Handle case where dates are not selected
@@ -405,4 +395,6 @@ export class BookingSummaryComponent {
     }
     return arr;
   }
+
 }
+
