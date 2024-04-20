@@ -138,14 +138,14 @@
                     <!-- {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
                         {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
                     Room Tariff:
-                    <span class="float-end pb-4 m-0">{{
-                      findRoomById(roomId).Week_Days_Rate
-                        | currency
-                          : "INR
-                    "
-                          : "symbol"
-                          : "1.2-2"
-                    }}</span>
+                    <span class="float-end pb-4 m-0">
+                      {{
+                        isWeekend
+                          ? findRoomById(roomId).Week_End_Rate
+                          : (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
+                    </span>
                   </small>
 
                   <div class="custom-dropdown">
@@ -169,8 +169,11 @@
                     </mat-checkbox>
 
                     <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
-                      <strong>INR 500 </strong
-                      ><small>+ GST @ 12% will be charged</small>
+                      <strong *ngIf="selectedResort=='Jungle Star, Valamuru'">INR 1500 </strong
+                      >
+                      <strong *ngIf="selectedResort=='Vanavihari, Maredumilli'">INR 500 </strong
+                        >
+                      <small>+ GST @ 12% will be charged</small>
                     </div>
 
                     <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
@@ -497,8 +500,11 @@
                     </div>
                     <div class="col-auto">
                       <h6 class="p-0 m-0">
-                        <strong
+                        <strong *ngIf="selectedResort=='Vanavihari, Maredumilli'"
                           >{{ 500 | currency : "INR " : true : "1.2-2" }}
+                        </strong>
+                        <strong *ngIf="selectedResort=='Jungle Star, Valamuru'"
+                          >{{ 1500 | currency : "INR " : true : "1.2-2" }}
                         </strong>
                       </h6>
                       <p class="text-primary-dark">For an extra guest</p>

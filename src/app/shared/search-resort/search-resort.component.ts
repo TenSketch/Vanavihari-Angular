@@ -26,13 +26,15 @@ export class SearchResortComponent implements OnInit {
   RoomValues: any;
   //selectedResort: string = "vanavihari";
   selectedResort: string;
-  checkinDate: string;
-  checkoutDate: string;
+  checkinDate: any;
+  checkoutDate: any;
   currentDate: any;
   minDate: Date;
 
   constructor(private searchService:SearchService,private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     
+    this.checkinDate = localStorage.getItem('checkin')
+    this.checkoutDate = localStorage.getItem('search_data')
      // Set the minimum to the next date from the present date.
      const currentDate = new Date();
      currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
@@ -53,6 +55,16 @@ export class SearchResortComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+
+  calculateMinDate(): Date {
+    if (this.checkinDate) {
+      const minDate = new Date(this.checkinDate);
+      minDate.setDate(minDate.getDate() + 1); // Add one day to the checkinDate
+      return minDate;
+    }
+    return this.minDate;
+  }
+
   formatDateForMatDatepicker(date: string): string {
     let parts = date.split("/");
     let y = parseInt(parts[2], 10);

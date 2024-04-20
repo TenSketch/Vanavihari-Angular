@@ -241,6 +241,14 @@ export class BookingSummaryComponent {
     this.router.navigate(['/sign-in']);
   }
   goToVanavihari() {
+    const storedObjectString = localStorage.getItem('summaryData');
+     localStorage.setItem('noof_guests','0')
+    if (storedObjectString !== null) {
+      const storedObject = JSON.parse(storedObjectString);
+      this.summaryData = storedObject;
+      this.summaryData.extra_guests = 0
+      
+    } 
     this.router.navigate(['/resorts/rooms']);
   }
 
