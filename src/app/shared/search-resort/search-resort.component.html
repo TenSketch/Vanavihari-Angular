@@ -48,6 +48,8 @@
             placeholder="Checkout date"
             name="CheckOutDate"
             [(ngModel)]="checkoutDate"
+            [min]="setMinCheckoutDate()"
+
             #checkoutDateInput="ngModel"
             required
           />
