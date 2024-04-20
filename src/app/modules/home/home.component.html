@@ -170,12 +170,18 @@
               <h2 class="mb-3 text-center">Gallery</h2>
               <div class="masonry-layout" id="vanavihari-gallery">
   
-                <lightgallery [settings]="settings">
+                <!-- <lightgallery [settings]="settings">
                   <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
                     <img className="img-responsive" src="{{ item }}" />
                   </a>
-                </lightgallery>
-                <!-- Loop through the image filenames array and generate HTML elements -->
+                </lightgallery> -->
+             
+                <div class="gallerize-example">
+                 
+                  <p class="" gallerize>
+                    <img *ngFor="let img of imageFilenames;let i= index" [src]="img" (click)="openLightbox(i, 'vanavihari')" class="gallery-image">
+                  </p>
+                </div>
               </div>
             </div>
             <div class="col-md-4 mt-3 mt-md-0">
@@ -224,12 +230,13 @@
           <div class="row">
             <div class="col-md-8">
               <h2 class="mb-3 text-center">Gallery</h2>
-              <div class="masonry-layout" id="junglestar-gallery">
-                <lightgallery [settings]="settings">
-                  <a *ngFor="let item of imageFilenames1" className="gallery-item" [attr.href]="item">
-                    <img className="img-responsive" src="{{ item }}" />
-                  </a>
-                </lightgallery>
+              <div class="masonry-layout" id="jungle-star-gallery">
+              <div class="gallerize-example">
+                 
+                <p class="" gallerize>
+                  <img *ngFor="let img of imageFilenames1;let i= index" [src]="img" (click)="openLightbox(i, 'jungle-star')" class="gallery-image">
+                </p>
+              </div>
               </div>
             </div>
             <div class="col-md-4 mt-3 mt-md-0">
