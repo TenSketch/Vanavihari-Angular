@@ -105,7 +105,7 @@ export class RoomsComponent implements OnInit {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {
-    this.authService.clearBookingRooms(this.bookingTypeResort);
+    // this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
@@ -154,12 +154,12 @@ export class RoomsComponent implements OnInit {
         ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
 
-    this.authService.clearBookingRooms(this.bookingTypeResort);
+    // this.authService.clearBookingRooms(this.bookingTypeResort);
 
-    // if(this.roomIds.length>0){
-    //   this.showBookingSummary = true;
+    if(this.roomIds.length>0){
+      this.showBookingSummary = true;
 
-    // }
+    }
   }
 
   toggleBookingSummary() {
@@ -203,6 +203,7 @@ export class RoomsComponent implements OnInit {
     this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
       this.roomData = data;
       this.filteredRoomData = this.filterByResort(this.selectedResort);
+      
     });
   }
 
@@ -283,6 +284,9 @@ export class RoomsComponent implements OnInit {
         totalPrice = this.getRoomCharges();
       }
     }
+    if(this.isAddedExtraGuest){
+      return totalPrice+=this.calculateExtraGuestCharges()
+    }
 
     return totalPrice;
   }
@@ -306,6 +310,8 @@ export class RoomsComponent implements OnInit {
         }
       }
     }
+
+    
 
     return roomCharges;
   }
@@ -411,7 +417,12 @@ export class RoomsComponent implements OnInit {
     let totalExtraGuestCharges = 0;
     let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
     let totalExtraGuests = extraGuests?.length;
-    totalExtraGuestCharges = totalExtraGuests * 500;
+    if(this.selectedResort=='Vanavihari, Maredumilli'){
+      totalExtraGuestCharges = totalExtraGuests * 500;
+    }
+    else{
+      totalExtraGuestCharges = totalExtraGuests * 1500;
+    }
     return totalExtraGuestCharges;
   }
   settings = {

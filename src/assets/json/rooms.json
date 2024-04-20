@@ -1,7 +1,7 @@
 [
     {
       "_id": "661b4d16f2a0de0021ad9671",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -18,7 +18,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9672",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -36,7 +36,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9673",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -54,7 +54,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9674",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -72,7 +72,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9675",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -90,7 +90,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9676",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Permanent Cottage",
@@ -108,7 +108,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9677",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Tented Cottage",
@@ -126,7 +126,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9678",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Tented Cottage",
@@ -144,7 +144,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad9679",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Tented Cottage",
@@ -162,7 +162,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad967a",
-      "Week_Days_Rate": "5500.00",
+      "Week_Days_Rate": "5000.00",
       "Charges_per_Bed_Week_Days": "1500",
       "Charges_per_Bed_Week_End": "1750",
       "Cottage_Type": "Tented Cottage",
@@ -180,7 +180,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad967b",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Vihari",
@@ -198,7 +198,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad967c",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Vihari",
@@ -216,7 +216,7 @@
     },
     {
       "_id": "661b4d16f2a0de0021ad967d",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Wooden Cottages",
@@ -227,14 +227,14 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "AMRA",
+      "Room_Name": "KINGFISHER",
       "noof_guest": 0,
       "extra_guest": false
 
     },
     {
       "_id": "661b4d16f2a0de0021ad967e",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Wooden Cottages",
@@ -245,14 +245,14 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "ALAKA",
+      "Room_Name": "WOODPECKER",
       "noof_guest": 0,
       "extra_guest": false
 
     },
     {
       "_id": "661b4d16f2a0de0021ad967f",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Wooden Cottages",
@@ -263,14 +263,14 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "VALLARI",
+      "Room_Name": "BULBUL",
       "noof_guest": 0,
       "extra_guest": false
 
     },
     {
       "_id": "661b4d16f2a0de0021ad9680",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "4000.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
       "Cottage_Type": "Wooden Cottages",
@@ -281,17 +281,17 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "SARADA",
+      "Room_Name": "HORNBILL",
       "noof_guest": 0,
       "extra_guest": false
 
     },
     {
       "_id": "661b4d16f2a0de0021ad9681",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "1750.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "BISON",
       "Room_Id": "VA11",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900918262_Wooden-Cottage-TAMALA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -299,17 +299,17 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "TAMALA",
+      "Room_Name": "PEACOCK",
       "noof_guest": 0,
       "extra_guest": false
 
     },
     {
       "_id": "661b4d16f2a0de0021ad9682",
-      "Week_Days_Rate": "2500.00",
+      "Week_Days_Rate": "1750.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "BISON",
       "Room_Id": "VA10",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900865181_Wooden-Cottage-NEELA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -317,7 +317,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "NEELA",
+      "Room_Name": "RED JUNGLE FOWL",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -327,15 +327,15 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
-      "Room_Id": "VA9",
+      "Cottage_Type": "HILL TOP",
+      "Room_Id": "VA9", 
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900794695_Wooden-Cottage-RUKMINI__1_.jpg",
       "Max_Allowed_Guest": "1",
       "ID": "4554333000000317039",
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "RUKMINI",
+      "Room_Name": "PANTHER",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -345,7 +345,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "HILL TOP",
       "Room_Id": "VA8",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900731393_Wooden-Cottage-SOMA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -353,7 +353,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "SOMA",
+      "Room_Name": "BONNET",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -363,7 +363,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "PRE FABRICATED",
       "Room_Id": "VA7",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900667405_Wooden-Cottage-TARANA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -371,7 +371,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "TARANA",
+      "Room_Name": "SAMBAR",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -381,7 +381,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "PRE FABRICATED",
       "Room_Id": "VA6",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900600819_Wooden-Cottage-NEERJA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -389,7 +389,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "NEERJA",
+      "Room_Name": "CHOUSINGHA",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -399,7 +399,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "PRE FABRICATED",
       "Room_Id": "VA5",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900527904_Wooden-Cottage-MALABARICA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -407,7 +407,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "MALABARICA",
+      "Room_Name": "CHITAL",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -417,7 +417,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "PRE FABRICATED",
       "Room_Id": "VA4",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900457405_Wooden-Cottage-SHIMONA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -425,7 +425,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "SHIMONA",
+      "Room_Name": "CHITAL",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -435,7 +435,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "PRE FABRICATED",
       "Room_Id": "VA3",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900385009_Wooden-Cottage-TUSHARA__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -443,7 +443,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "TUSHARA",
+      "Room_Name": "BEAR",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -453,7 +453,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "DELUXE",
       "Room_Id": "VA2",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900321835_Wooden-Cottage-KAJRI__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -461,7 +461,7 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "KAJRI",
+      "Room_Name": "TAPATHI",
       "noof_guest": 0,
       "extra_guest": false
 
@@ -471,7 +471,7 @@
       "Week_Days_Rate": "2500.00",
       "Charges_per_Bed_Week_Days": "500",
       "Charges_per_Bed_Week_End": "700",
-      "Cottage_Type": "Wooden Cottages",
+      "Cottage_Type": "DELUXE",
       "Room_Id": "VA1",
       "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900270234_Wooden-Cottage-KALYANI__1_.jpg",
       "Max_Allowed_Guest": "1",
@@ -479,7 +479,25 @@
       "Week_End_Rate": "3500.00",
       "Max_Allowed_Adult": "2",
       "Select_Resort": "Vanavihari, Maredumilli",
-      "Room_Name": "KALYANI",
+      "Room_Name": "BAHUDA",
+      "noof_guest": 0,
+      "extra_guest": false
+
+    },
+    {
+      "_id": "661b4d16f2a0de0021ad968b",
+      "Week_Days_Rate": "2500.00",
+      "Charges_per_Bed_Week_Days": "500",
+      "Charges_per_Bed_Week_End": "700",
+      "Cottage_Type": "DELUXE",
+      "Room_Id": "VA1",
+      "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900270234_Wooden-Cottage-KALYANI__1_.jpg",
+      "Max_Allowed_Guest": "1",
+      "ID": "4554333000000316991",
+      "Week_End_Rate": "3500.00",
+      "Max_Allowed_Adult": "2",
+      "Select_Resort": "Vanavihari, Maredumilli",
+      "Room_Name": "NARMADA",
       "noof_guest": 0,
       "extra_guest": false
 
