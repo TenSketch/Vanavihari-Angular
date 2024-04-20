@@ -67,31 +67,11 @@ $card-flex-basis: 35%;
   font-size: 20px;
   cursor: pointer;
 }
-
-
-// 
-.gcontainer {
-  width: min(991px, 80%);
-  overflow: hidden; /* Ensure container clips overflow */
+.gallery-image {
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
-.gcard-container {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  scroll-snap-type: x mandatory; /* Enable mandatory scroll snapping */
-}
-
-.gcard {
-  flex: 0 0 auto;
-  width: 200px;
-  aspect-ratio: 1;
-  margin: 10px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  color: black;
-  text-align: center;
-  line-height: 200px; /* Vertically center the text */
-  scroll-snap-align: start; /* Align start of the card to the scroll snap point */
+.gallery-image:hover {
+  transform: scale(1.1); 
 }

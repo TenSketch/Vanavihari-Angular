@@ -1,3 +1,4 @@
+
 <app-layout>
     <div class="main">
       <section id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -168,19 +169,20 @@
           <div class="row">
             <div class="col-md-8">
               <h2 class="mb-3 text-center">Gallery</h2>
-              <div class="" id="vanavihari-gallery">
+              <div class="masonry-layout" id="vanavihari-gallery">
   
-                <lightgallery [settings]="settings">
-                 
-                  <div class="gcontainer">
-                    <div class="gcard-container">
-                       <a *ngFor="let item of imageFilenames" class="gcard" [attr.href]="item">
-                    <img className="" src="{{ item }}" />
+                <!-- <lightgallery [settings]="settings">
+                  <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
+                    <img className="img-responsive" src="{{ item }}" />
                   </a>
-                    </div>
-                  </div>
-                </lightgallery>
-                <!-- Loop through the image filenames array and generate HTML elements -->
+                </lightgallery> -->
+             
+                <div class="gallerize-example">
+                 
+                  <p class="" gallerize>
+                    <img *ngFor="let img of imageFilenames;let i= index" [src]="img" (click)="openLightbox(i, 'vanavihari')" class="gallery-image">
+                  </p>
+                </div>
               </div>
             </div>
             <div class="col-md-4 mt-3 mt-md-0">
@@ -229,15 +231,13 @@
           <div class="row">
             <div class="col-md-8">
               <h2 class="mb-3 text-center">Gallery</h2>
-              <div class="" id="junglestar-gallery">
-                <div class="gcontainer">
-                  
-                  <div class="gcard-container">
-                     <a *ngFor="let item of imageFilenames1" class="gcard" [attr.href]="item">
-                  <img className="" src="{{ item }}" />
-                </a>
-                  </div>
-                </div>
+              <div class="masonry-layout" id="jungle-star-gallery">
+              <div class="gallerize-example">
+                 
+                <p class="" gallerize>
+                  <img *ngFor="let img of imageFilenames1;let i= index" [src]="img" (click)="openLightbox(i, 'jungle-star')" class="gallery-image">
+                </p>
+              </div>
               </div>
             </div>
             <div class="col-md-4 mt-3 mt-md-0">
