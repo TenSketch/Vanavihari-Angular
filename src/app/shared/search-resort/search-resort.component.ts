@@ -6,6 +6,8 @@ import { SharedService } from '../../shared.service';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from 'src/app/search.service';
+import * as e from 'cors';
+import { thumbnailsSettings } from 'lightgallery/plugins/thumbnail/lg-thumbnail-settings';
 
 @Component({
   selector: 'app-search-resort',
@@ -30,6 +32,9 @@ export class SearchResortComponent implements OnInit {
   checkoutDate: string;
   currentDate: any;
   minDate: Date;
+  firstResort: string;
+  previousResort: string;
+  @ViewChild('confirmationModal') confirmationModal: ElementRef;
 
   constructor(private searchService:SearchService,private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     
@@ -52,11 +57,28 @@ export class SearchResortComponent implements OnInit {
     this.currentDate = new Date();
     this.checkinDate = this.authService.getSearchData('checkin')
     this.checkoutDate = this.authService.getSearchData('checkout')
+
+    this.firstResort= '';
+     this.previousResort='';
   }
   ngOnInit(): void {
   }
 
+  isModalVisible: boolean = false;
 
+  triggerModal() {
+    this.isModalVisible = true;
+  }
+
+  onCancel() {
+    this.isModalVisible = false;
+    window.location.reload(); // Reload the page
+  }
+
+  onConfirm() {
+    this.isModalVisible = false;
+ }
+ 
   setMinCheckoutDate(){
     if (this.checkinDate) {
       const minDate = new Date(this.checkinDate);
@@ -144,24 +166,37 @@ export class SearchResortComponent implements OnInit {
   }
   
  
+  bookingTypeResort: string;
+
+  onSelectResortOpen(event: any): void {
+    // const result = confirm(`you have added rooms from "${this.selectedResort}", now you are about to switch to another resort. Added rooms will be deleted. Switch anyway?`);
+    // if (result) {
+       
+        
+    // } else {
+     
+    // }
+    this.triggerModal()
+  }
+
+  confirmResortChange(newValue:string){
+    this.authService.clearBookingRooms(this.bookingTypeResort)
+    this.submitSearch()
+    window.location.reload(); // Reload the page
+
+  }
 
   submitSearch() {
     console.log(this.selectedResort)
     this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
     console.log(this.selectedResort)
     this.searchService.setSearchCriteria(this.selectedResort)
+    this.authService.refreshRoomsComponent()
+
     this.authService.buttonClick$.next();
     this.router.navigate(['resorts/rooms']);
   }
-  // goToJungleStar() { 
-  //   this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
-  //   //this.router.navigate(['resorts/jungleStar,Valamuru']);
-  //   this.router.navigate(['/resorts/rooms']);
-  //   this.sharedService.triggerFetchRoomList();
-  // }
-  // goToRooms(){
-  //   this.router.navigate(['/resorts/rooms' ]);
-  // }
+ 
 
   onDateChange(type: string, event: any): void {
     let formattedDate: string;

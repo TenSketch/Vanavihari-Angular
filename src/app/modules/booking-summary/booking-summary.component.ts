@@ -13,6 +13,8 @@ import { HmacSHA256, enc } from 'crypto-js';
   styleUrls: ['./booking-summary.component.scss'],
 })
 export class BookingSummaryComponent {
+  formattedCheckinDate: { day: number, month: string, year: number };
+  formattedCheckoutDate: { day: number, month: string, year: number };
   form: FormGroup;
   adultsCount: number = 1;
   guestCount: number = 0;
@@ -36,8 +38,11 @@ export class BookingSummaryComponent {
   guestDetails: any[];
   totalGuests: any;
   extra_guests: any;
-  checkinDate: Date;
-  checkoutDate: Date;
+  extra_children : any;
+  grandTotal:any
+  room_ids:any
+  // checkinDate: Date;
+  // checkoutDate: Date;
 
   constructor(
     private router: Router,
@@ -90,12 +95,18 @@ export class BookingSummaryComponent {
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
-    // this.checkInDate = this.authService.getSearchData('checkin');
-    // this.checkOutDate = this.authService.getSearchData('checkout');
+    this.checkInDate = this.authService.getSearchData('checkin');
+    this.checkOutDate = this.authService.getSearchData('checkout');
     this.seslectedResort = this.authService.getSearchData('resort');
 
-    const startDate = this.parseDate(this.checkInDate);
-    const endDate = this.parseDate(this.checkOutDate);
+    const startDate = (new Date(this.checkInDate));
+    const endDate = (new Date(this.checkOutDate));
+
+    this.formattedCheckinDate = this.parseDate(new Date(this.checkInDate));
+    this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate))
+    // this.checkOutDate = endDate
+    // console.log(this.checkInDate, endDate)
+    
     const durationMs = endDate.getTime() - startDate.getTime();
     const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
     // const weeks = Math.floor(durationMs / (1000 * 60 * 60 * 24 * 7));
@@ -103,8 +114,9 @@ export class BookingSummaryComponent {
 
     this.getFullUser = this.userService.getFullUser();
 
-    // this.getUserDetails();
+    this.getUserDetails();
   }
+
   getUserDetails() {
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername() ?? '')
@@ -145,26 +157,22 @@ export class BookingSummaryComponent {
         },
       });
   }
-  parseDate(dateString: string): Date {
-    const parts = dateString.split('-');
+
+  parseDate(date: Date): { day: number, month: string, year: number } {
     const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
     ];
-    const monthIndex = months.findIndex((m) => m === parts[1]);
-    const day = parseInt(parts[0], 10);
-    const year = parseInt(parts[2], 10);
-    return new Date(year, monthIndex, day);
+
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return {
+      day: day,
+      month: months[monthIndex],
+      year: year
+    };
   }
 
   fetchRoomList() {
@@ -174,6 +182,7 @@ export class BookingSummaryComponent {
     });
   }
 
+  
   getRoomData() {
     const storedObjectString = localStorage.getItem('summaryData');
 
@@ -184,12 +193,12 @@ export class BookingSummaryComponent {
     }
 
     let roomIdarray = JSON.parse(this.summaryData.booking_rooms);
-
+    this.grandTotal = JSON.parse(this.summaryData.grand_total)
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
     this.resortName = room.Select_Resort;
-
+    this.room_ids = roomIdarray
     // roomIdarray.forEach((roomId: any) => {
     //   const room = this.roomData.find(
     //     (room: { Room_Id: any }) => room.Room_Id === roomId
@@ -201,6 +210,7 @@ export class BookingSummaryComponent {
     //   }
     // });
 
+    this.extra_children = JSON.parse(this.summaryData.extra_children)
     const roomIdsWithGuests = JSON.parse(this.summaryData.noof_guests);
 
     roomIdsWithGuests.forEach(
@@ -215,6 +225,7 @@ export class BookingSummaryComponent {
           this.roomNamesWithGuests.push('Room name not found'); // Or any default value
         }
       }
+      
     );
 
     this.guestDetails = this.roomNamesWithGuests.map((item) => {
@@ -228,10 +239,13 @@ export class BookingSummaryComponent {
     );
 
     this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
-
+    console.log(this.extra_guests)
     //  payment details
     this.totalPrice = JSON.parse(this.summaryData.room_charges);
     this.totalGSTPrice = JSON.parse(this.summaryData.total_gst);
+
+    this.guestCount = this.totalGuests + this.extra_children
+    this.adultsCount = this.totalGuests
   }
 
   isLoggedIn(): boolean {
@@ -241,14 +255,20 @@ export class BookingSummaryComponent {
     this.router.navigate(['/sign-in']);
   }
   goToVanavihari() {
-    this.router.navigate(['/resorts/rooms']);
+    const result = confirm('Are you sure you want to proceed?');
+
+    if (result) {
+      this.router.navigate(['/resorts/rooms']);
+    } else {
+      console.log('User cancelled');
+    }
   }
 
   submitBooking() {
-    let room_ids = this.authService
-      .getBookingRooms(this.bookingTypeResort)
-      .map((room: { id: any }) => room.id)
-      .join(',');
+    // let room_ids = this.authService
+    //   .getBookingRooms(this.bookingTypeResort)
+    //   .map((room: { id: any }) => room.id)
+    //   .join(',');
 
     if (this.form.valid) {
       let params = new HttpParams()
@@ -256,8 +276,8 @@ export class BookingSummaryComponent {
         .set('token', this.authService.getAccessToken() ?? '')
         .set('checkin', this.checkInDate)
         .set('checkout', this.checkOutDate)
-        .set('resort', this.seslectedResort)
-        .set('selected_rooms', room_ids)
+        .set('resort', this.resortName)
+        .set('selected_rooms', this.room_ids)
         .set(
           'room_guest_details',
           this.roomDetails
@@ -355,8 +375,10 @@ export class BookingSummaryComponent {
   }
 
   calculateDurationOfStay() {
-    if (this.checkinDate && this.checkoutDate) {
-      const timeDiff = this.checkoutDate.getTime() - this.checkinDate.getTime();
+    if (this.checkInDate && this.checkOutDate) {
+      const timeDiff =
+        new Date(Date.parse(this.checkOutDate)).getTime() -
+        new Date(Date.parse(this.checkInDate)).getTime();
       this.durationOfStay = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days and round up
     } else {
       this.durationOfStay = 1; // Handle case where dates are not selected
@@ -364,6 +386,10 @@ export class BookingSummaryComponent {
     return this.durationOfStay;
   }
 
+  calculateGrandTotal(){
+    
+    return this.grandTotal * this.calculateDurationOfStay()
+  }
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {
       duration: 3000,
@@ -395,6 +421,4 @@ export class BookingSummaryComponent {
     }
     return arr;
   }
-
 }
-

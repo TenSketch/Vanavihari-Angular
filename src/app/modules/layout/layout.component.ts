@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../user.service';
 import { AuthService } from '../../auth.service';
 import { SearchService } from 'src/app/search.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-layout',
@@ -10,12 +11,40 @@ import { SearchService } from 'src/app/search.service';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService) {}
+  constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService, private http:HttpClient) {}
   accountusername: string = 'John Doe';
   isSidebarOpen: boolean = false;
+  userData:any
 
   ngOnInit(): void {
     this.accountusername = this.userService.getFullUser();
+    this.getUserData()
+  }
+
+
+  getUserData(){
+    const params = new HttpParams()
+      .set('email', this.authService.getAccountUsername()??'')
+      .set('token', this.authService.getAccessToken()??'');
+    this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=profile_details', {params}).subscribe({
+      next: response => {
+        if(response.code == 3000 && response.result.status == 'success') {
+          console.log(response.result)
+          this.userData = response.result
+        } else if (response.code == 3000) {
+          this.userService.clearUser();
+          // alert('Login Error!');
+          // this.router.navigate(['/home']);
+        } else {
+          this.userService.clearUser();
+          // alert('Login Error!');
+          // this.router.navigate(['/home']);
+        }
+      },
+      error: err => {
+        console.error('Error:', err);
+      }
+    });
   }
 
   isLoggedIn(): boolean {

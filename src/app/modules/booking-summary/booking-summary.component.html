@@ -1,220 +1,342 @@
 <app-layout>
-    <div class="main">
-        <section class="booking-summary pb-5">
-            <div class="container">
-                <h2 class="mb-3">Booking Summary <span (click)="generateJWSToken()">Test </span></h2>
-                <div class="row gap-4">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <h5><strong>Resort name:</strong> {{resortName}}</h5>
-                            <!-- <h6><strong>Cottage type:</strong> Wooden Cottage</h6>
+  <div class="main">
+    <section class="booking-summary pb-5">
+      <div class="container">
+        <h2 class="mb-3">
+          Booking Summary <span (click)="generateJWSToken()">Test </span>
+        </h2>
+        <div class="row gap-4">
+          <div class="col-md-4">
+            <div class="card">
+              <h5><strong>Resort name:</strong> {{ resortName }}</h5>
+              <!-- <h6><strong>Cottage type:</strong> Wooden Cottage</h6>
                             <p><strong>Room name: Hornbill</strong></p> -->
 
-                            <div class="pb-4">
-                                <div class="pt-2" *ngFor="let roomId of guestDetails">
-                                    <p class="m-0"><strong class="me-2">Room Name: {{ roomId.roomName }}</strong></p>
-                                    <small>
-                                    Guest: {{ roomId.numGuests }}
-                                        <span class="float-end pb-0 m-0">{{ roomId.week_day_rate+(roomId.week_day_bed_charge*roomId.noof_guest) | currency:'INR':'symbol':'1.2-2' }}</span>
-                                    </small>
-                                </div>
-                            </div>
+              <div class="pb-4">
+                <div class="pt-2" *ngFor="let roomId of guestDetails">
+                  <p class="m-0">
+                    <strong class="me-2"
+                      >Room Name: {{ roomId.roomName }}</strong
+                    >
+                  </p>
+                  <small>
+                    Guest: {{ roomId.numGuests }}
+                    <span class="float-end pb-0 m-0">{{
+                      roomId.week_day_rate +
+                        roomId.week_day_bed_charge * roomId.noof_guest
+                        | currency : "INR" : "symbol" : "1.2-2"
+                    }}</span>
+                  </small>
+                </div>
+              </div>
 
-                            <address>Vanavihari Eco-tourism Complex, Maredumilli, AP-533295.</address>
-                            <div class="map-container">
-                                <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-                                    width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
-                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
-                            </div>
-                            <p><strong>Rating:</strong> 4.5/5</p>
-                            <!-- <p>
+              <address>
+                Vanavihari Eco-tourism Complex, Maredumilli, AP-533295.
+              </address>
+              <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
+                  width="400"
+                  height="300"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+              <p><strong>Rating:</strong> 4.5/5</p>
+              <!-- <p>
                                 Amenities:
                                 <span class="icon">📶</span> Wifi
                                 <span class="icon">✈️</span> Airport Shuttle
                                 <span class="icon">🍽️</span> Restaurant
                             </p> -->
-                        </div>
-                        <!-- Booking Details Card -->
-                        <div class="card">
-                            <h5>Your booking details</h5>
-                            <mat-form-field class="example-full-width">
-                                <input matInput [matDatepicker]="checkinDatepicker" placeholder="Check-in date" [(ngModel)]="checkinDate">
-                                <mat-datepicker-toggle matSuffix [for]="checkinDatepicker"></mat-datepicker-toggle>
-                                <mat-datepicker #checkinDatepicker></mat-datepicker>
-                              </mat-form-field>
-                              
-                              <mat-form-field class="example-full-width">
-                                <input matInput [matDatepicker]="checkoutDatepicker" placeholder="Check-out date" [(ngModel)]="checkoutDate">
-                                <mat-datepicker-toggle matSuffix [for]="checkoutDatepicker"></mat-datepicker-toggle>
-                                <mat-datepicker #checkoutDatepicker></mat-datepicker>
-                              </mat-form-field>
-                              
-                            <div class="d-flex">
-                                <div class="col">
-                                    <p>Check-in</p>
-                                    <h6>{{checkinDate}}</h6>
-                                    <!-- <p>10:00 AM IST</p> -->
-                                </div>
-                                <div class="col">
-                                    <p>Check-out</p>
-                                    <h6>{{checkoutDate}}</h6>
-                                    <!-- <p>09:00 AM IST</p> -->
-                                </div>
-                            </div>
-                            <p>Duration of stay: <strong>{{calculateDurationOfStay()}} days</strong></p>
-                        </div>
-                        <div class="card">
-                            <h5>Room & Guests Details</h5>
-                            <p>Total Number of Rooms: <span id="totalRooms">{{roomDetails.length}}</span></p>
-                            <p>Guest:<span >{{totalGuests}}</span> </p>
-                            <p>Extra Guest: {{extra_guests}}</p>
-                            <a class="font-weight-bold" (click)="goToVanavihari()">Change your selection</a>
-                        </div>
-                        <div class="card">
-                            <h5>Payment details</h5>
-                            <p><strong>Total Room Price:</strong> {{ totalPrice | currency:'INR ':'symbol':'1.2-2' }}</p>
-                            <!-- <p>Total room tarri: 5400</p> -->
-                            <p><strong>GST @12%:</strong> {{ totalGSTPrice | currency:'INR ':'symbol':'1.2-2' }}</p>
-                            <h4><strong>Grand Total:</strong> {{ (totalPrice+totalGSTPrice+(extra_guests*500))*durationOfStay | currency:'INR ':'symbol':'1.2-2' }}</h4>
-                        </div>
-                        <!-- card for Cancellation fees -->
-                        <div class="card">
-                            <h5>Cancellation Policy</h5>
-                            <strong>Cancellation and Refund:</strong>
-                            <div class="table-responsive">
-                                <table class="table table-hover mt-3">
-                                    <thead>
-                                        <tr>
-                                            <th>Cancellation Timeframe</th>
-                                            <th>Refund Percentage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>48 to 72 hours prior</td>
-                                            <td>90%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>24 to 48 hours prior</td>
-                                            <td>80%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Within 24 hours</td>
-                                            <td>No refund</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 me-auto mt-5 mt-md-0">
-                        <h5 class="mb-4" *ngIf="isLoggedIn(); else loginNotify" style="line-height: 1.5;">Check the details we have fetched from your user account {{getFullUser}}!</h5>
-                        <ng-template #loginNotify>
-                            <h5 class="mb-4" style="line-height: 1.5;">Better Experience to use this app please <a (click)="gotToLogin()">Signin</a></h5>
-                        </ng-template>
-                        <!-- <h3>User Details</h3> -->
-                        <form [formGroup]="form">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Guest Name</mat-label>
-                                <input type="text" matInput required formControlName="gname" placeholder="Enter Full Name" />
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>Mobile no.</mat-label>
-                                <input type="text" matInput required placeholder="Enter Mobile Number" formControlName="gphone" />
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>Email</mat-label>
-                                <input type="email" matInput required placeholder="Enter Email Address" formControlName="gemail" />
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>Address</mat-label>
-                                <input type="text" matInput required placeholder="Enter your address" formControlName="gaddress">
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>City</mat-label>
-                                <input type="text" matInput required placeholder="Enter your city" formControlName="gcity">
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>State</mat-label>
-                                <input type="text" matInput required placeholder="Enter your state" formControlName="gstate" >
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>Country</mat-label>
-                                <input type="text" matInput required placeholder="Enter your country" formControlName="gcountry" >
-                            </mat-form-field>
-                            <mat-form-field appearance="outline" class="mt-3">
-                                <mat-label>Pincode</mat-label>
-                                <input type="number" matInput required placeholder="Enter your pincode" formControlName="gpincode" >
-                            </mat-form-field>
-                            <button class="btn btn-primary w-100 mt-1" (click)="submitBooking()">Confirm booking</button>
-                            <section class="booking-terms mt-4">
-                                <h5 class="mb-3">Review the terms before booking.</h5>
-                                <div class="row row-cols-1 row-cols-md-2 g-4">
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="card-title"><i class="fas fa-bookmark"></i> Booking and
-                                                    Reservation</h6>
-                                                <ul>
-                                                    <li>All bookings are contingent upon availability.</li>
-                                                    <li>Reservation confirmation necessitates a valid Government ID.
-                                                    </li>
-                                                    <li>Room bookings are non-transferable; reservations are exclusive
-                                                        to the original booker or group.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="card-title"><i class="fas fa-money-bill-wave"></i> Payment
-                                                    and Pricing</h6>
-                                                <ul>
-                                                    <li>Full payment is required upon reservation, with accepted modes
-                                                        including cash, credit & debit cards, net banking, UPI, etc.
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="card-title"><i class="fas fa-clock"></i> Check-in and
-                                                    Check-out</h6>
-                                                <ul>
-                                                    <li>Check-in Time: Morning 10:00 AM (IST)</li>
-                                                    <li>Check-out Time: Morning 09:00 AM (IST)</li>
-                                                    <li>Early check-in and late check-out are subject to availability
-                                                        and may incur additional charges.</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <div class="card-body">
-                                                <h6 class="card-title"><i class="fas fa-users"></i> Guest Conduct</h6>
-                                                <ul>
-                                                    <li>Guests are expected to conduct themselves with respect towards
-                                                        other guests and staff.</li>
-                                                    <li>Smoking and alcohol consumption are strictly prohibited within
-                                                        accommodation areas.</li>
-                                                    <li>Any disruptive behavior may lead to eviction without refund.
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <!-- <button mat-raised-button color="primary" class="w-100 mt-3">Pay now</button> -->
-                        </form>
-                    </div>
-                </div>
             </div>
-        </section>
-    </div>
+            <!-- Booking Details Card -->
+            <div class="card">
+              <h5>Your booking details</h5>
+
+              <div class="d-flex">
+                <div class="col">
+                  <p>Check-in</p>
+                  <!-- <h6>{{ checkInDate }}</h6> -->
+                  <span class="day">{{ formattedCheckinDate.day }}</span
+                  ><br />
+                  <span class="month">{{ formattedCheckinDate.month }}</span>
+                  <span class="year"> {{ formattedCheckinDate.year }}</span>
+                  <!-- <p>10:00 AM IST</p> -->
+                </div>
+                <div class="col">
+                  <p>Check-out</p>
+                  <span class="day">{{ formattedCheckoutDate.day }}</span
+                  ><br />
+                  <span class="month">{{ formattedCheckoutDate.month }}</span>
+                  <span class="year"> {{ formattedCheckoutDate.year }}</span>
+                  <!-- <p>09:00 AM IST</p> -->
+                </div>
+              </div>
+              <p>
+                Duration of stay:
+                <strong>{{ calculateDurationOfStay() }} days</strong>
+              </p>
+            </div>
+            <div class="card">
+              <h5>Room & Guests Details</h5>
+              <p>
+                Total Number of Rooms:
+                <span id="totalRooms">{{ roomDetails.length }}</span>
+              </p>
+              <p>
+                Guest:<span>{{ totalGuests }}</span>
+              </p>
+              <p *ngIf="extra_guests !== 0">Extra Guest: {{ extra_guests }}</p>
+              <p *ngIf="extra_children !== 0">
+                Extra Children: {{ extra_children }}
+              </p>
+
+              <a class="font-weight-bold" (click)="goToVanavihari()"
+                >Change your selection</a
+              >
+            </div>
+            <div class="card">
+              <h5>Payment details</h5>
+              <p>
+                <strong>Total Room Price:</strong>
+                {{ totalPrice | currency : "INR " : "symbol" : "1.2-2" }}
+              </p>
+              <!-- <p>Total room tarri: 5400</p> -->
+              <p>
+                <strong>GST @12%:</strong>
+                {{ totalGSTPrice | currency : "INR " : "symbol" : "1.2-2" }}
+              </p>
+              <h4>
+                <strong>Grand Total:</strong>
+                {{ calculateGrandTotal() }}
+              </h4>
+            </div>
+            <!-- card for Cancellation fees -->
+            <div class="card">
+              <h5>Cancellation Policy</h5>
+              <strong>Cancellation and Refund:</strong>
+              <div class="table-responsive">
+                <table class="table table-hover mt-3">
+                  <thead>
+                    <tr>
+                      <th>Cancellation Timeframe</th>
+                      <th>Refund Percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>48 to 72 hours prior</td>
+                      <td>90%</td>
+                    </tr>
+                    <tr>
+                      <td>24 to 48 hours prior</td>
+                      <td>80%</td>
+                    </tr>
+                    <tr>
+                      <td>Within 24 hours</td>
+                      <td>No refund</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 me-auto mt-5 mt-md-0">
+            <h5
+              class="mb-4"
+              *ngIf="isLoggedIn(); else loginNotify"
+              style="line-height: 1.5"
+            >
+              Check the details we have fetched from your user account
+              {{ getFullUser }}!
+            </h5>
+            <ng-template #loginNotify>
+              <h5 class="mb-4" style="line-height: 1.5">
+                Better Experience to use this app please
+                <a (click)="gotToLogin()">Signin</a>
+              </h5>
+            </ng-template>
+            <!-- <h3>User Details</h3> -->
+            <form [formGroup]="form">
+              <mat-form-field appearance="outline">
+                <mat-label>Guest Name</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  formControlName="gname"
+                  placeholder="Enter Full Name"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Mobile no.</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter Mobile Number"
+                  formControlName="gphone"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Email</mat-label>
+                <input
+                  type="email"
+                  matInput
+                  required
+                  placeholder="Enter Email Address"
+                  formControlName="gemail"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Address</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter your address"
+                  formControlName="gaddress"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>City</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter your city"
+                  formControlName="gcity"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>State</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter your state"
+                  formControlName="gstate"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Country</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter your country"
+                  formControlName="gcountry"
+                />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Pincode</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  required
+                  placeholder="Enter your pincode"
+                  formControlName="gpincode"
+                />
+              </mat-form-field>
+              <button
+                class="btn btn-primary w-100 mt-1"
+                (click)="submitBooking()"
+              >
+                Confirm booking
+              </button>
+              <section class="booking-terms mt-4">
+                <h5 class="mb-3">Review the terms before booking.</h5>
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title">
+                          <i class="fas fa-bookmark"></i> Booking and
+                          Reservation
+                        </h6>
+                        <ul>
+                          <li>
+                            All bookings are contingent upon availability.
+                          </li>
+                          <li>
+                            Reservation confirmation necessitates a valid
+                            Government ID.
+                          </li>
+                          <li>
+                            Room bookings are non-transferable; reservations are
+                            exclusive to the original booker or group.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title">
+                          <i class="fas fa-money-bill-wave"></i> Payment and
+                          Pricing
+                        </h6>
+                        <ul>
+                          <li>
+                            Full payment is required upon reservation, with
+                            accepted modes including cash, credit & debit cards,
+                            net banking, UPI, etc.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title">
+                          <i class="fas fa-clock"></i> Check-in and Check-out
+                        </h6>
+                        <ul>
+                          <li>Check-in Time: Morning 10:00 AM (IST)</li>
+                          <li>Check-out Time: Morning 09:00 AM (IST)</li>
+                          <li>
+                            Early check-in and late check-out are subject to
+                            availability and may incur additional charges.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="card h-100">
+                      <div class="card-body">
+                        <h6 class="card-title">
+                          <i class="fas fa-users"></i> Guest Conduct
+                        </h6>
+                        <ul>
+                          <li>
+                            Guests are expected to conduct themselves with
+                            respect towards other guests and staff.
+                          </li>
+                          <li>
+                            Smoking and alcohol consumption are strictly
+                            prohibited within accommodation areas.
+                          </li>
+                          <li>
+                            Any disruptive behavior may lead to eviction without
+                            refund.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <!-- <button mat-raised-button color="primary" class="w-100 mt-3">Pay now</button> -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </app-layout>

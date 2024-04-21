@@ -4,6 +4,8 @@ import {
   HostBinding,
   OnDestroy,
   ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
@@ -19,7 +21,8 @@ import { BeforeSlideDetail } from 'lightgallery/lg-events';
 
 import * as data from '../../../../assets/json/rooms.json';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { UserService } from 'src/app/user.service';
 
 interface Room {
   //roomId:string;
@@ -44,6 +47,8 @@ interface Room {
   styleUrls: ['./rooms.component.scss'],
 })
 export class RoomsComponent implements OnInit {
+  @ViewChild('guestSelect') guestSelect: MatSelect;
+
   currentImage: string | null = null;
   imageFilenames: string[] = [];
   roomData: any;
@@ -54,11 +59,11 @@ export class RoomsComponent implements OnInit {
 
   searchResortData: any;
   resorts: any = {
-    vanavihari: {
+    'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
       about: 'About Vanavihari',
     },
-    'jungle-star': {
+    'Jungle Star, Valamuru': {
       title: 'Jungle Star',
       about: 'About Jungle Star',
     },
@@ -86,8 +91,9 @@ export class RoomsComponent implements OnInit {
   extraGuestsType: any;
   totalExtraGuestCharges: number;
   noof_guest: number | null = null; // Initialize it with null or any default value
-  extraChildren: number = 0;
-
+  extraChildren: any;
+  bookingRooms: any;
+  storedData: any;
   addExtraGuestCharge = false;
   removeExtraGuestCharge = false;
   @HostBinding('class.sticky')
@@ -95,22 +101,30 @@ export class RoomsComponent implements OnInit {
     return this.isMobile;
   }
 
+
   constructor(
     private router: Router,
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private authService: AuthService,
+    private userService: UserService,
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {
-    this.authService.clearBookingRooms(this.bookingTypeResort);
+    // this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
     this.fetchRoomList();
+    const storedObjectString = localStorage.getItem('summaryData');
 
+    if (storedObjectString !== null) {
+      const storedObject = JSON.parse(storedObjectString);
+      this.storedData = storedObject;
+    } else {
+    }
     // this.filteredRoomData = this.roomData;
     this.subscription = this.authService.buttonClick$.subscribe(() => {
       // Retrieve data when button is clicked
@@ -135,8 +149,15 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
+
+    this.extraChildren = this.storedData?.extra_children;
+    this.noof_guests = this.storedData?.noof_guests.length;
+    console.log(this.extraChildren);
   }
   ngOnInit(): void {
+    // Set extra_guests in localStorage to an empty array
+    localStorage.setItem('extra_guests', JSON.stringify([]));
+
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
@@ -154,17 +175,26 @@ export class RoomsComponent implements OnInit {
         ? this.authService.getBookingRooms(this.bookingTypeResort)
         : [];
 
-    this.authService.clearBookingRooms(this.bookingTypeResort);
+    // this.authService.clearBookingRooms(this.bookingTypeResort);
 
-    // if(this.roomIds.length>0){
-    //   this.showBookingSummary = true;
+    if (this.roomIds.length > 0) {
+      this.showBookingSummary = true;
+    }
+  }
 
-    // }
+  
+
+  isRoomAdded(roomId: any): boolean {
+    // Assuming bookingRooms is an array of Room_Id
+    this.bookingRooms = localStorage.getItem('booking_rooms');
+
+    return this.bookingRooms?.includes(roomId);
   }
 
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
   }
+
   getSelectedResortInfo(): void {
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
@@ -204,6 +234,28 @@ export class RoomsComponent implements OnInit {
       this.roomData = data;
       this.filteredRoomData = this.filterByResort(this.selectedResort);
     });
+
+    let perm = '';
+      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
+      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
+      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
+
+    this.http
+        .get<any>(
+          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
+        )
+        .subscribe({
+          next: (response) => {
+            console.log(response)
+            this.loadingRooms = false;
+          },
+          error: (err) => {
+            console.error('Error:', err);
+            this.showErrorAlert(
+              'An error occurred while fetching room list. Please try again later.'
+            );
+          },
+        });
   }
 
   isAnyRoomChecked(): boolean {
@@ -242,10 +294,13 @@ export class RoomsComponent implements OnInit {
     this.roomIds.push(room.Room_Id);
     this.showBookingSummary = true;
     room.is_button_disabled = true;
+
     this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
+    this.isRoomAdded(room.Room_Id);
   }
 
   removeRoom(roomIds: any, roomId: any) {
+    this.isRoomAdded(roomId);
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id === roomId
     );
@@ -282,6 +337,9 @@ export class RoomsComponent implements OnInit {
           : parseFloat(room.Week_Days_Rate);
         totalPrice = this.getRoomCharges();
       }
+    }
+    if (this.isAddedExtraGuest) {
+      return (totalPrice += this.calculateExtraGuestCharges());
     }
 
     return totalPrice;
@@ -333,12 +391,10 @@ export class RoomsComponent implements OnInit {
     // }
     let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
     let totalExtraGuests = extraGuests?.length;
-    if (totalExtraGuests > 0) {
-      return (payablePrice = payablePrice + totalExtraGuests * 500);
-    }
 
     return payablePrice;
   }
+
   goToBooking() {
     let summary = {
       booking_rooms: localStorage.getItem('booking_rooms'),
@@ -353,10 +409,23 @@ export class RoomsComponent implements OnInit {
     let summaryData = JSON.stringify(summary);
 
     localStorage.setItem('summaryData', summaryData);
-    this.router.navigate(['/booking-summary']);
+
+    let status = this.userService.isLoggedIn();
+    if (status) {
+      this.router.navigate(['/booking-summary']);
+    } else {
+      // this.router.navigate(['/booking-summary']);
+
+      this.router.navigate(['/sign-in']);
+    }
   }
+
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
+  }
+
+  isGuestSelectEmpty(select: MatSelect): boolean {
+    return !select || !select.value;
   }
 
   // no. of guests
@@ -411,7 +480,12 @@ export class RoomsComponent implements OnInit {
     let totalExtraGuestCharges = 0;
     let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
     let totalExtraGuests = extraGuests?.length;
-    totalExtraGuestCharges = totalExtraGuests * 500;
+    let resortName = this.authService.getSearchData('resort');
+    if (resortName == 'Vanavihari, Maredumilli') {
+      totalExtraGuestCharges = totalExtraGuests * 500;
+    } else {
+      totalExtraGuestCharges = totalExtraGuests * 1500;
+    }
     return totalExtraGuestCharges;
   }
   settings = {

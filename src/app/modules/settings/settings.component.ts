@@ -54,6 +54,7 @@ export class SettingsComponent
             pincode: [response.result.pincode],
             country: [response.result.country]
           });
+
         } else if (response.code == 3000) {
           this.userService.clearUser();
           alert('Login Error!');
@@ -69,6 +70,11 @@ export class SettingsComponent
       }
     });
   }
+
+  get isNationalityDisabled(): boolean {
+    return !!this.form.get('nationality')?.value;
+  }
+
   formatDateToDDMMMYYYY(date: Date): string {
     const monthNames = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",

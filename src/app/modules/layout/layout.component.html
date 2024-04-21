@@ -22,11 +22,11 @@
         </li>
         <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="mailto:info@vanavihari.com" title="click to send email">
-            <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a>
+            <i class="fa-regular fa-envelope me-2"></i>{{userData?.email}}</a>
         </li>
         <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="tel:+919494151617" title="call">
-            <i class="fa-solid fa-mobile-screen me-2"></i>9494151617</a>
+            <i class="fa-solid fa-mobile-screen me-2"></i>{{userData?.phone}}</a>
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn()">
           <a class="nav-link" routerLink="/sign-in" routerLinkActive="active" ariaCurrentWhenActive="page">

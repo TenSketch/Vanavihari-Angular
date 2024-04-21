@@ -1,6 +1,6 @@
 <app-layout>
     <div class="main">
-        <section class="settings my-5 py-5">
+        <!-- <section class="settings my-5 py-5">
             <div class="container">
                 <h1 class="text-center mb-4">My Bookings</h1>
 
@@ -29,6 +29,51 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
+
+        <div class="container booking-container">
+            <div class="booking-card">
+              <h1>My Bookings</h1>
+              <div class="row">
+                <!-- Room image and resort details -->
+                <div class="col-md-6 room-image">
+                  <img src="https://picsum.photos/id/237/400/300" class="img-fluid" alt="Room Image">
+                </div>
+                <div class="col-md-6 booking-details">
+                  <h4><strong>Resort name:</strong> Vanavihari</h4>
+                  <p><strong>Cottage type:</strong> Deluxe rooms</p>
+                  <p><strong>Room name:</strong> Bahuda</p>
+                  <p><strong>Guest info:</strong> 2 guests, 1 child, 1 extra guest</p>
+                  <p><strong>Total amount:</strong> INR 3360</p>
+                  <p><strong>Food preference:</strong> Vegetarian</p>
+                </div>
+              </div>
+              <div class="row booking-dates">
+                <div class="col-md-6 bordered-col">
+                  <!-- Booking dates -->
+                  <h3>Booking dates</h3>
+                  <div class="d-flex gap-3">
+                    <div class="show-date">
+                      <p>Check-in</p>
+                      <h1 class="display-3">15</h1>
+                      <p>May 2024</p>
+                    </div>
+                    <div class="show-date">
+                      <p>Check-out</p>
+                      <h1 class="display-3">20</h1>
+                      <p>May 2024</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 booking-status">
+                  <!-- Booking status and completion button -->
+                  <p>Status:</p>
+                  <h6>Confirmed</h6>
+                  <button class="btn btn-primary">Call Support</button>
+                </div>
+              </div>
+            </div>
+          </div>
+         
     </div>
 </app-layout>
