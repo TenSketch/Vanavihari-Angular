@@ -43,12 +43,13 @@
 }
 
 aside {
-  background-color: hsl($hue-primary, $saturation-primary, 85%);
+  // background-color: hsl($hue-primary, $saturation-primary, 85%);
+  background-color: $clr-primary-lighter;
   padding: 20px;
 
   @media (min-width: 768px) {
     // flex-basis: 35%;
-    top: 5%;
+    top: $nav-bar-height;
     // margin-top: 2rem;
     // bottom: 0;
     left: 0;
@@ -58,7 +59,7 @@ aside {
 
   .booking-summary-bar {
     // background-color: $clr-secondary;
-    color: $white;
+    // color: $white;
     // padding: 10px;
     // position: fixed;
     // bottom: 0;
@@ -90,13 +91,13 @@ main {
 }
 
 .position-sticky-for-mobile {
-  top: 5%;
+  top: $nav-bar-height;
   left: 0;
   right: 0;
   z-index: 1000;
   position: sticky;
-  width: 92%;
-  margin: auto;
+  // width: 92%;
+  // margin: auto;
   padding: 6px !important;
   h4,
   .custom-text {
@@ -104,8 +105,8 @@ main {
   }
 }
 .accordion-body {
-  height: 335px;
-  // overflow: scroll;
+  height: 50dvh;
+  overflow-y: scroll;
 }
 .policy-section {
   background: hsl(90, 100%, 85%);

@@ -71,6 +71,7 @@ import { BookingStatusComponent } from './modules/booking-status/booking-status.
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
+import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { PaymentPoliciesComponent } from './modules/payment-policies/payment-pol
     BookingStatusComponent,
     RoomsComponent,
     ReadPaymentTransactionResponseComponent,
-    PaymentPoliciesComponent
+    PaymentPoliciesComponent,
+    ContactUsComponent
 
   ],
   imports: [

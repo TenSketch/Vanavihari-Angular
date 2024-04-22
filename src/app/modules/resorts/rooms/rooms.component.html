@@ -112,15 +112,15 @@
           <!-- Booking Summary section -->
           <div
             *ngIf="!isMobile"
-            class="booking-summary-bar bg-white text-dark rounded-3 p-3"
+            class="booking-summary-bar text-dark rounded-3"
           >
             <h4 class="m-0 pb-1 font-weight-bold">Booking Summary</h4>
             <div
-              class="border-top py-2"
+              class="border-top pt-2"
               *ngIf="showBookingSummary; else noBookings"
             >
               <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
-              <div class="pt-2" *ngFor="let roomId of roomIds">
+              <div class="" *ngFor="let roomId of roomIds">
                 <div *ngIf="findRoomById(roomId)">
                   <a
                     href="javascript:void(0)"
@@ -129,13 +129,11 @@
                     ><i class="fa fa-trash"></i
                   ></a>
                   <div>
-                    <strong class="me-2"
-                      >Room Name: {{ findRoomById(roomId).Room_Name }}</strong
-                    >
+                    <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
                   </div>
-                  <div class="d-flex flex-column mb-4">
+                  <div class="d-flex flex-column">
                     <small>
-                      Room Tariff:
+                      <strong>Room Tariff:</strong>
                       {{
                         isWeekend
                           ? findRoomById(roomId).Week_End_Rate
@@ -145,16 +143,16 @@
                     </small>
 
                     <small>
-                      Cottage Type: {{ findRoomById(roomId).Cottage_Type }}
+                      <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
                     </small>
 
-                    <small>
-                      Resort Name:{{ findRoomById(roomId).Select_Resort }}
-                    </small>
+                    <!-- <small>
+                      <strong>Resort Name:</strong> {{ findRoomById(roomId).Select_Resort }}
+                    </small> -->
                   </div>
 
-                  <div class="custom-dropdown">
-                    <span>
+                  <div class="custom-dropdown mt-4">
+                    <!-- <span> -->
                       <mat-form-field appearance="outline" class="mat-small">
                         <mat-label>No. of Guests</mat-label>
                         <mat-select
@@ -169,7 +167,7 @@
                           >Adults/Child over 5 yrs</mat-hint
                         >
                       </mat-form-field>
-                    </span>
+                    <!-- </span> -->
                     <mat-checkbox
                       [checked]="findRoomById(roomId).extra_guest"
                       class="example-margin"
@@ -199,12 +197,15 @@
                 </div>
               </div>
             </div>
-            <!-- <hr /> -->
+            <hr class="my-1">
             <ng-container *ngIf="showBookingSummary">
               <!-- <label for="">No of children</label> -->
+              <div class="custom-dropdown mt-4">
+
               <mat-form-field appearance="outline" class="mat-small">
                 <mat-label>No of children</mat-label>
                 <mat-select required [(ngModel)]="extraChildren" size="small">
+                  <mat-option value="0">0</mat-option>
                   <mat-option value="1">1</mat-option>
                   <mat-option value="2">2</mat-option>
                   <mat-option value="3">3</mat-option>
@@ -218,7 +219,7 @@
                 </mat-select>
                 <mat-hint class="px-0">Up to 5 years</mat-hint>
               </mat-form-field>
-
+              </div>
               <div class="d-flex justify-content-between pt-1">
                 <span>Room charges</span>
                 <span>{{
@@ -285,7 +286,7 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <div
-                      class="booking-summary-bar bg-white text-dark rounded-3 p-3"
+                      class="booking-summary-bar text-dark rounded-3"
                     >
                       <h4 class="m-0 pb-1 font-weight-bold">Booking Summary</h4>
                     </div>
@@ -293,98 +294,119 @@
                 </mat-expansion-panel-header>
                 <div [ngClass]="{ 'accordion-body': showBookingSummary }">
                   <div
-                    class="border-top py-2"
-                    *ngIf="showBookingSummary; else noBookings"
-                  >
-                    <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
-                    <div class="pt-2" *ngFor="let roomId of roomIds">
-                      <a
-                        href="javascript:void(0)"
-                        class="float-end"
-                        (click)="removeRoom(roomIds, roomId)"
-                        ><i class="fa fa-trash"></i
-                      ></a>
-                      <div>
-                        <strong class="me-2"
-                          >Room Name: {{ roomId.name }}</strong
-                        >
-                      </div>
-
-                      <small>
-                        <!-- {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
-                              {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
-                        Room Tariff:
-                        <span class="float-end pb-4 m-0">{{
-                          roomId.week_day_rate
-                            | currency : "INR " : "symbol" : "1.2-2"
-                        }}</span>
-                      </small>
-
-                      <div class="custom-dropdown">
-                        <span>
-                          <mat-form-field
-                            appearance="outline"
-                            class="mat-small"
-                          >
-                            <mat-label>{{ noof_guests }}</mat-label>
-                            <mat-select
-                              required
-                              [(ngModel)]="roomId.id"
-                              size="small"
-                            >
-                              <mat-option value="1">1</mat-option>
-                              <mat-option value="2">2</mat-option>
-                            </mat-select>
-                            <mat-hint class="px-0"
-                              >Adults/Child over 5 yrs</mat-hint
-                            >
-                          </mat-form-field>
-                        </span>
-                        <!-- <mat-checkbox [ngModel]="myModel" class="example-margin" color="primary"
-                            (ngModelChange)="extraGuest($event)"><label>Add an extra guest </label></mat-checkbox>
-                          <div *ngIf="isAddedExtraGuest" class="pt-3"> <strong>INR 500 </strong><small>+ GST @ 12% will be
-                              charged</small>
-        
-        
-                          </div> -->
-                        <label for="checkextraguest{{ roomId }}"
-                          >Check any extra guest</label
-                        >
-                        <input
-                          type="checkbox"
-                          #checkextraguest
-                          id="checkextraguest{{ roomId }}"
-                          [checked]="findRoomById(roomId)?.noof_guest === 1"
-                          (change)="checkExtraGuest(roomId, checkextraguest)"
-                        />
-                        <div
-                          *ngIf="findRoomById(roomId)?.noof_guest === 1"
-                          class="pt-3"
-                        >
-                          <strong>INR 500 </strong
-                          ><small>+ GST @ 12% will be charged</small>
-                        </div>
-
-                        <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
-                            #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
-                            [id]="'checkextraguestcount' + roomId.id"
-                            (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
-                            *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
-                      </div>
-                    </div>
+              class="border-top pt-2"
+              *ngIf="showBookingSummary; else noBookings"
+            >
+              <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
+              <div class="" *ngFor="let roomId of roomIds">
+                <div *ngIf="findRoomById(roomId)">
+                  <a
+                    href="javascript:void(0)"
+                    class="float-end"
+                    (click)="removeRoom(roomIds, roomId)"
+                    ><i class="fa fa-trash"></i
+                  ></a>
+                  <div>
+                    <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
                   </div>
-                  <!-- <hr /> -->
+                  <div class="d-flex flex-column">
+                    <small>
+                      <strong>Room Tariff:</strong>
+                      {{
+                        isWeekend
+                          ? findRoomById(roomId).Week_End_Rate
+                          : (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
+                    </small>
+
+                    <small>
+                      <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
+                    </small>
+
+                    <!-- <small>
+                      <strong>Resort Name:</strong> {{ findRoomById(roomId).Select_Resort }}
+                    </small> -->
+                  </div>
+
+                  <div class="cflex-column mt-1">
+                    <span>
+                      <mat-form-field appearance="outline" class="mat-small">
+                        <mat-label>No. of Guests</mat-label>
+                        <mat-select
+                          (selectionChange)="noOfGuestAction($event, roomId)"
+                          size="small"
+                          #guestSelect="matSelect"
+                        >
+                          <mat-option value="1">1</mat-option>
+                          <mat-option value="2">2</mat-option>
+                        </mat-select>
+                        <mat-hint class="px-0"
+                          >Adults/Child over 5 yrs</mat-hint
+                        >
+                      </mat-form-field>
+                    </span>
+                    <mat-checkbox
+                      [checked]="findRoomById(roomId).extra_guest"
+                      class="example-margin"
+                      color="primary"
+                      (change)="extraGuestActions($event, roomId)"
+                    >
+                      <label>Add an extra guest </label>
+                    </mat-checkbox>
+
+                    <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
+                      <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                        >INR 1500
+                      </strong>
+                      <strong
+                        *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
+                        >INR 500
+                      </strong>
+                      <small>+ GST @ 12% will be charged</small>
+                    </div>
+
+                    <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
+                      #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
+                      [id]="'checkextraguestcount' + roomId.id"
+                      (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
+                      *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-1">
                   <ng-container *ngIf="showBookingSummary">
+                    <!-- <label for="">No of children</label> -->
+                  <div class="custom-dropdown mt-4">
+
+                    <mat-form-field appearance="outline" class="mat-small">
+                      <mat-label>No of children</mat-label>
+                      <mat-select required [(ngModel)]="extraChildren" size="small">
+                        <mat-option value="0">0</mat-option>
+                        <mat-option value="1">1</mat-option>
+                        <mat-option value="2">2</mat-option>
+                        <mat-option value="3">3</mat-option>
+                        <mat-option value="4">4</mat-option>
+                        <mat-option value="5">5</mat-option>
+                        <mat-option value="6">6</mat-option>
+                        <mat-option value="7">7</mat-option>
+                        <mat-option value="8">8</mat-option>
+                        <mat-option value="9">9</mat-option>
+                        <mat-option value="10">10</mat-option>
+                      </mat-select>
+                      <mat-hint class="px-0">Up to 5 years</mat-hint>
+                    </mat-form-field>
+                  </div>
                     <div class="d-flex justify-content-between pt-1">
                       <span>Room charges</span>
                       <span>{{
-                        getRoomCharges()
-                          | currency : "INR " : "symbol" : "1.2-2"
+                        getRoomCharges() | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
                     <div
                       class="d-flex justify-content-between pt-1"
-                      *ngIf="isAddedExtraGuest"
+                      *ngIf="isAddedExtraGuest || isAnyRoomChecked() || calculateExtraGuestCharges()"
                     >
                       <span>Extra guest</span>
                       <span>{{
@@ -392,23 +414,17 @@
                           | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
-
-                    <div
-                      class="d-flex justify-content-between font-weight-bold py-1"
-                    >
+      
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
                       <span class="mb-0">Total</span>
                       <span>{{
-                        calculateTotalPrice()
-                          | currency : "INR " : "symbol" : "1.2-2"
+                        calculateTotalPrice() | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
-                    <div
-                      class="d-flex justify-content-between font-weight-bold py-1"
-                    >
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
                       <span class="mb-0">GST @ 12%</span>
                       <span>{{
-                        calculateTotalGst()
-                          | currency : "INR " : "symbol" : "1.2-2"
+                        calculateTotalGst() | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
                     <div
@@ -427,6 +443,7 @@
                     class="w-100 mt-3"
                     (click)="goToBooking()"
                     *ngIf="showBookingSummary"
+                    [disabled]="isGuestSelectEmpty(guestSelect)"
                   >
                     Proceed
                   </button>

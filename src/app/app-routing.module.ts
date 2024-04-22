@@ -22,6 +22,7 @@ import { BookingStatusComponent } from './modules/booking-status/booking-status.
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
+import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 
 const routes: Routes = [
 {path:'home', component:HomeComponent}, 
@@ -47,6 +48,7 @@ const routes: Routes = [
 {path:'dashboard', component:SettingsComponent},
 { path:'resort-listing', component: ResortListingComponent},
 { path:'change-password', component: ChangePasswordComponent},
+{ path:'contact-us', component: ContactUsComponent},
 { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
 { path: '**', redirectTo: '/home' }, // Handle undefined routes (optional)
 

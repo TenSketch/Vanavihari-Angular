@@ -1,5 +1,5 @@
 @use "/src/scss/base/" as *;
-$nav-bar-height: 5vh;
+// $nav-bar-height: 8vh;
 
 .navbar {
   height: 8vh;
@@ -54,7 +54,7 @@ $nav-bar-height: 5vh;
   height: calc(100% - #{$nav-bar-height});
   width: 100%;
   background-color: #131313;
-  z-index: 1000;
+  z-index: 10000;
   transition: right 0.3s ease;
 
   @media(min-width:991px) {
@@ -63,8 +63,8 @@ $nav-bar-height: 5vh;
 
   &.active {
     right: 0;
-    top: 5%;
-    padding-top: 30px;
+    // top: 5%;
+    // padding-top: 30px;
   }
 
   .overlay {
@@ -202,4 +202,7 @@ $nav-bar-height: 5vh;
 }
 .ml-5{
   margin-left: 10px;
+}
+.bottom-footer{
+  background-color: $clr-primary-lighter;
 }
