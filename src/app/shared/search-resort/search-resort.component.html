@@ -4,38 +4,22 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Select Resort</mat-label>
-          <mat-select
-            required
-            [(ngModel)]="selectedResort"
-            name="SelectResort"
-            (selectionChange)="confirmResortChange($event)"   
-                   >
+          <mat-select required [(ngModel)]="selectedResort" name="SelectResort"
+            (selectionChange)="confirmResortChange($event)">
             <mat-option value="Vanavihari, Maredumilli">Vanavihari, Maredumilli</mat-option>
             <mat-option value="Jungle Star, Valamuru">Jungle Star, Valamuru</mat-option>
-          </mat-select> 
+          </mat-select>
         </mat-form-field>
-        
-        
+
+
       </div>
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkin date</mat-label>
-          <input
-            matInput
-            [min]="minDate"
-            [matDatepicker]="picker"
-            (click)="picker.open()"
-            placeholder="Checkin date"
-            name="CheckinDate"
-            [(ngModel)]="checkinDate"
-            #checkinDateInput="ngModel"
-            required
-          />
+          <input matInput [min]="minDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date"
+            name="CheckinDate" [(ngModel)]="checkinDate" #checkinDateInput="ngModel" required />
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
           <mat-error *ngIf="checkinDateInput.invalid">Checkin date is required</mat-error>
         </mat-form-field>
@@ -43,36 +27,18 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkout date</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker1"
-            (click)="picker1.open()"
-            placeholder="Checkout date"
-            name="CheckOutDate"
-            [(ngModel)]="checkoutDate"
-            [min]="setMinCheckoutDate()"
-
-            #checkoutDateInput="ngModel"
-            required
-          />
+          <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Checkout date"
+            name="CheckOutDate" [(ngModel)]="checkoutDate" [min]="setMinCheckoutDate()" #checkoutDateInput="ngModel"
+            required />
           <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle
-            matIconSuffix
-            [for]="picker1"
-          ></mat-datepicker-toggle>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
           <mat-error *ngIf="checkoutDateInput.invalid">Checkout date is required</mat-error>
         </mat-form-field>
       </div>
 
       <div class="col-md-3">
-        <button
-          mat-raised-button
-          color="primary"
-          class="w-100"
-          [disabled]="!searchForm.valid"
-          (click)="submitSearch()"
-        >
+        <button mat-raised-button color="primary" class="w-100" [disabled]="!searchForm.valid" (click)="submitSearch()">
           Search
         </button>
       </div>
@@ -99,4 +65,3 @@
     </div>
   </div>
 </div>
-

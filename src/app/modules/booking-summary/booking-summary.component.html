@@ -9,26 +9,6 @@
           <div class="col-md-4">
             <div class="card">
               <h5><strong>Resort name:</strong> {{ resortName }}</h5>
-              <!-- <h6><strong>Cottage type:</strong> Wooden Cottage</h6>
-                            <p><strong>Room name: Hornbill</strong></p> -->
-
-              <div class="pb-4">
-                <div class="pt-2" *ngFor="let roomId of guestDetails">
-                  <p class="m-0">
-                    <strong class="me-2"
-                      >Room Name: {{ roomId.roomName }}</strong
-                    >
-                  </p>
-                  <small>
-                    Guest: {{ roomId.numGuests }}
-                    <span class="float-end pb-0 m-0">{{
-                      roomId.week_day_rate +
-                        roomId.week_day_bed_charge * roomId.noof_guest
-                        | currency : "INR" : "symbol" : "1.2-2"
-                    }}</span>
-                  </small>
-                </div>
-              </div>
 
               <address>
                 Vanavihari Eco-tourism Complex, Maredumilli, AP-533295.
@@ -36,15 +16,50 @@
               <div class="map-container">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-                  width="400"
-                  height="300"
-                  style="border: 0"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
+                  width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
               <p><strong>Rating:</strong> 4.5/5</p>
+              <h5>Room & Guests Details</h5>
+              <div class="pb-4">
+                <!-- room name and no.of guests -->
+                
+                <div class="pt-2" *ngFor="let roomId of guestDetails">
+                  <p class="m-0">
+                    <strong>Cottage Type:</strong> 
+                  </p>
+                  <p class="m-0">
+                    <strong class="me-2">Room Name: {{ roomId.roomName }}</strong>
+                  </p>
+                  <small>
+                    Guest(s): {{ roomId.numGuests }}
+                    <span class="float-end pb-0 m-0">{{
+                      roomId.week_day_rate +
+                      roomId.week_day_bed_charge * roomId.noof_guest
+                      | currency : "INR" : "symbol" : "1.2-2"
+                      }}</span>
+                  </small>
+                </div>
+                <hr>
+                <p>
+                  <strong>Total no. of guest(s): </strong><span>{{ totalGuests }}</span>
+                </p>
+                <!-- <small>
+                  <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
+                </small> -->
+                <p>
+                  <strong>Number of room(s): </strong>
+                  <span id="totalRooms">{{ roomDetails.length }}</span>
+                </p>
+                
+                <p *ngIf="extra_guests !== 0"><strong>Extra Guest:</strong> {{ extra_guests }}</p>
+                <p *ngIf="extra_children !== 0">
+                  No. of Children: {{ extra_children }}
+                </p>
+
+                <a class="font-weight-bold" (click)="goToVanavihari()">Change your selection</a>
+              </div>
+              
               <!-- <p>
                                 Amenities:
                                 <span class="icon">📶</span> Wifi
@@ -58,50 +73,32 @@
 
               <div class="d-flex">
                 <div class="col">
-                  <p>Check-in</p>
+                  <p class="mb-0">Check-in</p>
                   <!-- <h6>{{ checkInDate }}</h6> -->
-                  <span class="day">{{ formattedCheckinDate.day }}</span
-                  ><br />
-                  <span class="month">{{ formattedCheckinDate.month }}</span>
+                  <span class="day display-5">{{ formattedCheckinDate.day }}</span><br />
+                  <span class="month font-weight-bold">{{ formattedCheckinDate.month }}</span>
                   <span class="year"> {{ formattedCheckinDate.year }}</span>
                   <!-- <p>10:00 AM IST</p> -->
                 </div>
                 <div class="col">
-                  <p>Check-out</p>
-                  <span class="day">{{ formattedCheckoutDate.day }}</span
-                  ><br />
-                  <span class="month">{{ formattedCheckoutDate.month }}</span>
+                  <p class="mb-0">Check-out</p>
+                  <span class="day display-5">{{ formattedCheckoutDate.day }}</span><br />
+                  <span class="month font-weight-bold">{{ formattedCheckoutDate.month }}</span>
                   <span class="year"> {{ formattedCheckoutDate.year }}</span>
                   <!-- <p>09:00 AM IST</p> -->
                 </div>
               </div>
-              <p>
-                Duration of stay:
-                <strong>{{ calculateDurationOfStay() }} days</strong>
+              <p class="mt-1">
+                <strong>Duration of stay (in days): </strong>{{ calculateDurationOfStay() }}
               </p>
             </div>
-            <div class="card">
-              <h5>Room & Guests Details</h5>
-              <p>
-                Total Number of Rooms:
-                <span id="totalRooms">{{ roomDetails.length }}</span>
-              </p>
-              <p>
-                Guest:<span>{{ totalGuests }}</span>
-              </p>
-              <p *ngIf="extra_guests !== 0">Extra Guest: {{ extra_guests }}</p>
-              <p *ngIf="extra_children !== 0">
-                Children: {{ extra_children }}
-              </p>
-
-              <a class="font-weight-bold" (click)="goToVanavihari()"
-                >Change your selection</a
-              >
-            </div>
+            <!-- <div class="card">
+              
+            </div> -->
             <div class="card">
               <h5>Payment details</h5>
               <p>
-                <strong>Total Room Price:</strong>
+                <strong>Total Room Charges:</strong>
                 {{ totalPrice | currency : "INR " : "symbol" : "1.2-2" }}
               </p>
               <!-- <p>Total room tarri: 5400</p> -->
@@ -110,7 +107,7 @@
                 {{ totalGSTPrice | currency : "INR " : "symbol" : "1.2-2" }}
               </p>
               <h4>
-                <strong>Grand Total:</strong>
+                <strong>Grand Total: </strong>
                 {{ calculateGrandTotal() }}
               </h4>
             </div>
@@ -145,106 +142,51 @@
             </div>
           </div>
           <div class="col-md-6 me-auto mt-5 mt-md-0">
-            <h5
-              class="mb-4"
-              *ngIf="isLoggedIn(); else loginNotify"
-              style="line-height: 1.5"
-            >
+            <h5 class="mb-4" *ngIf="isLoggedIn(); else loginNotify" style="line-height: 1.5">
               Check the details we have fetched from your user account
               {{ getFullUser }}!
             </h5>
             <ng-template #loginNotify>
               <h5 class="mb-4" style="line-height: 1.5">
                 Better Experience to use this app please
-                <a (click)="gotToLogin()">Signin</a>
+                <a (click)="gotToLogin()">Sign-in</a>
               </h5>
             </ng-template>
             <!-- <h3>User Details</h3> -->
             <form [formGroup]="form">
               <mat-form-field appearance="outline">
                 <mat-label>Guest Name</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="gname"
-                  placeholder="Enter Full Name"
-                />
+                <input type="text" matInput required formControlName="gname" placeholder="Enter Full Name" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Mobile no.</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter Mobile Number"
-                  formControlName="gphone"
-                />
+                <input type="text" matInput required placeholder="Enter Mobile Number" formControlName="gphone" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Email</mat-label>
-                <input
-                  type="email"
-                  matInput
-                  required
-                  placeholder="Enter Email Address"
-                  formControlName="gemail"
-                />
+                <input type="email" matInput required placeholder="Enter Email Address" formControlName="gemail" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Address</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your address"
-                  formControlName="gaddress"
-                />
+                <input type="text" matInput required placeholder="Enter your address" formControlName="gaddress" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>City</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your city"
-                  formControlName="gcity"
-                />
+                <input type="text" matInput required placeholder="Enter your city" formControlName="gcity" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>State</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your state"
-                  formControlName="gstate"
-                />
+                <input type="text" matInput required placeholder="Enter your state" formControlName="gstate" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Country</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your country"
-                  formControlName="gcountry"
-                />
+                <input type="text" matInput required placeholder="Enter your country" formControlName="gcountry" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Pincode</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  required
-                  placeholder="Enter your pincode"
-                  formControlName="gpincode"
-                />
+                <input type="number" matInput required placeholder="Enter your pincode" formControlName="gpincode" />
               </mat-form-field>
-              <button
-                class="btn btn-primary w-100 mt-1"
-                (click)="submitBooking()"
-              >
+              <button class="btn btn-primary w-100 mt-1" (click)="submitBooking()">
                 Confirm booking
               </button>
               <section class="booking-terms mt-4">

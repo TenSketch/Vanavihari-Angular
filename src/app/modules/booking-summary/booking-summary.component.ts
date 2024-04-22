@@ -421,4 +421,5 @@ export class BookingSummaryComponent {
     }
     return arr;
   }
+  
 }
