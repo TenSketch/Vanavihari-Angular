@@ -55,19 +55,23 @@
             <!-- Booking Details Card -->
             <div class="card">
               <h5>Your booking details</h5>
-              
-
-              
 
               <div class="d-flex">
                 <div class="col">
                   <p>Check-in</p>
-                  <h6>{{ checkInDate }}</h6>
+                  <!-- <h6>{{ checkInDate }}</h6> -->
+                  <span class="day">{{ formattedCheckinDate.day }}</span
+                  ><br />
+                  <span class="month">{{ formattedCheckinDate.month }}</span>
+                  <span class="year"> {{ formattedCheckinDate.year }}</span>
                   <!-- <p>10:00 AM IST</p> -->
                 </div>
                 <div class="col">
                   <p>Check-out</p>
-                  <h6>{{ checkOutDate }}</h6>
+                  <span class="day">{{ formattedCheckoutDate.day }}</span
+                  ><br />
+                  <span class="month">{{ formattedCheckoutDate.month }}</span>
+                  <span class="year"> {{ formattedCheckoutDate.year }}</span>
                   <!-- <p>09:00 AM IST</p> -->
                 </div>
               </div>
@@ -85,8 +89,10 @@
               <p>
                 Guest:<span>{{ totalGuests }}</span>
               </p>
-              <p *ngIf="extra_guests !==0">Extra Guest: {{ extra_guests }}</p>
-              <p *ngIf="extra_children !==0 ">Extra Children: {{ extra_children }}</p>
+              <p *ngIf="extra_guests !== 0">Extra Guest: {{ extra_guests }}</p>
+              <p *ngIf="extra_children !== 0">
+                Children: {{ extra_children }}
+              </p>
 
               <a class="font-weight-bold" (click)="goToVanavihari()"
                 >Change your selection</a
@@ -105,10 +111,7 @@
               </p>
               <h4>
                 <strong>Grand Total:</strong>
-                {{
-                  (totalPrice + totalGSTPrice + extra_guests * 500) *
-                    durationOfStay | currency : "INR " : "symbol" : "1.2-2"
-                }}
+                {{ calculateGrandTotal() }}
               </h4>
             </div>
             <!-- card for Cancellation fees -->

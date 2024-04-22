@@ -22,11 +22,11 @@ interface ReservationDetails {
 }
 
 @Component({
-  selector: 'app-booking-successfull',
-  templateUrl: './booking-successfull.component.html',
-  styleUrls: ['./booking-successfull.component.scss'],
+  selector: 'app-booking-status',
+  templateUrl: './booking-status.component.html',
+  styleUrls: ['./booking-status.component.scss'],
 })
-export class BookingSuccessfullComponent {
+export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
   bookingTypeResort: any;
 

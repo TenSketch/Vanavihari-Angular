@@ -6,12 +6,15 @@ import { SharedService } from '../../shared.service';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SearchService } from 'src/app/search.service';
+import * as e from 'cors';
+import { thumbnailsSettings } from 'lightgallery/plugins/thumbnail/lg-thumbnail-settings';
+import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-search-resort',
   templateUrl: './search-resort.component.html',
   styleUrls: ['./search-resort.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class SearchResortComponent implements OnInit {
   searchForm: FormGroup;
@@ -30,34 +33,85 @@ export class SearchResortComponent implements OnInit {
   checkoutDate: string;
   currentDate: any;
   minDate: Date;
+  firstResort: string;
+  previousResort: string;
+  selectionChanged = false;
 
-  constructor(private searchService:SearchService,private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
-    
-     // Set the minimum to the next date from the present date.
-     const currentDate = new Date();
-     currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
-     this.minDate = currentDate;
+  @ViewChild('confirmationModal') confirmationModal: ElementRef;
+
+  constructor(
+    private searchService: SearchService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService,
+    private datePipe: DatePipe
+  ) {
+    // Set the minimum to the next date from the present date.
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
+    this.minDate = currentDate;
     this.searchForm = this.formBuilder.group({
       selectedResort: [],
       checkinDate: [],
-      checkoutDate: []
+      checkoutDate: [],
     });
-   
+
     this.updateAgeDropdowns();
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
-    
-    if(this.authService.getSearchData("resort")) this.selectedResort = this.authService.getSearchData("resort");
-    if(this.authService.getSearchData("checkin")) this.checkinDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkin"));
-    if(this.authService.getSearchData("checkout")) this.checkoutDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkout"));
+
+    if (this.authService.getSearchData('resort'))
+      this.selectedResort = this.authService.getSearchData('resort');
+    if (this.authService.getSearchData('checkin'))
+      this.checkinDate = this.formatDateForMatDatepicker(
+        this.authService.getSearchData('checkin')
+      );
+    if (this.authService.getSearchData('checkout'))
+      this.checkoutDate = this.formatDateForMatDatepicker(
+        this.authService.getSearchData('checkout')
+      );
     this.currentDate = new Date();
-    this.checkinDate = this.authService.getSearchData('checkin')
-    this.checkoutDate = this.authService.getSearchData('checkout')
+    this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkoutDate = this.authService.getSearchData('checkout');
+
+    this.firstResort = '';
+    this.previousResort = this.authService.getSearchData('resort');
   }
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  isModalVisible: boolean = false;
+
+  triggerModal() {
+    this.isModalVisible = true;
+    this.selectionChanged = false;
   }
 
+  onCancel() {
+    this.isModalVisible = false;
+    // window.location.reload(); // Reload the page
+  }
 
-  setMinCheckoutDate(){
+  onConfirm() {
+    this.isModalVisible = false;
+    this.authService.setSearchData([
+      {
+        resort: this.selectedResort,
+        checkin: this.checkinDate,
+        checkout: this.checkoutDate,
+      },
+    ]);
+    this.searchService.setSearchCriteria(this.selectedResort);
+    this.authService.refreshRoomsComponent();
+
+    this.authService.buttonClick$.next();
+    localStorage.setItem('booking_rooms', JSON.stringify([]));
+    window.location.reload();
+    this.router.navigate(['resorts/rooms']);
+  }
+
+  setMinCheckoutDate() {
     if (this.checkinDate) {
       const minDate = new Date(this.checkinDate);
       minDate.setDate(minDate.getDate() + 1); // Add one day to the checkinDate
@@ -67,7 +121,7 @@ export class SearchResortComponent implements OnInit {
   }
 
   formatDateForMatDatepicker(date: string): string {
-    let parts = date.split("/");
+    let parts = date.split('/');
     let y = parseInt(parts[2], 10);
     let m = parseInt(parts[0], 10) - 1;
     let d = parseInt(parts[1], 10);
@@ -142,26 +196,58 @@ export class SearchResortComponent implements OnInit {
       ' Rooms-' +
       this.roomsCount;
   }
-  
- 
+
+  bookingTypeResort: string;
+
+  onSelectResortOpen(event: any): void {
+    // const result = confirm(`you have added rooms from "${this.selectedResort}", now you are about to switch to another resort. Added rooms will be deleted. Switch anyway?`);
+    // if (result) {
+    // } else {
+    // }
+  }
+
+  confirmResortChange(newValue: string) {
+    this.selectionChanged = true;
+  }
 
   submitSearch() {
-    console.log(this.selectedResort)
-    this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
-    console.log(this.selectedResort)
-    this.searchService.setSearchCriteria(this.selectedResort)
-    this.authService.buttonClick$.next();
-    this.router.navigate(['resorts/rooms']);
+    let bookingRooms = JSON.stringify(localStorage.getItem('booking_rooms'));
+    let array = JSON.parse(bookingRooms);
+
+    if (array == null) {
+      this.authService.setSearchData([
+        {
+          resort: this.selectedResort,
+          checkin: this.checkinDate,
+          checkout: this.checkoutDate,
+        },
+      ]);
+      this.searchService.setSearchCriteria(this.selectedResort);
+      this.authService.refreshRoomsComponent();
+
+      this.authService.buttonClick$.next();
+      // window.location.reload();
+      this.router.navigate(['resorts/rooms']);
+    } else {
+      if (this.selectionChanged && array.length !== 2) {
+        this.triggerModal();
+      } else {
+        this.authService.setSearchData([
+          {
+            resort: this.selectedResort,
+            checkin: this.checkinDate,
+            checkout: this.checkoutDate,
+          },
+        ]);
+        this.searchService.setSearchCriteria(this.selectedResort);
+        this.authService.refreshRoomsComponent();
+
+        this.authService.buttonClick$.next();
+        // window.location.reload();
+        this.router.navigate(['resorts/rooms']);
+      }
+    }
   }
-  // goToJungleStar() { 
-  //   this.authService.setSearchData( [{ resort: this.selectedResort, checkin: this.checkinDate, checkout: this.checkoutDate }]);
-  //   //this.router.navigate(['resorts/jungleStar,Valamuru']);
-  //   this.router.navigate(['/resorts/rooms']);
-  //   this.sharedService.triggerFetchRoomList();
-  // }
-  // goToRooms(){
-  //   this.router.navigate(['/resorts/rooms' ]);
-  // }
 
   onDateChange(type: string, event: any): void {
     let formattedDate: string;
@@ -177,40 +263,42 @@ export class SearchResortComponent implements OnInit {
       this.checkinDate = formattedDate;
     } else if (type === 'checkout') {
       this.checkoutDate = formattedDate;
-    }    
+    }
   }
   getCurrentDate() {
     return this.formatDate(this.currentDate);
   }
   checkIfCheckinDateIsCurrentDate() {
-    console.log("this.getCurrentDate()",this.getCurrentDate())
-      if (this.checkinDate === this.getCurrentDate()) {
-        this.snackBar.open('Check-in cannot be processed for the current date.', 'Close', {
+    if (this.checkinDate === this.getCurrentDate()) {
+      this.snackBar.open(
+        'Check-in cannot be processed for the current date.',
+        'Close',
+        {
           duration: 5000,
-          horizontalPosition:'right'
-        });
-      }
+          horizontalPosition: 'right',
+        }
+      );
     }
-    formatDate(date: Date): string {
-      const monthNames = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ];
-      const day = date.getDate();
-      const monthIndex = date.getMonth();
-      const year = date.getFullYear();
-      const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
-      console.log('date===', formattedDate);
-      return formattedDate;
-    }
+  }
+  formatDate(date: Date): string {
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
+    return formattedDate;
+  }
 }

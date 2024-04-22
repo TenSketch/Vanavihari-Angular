@@ -8,7 +8,7 @@
     </section>
 
     <div class="container-fluid">
-      <nav aria-label="breadcrumb" *ngIf="selectedResortInfo">
+      <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="#">Home</a></li>
           <!-- <li class="breadcrumb-item"><a href="#">Resorts</a></li> -->
@@ -133,20 +133,25 @@
                       >Room Name: {{ findRoomById(roomId).Room_Name }}</strong
                     >
                   </div>
+                  <div class="d-flex flex-column mb-4">
+                    <small>
+                      Room Tariff:
+                      {{
+                        isWeekend
+                          ? findRoomById(roomId).Week_End_Rate
+                          : (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
+                    </small>
 
-                  <small>
-                    <!-- {{ roomId.noof_adult }} Guest{{ roomId.noof_adult>1?'s':'' }}
-                        {{ roomId.noof_guest>0?', '+roomId.noof_guest+' Extra Guest'+(roomId.noof_guest>1?'s':''):'' }} -->
-                    Room Tariff:
-                    <span class="float-end pb-4 m-0">{{
-                      findRoomById(roomId).Week_Days_Rate
-                        | currency
-                          : "INR
-                    "
-                          : "symbol"
-                          : "1.2-2"
-                    }}</span>
-                  </small>
+                    <small>
+                      Cottage Type: {{ findRoomById(roomId).Cottage_Type }}
+                    </small>
+
+                    <small>
+                      Resort Name:{{ findRoomById(roomId).Select_Resort }}
+                    </small>
+                  </div>
 
                   <div class="custom-dropdown">
                     <span>
@@ -155,6 +160,7 @@
                         <mat-select
                           (selectionChange)="noOfGuestAction($event, roomId)"
                           size="small"
+                          #guestSelect="matSelect"
                         >
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
@@ -174,8 +180,14 @@
                     </mat-checkbox>
 
                     <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
-                      <strong>INR 500 </strong
-                      ><small>+ GST @ 12% will be charged</small>
+                      <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                        >INR 1500
+                      </strong>
+                      <strong
+                        *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
+                        >INR 500
+                      </strong>
+                      <small>+ GST @ 12% will be charged</small>
                     </div>
 
                     <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
@@ -187,11 +199,11 @@
                 </div>
               </div>
             </div>
-            <hr />
+            <!-- <hr /> -->
             <ng-container *ngIf="showBookingSummary">
-              <label for="">No of children (extra choldren)</label>
-              <mat-form-field appearance="outline" class="mat-small mt-4">
-                <mat-label>{{extraChildren}}</mat-label>
+              <!-- <label for="">No of children</label> -->
+              <mat-form-field appearance="outline" class="mat-small">
+                <mat-label>No of children</mat-label>
                 <mat-select required [(ngModel)]="extraChildren" size="small">
                   <mat-option value="1">1</mat-option>
                   <mat-option value="2">2</mat-option>
@@ -206,7 +218,7 @@
                 </mat-select>
                 <mat-hint class="px-0">Up to 5 years</mat-hint>
               </mat-form-field>
-              
+
               <div class="d-flex justify-content-between pt-1">
                 <span>Room charges</span>
                 <span>{{
@@ -215,7 +227,7 @@
               </div>
               <div
                 class="d-flex justify-content-between pt-1"
-                *ngIf="isAddedExtraGuest || isAnyRoomChecked()"
+                *ngIf="isAddedExtraGuest || isAnyRoomChecked() || calculateExtraGuestCharges()"
               >
                 <span>Extra guest</span>
                 <span>{{
@@ -252,6 +264,7 @@
               class="w-100 mt-3"
               (click)="goToBooking()"
               *ngIf="showBookingSummary"
+              [disabled]="isGuestSelectEmpty(guestSelect)"
             >
               Proceed
             </button>
@@ -313,7 +326,7 @@
                             appearance="outline"
                             class="mat-small"
                           >
-                            <mat-label>{{noof_guests}}</mat-label>
+                            <mat-label>{{ noof_guests }}</mat-label>
                             <mat-select
                               required
                               [(ngModel)]="roomId.id"
@@ -360,7 +373,7 @@
                       </div>
                     </div>
                   </div>
-                  <hr />
+                  <!-- <hr /> -->
                   <ng-container *ngIf="showBookingSummary">
                     <div class="d-flex justify-content-between pt-1">
                       <span>Room charges</span>
@@ -503,7 +516,12 @@
                     <div class="col-auto">
                       <h6 class="p-0 m-0">
                         <strong
+                          *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
                           >{{ 500 | currency : "INR " : true : "1.2-2" }}
+                        </strong>
+                        <strong
+                          *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                          >{{ 1500 | currency : "INR " : true : "1.2-2" }}
                         </strong>
                       </h6>
                       <p class="text-primary-dark">For an extra guest</p>
@@ -518,7 +536,8 @@
                       mat-raised-button
                       color="primary"
                       class="float-end float-md-start"
-                      [disabled]="room.is_button_disabled"
+                      [disabled]="isRoomAdded(room.Room_Id)"
+                      
                       (click)="addRoom(room)"
                     >
                       Add room
