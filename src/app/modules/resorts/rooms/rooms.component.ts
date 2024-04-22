@@ -51,7 +51,7 @@ export class RoomsComponent implements OnInit {
 
   currentImage: string | null = null;
   imageFilenames: string[] = [];
-  roomData: any;
+  roomData: any[]=[];
   filteredRoomData: any;
   // imageFilenames2: string[] = [];
   noof_guests: any;
@@ -152,7 +152,6 @@ export class RoomsComponent implements OnInit {
 
     this.extraChildren = this.storedData?.extra_children;
     this.noof_guests = this.storedData?.noof_guests.length;
-    console.log(this.extraChildren);
   }
   ngOnInit(): void {
     // Set extra_guests in localStorage to an empty array
@@ -187,7 +186,9 @@ export class RoomsComponent implements OnInit {
   isRoomAdded(roomId: any): boolean {
     // Assuming bookingRooms is an array of Room_Id
     this.bookingRooms = localStorage.getItem('booking_rooms');
-
+    if(!this.checkinDate|| !this.checkoutDate){
+       return true
+    }
     return this.bookingRooms?.includes(roomId);
   }
 
@@ -235,27 +236,25 @@ export class RoomsComponent implements OnInit {
       this.filteredRoomData = this.filterByResort(this.selectedResort);
     });
 
-    let perm = '';
-      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
-      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
+    // let perm = '';
+    //   if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
+    //   if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
+    //   if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
 
-    this.http
-        .get<any>(
-          'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
-        )
-        .subscribe({
-          next: (response) => {
-            console.log(response)
-            this.loadingRooms = false;
-          },
-          error: (err) => {
-            console.error('Error:', err);
-            this.showErrorAlert(
-              'An error occurred while fetching room list. Please try again later.'
-            );
-          },
-        });
+    // this.http
+    //     .get<any>(
+    //       'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
+    //     )
+    //     .subscribe({
+    //       next: (response) => {
+    //         this.loadingRooms = false;
+    //       },
+    //       error: (err) => {
+    //         this.showErrorAlert(
+    //           'An error occurred while fetching room list. Please try again later.'
+    //         );
+    //       },
+    //     });
   }
 
   isAnyRoomChecked(): boolean {
@@ -279,7 +278,7 @@ export class RoomsComponent implements OnInit {
   }
 
   findRoomById(id: string) {
-    return this.roomData.find((room: { Room_Id: any }) => room.Room_Id === id);
+    return this.roomData?.find((room: { Room_Id: any }) => room.Room_Id === id);
   }
 
   checkIfWeekend(): void {
@@ -310,10 +309,15 @@ export class RoomsComponent implements OnInit {
 
     const indexToRemove = this.roomIds.indexOf(roomId);
 
+    this.roomIds.splice(indexToRemove, 1);
+    const indexToRemoveEg = this.extraGuestsIds.indexOf(roomId);
+
     if (indexToRemove !== -1) {
-      this.roomIds.splice(indexToRemove, 1);
+      this.extraGuestsIds.splice(indexToRemoveEg, 1);
     }
 
+    this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
+    
     if (this.roomIds.length == 0) {
       this.showBookingSummary = false;
     }
@@ -340,6 +344,10 @@ export class RoomsComponent implements OnInit {
     }
     if (this.isAddedExtraGuest) {
       return (totalPrice += this.calculateExtraGuestCharges());
+    }
+    if(this.removeExtraGuestCharge){
+      return (totalPrice -= this.calculateExtraGuestCharges());
+
     }
 
     return totalPrice;
@@ -382,15 +390,6 @@ export class RoomsComponent implements OnInit {
     const gstAmount = totalPrice * gstPercentage;
     let payablePrice = totalPrice + gstAmount;
 
-    // if (this.addExtraGuestCharge) {
-    //   // this.addExtraGuestCharge = false
-    //   return (payablePrice += 500);
-    // }
-    // if (this.removeExtraGuestCharge) {
-    //   return (payablePrice -= 500);
-    // }
-    let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
-    let totalExtraGuests = extraGuests?.length;
 
     return payablePrice;
   }
@@ -414,9 +413,9 @@ export class RoomsComponent implements OnInit {
     if (status) {
       this.router.navigate(['/booking-summary']);
     } else {
-      // this.router.navigate(['/booking-summary']);
+      this.router.navigate(['/booking-summary']);
 
-      this.router.navigate(['/sign-in']);
+      // this.router.navigate(['/sign-in']);
     }
   }
 
@@ -454,7 +453,7 @@ export class RoomsComponent implements OnInit {
 
   addExtraGuest(roomId: string) {
     this.isAddedExtraGuest = true;
-
+    this.removeExtraGuestCharge = false
     this.extraGuestsIds.push(roomId);
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
 

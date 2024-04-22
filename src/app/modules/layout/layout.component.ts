@@ -18,7 +18,7 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.accountusername = this.userService.getFullUser();
-    this.getUserData()
+    // this.getUserData()
   }
 
 

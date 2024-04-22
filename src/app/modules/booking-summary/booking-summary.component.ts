@@ -118,44 +118,44 @@ export class BookingSummaryComponent {
   }
 
   getUserDetails() {
-    const params = new HttpParams()
-      .set('email', this.authService.getAccountUsername() ?? '')
-      .set('token', this.authService.getAccessToken() ?? '');
-    this.http
-      .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=profile_details',
-        { params }
-      )
-      .subscribe({
-        next: (response) => {
-          if (response.code == 3000 && response.result.status == 'success') {
-            this.form = this.formBuilder.group({
-              gname: [response.result.name],
-              gphone: [response.result.phone],
-              gemail: [response.result.email, Validators.email],
-              dob: [response.result.dob, Validators.required],
-              nationality: [response.result.nationality],
-              gaddress: [response.result.address1],
-              address2: [response.result.address2],
-              gcity: [response.result.city],
-              gstate: [response.result.state],
-              gpincode: [response.result.pincode],
-              gcountry: [response.result.country],
-            });
-          } else if (response.code == 3000) {
-            this.userService.clearUser();
-            alert('Login Error!');
-            // this.router.navigate(['/home']);
-          } else {
-            this.userService.clearUser();
-            alert('Login Error!');
-            // this.router.navigate(['/home']);
-          }
-        },
-        error: (err) => {
-          console.error('Error:', err);
-        },
-      });
+    // const params = new HttpParams()
+    //   .set('email', this.authService.getAccountUsername() ?? '')
+    //   .set('token', this.authService.getAccessToken() ?? '');
+    // this.http
+    //   .get<any>(
+    //     'https://vanavihari.com/zoho-connect?api_type=profile_details',
+    //     { params }
+    //   )
+    //   .subscribe({
+    //     next: (response) => {
+    //       if (response.code == 3000 && response.result.status == 'success') {
+    //         this.form = this.formBuilder.group({
+    //           gname: [response.result.name],
+    //           gphone: [response.result.phone],
+    //           gemail: [response.result.email, Validators.email],
+    //           dob: [response.result.dob, Validators.required],
+    //           nationality: [response.result.nationality],
+    //           gaddress: [response.result.address1],
+    //           address2: [response.result.address2],
+    //           gcity: [response.result.city],
+    //           gstate: [response.result.state],
+    //           gpincode: [response.result.pincode],
+    //           gcountry: [response.result.country],
+    //         });
+    //       } else if (response.code == 3000) {
+    //         this.userService.clearUser();
+    //         alert('Login Error!');
+    //         // this.router.navigate(['/home']);
+    //       } else {
+    //         this.userService.clearUser();
+    //         alert('Login Error!');
+    //         // this.router.navigate(['/home']);
+    //       }
+    //     },
+    //     error: (err) => {
+    //       console.error('Error:', err);
+    //     },
+    //   });
   }
 
   parseDate(date: Date): { day: number, month: string, year: number } {
@@ -255,13 +255,13 @@ export class BookingSummaryComponent {
     this.router.navigate(['/sign-in']);
   }
   goToVanavihari() {
-    const result = confirm('Are you sure you want to proceed?');
+    this.router.navigate(['/resorts/rooms']);
+    // const result = confirm('Are you sure you want to proceed?');
 
-    if (result) {
-      this.router.navigate(['/resorts/rooms']);
-    } else {
-      console.log('User cancelled');
-    }
+    // if (result) {
+    // } else {
+    //   console.log('User cancelled');
+    // }
   }
 
   submitBooking() {
@@ -291,86 +291,86 @@ export class BookingSummaryComponent {
       });
       // this.showSnackBarAlert("Reservation Success! Booking Id");
       //       this.router.navigate(['/booking-successfull']);
-      this.http
-        .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
-          params,
-        })
-        .subscribe({
-          next: (response) => {
-            if (response.code == 3000 && response.result.status == 'success') {
-              this.authService.clearBookingRooms(this.bookingTypeResort);
-              this.showSnackBarAlert(
-                'Reservation Success! Booking Id: ' + response.result.booking_id
-              );
-              // this.router.navigate(['/booking-successfull']);
+      // this.http
+      //   .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
+      //     params,
+      //   })
+      //   .subscribe({
+      //     next: (response) => {
+      //       if (response.code == 3000 && response.result.status == 'success') {
+      //         this.authService.clearBookingRooms(this.bookingTypeResort);
+      //         this.showSnackBarAlert(
+      //           'Reservation Success! Booking Id: ' + response.result.booking_id
+      //         );
+      //         // this.router.navigate(['/booking-successfull']);
 
-              const bookingId = response.result.booking_id;
-              const MerchantId = 'VANAVIHARI';
-              const CurrencyType = 'INR';
-              const SecurityId = 'vanavihari';
-              const txtCustomerID = 'BK986239234';
-              const secretKey = 'rmvlozE7R4v9';
-              const amount = 1;
-              const rU =
-                'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
+      //         const bookingId = response.result.booking_id;
+      //         const MerchantId = 'VANAVIHARI';
+      //         const CurrencyType = 'INR';
+      //         const SecurityId = 'vanavihari';
+      //         const txtCustomerID = 'BK986239234';
+      //         const secretKey = 'rmvlozE7R4v9';
+      //         const amount = 1;
+      //         const rU =
+      //           'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
-              const str =
-                MerchantId +
-                '|' +
-                bookingId +
-                '|NA|' +
-                amount +
-                '|NA|NA|NA|' +
-                CurrencyType +
-                '|NA|R|' +
-                SecurityId +
-                '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' +
-                rU +
-                '&' +
-                Date.now().toFixed().substring(0, 10);
+      //         const str =
+      //           MerchantId +
+      //           '|' +
+      //           bookingId +
+      //           '|NA|' +
+      //           amount +
+      //           '|NA|NA|NA|' +
+      //           CurrencyType +
+      //           '|NA|R|' +
+      //           SecurityId +
+      //           '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' +
+      //           rU +
+      //           '&' +
+      //           Date.now().toFixed().substring(0, 10);
 
-              const hmac = HmacSHA256(str, secretKey);
-              const checksum = hmac.toString().toUpperCase();
-              const msg = `${str}|${checksum}`;
+      //         const hmac = HmacSHA256(str, secretKey);
+      //         const checksum = hmac.toString().toUpperCase();
+      //         const msg = `${str}|${checksum}`;
 
-              let pg_params = new HttpParams()
-                .set('MerchantId', MerchantId)
-                .set('CurrencyType', CurrencyType)
-                .set('SecurityId', SecurityId)
-                .set('txtCustomerID', txtCustomerID)
-                .set('txtTxnAmount', amount)
-                .set('txtAdditionalInfo1', bookingId)
-                .set('txtAdditionalInfo2', this.form.value.gname)
-                .set('txtAdditionalInfo3', this.form.value.gphone)
-                .set('RU', rU)
-                .set('CheckSumKey', secretKey)
-                .set('CheckSum', checksum)
-                .set('msg', msg);
+      //         let pg_params = new HttpParams()
+      //           .set('MerchantId', MerchantId)
+      //           .set('CurrencyType', CurrencyType)
+      //           .set('SecurityId', SecurityId)
+      //           .set('txtCustomerID', txtCustomerID)
+      //           .set('txtTxnAmount', amount)
+      //           .set('txtAdditionalInfo1', bookingId)
+      //           .set('txtAdditionalInfo2', this.form.value.gname)
+      //           .set('txtAdditionalInfo3', this.form.value.gphone)
+      //           .set('RU', rU)
+      //           .set('CheckSumKey', secretKey)
+      //           .set('CheckSum', checksum)
+      //           .set('msg', msg);
 
-              const form = document.createElement('form');
-              form.method = 'post';
-              form.action =
-                'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
-              pg_params.keys().forEach((key) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                const value = pg_params.get(key) || '';
-                input.value = value;
-                form.appendChild(input);
-              });
-              document.body.appendChild(form);
-              form.submit();
-            } else if (response.code == 3000) {
-              this.showSnackBarAlert(response.result.msg);
-            } else {
-              this.showSnackBarAlert('Reservation Error!');
-            }
-          },
-          error: (err) => {
-            console.error('Error:', err);
-          },
-        });
+      //         const form = document.createElement('form');
+      //         form.method = 'post';
+      //         form.action =
+      //           'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
+      //         pg_params.keys().forEach((key) => {
+      //           const input = document.createElement('input');
+      //           input.type = 'hidden';
+      //           input.name = key;
+      //           const value = pg_params.get(key) || '';
+      //           input.value = value;
+      //           form.appendChild(input);
+      //         });
+      //         document.body.appendChild(form);
+      //         form.submit();
+      //       } else if (response.code == 3000) {
+      //         this.showSnackBarAlert(response.result.msg);
+      //       } else {
+      //         this.showSnackBarAlert('Reservation Error!');
+      //       }
+      //     },
+      //     error: (err) => {
+      //       console.error('Error:', err);
+      //     },
+      //   });
     }
   }
 
