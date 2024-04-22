@@ -26,15 +26,13 @@ export class SearchResortComponent implements OnInit {
   RoomValues: any;
   //selectedResort: string = "vanavihari";
   selectedResort: string;
-  checkinDate: any;
-  checkoutDate: any;
+  checkinDate: string;
+  checkoutDate: string;
   currentDate: any;
   minDate: Date;
 
   constructor(private searchService:SearchService,private router: Router,private snackBar: MatSnackBar, private route: ActivatedRoute, private authService: AuthService, private formBuilder: FormBuilder, private sharedService: SharedService, private datePipe: DatePipe) {
     
-    this.checkinDate = localStorage.getItem('checkin')
-    this.checkoutDate = localStorage.getItem('search_data')
      // Set the minimum to the next date from the present date.
      const currentDate = new Date();
      currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
@@ -52,17 +50,20 @@ export class SearchResortComponent implements OnInit {
     if(this.authService.getSearchData("checkin")) this.checkinDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkin"));
     if(this.authService.getSearchData("checkout")) this.checkoutDate = this.formatDateForMatDatepicker(this.authService.getSearchData("checkout"));
     this.currentDate = new Date();
+    this.checkinDate = this.authService.getSearchData('checkin')
+    this.checkoutDate = this.authService.getSearchData('checkout')
   }
   ngOnInit(): void {
   }
 
-  calculateMinDate(): Date {
+
+  setMinCheckoutDate(){
     if (this.checkinDate) {
       const minDate = new Date(this.checkinDate);
       minDate.setDate(minDate.getDate() + 1); // Add one day to the checkinDate
       return minDate;
     }
-    return this.minDate;
+    return null;
   }
 
   formatDateForMatDatepicker(date: string): string {
@@ -142,19 +143,7 @@ export class SearchResortComponent implements OnInit {
       this.roomsCount;
   }
   
-  // onResortChange(): void {
-  //   switch (this.selectedResort) {
-  //     case 'vanavihari':
-  //       this.goToVanavihari();
-  //       break;
-  //     case 'jungle-star':
-  //       this.goToJungleStar();
-  //       break;
-  //     default:
-  //       // Handle default case if needed
-  //       break;
-  //   }
-  // }
+ 
 
   submitSearch() {
     console.log(this.selectedResort)
