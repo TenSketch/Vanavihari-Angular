@@ -366,10 +366,11 @@ export class RoomsComponent implements OnInit {
 
     // this.http
     //     .get<any>(
-    //       'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
+    //       'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
     //     )
     //     .subscribe({
     //       next: (response) => {
+    //         console.log(response)
     //         this.loadingRooms = false;
     //       },
     //       error: (err) => {
