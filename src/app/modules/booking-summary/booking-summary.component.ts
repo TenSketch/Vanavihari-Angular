@@ -118,6 +118,23 @@ export class BookingSummaryComponent {
     this.getUserDetails();
   }
 
+  isModalVisible: boolean = false;
+
+  triggerModal() {
+    this.isModalVisible = true;
+  }
+
+  onCancel() {
+    this.isModalVisible = false;
+    // window.location.reload(); // Reload the page
+  }
+
+  onConfirm() {
+    this.isModalVisible = false;
+    this.router.navigate(['/resorts/rooms']);
+
+  }
+
   getUserDetails() {
     // const params = new HttpParams()
     //   .set('email', this.authService.getAccountUsername() ?? '')
@@ -262,15 +279,7 @@ export class BookingSummaryComponent {
   gotToLogin() {
     this.router.navigate(['/sign-in']);
   }
-  goToVanavihari() {
-    this.router.navigate(['/resorts/rooms']);
-    // const result = confirm('Are you sure you want to proceed?');
-
-    // if (result) {
-    // } else {
-    //   console.log('User cancelled');
-    // }
-  }
+ 
 
   submitBooking() {
     // let room_ids = this.authService
