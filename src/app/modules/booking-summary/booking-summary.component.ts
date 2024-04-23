@@ -396,7 +396,7 @@ export class BookingSummaryComponent {
 
   calculateGrandTotal(){
     
-    return this.grandTotal * this.calculateDurationOfStay()
+    return this.grandTotal
   }
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {

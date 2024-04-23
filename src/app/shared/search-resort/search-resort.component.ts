@@ -59,6 +59,16 @@ export class SearchResortComponent implements OnInit {
       checkoutDate: [],
     });
 
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkoutDate = this.authService.getSearchData('checkout');
+
+    // this.searchForm.patchValue({
+    //   selectedResort: 'Your selected resort value',
+    //   checkinDate: new Date('2024-04-20'), // Example date value
+    //   checkoutDate: new Date('2024-04-25'), // Example date value
+    // });
+
     this.updateAgeDropdowns();
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
 
