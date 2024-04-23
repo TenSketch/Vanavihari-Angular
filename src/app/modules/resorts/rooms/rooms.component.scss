@@ -57,26 +57,26 @@ aside {
     // position: relative;
   }
 
-  .booking-summary-bar {
-    // background-color: $clr-secondary;
-    // color: $white;
-    // padding: 10px;
-    // position: fixed;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // z-index: 1000;
-    // h5{
-    //   color: $white;
-    // }
-
-    // @media(min-width: 768px) {
-    //   position: sticky;
-    //   top: 5%;
-    //   margin-top: 2rem;
-    //   // overflow-y: auto;
-
-    // }
+  .booking-summary-bar{
+    &--title{
+      // color: red;
+      position: relative;
+      &::after{
+        position: absolute;
+        // content: "";
+        content: "\f0f3";
+        font-family: "Font Awesome 6 Free";
+        font-size: 18px;
+        color: red;
+        top: 50%;
+        transform: translateY(-50%);
+        // width: 18px;
+        // aspect-ratio: 1;
+        // background: red;
+        right: -22%;
+        // border-radius: 50%;
+      }
+    }
   }
 }
 
@@ -133,4 +133,141 @@ main {
 }
 .custom-h4 {
   padding-left: 10px;
+}
+
+/* your-component.component.scss */
+
+.containerg {
+  width: min(991px, 80%);
+  position: relative;
+
+  .card-containerg {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    align-items: center;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      flex: 1 0 auto;
+      margin: 10px;
+
+      img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .scroll-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    color: #4d9900;
+
+    &.left {
+      left: 10px;
+    }
+
+    &.right {
+      right: 10px;
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &.left {
+      left: 1%;
+    }
+
+    &.right {
+      right: 1%;
+    }
+  }
+}
+
+/* your-component.component.css */
+.full-image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.full-image-container {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.full-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+/* your-component.component.css */
+.overlay-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.download-button,
+.close-button {
+  background-color: #ffffff;
+  color: #333333;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.download-button:hover,
+.close-button:hover {
+  background-color: #f0f0f0;
+}
+
+
+/* Media query for screens smaller than 768px */
+@media screen and (max-width: 767px) {
+  .containerg {
+    width: min(991px, 100%);
+  }
+}
+
+/* Media query for screens between 768px and 991px */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .container {
+    width: min(991px, 100%);
+    /* Styles for medium-sized screens */
+  }
+}
+
+/* Media query for screens larger than 992px */
+@media screen and (min-width: 992px) {
+  .container {
+    width: min(991px, 100%);
+    /* Styles for larger screens */
+  }
 }

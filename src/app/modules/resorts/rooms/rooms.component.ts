@@ -6,6 +6,7 @@ import {
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
@@ -51,7 +52,9 @@ export class RoomsComponent implements OnInit {
 
   currentImage: string | null = null;
   imageFilenames: string[] = [];
-  roomData: any[]=[];
+  fullImageSrc: string | null = null;
+  isFullImageVisible = false;
+  roomData: any[] = [];
   filteredRoomData: any;
   // imageFilenames2: string[] = [];
   noof_guests: any;
@@ -100,7 +103,12 @@ export class RoomsComponent implements OnInit {
   get stickyClass() {
     return this.isMobile;
   }
-
+  @ViewChild('cardContainer') cardContainer!: ElementRef;
+  @ViewChild('scrollLeftIcon') scrollLeftIcon!: ElementRef;
+  @ViewChild('scrollRightIcon') scrollRightIcon!: ElementRef;
+  @ViewChild('leftTooltip') leftTooltip!: ElementRef;
+  @ViewChild('rightTooltip') rightTooltip!: ElementRef;
+  modalPromise: any;
 
   constructor(
     private router: Router,
@@ -153,6 +161,35 @@ export class RoomsComponent implements OnInit {
     this.extraChildren = this.storedData?.extra_children;
     this.noof_guests = this.storedData?.noof_guests.length;
   }
+
+  // @HostListener('window:popstate', ['$event'])
+  // onPopState(event:any) {
+  //   // Prevent the default behavior of the back button
+  //   event.preventDefault();
+
+  //   // Display a confirmation dialog
+  //   this.showAlert('Are you sure you want to go back?', (result) => {
+  //     // If the user clicks OK, navigate back
+  //     if (result) {
+  //       window.history.back();
+  //     }
+  //   });
+  // }
+
+  // showAlert(message: string, callback: (result: boolean) => void): void {
+  //   const result = window.confirm(message);
+  //   callback(result);
+  // }
+  // @HostListener('window:popstate', ['$event'])
+  // onPopState(event: any) {
+  //   event.preventDefault();
+  //   this.triggerModal().then((result: boolean) => {
+  //     if (result) {
+  //       window.history.back();
+  //     }
+  //   });
+  // }
+
   ngOnInit(): void {
     // Set extra_guests in localStorage to an empty array
     localStorage.setItem('extra_guests', JSON.stringify([]));
@@ -181,15 +218,101 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-  
+  ngAfterViewInit() {
+    this.cardContainer?.nativeElement.addEventListener('scroll', () => {
+      if (this.cardContainer?.nativeElement.scrollLeft > 0) {
+        this.scrollLeftIcon.nativeElement.style.opacity = '1';
+        this.leftTooltip.nativeElement.style.opacity = '1';
+      } else {
+        this.scrollLeftIcon.nativeElement.style.opacity = '0';
+        this.leftTooltip.nativeElement.style.opacity = '0';
+      }
+
+      if (
+        this.cardContainer.nativeElement.scrollLeft <
+        this.cardContainer.nativeElement.scrollWidth -
+          this.cardContainer.nativeElement.clientWidth
+      ) {
+        this.scrollRightIcon.nativeElement.style.opacity = '1';
+        this.rightTooltip.nativeElement.style.opacity = '1';
+      } else {
+        this.scrollRightIcon.nativeElement.style.opacity = '0';
+        this.rightTooltip.nativeElement.style.opacity = '0';
+      }
+    });
+  }
+
+  isModalVisible: boolean = false;
+
+  // triggerModal(): Promise<boolean> {
+  //   this.isModalVisible = true;
+  //   return new Promise<boolean>((resolve, reject) => {
+  //     this.modalPromise = resolve;
+  //   });
+  // }
+
+  // onCancel() {
+  //   this.isModalVisible = false;
+  //   this.modalPromise(false);
+  // }
+
+  // onConfirm() {
+  //   this.isModalVisible = false;
+  //   this.modalPromise(true);
+  //   window.history.back();
+  // }
+
+  scrollLeft() {
+    this.cardContainer.nativeElement.scrollBy({
+      left: -250,
+      behavior: 'smooth',
+    });
+  }
+
+  scrollRight() {
+    this.cardContainer.nativeElement.scrollBy({
+      left: 250,
+      behavior: 'smooth',
+    });
+  }
+
+  showFullImage(item: string): void {
+    console.log('cliked');
+    this.fullImageSrc = item; // Set the full-size image source to the clicked image filename
+    this.isFullImageVisible = true; // Show the full-size image overlay/modal
+  }
+  downloadImage(): void {
+    // Replace 'this.fullImageSrc' with the URL or path of the image you want to download
+    // For simplicity, this example opens the image in a new tab, which allows the user to download it manually
+    if (this.fullImageSrc) {
+      window.open(this.fullImageSrc, '_blank');
+    }
+  }
+
+  closeFullImage(): void {
+    this.isFullImageVisible = false; // Hide the full-size image overlay/modal
+  }
+
+  calculateDurationOfStay() {
+    const checkinDate = new Date(this.checkinDate);
+    const checkoutDate = new Date(this.checkoutDate);
+
+    const timeDifferenceMs = checkoutDate.getTime() - checkinDate.getTime();
+    const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
+    return durationDays;
+  }
 
   isRoomAdded(roomId: any): boolean {
     // Assuming bookingRooms is an array of Room_Id
     this.bookingRooms = localStorage.getItem('booking_rooms');
-    if(!this.checkinDate|| !this.checkoutDate){
-       return true
+    if (!this.checkinDate || !this.checkoutDate) {
+      return true;
     }
     return this.bookingRooms?.includes(roomId);
+  }
+  isRoomAvailable() {
+    this.bookingRooms = localStorage.getItem('booking_rooms');
+    return this.bookingRooms?.length !== 2;
   }
 
   toggleBookingSummary() {
@@ -243,10 +366,11 @@ export class RoomsComponent implements OnInit {
 
     // this.http
     //     .get<any>(
-    //       'https://vanavihari-ng.netlify.app/zoho-connect?api_type=room_list' + perm
+    //       'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
     //     )
     //     .subscribe({
     //       next: (response) => {
+    //         console.log(response)
     //         this.loadingRooms = false;
     //       },
     //       error: (err) => {
@@ -317,7 +441,7 @@ export class RoomsComponent implements OnInit {
     }
 
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-    
+
     if (this.roomIds.length == 0) {
       this.showBookingSummary = false;
     }
@@ -345,9 +469,8 @@ export class RoomsComponent implements OnInit {
     if (this.isAddedExtraGuest) {
       return (totalPrice += this.calculateExtraGuestCharges());
     }
-    if(this.removeExtraGuestCharge){
+    if (this.removeExtraGuestCharge) {
       return (totalPrice -= this.calculateExtraGuestCharges());
-
     }
 
     return totalPrice;
@@ -388,8 +511,8 @@ export class RoomsComponent implements OnInit {
     const totalPrice = this.calculateTotalPrice();
     const gstPercentage = 0.12; // GST @12%
     const gstAmount = totalPrice * gstPercentage;
-    let payablePrice = totalPrice + gstAmount;
-
+    let payablePrice =
+      (totalPrice + gstAmount) * this.calculateDurationOfStay();
 
     return payablePrice;
   }
@@ -453,7 +576,7 @@ export class RoomsComponent implements OnInit {
 
   addExtraGuest(roomId: string) {
     this.isAddedExtraGuest = true;
-    this.removeExtraGuestCharge = false
+    this.removeExtraGuestCharge = false;
     this.extraGuestsIds.push(roomId);
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
 

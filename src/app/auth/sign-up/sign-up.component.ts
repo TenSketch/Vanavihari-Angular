@@ -147,7 +147,7 @@ export class SignUpComponent implements OnInit {
 
       this.http
         .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=register',
+          'https://www.zohoapis.com/creator/custom/vanavihari/Account_Registration?publickey=kFs7xRDC5eRPfyCQ0W7yQNCRv&fullname=Venkat&email=venkat408prabhu@gmail.com&mobile=8056562076&password=123456',
           { params }
         )
         .subscribe({
