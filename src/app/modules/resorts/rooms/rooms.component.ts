@@ -159,7 +159,7 @@ export class RoomsComponent implements OnInit {
     this.checkoutDate = this.authService.getSearchData('checkout');
 
     this.extraChildren = this.storedData?.extra_children;
-    this.noof_guests = this.storedData?.noof_guests.length;
+    this.noof_guests = this.storedData.noof_guests?.length;
   }
 
   // @HostListener('window:popstate', ['$event'])
@@ -524,7 +524,7 @@ export class RoomsComponent implements OnInit {
       extra_guests: localStorage.getItem('extra_guests'),
       extra_children: this.extraChildren,
       grand_total: this.calculatePayablePrice(),
-      room_charges: this.getRoomCharges(),
+      room_charges: this.calculateTotalPrice(),
       total_gst: this.calculateTotalGst(),
     };
 
