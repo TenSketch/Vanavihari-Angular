@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    localStorage.setItem('booking_rooms', JSON.stringify([]));
     const lightboxRef = this.gallery.ref('lightbox');
     if (this.resortTypeId === 'vanavihari') {
       this.items = this.imageFilenames.map(

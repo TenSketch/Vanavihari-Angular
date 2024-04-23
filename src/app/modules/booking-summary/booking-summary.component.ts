@@ -43,6 +43,7 @@ export class BookingSummaryComponent {
   room_ids:any
   // checkinDate: Date;
   // checkoutDate: Date;
+  cardData: any[]=[]
 
   constructor(
     private router: Router,
@@ -209,10 +210,17 @@ export class BookingSummaryComponent {
     //     this.roomNames.push('Room name not found'); // Or any default value
     //   }
     // });
+    this.room_ids.forEach((roomId: any) => {
+      const room = this.roomData.find((room: { Room_Id: any; }) => room.Room_Id === roomId);
+      if (room) {
+        this.cardData.push(room);
+      }
+    });
+    console.log(this.cardData)
 
     this.extra_children = JSON.parse(this.summaryData.extra_children)
     const roomIdsWithGuests = JSON.parse(this.summaryData.noof_guests);
-
+    console.log(this.room_ids)
     roomIdsWithGuests.forEach(
       (item: { split: (arg0: string) => [any, any] }) => {
         const [roomId, noof_guests] = item.split(':');
