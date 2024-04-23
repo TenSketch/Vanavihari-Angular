@@ -62,11 +62,11 @@ export class RoomsComponent implements OnInit {
 
   searchResortData: any;
   resorts: any = {
-    'Vanavihari, Maredumilli': {
+    'vanavihari': {
       title: 'Vanavihari',
       about: 'About Vanavihari',
     },
-    'Jungle Star, Valamuru': {
+    'jungle-star': {
       title: 'Jungle Star',
       about: 'About Jungle Star',
     },
@@ -327,23 +327,18 @@ export class RoomsComponent implements OnInit {
   }
 
   convertDateFormat(dateString: string): string {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    const [monthAbbr, day, year] = dateString.split('/');
-    const formattedDate = `${year}-${months[parseInt(monthAbbr) - 1]}-${day}`;
+    const date = new Date(dateString);
 
+    // Get day, month, and year components
+    const day = date.getDate().toString().padStart(2, '0'); // Ensure two digits with leading zero if needed
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear().toString().substring(2); // Extract last two digits of the year
+  
+    // Define months array
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+    // Format the date as dd-MMM-YY
+    const formattedDate = `${day}-${months[monthIndex]}-${year}`;
     return formattedDate;
   }
 
@@ -356,13 +351,16 @@ export class RoomsComponent implements OnInit {
   fetchRoomList() {
     if(this.selectedResort != "" && this.checkinDate != null && this.checkoutDate != null) {
       let perm = '';
+      console.log(this.checkinDate);
+      console.log(this.checkoutDate);
+
       if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
       if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
       if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
 
       this.http
       .get<any>(
-        'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
+        'https://www.vanavihari.com/zoho-connect?api_type=room_list' + perm
       )
       .subscribe({
         next: (response) => {
