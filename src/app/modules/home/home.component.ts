@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 // import lgZoom from 'lightgallery/plugins/zoom';
 // import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import { UserService } from '../../user.service';
+import { AuthService } from '../../auth.service';
+import { SearchService } from 'src/app/search.service';
+
 import {
   Gallery,
   GalleryItem,
@@ -33,7 +36,9 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private userService: UserService,
     public gallery: Gallery,
-    public lightbox: Lightbox
+    public lightbox: Lightbox,
+    private authService: AuthService,
+    private searchService: SearchService
   ) {
 
     for (let i = 2; i <= 16; i++) {
@@ -89,10 +94,15 @@ export class HomeComponent implements OnInit {
   }
   
   goToVanavihari() {
-    this.router.navigate(['/resorts/vanavihari-maredumilli']);
+    this.authService.setSearchData( [{ resort:'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
+    this.searchService.setSearchCriteria('Vanavihari, Maredumilli')
+    this.authService.buttonClick$.next();
+    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanvihari' } });
   }
-
   goToJungleStar() {
-    this.router.navigate(['/resorts/vanavihari-maredumilli']);
+    this.authService.setSearchData( [{ resort:'Jungle Star, Valamuru', checkin: '', checkout: '' }]);
+    this.searchService.setSearchCriteria('Jungle Star, Valamuru')
+    this.authService.buttonClick$.next();
+    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "junglestar" } });
   }
 }

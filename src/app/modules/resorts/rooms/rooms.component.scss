@@ -96,12 +96,30 @@ main {
   right: 0;
   z-index: 1000;
   position: sticky;
-  // width: 92%;
-  // margin: auto;
   padding: 6px !important;
-  h4,
-  .custom-text {
+  h4,.custom-text {
     font-size: 15px;
+  }
+  .booking-summary-bar{
+    &--title{
+      // color: red;
+      position: relative;
+      &::after{
+        position: absolute;
+        // content: "";
+        content: "\f0f3";
+        font-family: "Font Awesome 6 Free";
+        font-size: 18px;
+        color: red;
+        top: 50%;
+        transform: translateY(-50%);
+        // width: 18px;
+        // aspect-ratio: 1;
+        // background: red;
+        right: -22%;
+        // border-radius: 50%;
+      }
+    }
   }
 }
 .accordion-body {
