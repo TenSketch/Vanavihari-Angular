@@ -1,0 +1,115 @@
+@use "/src/scss/base/" as *;
+
+.page-banner {
+  background-image: url("/assets/img/home-gallery/vanavihari-home-gallery-1.jpg");
+}
+.card1 {
+  line-height: 2;
+}
+.breadcrumb {
+  padding: 10px;
+  background-color: #f8f9fa;
+  // margin-bottom: 20px;
+}
+
+.filter-options,
+.sort {
+  background-color: #f8f9fa;
+  // padding: 15px;
+  margin-bottom: 20px;
+  // border-radius: 15px;
+}
+
+.card {
+  margin-bottom: 20px;
+  // padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.star-rating {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: #ffd700;
+
+  &::before {
+    content: "\2605\2605\2605\2605";
+  }
+
+  &::after {
+    content: "\2606";
+    margin-left: 3px;
+  }
+}
+
+aside {
+  // background-color: hsl($hue-primary, $saturation-primary, 85%);
+  background-color: $clr-primary-lighter;
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    // flex-basis: 35%;
+    top: $nav-bar-height;
+    // margin-top: 2rem;
+    // bottom: 0;
+    left: 0;
+    right: 0;
+    // position: relative;
+  }
+
+}
+
+main {
+  &.rooms-listing {
+    // margin-left: 0;
+    // transition: margin-left 0.5s;
+    @media (min-width: 768px) {
+      // flex-basis: 65%;
+    }
+  }
+}
+
+.position-sticky-for-mobile {
+  top: $nav-bar-height;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  position: sticky;
+  padding: 6px !important;
+  h4,.custom-text {
+    font-size: 15px;
+  }
+  .booking-summary-bar{
+    &--title{
+      // color: red;
+      position: relative;
+      &::after{
+        position: absolute;
+        // content: "";
+        content: "\f0f3";
+        font-family: "Font Awesome 6 Free";
+        font-size: 18px;
+        color: red;
+        top: 50%;
+        transform: translateY(-50%);
+        // width: 18px;
+        // aspect-ratio: 1;
+        // background: red;
+        right: -22%;
+        // border-radius: 50%;
+      }
+    }
+  }
+}
+.accordion-body {
+  height: 50dvh;
+  overflow-y: scroll;
+}
+.policy-section {
+  background: hsl(90, 100%, 85%);
+  padding: 20px;
+  margin: 20px 0px;
+}
+.custom-h4 {
+  padding-left: 10px;
+}

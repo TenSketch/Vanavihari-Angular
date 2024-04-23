@@ -1,0 +1,463 @@
+<app-layout>
+  <div class="main">
+    <section class="page-banner d-grid place-items-center" *ngIf="selectedResortInfo">
+      <h1 class="display-3 text-center">{{ selectedResortInfo.title }}</h1>
+    </section>
+
+    <div class="container-fluid">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <!-- <li class="breadcrumb-item"><a href="#">Resorts</a></li> -->
+          <li class="breadcrumb-item active" aria-current="page">
+            {{ selectedResortInfo.title }}
+          </li>
+        </ol>
+      </nav>
+      <div class="row" *ngIf="selectedResortInfo">
+        <div class="col-md-4">
+          <div class="map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
+              width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+        <div class="col-md-8 mt-4 mt-lg-0">
+          <h4>About {{ selectedResortInfo.title }}</h4>
+          <p>
+            {{ selectedResortInfo.about }}, situated in the serene landscapes of
+            Maredumilli, beckons eco-tourism aficionados with its abundance of
+            bamboo trees. This guesthouse, committed to community well-being,
+            offers a serene retreat amidst natural surroundings. With its snug
+            cottages and rooms, it conveniently lies close to Amruthathara
+            Waterfalls, promising guests a peaceful ambiance. Nearby street food
+            eateries present the opportunity to savor the distinctive flavor of
+            bamboo biriyani. Stepping out for a night or morning stroll unveils
+            a heavenly experience for visitors.
+          </p>
+        </div>
+      </div>
+
+      <div class="policy-section row" *ngIf="selectedResortInfo">
+        <div class="col-md-4">
+          <h4 class="custom-h4">Guest Policies & Rates</h4>
+          <ul>
+            <li><strong>Occupancy:</strong> 2 guests (1 extra allowed)</li>
+            <li>
+              <strong>Amenities:</strong> AC, geyser, western toilet, Prices
+              exclude 12% GST.
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h4 class="custom-h4">Cancellation</h4>
+          <ul>
+            <li><strong> 48-72 hours before:</strong> 90% refund</li>
+            <li><strong> 24-48 hours before:</strong> 80% refund</li>
+            <li><strong> Within 24 hours:</strong> No refund</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h4 class="custom-h4">Check-In/Out:</h4>
+          <ul>
+            <li><strong>Check-in:</strong> 10:00 AM IST</li>
+            <li><strong> Check-out:</strong> 9:00 AM IST</li>
+            <li>Early/late fees may apply (subject to availability)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h2 class="text-center mb-3 mt-5">Search availability</h2>
+      <!-- section for search bar - with inputs given in home page search, and user can modify -->
+      <app-search-resort></app-search-resort>
+    </div>
+    <div class="container-fluid mt-3">
+      <!-- rooms listing section -->
+      <div class="row mt-5">
+        <aside class="col-sm-5 col-md-3 h-100" [ngClass]="isMobile == false ? 'position-sticky' : 'position-sticky-for-mobile'">
+          <!-- <section class="position-sticky"> -->
+          <div class="sort rounded-3 p-3 d-none">
+            <h4>Cottage Type</h4>
+            <mat-checkbox id="hilltop">Hilltop Guest House</mat-checkbox><br />
+            <mat-checkbox id="pre-fabricated">Pre-Fabricated Cottages</mat-checkbox><br />
+            <mat-checkbox id="wooden">Wooden Cottages</mat-checkbox><br />
+            <mat-checkbox id="deluxe">Deluxe Rooms</mat-checkbox><br />
+            <mat-checkbox id="tented">Tented Cottages</mat-checkbox><br /><br /><br />
+            <mat-form-field>
+              <mat-label>Sort by Price</mat-label>
+              <mat-select [(value)]="selectedSortOption" name="priceSort">
+                <mat-option value="lowToHigh">Low to High</mat-option>
+                <mat-option value="highToLow">High to Low</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Booking Summary section -->
+          <div *ngIf="!isMobile" class="booking-summary-bar text-dark rounded-3">
+            <h4 class="m-0 pb-1 font-weight-bold">Booking Summary</h4>
+            <div class="border-top pt-2" *ngIf="showBookingSummary; else noBookings">
+              <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
+              <div class="" *ngFor="let roomId of roomIds">
+                <div *ngIf="findRoomById(roomId)">
+                  <a href="javascript:void(0)" class="float-end" (click)="removeRoom(roomIds, roomId)"><i
+                      class="fa fa-trash"></i></a>
+                  <div>
+                    <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
+                  </div>
+                  <div class="d-flex flex-column">
+                    <small>
+                      <strong>Room Tariff:</strong>
+                      {{
+                      isWeekend
+                      ? findRoomById(roomId).Week_End_Rate
+                      : (findRoomById(roomId).Week_Days_Rate
+                      | currency : "INR " : true : "1.2-2")
+                      }}
+                    </small>
+
+                    <small>
+                      <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
+                    </small>
+
+                    <!-- <small>
+                      <strong>Resort Name:</strong> {{ findRoomById(roomId).Select_Resort }}
+                    </small> -->
+                  </div>
+
+                  <div class="custom-dropdown mt-4">
+                    <!-- <span> -->
+                    <mat-form-field appearance="outline" class="mat-small">
+                      <mat-label>No. of Guests</mat-label>
+                      <mat-select (selectionChange)="noOfGuestAction($event, roomId)" size="small"
+                        #guestSelect="matSelect">
+                        <mat-option value="1">1</mat-option>
+                        <mat-option value="2">2</mat-option>
+                      </mat-select>
+                      <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
+                    </mat-form-field>
+                    <!-- </span> -->
+                    <mat-checkbox [checked]="findRoomById(roomId).extra_guest" class="example-margin" color="primary"
+                      (change)="extraGuestActions($event, roomId)">
+                      <label>Add an extra guest </label>
+                    </mat-checkbox>
+
+                    <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
+                      <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">INR 1500
+                      </strong>
+                      <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">INR 500
+                      </strong>
+                      <small>+ GST @ 12% will be charged</small>
+                    </div>
+
+                    <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
+                      #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
+                      [id]="'checkextraguestcount' + roomId.id"
+                      (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
+                      *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-1">
+            <ng-container *ngIf="showBookingSummary">
+              <!-- <label for="">No of children</label> -->
+              <div class="custom-dropdown mt-4">
+
+                <mat-form-field appearance="outline" class="mat-small">
+                  <mat-label>No of children</mat-label>
+                  <mat-select required [(ngModel)]="extraChildren" size="small">
+                    <mat-option value="0">0</mat-option>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                    <mat-option value="4">4</mat-option>
+                    <mat-option value="5">5</mat-option>
+                    <mat-option value="6">6</mat-option>
+                    <mat-option value="7">7</mat-option>
+                    <mat-option value="8">8</mat-option>
+                    <mat-option value="9">9</mat-option>
+                    <mat-option value="10">10</mat-option>
+                  </mat-select>
+                  <mat-hint class="px-0">Up to 5 years</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="d-flex justify-content-between pt-1">
+                <span>Room charges</span>
+                <span>{{
+                  getRoomCharges() | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
+              </div>
+              <div class="d-flex justify-content-between pt-1"
+                *ngIf="isAddedExtraGuest || isAnyRoomChecked() || calculateExtraGuestCharges()">
+                <span>Extra guest</span>
+                <span>{{
+                  calculateExtraGuestCharges()
+                  | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
+              </div>
+
+              <div class="d-flex justify-content-between font-weight-bold py-1">
+                <span class="mb-0">Total</span>
+                <span>{{
+                  calculateTotalPrice() | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
+              </div>
+              <div class="d-flex justify-content-between font-weight-bold py-1">
+                <span class="mb-0">GST @ 12%</span>
+                <span>{{
+                  calculateTotalGst() | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
+              </div>
+              <div
+                class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
+                <span class="mb-0">Grand Total</span>
+                <span>{{
+                  calculatePayablePrice()
+                  | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
+              </div>
+            </ng-container>
+            <button mat-raised-button color="primary" class="w-100 mt-3" (click)="goToBooking()"
+              *ngIf="showBookingSummary" [disabled]="isGuestSelectEmpty(guestSelect)">
+              Proceed
+            </button>
+          </div>
+          <mat-accordion *ngIf="isMobile">
+            <div class=" " [ngClass]="
+                isMobile == false
+                  ? 'position-sticky'
+                  : 'position-sticky-for-mobile'
+              ">
+              <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <div class="booking-summary-bar text-dark rounded-3">
+                      <h4 class="m-0 font-weight-bold booking-summary-bar--title">Booking Summary</h4>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div [ngClass]="{ 'accordion-body': showBookingSummary }">
+                  <div class="border-top pt-2" *ngIf="showBookingSummary; else noBookings">
+                    <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
+                    <div class="" *ngFor="let roomId of roomIds">
+                      <div *ngIf="findRoomById(roomId)">
+                        <a href="javascript:void(0)" class="float-end" (click)="removeRoom(roomIds, roomId)"><i
+                            class="fa fa-trash"></i></a>
+                        <div>
+                          <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
+                        </div>
+                        <div class="d-flex flex-column">
+                          <small>
+                            <strong>Room Tariff:</strong>
+                            {{
+                            isWeekend
+                            ? findRoomById(roomId).Week_End_Rate
+                            : (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                            }}
+                          </small>
+
+                          <small>
+                            <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
+                          </small>
+
+                          <!-- <small>
+                      <strong>Resort Name:</strong> {{ findRoomById(roomId).Select_Resort }}
+                    </small> -->
+                        </div>
+
+                        <div class="cflex-column mt-1">
+                          <span>
+                            <mat-form-field appearance="outline" class="mat-small">
+                              <mat-label>No. of Guests</mat-label>
+                              <mat-select (selectionChange)="noOfGuestAction($event, roomId)" size="small"
+                                #guestSelect="matSelect">
+                                <mat-option value="1">1</mat-option>
+                                <mat-option value="2">2</mat-option>
+                              </mat-select>
+                              <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
+                            </mat-form-field>
+                          </span>
+                          <mat-checkbox [checked]="findRoomById(roomId).extra_guest" class="example-margin"
+                            color="primary" (change)="extraGuestActions($event, roomId)">
+                            <label>Add an extra guest </label>
+                          </mat-checkbox>
+
+                          <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
+                            <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">INR 1500
+                            </strong>
+                            <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">INR 500
+                            </strong>
+                            <small>+ GST @ 12% will be charged</small>
+                          </div>
+
+                          <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
+                      #checkextraguestcount id="checkextraguestcount{{roomId.id}}" class="w-auto text-center"
+                      [id]="'checkextraguestcount' + roomId.id"
+                      (change)="checkExtraGuest(roomId, roomId.id, checkextraguestcount)"
+                      *ngIf="roomId.noof_guest>0&&roomId.max_guest>1"> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="my-1">
+                  <ng-container *ngIf="showBookingSummary">
+                    <!-- <label for="">No of children</label> -->
+                    <div class="custom-dropdown mt-4">
+
+                      <mat-form-field appearance="outline" class="mat-small">
+                        <mat-label>No of children</mat-label>
+                        <mat-select required [(ngModel)]="extraChildren" size="small">
+                          <mat-option value="0">0</mat-option>
+                          <mat-option value="1">1</mat-option>
+                          <mat-option value="2">2</mat-option>
+                          <mat-option value="3">3</mat-option>
+                          <mat-option value="4">4</mat-option>
+                          <mat-option value="5">5</mat-option>
+                          <mat-option value="6">6</mat-option>
+                          <mat-option value="7">7</mat-option>
+                          <mat-option value="8">8</mat-option>
+                          <mat-option value="9">9</mat-option>
+                          <mat-option value="10">10</mat-option>
+                        </mat-select>
+                        <mat-hint class="px-0">Up to 5 years</mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1">
+                      <span>Room charges</span>
+                      <span>{{
+                        getRoomCharges() | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1"
+                      *ngIf="isAddedExtraGuest || isAnyRoomChecked() || calculateExtraGuestCharges()">
+                      <span>Extra guest</span>
+                      <span>{{
+                        calculateExtraGuestCharges()
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                      <span class="mb-0">Total</span>
+                      <span>{{
+                        calculateTotalPrice() | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                      <span class="mb-0">GST @ 12%</span>
+                      <span>{{
+                        calculateTotalGst() | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
+                    </div>
+                    <div
+                      class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
+                      <span class="mb-0">Grand Total</span>
+                      <span>{{
+                        calculatePayablePrice()
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
+                    </div>
+                  </ng-container>
+                  <button mat-raised-button color="primary" class="w-100 mt-3" (click)="goToBooking()"
+                    *ngIf="showBookingSummary" [disabled]="isGuestSelectEmpty(guestSelect)">
+                    Proceed
+                  </button>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </mat-accordion>
+          <ng-template #noBookings>
+            <!-- <div class="text-center mt-3">
+                  <p>No Bookings Available. Please Add Rooms.</p>
+                </div> -->
+            <!-- <h5 class="text-center"><u>Booking Summary</u></h5> -->
+            <div class="d-flex my-2 p-3 align-items-center justify-content-around">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              <p class="m-0">Add your preferred rooms</p>
+            </div>
+          </ng-template>
+          <!-- </section> -->
+        </aside>
+        <main class="rooms-listing col-md-9">
+          <ng-template #loading>
+            <div class="text-center">
+              <!-- Increase size using Bootstrap utility classes -->
+              <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Loading rooms...</p>
+            </div>
+          </ng-template>
+
+          <div *ngIf="!loadingRooms; else loading">
+            <div class="card mb-3" *ngFor="let room of filteredRoomData">
+              <div class="row">
+                <div class="col-md-5">
+                  <!-- <img [src]="room.image" alt="Resort Room image"> -->
+                  <div class="masonry-layout">
+                    <lightgallery [settings]="settings">
+                      <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
+                        <img className="img-responsive" src="{{ item }}" />
+                      </a>
+                    </lightgallery>
+                  </div>
+                </div>
+                <div class="col-md-7 row justify-content-between">
+                  <div class="col-md-8">
+                    <h5>
+                      <span class="text-primary-dark font-weight-bold">Room name: </span>{{ room.Room_Name }}
+                    </h5>
+                    <h6>
+                      <span class="text-primary-dark font-weight-bold">Cottage type: </span>{{ room.Cottage_Type }}
+                    </h6>
+                    <h6>
+                      <span class="text-primary-dark font-weight-bold">Resort name:
+                      </span>
+                      {{ room.Select_Resort }}
+                    </h6>
+                  </div>
+                  <div class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0">
+                    <div class="col-auto">
+                      <h6 class="p-0 m-0">
+                        <strong>{{
+                          isWeekend
+                          ? room.Week_End_Rate
+                          : (room.Week_Days_Rate
+                          | currency : "INR " : true : "1.2-2")
+                          }}</strong>
+                      </h6>
+                      <p class="text-primary-dark">For 2 guests</p>
+                    </div>
+                    <div class="col-auto">
+                      <h6 class="p-0 m-0">
+                        <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">{{ 500 | currency : "INR " : true :
+                          "1.2-2" }}
+                        </strong>
+                        <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">{{ 1500 | currency : "INR " : true :
+                          "1.2-2" }}
+                        </strong>
+                      </h6>
+                      <p class="text-primary-dark">For an extra guest</p>
+                    </div>
+                    <div class="col-12"><em>+ GST @ 12%</em></div>
+                    <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
+                      <small>+ gst @ 12%</small><br>
+                      <small>(for 1 Extra Bed)</small> -->
+                  </div>
+                  <div class="col my-2 pe-0">
+                    <button mat-raised-button color="primary" class="float-end float-md-start"
+                      [disabled]="isRoomAdded(room.Room_Id)" (click)="addRoom(room)">
+                      Add room
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+</app-layout>
