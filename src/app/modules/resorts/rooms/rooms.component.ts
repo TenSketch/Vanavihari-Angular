@@ -159,7 +159,7 @@ export class RoomsComponent implements OnInit {
     this.checkoutDate = this.authService.getSearchData('checkout');
 
     this.extraChildren = this.storedData?.extra_children;
-    this.noof_guests = this.storedData?.noof_guests.length;
+    this.noof_guests = this.storedData.noof_guests?.length;
   }
 
   // @HostListener('window:popstate', ['$event'])
@@ -354,31 +354,33 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
-    this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-      this.roomData = data;
-      this.filteredRoomData = this.filterByResort(this.selectedResort);
-    });
+    if(this.selectedResort != "" && this.checkinDate != null && this.checkoutDate != null) {
+      let perm = '';
+      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
+      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
+      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
 
-    // let perm = '';
-    //   if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-    //   if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
-    //   if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
-
-    // this.http
-    //     .get<any>(
-    //       'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
-    //     )
-    //     .subscribe({
-    //       next: (response) => {
-    //         console.log(response)
-    //         this.loadingRooms = false;
-    //       },
-    //       error: (err) => {
-    //         this.showErrorAlert(
-    //           'An error occurred while fetching room list. Please try again later.'
-    //         );
-    //       },
-    //     });
+      this.http
+      .get<any>(
+        'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
+      )
+      .subscribe({
+        next: (response) => {
+          console.log(response)
+          this.loadingRooms = false;
+        },
+        error: (err) => {
+          this.showErrorAlert(
+            'An error occurred while fetching room list. Please try again later.'
+          );
+        },
+      });
+    } else {
+      this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+        this.roomData = data;
+        this.filteredRoomData = this.filterByResort(this.selectedResort);
+      });
+    }
   }
 
   isAnyRoomChecked(): boolean {
