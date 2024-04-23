@@ -360,7 +360,7 @@ export class RoomsComponent implements OnInit {
 
       this.http
       .get<any>(
-        'https://www.vanavihari.com/zoho-connect?api_type=room_list' + perm
+        'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
       )
       .subscribe({
         next: (response) => {
