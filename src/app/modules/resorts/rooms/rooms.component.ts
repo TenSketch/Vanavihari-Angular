@@ -364,7 +364,28 @@ export class RoomsComponent implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          console.log(response)
+          console.log(response);
+
+          if ( response.code === 3000 && response.result.status === 'success' )
+          {
+            const json = response.result.data;
+            const jsonArray = Object.keys(json).map((key) => {
+              return {
+                id: key,
+                ...json[key],
+              };
+            });
+            console.log(jsonArray);
+            
+            this.roomData = this.mapRoomData(jsonArray, this.roomIds);
+            // console.log(this.roomCards);
+          } else {
+            this.showErrorAlert(
+              'Failed to fetch room list. Please try again later.'
+            );
+          }
+
+
           this.loadingRooms = false;
         },
         error: (err) => {
@@ -380,7 +401,29 @@ export class RoomsComponent implements OnInit {
       });
     }
   }
+  mapRoomData(data: any[], roomIds: any[]): Room[] {
+    return data.map((room) => ({
+      name: room.name || 'Unknown',
+      resort: room.resort || 'Unknown',
+      max_guest: room.max_guest || 0,
+      week_day_bed_charge: room.week_day_bed_charge || 0,
+      week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
 
+      week_day_rate: room.week_day_rate || 'Unknown',
+      week_end_rate: room.week_end_rate || 'Unknown',
+
+      cottage_type: room.cottage_type || 'Unknown',
+      max_adult: room.max_adult || 3,
+      // max_child: room.max_child || 0,
+      noof_adult: room.max_adult,
+      // noof_child: room.max_child,
+      noof_guest: 0,
+      week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
+      week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
+      is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
+      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
+    }));
+  }
   isAnyRoomChecked(): boolean {
     // Check if any room has the extra guest checkbox checked
     return this.roomData.some(
