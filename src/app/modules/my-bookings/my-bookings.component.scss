@@ -1,72 +1,15 @@
 .min-vh-noscroll{
-  min-height: 60vh;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
   // overflow: hidden;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: 0;
-}
-.booking-container {
-  padding: 20px;
-}
-
-.booking-card {
-    border: 1px solid #ced4da;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 80px;
-}
-
-.booking-card h1 {
-  margin-bottom: 20px;
-}
-
-.room-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.room-image img {
-  max-width: 100%;
-  height: auto;
-}
-
-.booking-details {
-  padding-left: 20px;
-}
-
-.booking-details h4 {
-  margin-top: 0;
-}
-
-.booking-details p {
-  margin-bottom: 5px;
-}
-
-
-.booking-status {
-  margin-top: 20px;
-}
 
 /* Borders for main columns under first row */
-.bordered-col {
-  border-right: 1px solid #ced4da;
-}
-
-@media (max-width: 768px) {
-  .room-image,
-  .booking-details {
-    padding: 0;
-  }
-  /* Remove right border on small screens */
+@media(min-width:768px){
   .bordered-col {
-    border-right: none;
+    border-right: 1px solid #ced4da;
   }
+  
 }

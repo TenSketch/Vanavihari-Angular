@@ -1,79 +1,56 @@
 <app-layout>
   <div class="main">
-      <!-- <section class="settings my-5 py-5">
-          <div class="container">
-              <h1 class="text-center mb-4">My Bookings</h1>
-
-              <div class="row">
-                  <div class="col-md-4">
-                      <div class="card mb-4">
-                          <img src="https://via.placeholder.com/150.jpg" class="card-img-top" alt="Booking Image">
-                          <div class="card-body">
-                              <h5 class="card-title">Vanavihari</h5>
-                              <hr>
-                              <p class="card-text">address here</p>
-                              <hr>
-                              <p class="card-text">VanaVihari promotes sustainable and community-based eco-tourism,
-                                  fostering local
-                                  empowerment and environmental conservation.
-                              <p>
-                              <p class="card-text"> It aims to enhance living standards for indigenous communities
-                                  while providing
-                                  nature enthusiasts with an immersive and environmentally conscious experience.</p>
-                              <hr>
-                              <a href="#" class="btn btn-primary">View Property</a>
-                              <a href="#" class="btn btn-danger">Cancel</a>
-                          </div>
-                      </div>
-
-                  </div>
+    <section class="min-vh-noscroll mt-5 pt-5">
+      <div class="container">
+          <h1 class="mb-3">My Bookings</h1>
+          <!-- rooms iteratre if more than one room -->
+          <div class="card">
+            <div class="row justify-content-md-between">
+              <div class="col-md-4 bordered-col">
+                <h4><strong>Resort name:</strong> Vanavihari</h4>
+                <p><strong>Booking ID:</strong> BJ2404971</p>
+                <p><strong>Total guests:</strong> 2 guests</p>
+                <p><strong>Total amount (Including GST @12%):</strong> INR 3360</p>
               </div>
-          </div>
-      </section> -->
-
-        <section class="min-vh-noscroll">
-          <div class="container booking-container">
-              <div class="booking-card">
-                <h1>My Bookings</h1>
-                <div class="row">
-                  <!-- Room image and resort details -->
-                  <div class="col-md-3 room-image">
-                    <img src="assets/img/pamuleru/img-1.jpg" class="img-fluid" alt="Room Image">
+              <!-- Booking dates -->
+              <div class="col-md-4 bordered-col">
+                <h3>Booking dates</h3>
+                <div class="d-flex gap-3">
+                  <div class="show-date">
+                    <p class="h6 font-weight-bold">Check-in</p>
+                    <h1 class="display-3">15</h1>
+                    <p>May 2024</p>
                   </div>
-                  <div class="col-md-3 booking-details">
-                    <h4><strong>Resort name:</strong> Vanavihari</h4>
-                    <p><strong>Cottage type:</strong> Deluxe rooms</p>
-                    <p><strong>Room name:</strong> Bahuda</p>
-                    <p><strong>Guest info:</strong> 2 guests, 1 child, 1 extra guest</p>
-                    <p><strong>Total amount:</strong> INR 3360</p>
-                    <p><strong>Food preference:</strong> Vegetarian</p>
-                  </div>
-                  <div class="col-md-3 bordered-col">
-                    <!-- Booking dates -->
-                    <h3>Booking dates</h3>
-                    <div class="d-flex gap-3">
-                      <div class="show-date">
-                        <p>Check-in</p>
-                        <h1 class="display-3">15</h1>
-                        <p>May 2024</p>
-                      </div>
-                      <div class="show-date">
-                        <p>Check-out</p>
-                        <h1 class="display-3">20</h1>
-                        <p>May 2024</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 booking-status">
-                    <p>Status:</p>
-                    <h6>Confirmed</h6>
-                    <button class="btn btn-primary">Call Support</button>
-                    <!-- Booking status and completion button -->
+                  <div class="show-date">
+                    <p class="h6 font-weight-bold">Check-out</p>
+                    <h1 class="display-3">20</h1>
+                    <p>May 2024</p>
                   </div>
                 </div>
+                <p><strong>Duration of stay (in days): 5</strong></p>
+              </div>
+              <!-- status -->
+              <div class="col-md-4">
+                <h5><strong>Status: </strong>Confirmed</h5>
+                <a class="btn btn-primary text-white my-2" href="tel:+919494151617" title="call">
+                  <i class="fa-solid fa-mobile-screen me-2"></i>Call Support</a>
+                <p><strong>Food preference:</strong> Vegetarian</p>
               </div>
             </div>
-        </section>
-         
-    </div>
+          </div>
+          <!-- room specific details -->
+          <div class="card mt-4">
+            <div class="row">
+               <div class="col-md-3">
+                <img src="assets/img/pamuleru/img-1.jpg" class="img-fluid" alt="Room Image">
+              </div>
+              <div class="col-md-3">
+                <p><strong>Cottage type:</strong> Deluxe rooms</p>
+                <p><strong>Room name:</strong> Bahuda</p>
+              </div>
+            </div>
+          </div>
+      </div>
+    </section>
+  </div>
 </app-layout>
