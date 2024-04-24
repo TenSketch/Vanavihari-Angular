@@ -7,6 +7,8 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
@@ -42,6 +44,25 @@ interface Room {
   max_guest: number;
 }
 
+interface RoomData {
+  Week_Days_Rate: string;
+  Charges_per_Bed_Week_Days: string;
+  Charges_per_Bed_Week_End: string;
+  Cottage_Type: string;
+  Room_Id: string;
+  Room_Image: string;
+  Max_Allowed_Guest: string;
+  ID: string;
+  Week_End_Rate: string;
+  Max_Allowed_Adult: string;
+  Select_Resort: string;
+  Room_Name: string;
+  is_button_disabled: boolean;
+  isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
+
+  // Add more properties as needed
+}
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -54,7 +75,7 @@ export class RoomsComponent implements OnInit {
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
   isFullImageVisible = false;
-  roomData: any[] = [];
+  roomData: RoomData[] = [];
   filteredRoomData: any;
   // imageFilenames2: string[] = [];
   noof_guests: any;
@@ -62,11 +83,11 @@ export class RoomsComponent implements OnInit {
 
   searchResortData: any;
   resorts: any = {
-    'vanavihari': {
+    'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
       about: 'About Vanavihari',
     },
-    'jungle-star': {
+    'Jungle Star, Valamuru': {
       title: 'Jungle Star',
       about: 'About Jungle Star',
     },
@@ -109,6 +130,7 @@ export class RoomsComponent implements OnInit {
   @ViewChild('leftTooltip') leftTooltip!: ElementRef;
   @ViewChild('rightTooltip') rightTooltip!: ElementRef;
   modalPromise: any;
+  @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
   constructor(
     private router: Router,
@@ -125,7 +147,6 @@ export class RoomsComponent implements OnInit {
 
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
-    this.fetchRoomList();
     const storedObjectString = localStorage.getItem('summaryData');
 
     if (storedObjectString !== null) {
@@ -133,7 +154,6 @@ export class RoomsComponent implements OnInit {
       this.storedData = storedObject;
     } else {
     }
-    // this.filteredRoomData = this.roomData;
     this.subscription = this.authService.buttonClick$.subscribe(() => {
       // Retrieve data when button is clicked
       this.selectedResort = this.authService.getSearchData('resort');
@@ -157,38 +177,11 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
+    this.fetchRoomList();
 
     this.extraChildren = this.storedData?.extra_children;
-    this.noof_guests = this.storedData.noof_guests?.length;
+    this.noof_guests = this.storedData?.noof_guests?.length;
   }
-
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event:any) {
-  //   // Prevent the default behavior of the back button
-  //   event.preventDefault();
-
-  //   // Display a confirmation dialog
-  //   this.showAlert('Are you sure you want to go back?', (result) => {
-  //     // If the user clicks OK, navigate back
-  //     if (result) {
-  //       window.history.back();
-  //     }
-  //   });
-  // }
-
-  // showAlert(message: string, callback: (result: boolean) => void): void {
-  //   const result = window.confirm(message);
-  //   callback(result);
-  // }
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event: any) {
-  //   event.preventDefault();
-  //   this.triggerModal().then((result: boolean) => {
-  //     if (result) {
-  //       window.history.back();
-  //     }
-  //   });
-  // }
 
   ngOnInit(): void {
     // Set extra_guests in localStorage to an empty array
@@ -327,18 +320,16 @@ export class RoomsComponent implements OnInit {
   }
 
   convertDateFormat(dateString: string): string {
-    const date = new Date(dateString);
+    if (!dateString) {
+      return ''; // Return an empty string if dateString is undefined
+    }
 
-    // Get day, month, and year components
-    const day = date.getDate().toString().padStart(2, '0'); // Ensure two digits with leading zero if needed
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear().toString().substring(2); // Extract last two digits of the year
-  
-    // Define months array
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
-    // Format the date as dd-MMM-YY
-    const formattedDate = `${day}-${months[monthIndex]}-${year}`;
+    const date = new Date(dateString);
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
     return formattedDate;
   }
 
@@ -349,86 +340,70 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
-    if(this.selectedResort != "" && this.checkinDate != null && this.checkoutDate != null) {
-      let perm = '';
-      console.log(this.checkinDate);
-      console.log(this.checkoutDate);
+    let tempResort = this.selectedResort;
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
+      tempResort = 'junglestar';
+    }
+    if (this.selectedResort == 'Vanavihari, Maredumilli') {
+      tempResort = 'vanavihari';
+    }
 
-      if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-      if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
-      if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
+    let perm = '';
+    console.log(this.checkinDate);
+    perm += `&resort=${tempResort}`;
 
-      this.http
-      .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
-      )
+    // Concatenate checkin date parameter
+    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+
+    // Concatenate checkout date pa rameter
+    perm += `&checkout=${this.convertDateFormat(
+      this.checkoutDate?.toString()
+    )}`;
+
+    console.log(perm);
+    this.http
+      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          const roomDataResponse = response.result.data;
 
-          if ( response.code === 3000 && response.result.status === 'success' )
-          {
-            const json = response.result.data;
-            const jsonArray = Object.keys(json).map((key) => {
-              return {
-                id: key,
-                ...json[key],
-              };
-            });
-            console.log(jsonArray);
-            
-            this.roomData = this.mapRoomData(jsonArray, this.roomIds);
-            // console.log(this.roomCards);
-          } else {
-            this.showErrorAlert(
-              'Failed to fetch room list. Please try again later.'
-            );
-          }
-
-
+          this.roomData = Object.keys(roomDataResponse).map((key) => {
+            const roomObj = roomDataResponse[key];
+            return {
+              Room_Id: roomObj.room_id,
+              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+              Cottage_Type: roomObj.cottage_type,
+              Max_Allowed_Guest: roomObj.max_guest,
+              Week_Days_Rate: roomObj.week_day_rate,
+              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+              Week_End_Rate: roomObj.week_end_rate,
+              Room_Name: roomObj.name,
+              Select_Resort: roomObj.resort,
+              Max_Allowed_Adult: roomObj.max_adult,
+              Room_Image: '', // Add default value for Room_Image
+              ID: '', // Add default value for ID
+              is_button_disabled: false, // Add default value for is_button_disabled
+              isExtraGuestChecked: false,
+            };
+          });
           this.loadingRooms = false;
+          this.filteredRoomData = this.filterByResort(this.selectedResort);
         },
         error: (err) => {
-          this.showErrorAlert(
-            'An error occurred while fetching room list. Please try again later.'
-          );
+          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+            this.roomData = data;
+            this.filteredRoomData = this.filterByResort(this.selectedResort);
+          });
+          // this.showErrorAlert(
+          //   'An error occurred while fetching room list. Please try again later.'
+          // );
         },
       });
-    } else {
-      this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-        this.roomData = data;
-        this.filteredRoomData = this.filterByResort(this.selectedResort);
-      });
-    }
   }
-  mapRoomData(data: any[], roomIds: any[]): Room[] {
-    return data.map((room) => ({
-      name: room.name || 'Unknown',
-      resort: room.resort || 'Unknown',
-      max_guest: room.max_guest || 0,
-      week_day_bed_charge: room.week_day_bed_charge || 0,
-      week_end_bed_charge: room.week_end_bed_charge || 'Unknown',
 
-      week_day_rate: room.week_day_rate || 'Unknown',
-      week_end_rate: room.week_end_rate || 'Unknown',
-
-      cottage_type: room.cottage_type || 'Unknown',
-      max_adult: room.max_adult || 3,
-      // max_child: room.max_child || 0,
-      noof_adult: room.max_adult,
-      // noof_child: room.max_child,
-      noof_guest: 0,
-      week_day_guest_charge: room.week_day_guest_charge || 'Unknown',
-      week_end_guest_charge: room.week_end_guest_charge || 'Unknown',
-      is_button_disabled: this.toggleButtonDisabledById(room.id, roomIds),
-      image: room.image || 'assets/img/bonnet/BONNET-OUTER-VIEW.jpg', // set a default image if it is not available
-    }));
-  }
   isAnyRoomChecked(): boolean {
     // Check if any room has the extra guest checkbox checked
-    return this.roomData.some(
-      (room: { isExtraGuestChecked: any }) => room.isExtraGuestChecked
-    );
+    return this.roomData.some((room) => room.isExtraGuestChecked ?? false);
   }
 
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
@@ -588,14 +563,19 @@ export class RoomsComponent implements OnInit {
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
+  selectedValues: { [key: string]: number } = {};
 
-  isGuestSelectEmpty(select: MatSelect): boolean {
-    return !select || !select.value;
+  isGuestSelectEmpty(): boolean {
+    const roomIdsWithNoValue = this.roomIds.filter(
+      (roomId) => !this.selectedValues[roomId]
+    );
+    return roomIdsWithNoValue.length > 0;
   }
 
   // no. of guests
   noOfGuestAction(event: MatSelectChange, roomId: string) {
     const selectedValue = event.value;
+    this.selectedValues[roomId] = event.value;
 
     this.handleNoOfGuests(selectedValue, roomId);
   }

@@ -7,11 +7,31 @@ import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
 
+interface RoomData {
+  Week_Days_Rate: string;
+  Charges_per_Bed_Week_Days: string;
+  Charges_per_Bed_Week_End: string;
+  Cottage_Type: string;
+  Room_Id: string;
+  Room_Image: string;
+  Max_Allowed_Guest: string;
+  ID: string;
+  Week_End_Rate: string;
+  Max_Allowed_Adult: string;
+  Select_Resort: string;
+  Room_Name: string;
+  is_button_disabled: boolean;
+  isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
+
+  // Add more properties as needed
+}
+
 @Component({
   selector: 'app-booking-summary',
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
 })
+
 export class BookingSummaryComponent {
   formattedCheckinDate: { day: number, month: string, year: number };
   formattedCheckoutDate: { day: number, month: string, year: number };
@@ -33,7 +53,7 @@ export class BookingSummaryComponent {
   // me
   summaryData: any;
   resortName: any;
-  roomData: any;
+  roomData: RoomData[] = [];
   roomNamesWithGuests: any[] = [];
   guestDetails: any[];
   totalGuests: any;
@@ -44,6 +64,9 @@ export class BookingSummaryComponent {
   // checkinDate: Date;
   // checkoutDate: Date;
   cardData: any[]=[]
+  selectedResort:any
+  checkinDate:any
+  checkoutDate:any
 
   constructor(
     private router: Router,
@@ -54,7 +77,10 @@ export class BookingSummaryComponent {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute
   ) {
-    this.fetchRoomList();
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.checkinDate = this.authService.getSearchData('checkin');
+      this.checkoutDate = this.authService.getSearchData('checkout');
+      this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
     if (this.roomDetails.length > 0) {
@@ -106,7 +132,6 @@ export class BookingSummaryComponent {
     this.formattedCheckinDate = this.parseDate(new Date(this.checkInDate));
     this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate))
     // this.checkOutDate = endDate
-    // console.log(this.checkInDate, endDate)
     
     const durationMs = endDate.getTime() - startDate.getTime();
     const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
@@ -193,11 +218,80 @@ export class BookingSummaryComponent {
     };
   }
 
-  fetchRoomList() {
-    this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-      this.roomData = data;
-      this.getRoomData();
-    });
+    fetchRoomList() {
+      let tempResort = this.selectedResort;
+      if (this.selectedResort == 'Jungle Star, Valamuru') {
+        tempResort = 'junglestar';
+      }
+      if (this.selectedResort == 'Vanavihari, Maredumilli') {
+        tempResort = 'vanavihari';
+      }
+  
+      let perm = '';
+      perm += `&resort=${tempResort}`;
+  
+      // Concatenate checkin date parameter
+      perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+  
+      // Concatenate checkout date pa rameter
+      perm += `&checkout=${this.convertDateFormat(
+        this.checkoutDate?.toString()
+      )}`;
+  
+      this.http
+        .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+        .subscribe({
+          next: (response) => {
+            const roomDataResponse = response.result.data;
+  
+            this.roomData = Object.keys(roomDataResponse).map((key) => {
+              const roomObj = roomDataResponse[key];
+              return {
+                Room_Id: roomObj.room_id,
+                Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+                Cottage_Type: roomObj.cottage_type,
+                Max_Allowed_Guest: roomObj.max_guest,
+                Week_Days_Rate: roomObj.week_day_rate,
+                Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+                Week_End_Rate: roomObj.week_end_rate,
+                Room_Name: roomObj.name,
+                Select_Resort: roomObj.resort,
+                Max_Allowed_Adult: roomObj.max_adult,
+                Room_Image: '', // Add default value for Room_Image
+                ID: '', // Add default value for ID
+                is_button_disabled: false, // Add default value for is_button_disabled
+                isExtraGuestChecked: false
+              };
+            });
+            this.getRoomData()
+
+  
+          },
+          error: (err) => {
+            this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+              this.roomData = data;
+              this.getRoomData()
+
+            });
+            // this.showErrorAlert(
+            //   'An error occurred while fetching room list. Please try again later.'
+            // );
+          },
+        });
+  }
+
+  convertDateFormat(dateString: string): string {
+    if (!dateString) {
+      return ''; // Return an empty string if dateString is undefined
+    }
+
+    const date = new Date(dateString);
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+    return formattedDate;
   }
 
   
@@ -215,7 +309,7 @@ export class BookingSummaryComponent {
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
-    this.resortName = room.Select_Resort;
+    this.resortName = room?.Select_Resort;
     this.room_ids = roomIdarray
     // roomIdarray.forEach((roomId: any) => {
     //   const room = this.roomData.find(
@@ -233,11 +327,9 @@ export class BookingSummaryComponent {
         this.cardData.push(room);
       }
     });
-    console.log(this.cardData)
 
     this.extra_children = JSON.parse(this.summaryData.extra_children)
     const roomIdsWithGuests = JSON.parse(this.summaryData.noof_guests);
-    console.log(this.room_ids)
     roomIdsWithGuests.forEach(
       (item: { split: (arg0: string) => [any, any] }) => {
         const [roomId, noof_guests] = item.split(':');
@@ -264,7 +356,6 @@ export class BookingSummaryComponent {
     );
 
     this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
-    console.log(this.extra_guests)
     //  payment details
     this.totalPrice = JSON.parse(this.summaryData.room_charges);
     this.totalGSTPrice = JSON.parse(this.summaryData.total_gst);

@@ -178,6 +178,7 @@
                       <mat-label>No. of Guests</mat-label>
                       <mat-select
                         (selectionChange)="noOfGuestAction($event, roomId)"
+                        [(ngModel)]="selectedValues[roomId]"
                         size="small"
                         #guestSelect="matSelect"
                       >
@@ -287,7 +288,7 @@
               class="w-100 mt-3"
               (click)="goToBooking()"
               *ngIf="showBookingSummary"
-              [disabled]="isGuestSelectEmpty(guestSelect)"
+              [disabled]="isGuestSelectEmpty()"
             >
               Proceed
             </button>
