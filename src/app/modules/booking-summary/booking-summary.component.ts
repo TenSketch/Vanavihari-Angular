@@ -22,7 +22,6 @@ interface RoomData {
   Room_Name: string;
   is_button_disabled: boolean;
   isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
-
   // Add more properties as needed
 }
 
@@ -31,10 +30,10 @@ interface RoomData {
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
 })
-
 export class BookingSummaryComponent {
-  formattedCheckinDate: { day: number, month: string, year: number };
-  formattedCheckoutDate: { day: number, month: string, year: number };
+  roomID: any;
+  formattedCheckinDate: { day: number; month: string; year: number };
+  formattedCheckoutDate: { day: number; month: string; year: number };
   form: FormGroup;
   adultsCount: number = 1;
   guestCount: number = 0;
@@ -58,15 +57,15 @@ export class BookingSummaryComponent {
   guestDetails: any[];
   totalGuests: any;
   extra_guests: any;
-  extra_children : any;
-  grandTotal:any
-  room_ids:any
+  extra_children: any;
+  grandTotal: any;
+  room_ids: any;
   // checkinDate: Date;
   // checkoutDate: Date;
-  cardData: any[]=[]
-  selectedResort:any
-  checkinDate:any
-  checkoutDate:any
+  cardData: any[] = [];
+  selectedResort: any;
+  checkinDate: any;
+  checkoutDate: any;
 
   constructor(
     private router: Router,
@@ -79,8 +78,8 @@ export class BookingSummaryComponent {
   ) {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
-      this.checkoutDate = this.authService.getSearchData('checkout');
-      // this.fetchRoomList();
+    this.checkoutDate = this.authService.getSearchData('checkout');
+    // this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
     if (this.roomDetails.length > 0) {
@@ -92,8 +91,8 @@ export class BookingSummaryComponent {
         if (parseInt(room.noof_guest) > 0) {
           this.roomGuestDetails.push(room.id, room.noof_guest);
         }
-        this.adultsCount += parseInt(room.noof_adult);
-        this.guestCount += parseInt(room.noof_guest);
+        this.adultsCount += parseInt(room.noof_guest);
+        this.guestCount += parseInt(room.extra_guests);
 
         this.totalPrice += parseInt(
           room.week_day_rate + room.noof_guest * room.week_day_bed_charge
@@ -126,13 +125,13 @@ export class BookingSummaryComponent {
     this.checkOutDate = this.authService.getSearchData('checkout');
     this.seslectedResort = this.authService.getSearchData('resort');
 
-    const startDate = (new Date(this.checkInDate));
-    const endDate = (new Date(this.checkOutDate));
+    const startDate = new Date(this.checkInDate);
+    const endDate = new Date(this.checkOutDate);
 
     this.formattedCheckinDate = this.parseDate(new Date(this.checkInDate));
-    this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate))
+    this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate));
     // this.checkOutDate = endDate
-    
+
     const durationMs = endDate.getTime() - startDate.getTime();
     const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
     // const weeks = Math.floor(durationMs / (1000 * 60 * 60 * 24 * 7));
@@ -157,7 +156,6 @@ export class BookingSummaryComponent {
   onConfirm() {
     this.isModalVisible = false;
     this.router.navigate(['/resorts/rooms']);
-
   }
 
   getUserDetails() {
@@ -201,10 +199,20 @@ export class BookingSummaryComponent {
     //   });
   }
 
-  parseDate(date: Date): { day: number, month: string, year: number } {
+  parseDate(date: Date): { day: number; month: string; year: number } {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
 
     const day = date.getDate();
@@ -214,71 +222,71 @@ export class BookingSummaryComponent {
     return {
       day: day,
       month: months[monthIndex],
-      year: year
+      year: year,
     };
   }
 
-  //   fetchRoomList() {
-  //     let tempResort = this.selectedResort;
-  //     if (this.selectedResort == 'Jungle Star, Valamuru') {
-  //       tempResort = 'junglestar';
-  //     }
-  //     if (this.selectedResort == 'Vanavihari, Maredumilli') {
-  //       tempResort = 'vanavihari';
-  //     }
-  
-  //     let perm = '';
-  //     perm += `&resort=${tempResort}`;
-  
-  //     // Concatenate checkin date parameter
-  //     perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
-  
-  //     // Concatenate checkout date pa rameter
-  //     perm += `&checkout=${this.convertDateFormat(
-  //       this.checkoutDate?.toString()
-  //     )}`;
-  
-  //     this.http
-  //       .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-  //       .subscribe({
-  //         next: (response) => {
-  //           const roomDataResponse = response.result.data;
-  
-  //           this.roomData = Object.keys(roomDataResponse).map((key) => {
-  //             const roomObj = roomDataResponse[key];
-  //             return {
-  //               Room_Id: roomObj.room_id,
-  //               Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-  //               Cottage_Type: roomObj.cottage_type,
-  //               Max_Allowed_Guest: roomObj.max_guest,
-  //               Week_Days_Rate: roomObj.week_day_rate,
-  //               Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-  //               Week_End_Rate: roomObj.week_end_rate,
-  //               Room_Name: roomObj.name,
-  //               Select_Resort: roomObj.resort,
-  //               Max_Allowed_Adult: roomObj.max_adult,
-  //               Room_Image: '', // Add default value for Room_Image
-  //               ID: '', // Add default value for ID
-  //               is_button_disabled: false, // Add default value for is_button_disabled
-  //               isExtraGuestChecked: false
-  //             };
-  //           });
-  //           this.getRoomData()
+  fetchRoomList() {
+    let tempResort = this.selectedResort;
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
+      tempResort = 'junglestar';
+    }
+    if (this.selectedResort == 'Vanavihari, Maredumilli') {
+      tempResort = 'vanavihari';
+    }
 
-  
-  //         },
-  //         error: (err) => {
-  //           this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-  //             this.roomData = data;
-  //             this.getRoomData()
+    let perm = '';
+    perm += `&resort=${tempResort}`;
 
-  //           });
-  //           // this.showErrorAlert(
-  //           //   'An error occurred while fetching room list. Please try again later.'
-  //           // );
-  //         },
-  //       });
-  // }
+    // Concatenate checkin date parameter
+    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+
+    // Concatenate checkout date pa rameter
+    perm += `&checkout=${this.convertDateFormat(
+      this.checkoutDate?.toString()
+    )}`;
+
+    this.http
+      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+      .subscribe({
+        next: (response) => {
+          const roomDataResponse = response.result.data;
+          console.log(roomDataResponse);
+          this.roomData = Object.keys(roomDataResponse).map((key) => {
+            const roomId = key;
+
+            const roomObj = roomDataResponse[key];
+            return {
+              Room_Id: roomObj.room_id,
+              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+              Cottage_Type: roomObj.cottage_type,
+              Max_Allowed_Guest: roomObj.max_guest,
+              Week_Days_Rate: roomObj.week_day_rate,
+              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+              Week_End_Rate: roomObj.week_end_rate,
+              Room_Name: roomObj.name,
+              Select_Resort: roomObj.resort,
+              Max_Allowed_Adult: roomObj.max_adult,
+              Room_Image: '', // Add default value for Room_Image
+              ID: roomId, // Add default value for ID
+              is_button_disabled: false, // Add default value for is_button_disabled
+              isExtraGuestChecked: false,
+            };
+          });
+          console.log(this.roomData);
+          this.getRoomData();
+        },
+        error: (err) => {
+          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+            this.roomData = data;
+            this.getRoomData();
+          });
+          // this.showErrorAlert(
+          //   'An error occurred while fetching room list. Please try again later.'
+          // );
+        },
+      });
+  }
 
   convertDateFormat(dateString: string): string {
     if (!dateString) {
@@ -294,7 +302,6 @@ export class BookingSummaryComponent {
     return formattedDate;
   }
 
-  
   getRoomData() {
     const storedObjectString = localStorage.getItem('summaryData');
 
@@ -305,30 +312,28 @@ export class BookingSummaryComponent {
     }
 
     let roomIdarray = JSON.parse(this.summaryData.booking_rooms);
-    this.grandTotal = JSON.parse(this.summaryData.grand_total)
+    this.grandTotal = JSON.parse(this.summaryData.grand_total);
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
     this.resortName = room?.Select_Resort;
-    this.room_ids = roomIdarray
-    // roomIdarray.forEach((roomId: any) => {
-    //   const room = this.roomData.find(
-    //     (room: { Room_Id: any }) => room.Room_Id === roomId
-    //   );
-    //   if (room) {
-    //     this.roomNames.push(room.Room_Name);
-    //   } else {
-    //     this.roomNames.push('Room name not found'); // Or any default value
-    //   }
-    // });
+    this.room_ids = roomIdarray;
+    this.roomID = roomIdarray.map((roomId: string) => {
+      const room = this.roomData.find((room) => room.Room_Id === roomId);
+      return room ? room.ID : null;
+    });
+    console.log(this.roomID);
+
     this.room_ids.forEach((roomId: any) => {
-      const room = this.roomData.find((room: { Room_Id: any; }) => room.Room_Id === roomId);
+      const room = this.roomData.find(
+        (room: { Room_Id: any }) => room.Room_Id === roomId
+      );
       if (room) {
         this.cardData.push(room);
       }
     });
 
-    this.extra_children = JSON.parse(this.summaryData.extra_children)
+    this.extra_children = JSON.parse(this.summaryData.extra_children);
     const roomIdsWithGuests = JSON.parse(this.summaryData.noof_guests);
     roomIdsWithGuests.forEach(
       (item: { split: (arg0: string) => [any, any] }) => {
@@ -342,7 +347,6 @@ export class BookingSummaryComponent {
           this.roomNamesWithGuests.push('Room name not found'); // Or any default value
         }
       }
-      
     );
 
     this.guestDetails = this.roomNamesWithGuests.map((item) => {
@@ -360,8 +364,8 @@ export class BookingSummaryComponent {
     this.totalPrice = JSON.parse(this.summaryData.room_charges);
     this.totalGSTPrice = JSON.parse(this.summaryData.total_gst);
 
-    this.guestCount = this.totalGuests + this.extra_children
-    this.adultsCount = this.totalGuests
+    this.guestCount = this.totalGuests + this.extra_children;
+    this.adultsCount = this.totalGuests;
   }
 
   isLoggedIn(): boolean {
@@ -370,34 +374,37 @@ export class BookingSummaryComponent {
   gotToLogin() {
     this.router.navigate(['/sign-in']);
   }
- 
 
   submitBooking() {
-    // let room_ids = this.authService
-    //   .getBookingRooms(this.bookingTypeResort)
-    //   .map((room: { id: any }) => room.id)
-    //   .join(',');
-
+    console.log(
+      this.convertDateFormat(this.checkinDate),
+      this.convertDateFormat(this.checkoutDate),
+      this.resortName,
+      this.roomID,
+      this.adultsCount,
+      this.guestCount
+    );
     if (this.form.valid) {
-      console.log(this.resortName);
-      console.log(this.room_ids);
-      console.log(this.adultsCount);
-      console.log(this.guestCount);
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
-        .set('checkin', this.convertDateFormat(this.checkinDate?.toString()))
-        .set('checkout', this.convertDateFormat(this.checkoutDate?.toString()))
+        .set('checkin',       this.convertDateFormat(this.checkinDate)        )
+        .set('checkout',       this.convertDateFormat(this.checkoutDate)        )
         .set('resort', this.resortName)
-        .set('selected_rooms', this.room_ids)
-        .set('room_guest_details', this.roomGuestDetails.toString())
+        .set('selected_rooms', this.roomID)
+        .set(
+          'room_guest_details',
+          this.roomDetails
+            .map((item) => `${item.id}-${item.noof_guest}`)
+            .join(',')
+        )
         .set('noof_adult', this.adultsCount)
         .set('noof_guest', this.guestCount);
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
-      // this.showSnackBarAlert("Reservation Success! Booking Id");
-      //       this.router.navigate(['/booking-successfull']);
+      this.showSnackBarAlert("Reservation Success! Booking Id");
+            this.router.navigate(['/booking-successfull']);
       this.http
         .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
           params,
@@ -480,15 +487,16 @@ export class BookingSummaryComponent {
         });
     }
   }
+
   calculateDurationOfStay() {
     if (this.checkInDate && this.checkOutDate) {
       const checkinDate = new Date(this.checkInDate);
       const checkoutDate = new Date(this.checkOutDate);
-  
+
       // Set hours, minutes, seconds, and milliseconds to zero for both dates
       checkinDate.setHours(0, 0, 0, 0);
       checkoutDate.setHours(0, 0, 0, 0);
-  
+
       const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
       this.durationOfStay = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days and round up
     } else {
@@ -497,10 +505,8 @@ export class BookingSummaryComponent {
     return this.durationOfStay;
   }
 
-
-  calculateGrandTotal(){
-    
-    return this.grandTotal
+  calculateGrandTotal() {
+    return this.grandTotal;
   }
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {
@@ -533,5 +539,4 @@ export class BookingSummaryComponent {
     }
     return arr;
   }
-  
 }

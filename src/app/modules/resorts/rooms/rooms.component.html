@@ -549,7 +549,7 @@
                     
                     <div class="card-containerg" #cardContainer>
                     
-                      <div class="card" *ngFor="let item of imageFilenames" >
+                      <div class="card" *ngFor="let item of getRoomImages(room.Room_Name)" >
                         <img class="img-responsive" src="{{ item }}" alt="" (click)="showFullImage(item)"  />
                       </div>
                     </div>
