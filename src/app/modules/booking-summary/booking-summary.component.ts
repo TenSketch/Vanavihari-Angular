@@ -66,7 +66,7 @@ export class BookingSummaryComponent {
   selectedResort: any;
   checkinDate: any;
   checkoutDate: any;
-
+  resort_name: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -384,13 +384,19 @@ export class BookingSummaryComponent {
       this.adultsCount,
       this.guestCount
     );
+    if(this.resortName == 'Vanavihari, Maredumilli'){
+      this.resort_name = 'vanavihari'
+    }
+    if(this.resortName == 'Jungle Star, Valamuru'){
+      this.resort_name = 'jungle-star'
+    }
     if (this.form.valid) {
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
-        .set('checkin',       this.convertDateFormat(this.checkinDate)        )
-        .set('checkout',       this.convertDateFormat(this.checkoutDate)        )
-        .set('resort', this.resortName)
+        .set('checkin', this.convertDateFormat(this.checkinDate)        )
+        .set('checkout', this.convertDateFormat(this.checkoutDate)        )
+        .set('resort', this.resort_name)
         .set('selected_rooms', this.roomID)
         .set(
           'room_guest_details',
