@@ -379,6 +379,10 @@ export class BookingSummaryComponent {
     //   .join(',');
 
     if (this.form.valid) {
+      console.log(this.resortName);
+      console.log(this.room_ids);
+      console.log(this.adultsCount);
+      console.log(this.guestCount);
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
