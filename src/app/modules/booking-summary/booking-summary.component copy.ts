@@ -66,7 +66,7 @@ export class BookingSummaryComponent {
   selectedResort: any;
   checkinDate: any;
   checkoutDate: any;
-
+  resort_name: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -79,7 +79,7 @@ export class BookingSummaryComponent {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    this.fetchRoomList();
+    // this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
     if (this.roomDetails.length > 0) {
@@ -226,67 +226,67 @@ export class BookingSummaryComponent {
     };
   }
 
-  fetchRoomList() {
-    let tempResort = this.selectedResort;
-    if (this.selectedResort == 'Jungle Star, Valamuru') {
-      tempResort = 'junglestar';
-    }
-    if (this.selectedResort == 'Vanavihari, Maredumilli') {
-      tempResort = 'vanavihari';
-    }
+  // fetchRoomList() {
+  //   let tempResort = this.selectedResort;
+  //   if (this.selectedResort == 'Jungle Star, Valamuru') {
+  //     tempResort = 'junglestar';
+  //   }
+  //   if (this.selectedResort == 'Vanavihari, Maredumilli') {
+  //     tempResort = 'vanavihari';
+  //   }
 
-    let perm = '';
-    perm += `&resort=${tempResort}`;
+  //   let perm = '';
+  //   perm += `&resort=${tempResort}`;
 
-    // Concatenate checkin date parameter
-    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+  //   // Concatenate checkin date parameter
+  //   perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
 
-    // Concatenate checkout date pa rameter
-    perm += `&checkout=${this.convertDateFormat(
-      this.checkoutDate?.toString()
-    )}`;
+  //   // Concatenate checkout date pa rameter
+  //   perm += `&checkout=${this.convertDateFormat(
+  //     this.checkoutDate?.toString()
+  //   )}`;
 
-    this.http
-      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-      .subscribe({
-        next: (response) => {
-          const roomDataResponse = response.result.data;
-          console.log(roomDataResponse);
-          this.roomData = Object.keys(roomDataResponse).map((key) => {
-            const roomId = key;
+  //   this.http
+  //     .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+  //     .subscribe({
+  //       next: (response) => {
+  //         const roomDataResponse = response.result.data;
+  //         console.log(roomDataResponse);
+  //         this.roomData = Object.keys(roomDataResponse).map((key) => {
+  //           const roomId = key;
 
-            const roomObj = roomDataResponse[key];
-            return {
-              Room_Id: roomObj.room_id,
-              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-              Cottage_Type: roomObj.cottage_type,
-              Max_Allowed_Guest: roomObj.max_guest,
-              Week_Days_Rate: roomObj.week_day_rate,
-              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-              Week_End_Rate: roomObj.week_end_rate,
-              Room_Name: roomObj.name,
-              Select_Resort: roomObj.resort,
-              Max_Allowed_Adult: roomObj.max_adult,
-              Room_Image: '', // Add default value for Room_Image
-              ID: roomId, // Add default value for ID
-              is_button_disabled: false, // Add default value for is_button_disabled
-              isExtraGuestChecked: false,
-            };
-          });
-          console.log(this.roomData);
-          this.getRoomData();
-        },
-        error: (err) => {
-          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-            this.roomData = data;
-            this.getRoomData();
-          });
-          // this.showErrorAlert(
-          //   'An error occurred while fetching room list. Please try again later.'
-          // );
-        },
-      });
-  }
+  //           const roomObj = roomDataResponse[key];
+  //           return {
+  //             Room_Id: roomObj.room_id,
+  //             Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+  //             Cottage_Type: roomObj.cottage_type,
+  //             Max_Allowed_Guest: roomObj.max_guest,
+  //             Week_Days_Rate: roomObj.week_day_rate,
+  //             Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+  //             Week_End_Rate: roomObj.week_end_rate,
+  //             Room_Name: roomObj.name,
+  //             Select_Resort: roomObj.resort,
+  //             Max_Allowed_Adult: roomObj.max_adult,
+  //             Room_Image: '', // Add default value for Room_Image
+  //             ID: roomId, // Add default value for ID
+  //             is_button_disabled: false, // Add default value for is_button_disabled
+  //             isExtraGuestChecked: false,
+  //           };
+  //         });
+  //         console.log(this.roomData);
+  //         this.getRoomData();
+  //       },
+  //       error: (err) => {
+  //         this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+  //           this.roomData = data;
+  //           this.getRoomData();
+  //         });
+  //         // this.showErrorAlert(
+  //         //   'An error occurred while fetching room list. Please try again later.'
+  //         // );
+  //       },
+  //     });
+  // }
 
   convertDateFormat(dateString: string): string {
     if (!dateString) {
@@ -376,6 +376,12 @@ export class BookingSummaryComponent {
   }
 
   submitBooking() {
+    if(this.resortName == 'Vanavihari, Maredumilli'){
+      this.resort_name = 'vanavihari'
+    }
+    if(this.resortName == 'Jungle Star, Valamuru'){
+      this.resort_name = 'jungle-star'
+    }
     console.log(
       this.convertDateFormat(this.checkinDate),
       this.convertDateFormat(this.checkoutDate),
@@ -390,7 +396,7 @@ export class BookingSummaryComponent {
         .set('token', this.authService.getAccessToken() ?? '')
         .set('checkin',       this.convertDateFormat(this.checkinDate)        )
         .set('checkout',       this.convertDateFormat(this.checkoutDate)        )
-        .set('resort', this.resortName)
+        .set('resort', this.resort_name)
         .set('selected_rooms', this.roomID)
         .set(
           'room_guest_details',
@@ -403,8 +409,6 @@ export class BookingSummaryComponent {
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
-      this.showSnackBarAlert("Reservation Success! Booking Id");
-            this.router.navigate(['/booking-successfull']);
       this.http
         .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
           params,
@@ -475,6 +479,10 @@ export class BookingSummaryComponent {
               });
               document.body.appendChild(form);
               form.submit();
+
+
+              // this.showSnackBarAlert("Reservation Success! Booking Id");
+              // this.router.navigate(['/booking-successfull']);
             } else if (response.code == 3000) {
               this.showSnackBarAlert(response.result.msg);
             } else {
