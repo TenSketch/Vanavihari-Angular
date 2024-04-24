@@ -290,10 +290,18 @@ export class RoomsComponent implements OnInit {
     const checkinDate = new Date(this.checkinDate);
     const checkoutDate = new Date(this.checkoutDate);
 
+    // Set hours, minutes, seconds, and milliseconds to zero for both dates
+    checkinDate.setHours(0, 0, 0, 0);
+    checkoutDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
     const timeDifferenceMs = checkoutDate.getTime() - checkinDate.getTime();
+
+    // Convert milliseconds to days and round up to the nearest whole number
     const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
     return durationDays;
   }
+
 
   isRoomAdded(roomId: any): boolean {
     // Assuming bookingRooms is an array of Room_Id

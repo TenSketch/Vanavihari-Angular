@@ -80,7 +80,7 @@ export class BookingSummaryComponent {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
       this.checkoutDate = this.authService.getSearchData('checkout');
-      this.fetchRoomList();
+      // this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
     if (this.roomDetails.length > 0) {
@@ -218,67 +218,67 @@ export class BookingSummaryComponent {
     };
   }
 
-    fetchRoomList() {
-      let tempResort = this.selectedResort;
-      if (this.selectedResort == 'Jungle Star, Valamuru') {
-        tempResort = 'junglestar';
-      }
-      if (this.selectedResort == 'Vanavihari, Maredumilli') {
-        tempResort = 'vanavihari';
-      }
+  //   fetchRoomList() {
+  //     let tempResort = this.selectedResort;
+  //     if (this.selectedResort == 'Jungle Star, Valamuru') {
+  //       tempResort = 'junglestar';
+  //     }
+  //     if (this.selectedResort == 'Vanavihari, Maredumilli') {
+  //       tempResort = 'vanavihari';
+  //     }
   
-      let perm = '';
-      perm += `&resort=${tempResort}`;
+  //     let perm = '';
+  //     perm += `&resort=${tempResort}`;
   
-      // Concatenate checkin date parameter
-      perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+  //     // Concatenate checkin date parameter
+  //     perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
   
-      // Concatenate checkout date pa rameter
-      perm += `&checkout=${this.convertDateFormat(
-        this.checkoutDate?.toString()
-      )}`;
+  //     // Concatenate checkout date pa rameter
+  //     perm += `&checkout=${this.convertDateFormat(
+  //       this.checkoutDate?.toString()
+  //     )}`;
   
-      this.http
-        .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-        .subscribe({
-          next: (response) => {
-            const roomDataResponse = response.result.data;
+  //     this.http
+  //       .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+  //       .subscribe({
+  //         next: (response) => {
+  //           const roomDataResponse = response.result.data;
   
-            this.roomData = Object.keys(roomDataResponse).map((key) => {
-              const roomObj = roomDataResponse[key];
-              return {
-                Room_Id: roomObj.room_id,
-                Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-                Cottage_Type: roomObj.cottage_type,
-                Max_Allowed_Guest: roomObj.max_guest,
-                Week_Days_Rate: roomObj.week_day_rate,
-                Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-                Week_End_Rate: roomObj.week_end_rate,
-                Room_Name: roomObj.name,
-                Select_Resort: roomObj.resort,
-                Max_Allowed_Adult: roomObj.max_adult,
-                Room_Image: '', // Add default value for Room_Image
-                ID: '', // Add default value for ID
-                is_button_disabled: false, // Add default value for is_button_disabled
-                isExtraGuestChecked: false
-              };
-            });
-            this.getRoomData()
+  //           this.roomData = Object.keys(roomDataResponse).map((key) => {
+  //             const roomObj = roomDataResponse[key];
+  //             return {
+  //               Room_Id: roomObj.room_id,
+  //               Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+  //               Cottage_Type: roomObj.cottage_type,
+  //               Max_Allowed_Guest: roomObj.max_guest,
+  //               Week_Days_Rate: roomObj.week_day_rate,
+  //               Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+  //               Week_End_Rate: roomObj.week_end_rate,
+  //               Room_Name: roomObj.name,
+  //               Select_Resort: roomObj.resort,
+  //               Max_Allowed_Adult: roomObj.max_adult,
+  //               Room_Image: '', // Add default value for Room_Image
+  //               ID: '', // Add default value for ID
+  //               is_button_disabled: false, // Add default value for is_button_disabled
+  //               isExtraGuestChecked: false
+  //             };
+  //           });
+  //           this.getRoomData()
 
   
-          },
-          error: (err) => {
-            this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-              this.roomData = data;
-              this.getRoomData()
+  //         },
+  //         error: (err) => {
+  //           this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+  //             this.roomData = data;
+  //             this.getRoomData()
 
-            });
-            // this.showErrorAlert(
-            //   'An error occurred while fetching room list. Please try again later.'
-            // );
-          },
-        });
-  }
+  //           });
+  //           // this.showErrorAlert(
+  //           //   'An error occurred while fetching room list. Please try again later.'
+  //           // );
+  //         },
+  //       });
+  // }
 
   convertDateFormat(dateString: string): string {
     if (!dateString) {
@@ -382,16 +382,11 @@ export class BookingSummaryComponent {
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
-        .set('checkin', this.checkInDate)
-        .set('checkout', this.checkOutDate)
+        .set('checkin', this.convertDateFormat(this.checkinDate?.toString()))
+        .set('checkout', this.convertDateFormat(this.checkinDate?.toString()))
         .set('resort', this.resortName)
         .set('selected_rooms', this.room_ids)
-        .set(
-          'room_guest_details',
-          this.roomDetails
-            .map((item) => `${item.id}-${item.noof_guest}`)
-            .join(',')
-        )
+        .set('room_guest_details', this.roomGuestDetails.toString())
         .set('noof_adult', this.adultsCount)
         .set('noof_guest', this.guestCount);
       Object.keys(this.form.value).forEach((key) => {
@@ -481,18 +476,23 @@ export class BookingSummaryComponent {
         });
     }
   }
-
   calculateDurationOfStay() {
     if (this.checkInDate && this.checkOutDate) {
-      const timeDiff =
-        new Date(Date.parse(this.checkOutDate)).getTime() -
-        new Date(Date.parse(this.checkInDate)).getTime();
+      const checkinDate = new Date(this.checkInDate);
+      const checkoutDate = new Date(this.checkOutDate);
+  
+      // Set hours, minutes, seconds, and milliseconds to zero for both dates
+      checkinDate.setHours(0, 0, 0, 0);
+      checkoutDate.setHours(0, 0, 0, 0);
+  
+      const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
       this.durationOfStay = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days and round up
     } else {
       this.durationOfStay = 1; // Handle case where dates are not selected
     }
     return this.durationOfStay;
   }
+
 
   calculateGrandTotal(){
     
