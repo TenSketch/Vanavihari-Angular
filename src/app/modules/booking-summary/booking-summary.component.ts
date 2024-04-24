@@ -409,8 +409,8 @@ export class BookingSummaryComponent {
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
-      this.showSnackBarAlert("Reservation Success! Booking Id");
-            this.router.navigate(['/booking-successfull']);
+      // this.showSnackBarAlert("Reservation Success! Booking Id");
+      // this.router.navigate(['/booking-successfull']);
       this.http
         .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
           params,
