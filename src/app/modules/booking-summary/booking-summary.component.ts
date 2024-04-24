@@ -387,7 +387,7 @@ export class BookingSummaryComponent {
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
         .set('checkin', this.convertDateFormat(this.checkinDate?.toString()))
-        .set('checkout', this.convertDateFormat(this.checkinDate?.toString()))
+        .set('checkout', this.convertDateFormat(this.checkoutDate?.toString()))
         .set('resort', this.resortName)
         .set('selected_rooms', this.room_ids)
         .set('room_guest_details', this.roomGuestDetails.toString())
