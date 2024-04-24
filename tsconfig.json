@@ -29,6 +29,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "useDefineForClassFields": false,
+    "strictNullChecks": true,
+
     "lib": [
       "ES2022",
       "dom"
