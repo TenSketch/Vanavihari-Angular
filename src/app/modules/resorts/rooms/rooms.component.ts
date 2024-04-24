@@ -348,57 +348,63 @@ export class RoomsComponent implements OnInit {
       tempResort = 'vanavihari';
     }
 
-    let perm = '';
-    console.log(this.checkinDate);
-    perm += `&resort=${tempResort}`;
 
-    // Concatenate checkin date parameter
-    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+    if(this.checkinDate != null && this.checkoutDate != null) {
+      let perm = '';
+      perm += `&resort=${tempResort}`;
+      // Concatenate checkin date parameter
+      perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+      // Concatenate checkout date pa rameter
+      perm += `&checkout=${this.convertDateFormat(
+        this.checkoutDate?.toString()
+      )}`;
 
-    // Concatenate checkout date pa rameter
-    perm += `&checkout=${this.convertDateFormat(
-      this.checkoutDate?.toString()
-    )}`;
+      console.log(perm);
+      this.http
+        .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+        .subscribe({
+          next: (response) => {
+            const roomDataResponse = response.result.data;
 
-    console.log(perm);
-    this.http
-      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-      .subscribe({
-        next: (response) => {
-          const roomDataResponse = response.result.data;
-
-          this.roomData = Object.keys(roomDataResponse).map((key) => {
-            const roomObj = roomDataResponse[key];
-            return {
-              Room_Id: roomObj.room_id,
-              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-              Cottage_Type: roomObj.cottage_type,
-              Max_Allowed_Guest: roomObj.max_guest,
-              Week_Days_Rate: roomObj.week_day_rate,
-              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-              Week_End_Rate: roomObj.week_end_rate,
-              Room_Name: roomObj.name,
-              Select_Resort: roomObj.resort,
-              Max_Allowed_Adult: roomObj.max_adult,
-              Room_Image: '', // Add default value for Room_Image
-              ID: '', // Add default value for ID
-              is_button_disabled: false, // Add default value for is_button_disabled
-              isExtraGuestChecked: false,
-            };
-          });
-          this.loadingRooms = false;
-          this.filteredRoomData = this.filterByResort(this.selectedResort);
-        },
-        error: (err) => {
-          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-            this.roomData = data;
+            this.roomData = Object.keys(roomDataResponse).map((key) => {
+              const roomObj = roomDataResponse[key];
+              return {
+                Room_Id: roomObj.room_id,
+                Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+                Cottage_Type: roomObj.cottage_type,
+                Max_Allowed_Guest: roomObj.max_guest,
+                Week_Days_Rate: roomObj.week_day_rate,
+                Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+                Week_End_Rate: roomObj.week_end_rate,
+                Room_Name: roomObj.name,
+                Select_Resort: roomObj.resort,
+                Max_Allowed_Adult: roomObj.max_adult,
+                Room_Image: '', // Add default value for Room_Image
+                ID: '', // Add default value for ID
+                is_button_disabled: false, // Add default value for is_button_disabled
+                isExtraGuestChecked: false,
+              };
+            });
+            this.loadingRooms = false;
             this.filteredRoomData = this.filterByResort(this.selectedResort);
-          });
-          // this.showErrorAlert(
-          //   'An error occurred while fetching room list. Please try again later.'
-          // );
-        },
-      });
+          },
+          error: (err) => {
+            this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+              this.roomData = data;
+              this.filteredRoomData = this.filterByResort(this.selectedResort);
+            });
+            // this.showErrorAlert(
+            //   'An error occurred while fetching room list. Please try again later.'
+            // );
+          },
+        });
+      } else {
+        this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+          this.roomData = data;
+          this.filteredRoomData = this.filterByResort(this.selectedResort);
+        });
+      }
+
   }
 
   isAnyRoomChecked(): boolean {
