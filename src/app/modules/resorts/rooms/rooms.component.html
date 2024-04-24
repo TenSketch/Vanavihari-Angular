@@ -178,6 +178,7 @@
                       <mat-label>No. of Guests</mat-label>
                       <mat-select
                         (selectionChange)="noOfGuestAction($event, roomId)"
+                        [(ngModel)]="selectedValues[roomId]"
                         size="small"
                         #guestSelect="matSelect"
                       >
@@ -287,7 +288,7 @@
               class="w-100 mt-3"
               (click)="goToBooking()"
               *ngIf="showBookingSummary"
-              [disabled]="isGuestSelectEmpty(guestSelect)"
+              [disabled]="isGuestSelectEmpty()"
             >
               Proceed
             </button>
@@ -548,7 +549,7 @@
                     
                     <div class="card-containerg" #cardContainer>
                     
-                      <div class="card" *ngFor="let item of imageFilenames" >
+                      <div class="card" *ngFor="let item of getRoomImages(room.Room_Name)" >
                         <img class="img-responsive" src="{{ item }}" alt="" (click)="showFullImage(item)"  />
                       </div>
                     </div>

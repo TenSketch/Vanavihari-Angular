@@ -7,6 +7,8 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  QueryList,
+  ViewChildren,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Subscription } from 'rxjs';
@@ -24,6 +26,7 @@ import * as data from '../../../../assets/json/rooms.json';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UserService } from 'src/app/user.service';
+import { GalleryService } from '@/app/gallery.service';
 
 interface Room {
   //roomId:string;
@@ -42,6 +45,25 @@ interface Room {
   max_guest: number;
 }
 
+interface RoomData {
+  Week_Days_Rate: string;
+  Charges_per_Bed_Week_Days: string;
+  Charges_per_Bed_Week_End: string;
+  Cottage_Type: string;
+  Room_Id: string;
+  Room_Image: string;
+  Max_Allowed_Guest: string;
+  ID: string;
+  Week_End_Rate: string;
+  Max_Allowed_Adult: string;
+  Select_Resort: string;
+  Room_Name: string;
+  is_button_disabled: boolean;
+  isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
+
+  // Add more properties as needed
+}
+
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -54,7 +76,7 @@ export class RoomsComponent implements OnInit {
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
   isFullImageVisible = false;
-  roomData: any[] = [];
+  roomData: RoomData[] = [];
   filteredRoomData: any;
   // imageFilenames2: string[] = [];
   noof_guests: any;
@@ -109,6 +131,7 @@ export class RoomsComponent implements OnInit {
   @ViewChild('leftTooltip') leftTooltip!: ElementRef;
   @ViewChild('rightTooltip') rightTooltip!: ElementRef;
   modalPromise: any;
+  @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
   constructor(
     private router: Router,
@@ -119,13 +142,13 @@ export class RoomsComponent implements OnInit {
     private sharedService: SharedService,
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private galleryService: GalleryService
   ) {
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
-    this.fetchRoomList();
     const storedObjectString = localStorage.getItem('summaryData');
 
     if (storedObjectString !== null) {
@@ -133,7 +156,6 @@ export class RoomsComponent implements OnInit {
       this.storedData = storedObject;
     } else {
     }
-    // this.filteredRoomData = this.roomData;
     this.subscription = this.authService.buttonClick$.subscribe(() => {
       // Retrieve data when button is clicked
       this.selectedResort = this.authService.getSearchData('resort');
@@ -157,38 +179,11 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
+    this.fetchRoomList();
 
     this.extraChildren = this.storedData?.extra_children;
-    this.noof_guests = this.storedData.noof_guests?.length;
+    this.noof_guests = this.storedData?.noof_guests?.length;
   }
-
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event:any) {
-  //   // Prevent the default behavior of the back button
-  //   event.preventDefault();
-
-  //   // Display a confirmation dialog
-  //   this.showAlert('Are you sure you want to go back?', (result) => {
-  //     // If the user clicks OK, navigate back
-  //     if (result) {
-  //       window.history.back();
-  //     }
-  //   });
-  // }
-
-  // showAlert(message: string, callback: (result: boolean) => void): void {
-  //   const result = window.confirm(message);
-  //   callback(result);
-  // }
-  // @HostListener('window:popstate', ['$event'])
-  // onPopState(event: any) {
-  //   event.preventDefault();
-  //   this.triggerModal().then((result: boolean) => {
-  //     if (result) {
-  //       window.history.back();
-  //     }
-  //   });
-  // }
 
   ngOnInit(): void {
     // Set extra_guests in localStorage to an empty array
@@ -244,23 +239,56 @@ export class RoomsComponent implements OnInit {
 
   isModalVisible: boolean = false;
 
-  // triggerModal(): Promise<boolean> {
-  //   this.isModalVisible = true;
-  //   return new Promise<boolean>((resolve, reject) => {
-  //     this.modalPromise = resolve;
-  //   });
-  // }
+  getRoomImages(roomname: any): string[] {
+    const lowercaseRoomName = roomname.toLowerCase();
 
-  // onCancel() {
-  //   this.isModalVisible = false;
-  //   this.modalPromise(false);
-  // }
+    switch (lowercaseRoomName) {
+      case 'panther':
+        return this.galleryService.panther();
 
-  // onConfirm() {
-  //   this.isModalVisible = false;
-  //   this.modalPromise(true);
-  //   window.history.back();
-  // }
+      case 'bahuda':
+        return this.galleryService.bahuda();
+      case 'bear':
+        return this.galleryService.bear();
+        case 'bonnet':
+        return this.galleryService.bonnet();
+        case 'bulbul':
+        return this.galleryService.bulbul();
+        case 'chital':
+        return this.galleryService.chital();
+        case 'chousingha':
+        return this.galleryService.chousingha();
+        case 'hornbill':
+        return this.galleryService.hornbill();
+        case 'kingfisher':
+        return this.galleryService.kingfisher();
+        case 'pamuleru':
+        return this.galleryService.pamuleru();
+        case 'narmada':
+        return this.galleryService.narmada();
+        case 'peacock':
+        return this.galleryService.peacock();
+        case 'redjunglefowl':
+        return this.galleryService.redjunglefowl();
+        case 'sambar':
+        return this.galleryService.sambar();
+        case 'sokuleru':
+        return this.galleryService.sokuleru();
+        case 'bear':
+        return this.galleryService.bear();
+        case 'tapathi':
+        return this.galleryService.tapathi();
+        case 'tribal':
+        return this.galleryService.tribal();
+        case 'woodpecker':
+        return this.galleryService.woodpecker();
+
+      default:
+        return [];
+
+      // Add more cases for other rooms as needed
+    }
+  }
 
   scrollLeft() {
     this.cardContainer.nativeElement.scrollBy({
@@ -297,7 +325,14 @@ export class RoomsComponent implements OnInit {
     const checkinDate = new Date(this.checkinDate);
     const checkoutDate = new Date(this.checkoutDate);
 
+    // Set hours, minutes, seconds, and milliseconds to zero for both dates
+    checkinDate.setHours(0, 0, 0, 0);
+    checkoutDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
     const timeDifferenceMs = checkoutDate.getTime() - checkinDate.getTime();
+
+    // Convert milliseconds to days and round up to the nearest whole number
     const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
     return durationDays;
   }
@@ -327,23 +362,16 @@ export class RoomsComponent implements OnInit {
   }
 
   convertDateFormat(dateString: string): string {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    const [monthAbbr, day, year] = dateString.split('/');
-    const formattedDate = `${year}-${months[parseInt(monthAbbr) - 1]}-${day}`;
+    if (!dateString) {
+      return ''; // Return an empty string if dateString is undefined
+    }
 
+    const date = new Date(dateString);
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
     return formattedDate;
   }
 
@@ -354,38 +382,70 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
-    this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-      this.roomData = data;
-      this.filteredRoomData = this.filterByResort(this.selectedResort);
-    });
+    let tempResort = this.selectedResort;
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
+      tempResort = 'junglestar';
+    }
+    if (this.selectedResort == 'Vanavihari, Maredumilli') {
+      tempResort = 'vanavihari';
+    }
 
-    // let perm = '';
-    //   if (this.selectedResort) perm += `&resort=${this.selectedResort}`;
-    //   if (this.checkinDate) perm += `&checkin=${this.convertDateFormat(this.checkinDate.toString())}`;
-    //   if (this.checkoutDate) perm += `&checkout=${this.convertDateFormat(this.checkoutDate.toString())}`;
+    let perm = '';
+    console.log(this.checkinDate);
+    perm += `&resort=${tempResort}`;
 
-    // this.http
-    //     .get<any>(
-    //       'https://www.zohoapis.com/creator/custom/vanavihari/Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&resort=jungle-star' + perm
-    //     )
-    //     .subscribe({
-    //       next: (response) => {
-    //         console.log(response)
-    //         this.loadingRooms = false;
-    //       },
-    //       error: (err) => {
-    //         this.showErrorAlert(
-    //           'An error occurred while fetching room list. Please try again later.'
-    //         );
-    //       },
-    //     });
+    // Concatenate checkin date parameter
+    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
+
+    // Concatenate checkout date pa rameter
+    perm += `&checkout=${this.convertDateFormat(
+      this.checkoutDate?.toString()
+    )}`;
+
+    console.log(perm);
+    this.http
+      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
+      .subscribe({
+        next: (response) => {
+          const roomDataResponse = response.result.data;
+
+          this.roomData = Object.keys(roomDataResponse).map((key) => {
+            const roomObj = roomDataResponse[key];
+            return {
+              Room_Id: roomObj.room_id,
+              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+              Cottage_Type: roomObj.cottage_type,
+              Max_Allowed_Guest: roomObj.max_guest,
+              Week_Days_Rate: roomObj.week_day_rate,
+              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+              Week_End_Rate: roomObj.week_end_rate,
+              Room_Name: roomObj.name,
+              Select_Resort: roomObj.resort,
+              Max_Allowed_Adult: roomObj.max_adult,
+              Room_Image: '', // Add default value for Room_Image
+              ID: '', // Add default value for ID
+              is_button_disabled: false, // Add default value for is_button_disabled
+              isExtraGuestChecked: false,
+            };
+          });
+          this.loadingRooms = false;
+          this.filteredRoomData = this.filterByResort(this.selectedResort);
+        },
+        error: (err) => {
+          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+            this.roomData = data;
+            this.filteredRoomData = this.filterByResort(this.selectedResort);
+          });
+          // this.showErrorAlert(
+          //   'An error occurred while fetching room list. Please try again later.'
+          // );
+        },
+      });
   }
 
   isAnyRoomChecked(): boolean {
     // Check if any room has the extra guest checkbox checked
-    return this.roomData.some(
-      (room: { isExtraGuestChecked: any }) => room.isExtraGuestChecked
-    );
+    return this.roomData.some((room) => room.isExtraGuestChecked ?? false);
   }
 
   toggleButtonDisabledById(room_id: number, roomIds: any[]): any {
@@ -545,14 +605,19 @@ export class RoomsComponent implements OnInit {
   trackByRoomCard(index: number, card: any): string {
     return card.roomName;
   }
+  selectedValues: { [key: string]: number } = {};
 
-  isGuestSelectEmpty(select: MatSelect): boolean {
-    return !select || !select.value;
+  isGuestSelectEmpty(): boolean {
+    const roomIdsWithNoValue = this.roomIds.filter(
+      (roomId) => !this.selectedValues[roomId]
+    );
+    return roomIdsWithNoValue.length > 0;
   }
 
   // no. of guests
   noOfGuestAction(event: MatSelectChange, roomId: string) {
     const selectedValue = event.value;
+    this.selectedValues[roomId] = event.value;
 
     this.handleNoOfGuests(selectedValue, roomId);
   }
