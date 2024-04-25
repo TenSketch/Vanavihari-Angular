@@ -18,7 +18,10 @@ interface ReservationDetails {
   contactPerson: string;
   contactNumber: string;
   contactEmail: string;
-  guestEmail:string
+  guestEmail:string;
+  rooms:any[];
+  totalGuest:any;
+  stayDuration:any;
 }
 
 @Component({
@@ -71,14 +74,16 @@ export class BookingStatusComponent {
               bookingId: response.result.booking_id,
               checkInDate: response.result.checkin,
               checkOutDate: response.result.checkout,
-              amount: 'INR '+response.result.payment_transaction_amt,
+              amount: 'INR 11000',
               upiId: 'QR917382151617-5587@unionbankofindia',
               qrCodeUrl: '1711639164121_qr2.pdf',
               contactPerson: 'Mr. Veerababu',
               contactNumber: '+919494151617',
               contactEmail: 'info@vanavihari.com',
-              guestEmail:response.result.email
-
+              guestEmail:response.result.email,
+              rooms:response.result.rooms,
+              totalGuest: response.result.total_guest,
+              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout)
             };
             
             // this.reservationDetails = {
@@ -114,17 +119,21 @@ export class BookingStatusComponent {
         },
       });
   }
-  convertDateFormat(dateString: string): string {
-    if (!dateString) {
-      return ''; // Return an empty string if dateString is undefined
-    }
 
-    const date = new Date(dateString);
-    const day = date.getUTCDate().toString().padStart(2, '0');
-    const month = date.toLocaleString('en-US', { month: 'short' });
-    const year = date.getUTCFullYear();
+  durationOfStay(checkin:any,checkout:any){
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
 
-    const formattedDate = `${day}-${month}-${year}`;
-    return formattedDate;
+    // Set hours, minutes, seconds, and milliseconds to zero for both dates
+    checkinDate.setHours(0, 0, 0, 0);
+    checkoutDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const timeDifferenceMs = checkoutDate.getTime() - checkinDate.getTime();
+
+    // Convert milliseconds to days and round up to the nearest whole number
+    const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
+    return durationDays;
+
   }
 }
