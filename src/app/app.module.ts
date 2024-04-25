@@ -67,7 +67,7 @@ import { BookingSummaryComponent } from './modules/booking-summary/booking-summa
 import { TermsModalComponentComponent } from './modules/terms-modal-component/terms-modal-component.component';
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
-import { BookingStatusComponent } from './modules/booking-status2/booking-status.component';
+import { BookingStatusComponent } from './modules/booking-status/booking-status.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
