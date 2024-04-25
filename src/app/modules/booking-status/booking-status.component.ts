@@ -22,6 +22,7 @@ interface ReservationDetails {
   rooms:any[];
   totalGuest:any;
   stayDuration:any;
+  email:any;
 }
 
 @Component({
@@ -83,7 +84,8 @@ export class BookingStatusComponent {
               guestEmail:response.result.email,
               rooms:response.result.rooms,
               totalGuest: response.result.total_guest,
-              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout)
+              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout),
+              email:response.result.email
             };
             
             // this.reservationDetails = {

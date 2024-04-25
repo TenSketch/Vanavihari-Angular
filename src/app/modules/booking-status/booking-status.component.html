@@ -15,9 +15,9 @@
             </h1>
           </div>
         </div>
-        <div class="card">
+        <div class="card d-flex justify-content-center align-items-center">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 text-center">
               <h3 class="mb-3">
                 <strong>Resort:</strong> {{ reservationDetails.resortName }}
               </h3>
@@ -25,6 +25,16 @@
             </div>
             <div class="col-md-6 text-center">
               <div class="my-3">
+                <p>
+                    <strong>Guest Name:</strong>
+                    {{ reservationDetails.guestName }}
+                  </p>
+                  <p>
+                    <strong>Email:</strong>
+                    {{ reservationDetails.email }}
+                  </p>
+                  <p>
+                  <p>
                 <p>
                   <strong>Booking ID:</strong>
                   {{ reservationDetails.bookingId }}
@@ -38,8 +48,9 @@
                   {{ reservationDetails.checkOutDate }}
                 </p>
                 <p><strong>Duration of Stay:</strong>{{reservationDetails.stayDuration}}</p>
-                <p *ngFor="let item of rooms">
-                  <strong>Rooms Booked:</strong>{{ item }}
+                <strong>Rooms Booked:</strong>
+                <p *ngFor="let item of reservationDetails.rooms">
+                  {{ item }}
                 </p>
                 <p>
                   <strong>Total Guests:</strong
