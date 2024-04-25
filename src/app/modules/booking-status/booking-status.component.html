@@ -1,4 +1,4 @@
-<div class="reservation-details">
+<div class="reservation-details" *ngIf="bookingStatus=='success'">
     <h2>Dear Guest <span class="bold">{{ reservationDetails.guestName }}</span>,</h2>
     <p>We're thrilled to confirm your reservation at <span class="bold">{{ reservationDetails.resortName }}</span>, {{
         reservationDetails.resortLocation }}</p>
@@ -19,3 +19,14 @@
     <p>We eagerly await your arrival!</p>
     <p>Best Regards, <span class="bold">{{ reservationDetails.resortName }}</span></p>
 </div>
+
+<div *ngIf="bookingStatus=='failed'">
+    <p>Dear {{ reservationDetails.guestName }},</p>
+    <p>We apologize for the inconvenience, but it seems there was an issue processing your payment.</p>
+    <p>If any amount was debited, rest assured it will be refunded to your account within 5 to 7 working days.</p>
+    <p>For reference, please use Booking ID: {{ reservationDetails.bookingId }}.</p>
+    <p>Should you encounter any further difficulties, please don't hesitate to reach out to us for assistance.</p>
+    <p>Warm regards,</p>
+    <p>{{ reservationDetails.resortName }}</p>
+  </div>
+  

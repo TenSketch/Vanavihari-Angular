@@ -29,7 +29,7 @@ interface ReservationDetails {
 export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
   bookingTypeResort: any;
-
+  bookingStatus : any;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -55,6 +55,7 @@ export class BookingStatusComponent {
         next: (response) => {
           console.log('response===', response);
           if (response.code == 3000 && response.result.status == 'success') {
+            this.bookingStatus = 'success'
             this.reservationDetails = {
               guestName: response.result.name,
               resortName: this.bookingTypeResort,
@@ -73,9 +74,12 @@ export class BookingStatusComponent {
             };
           } else if (response.code == 3000) {
             this.userService.clearUser();
+            this.bookingStatus = 'failed'
             alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
+            this.bookingStatus = 'failed'
+
             this.userService.clearUser();
             alert('Login Error!');
             // this.router.navigate(['/home']);
