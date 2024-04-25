@@ -26,6 +26,7 @@ export default async (req) => {
     let method = "";
     let requestBody = {};
     let perm = '';
+    let booking_id = '';
     switch (apiType) {
       case "register":
         if (
@@ -112,7 +113,7 @@ export default async (req) => {
         const formData = new URLSearchParams(body);
         const msg = formData.get('msg');
         const msgres = msg.split('|');
-        const booking_id = msgres[1];
+        booking_id = msgres[1];
         apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${booking_id}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split('-')[1]}`;
         method = "GET";
         break;
