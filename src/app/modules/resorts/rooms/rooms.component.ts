@@ -616,9 +616,9 @@ export class RoomsComponent implements OnInit {
     if (status) {
       this.router.navigate(['/booking-summary']);
     } else {
-      this.router.navigate(['/booking-summary']);
+      // this.router.navigate(['/booking-summary']);
 
-      // this.router.navigate(['/sign-in']);
+      this.router.navigate(['/sign-in']);
     }
   }
 

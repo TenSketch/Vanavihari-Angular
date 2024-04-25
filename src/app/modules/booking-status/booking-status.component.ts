@@ -53,8 +53,14 @@ export class BookingStatusComponent {
       )
       .subscribe({
         next: (response) => {
-          if (response.code == 3000 && response.result.status == 'success') {
+          if(response.result.payment_transaction_id == ''){
+            this.bookingStatus = 'failed'
+          }
+          else{
             this.bookingStatus = 'success'
+
+          }
+          if (response.code == 3000 && response.result.status == 'success') {
             setTimeout(() => {
               localStorage.clear();
             }, 3000);
@@ -97,7 +103,6 @@ export class BookingStatusComponent {
             alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
-            this.bookingStatus = 'failed'
 
             this.userService.clearUser();
             alert('Login Error!');
