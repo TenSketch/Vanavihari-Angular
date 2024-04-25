@@ -18,7 +18,10 @@ interface ReservationDetails {
   contactPerson: string;
   contactNumber: string;
   contactEmail: string;
-  guestEmail:string
+  guestEmail:string;
+  rooms:any[];
+  totalGuest:any;
+  stayDuration:any;
 }
 
 @Component({
@@ -69,16 +72,18 @@ export class BookingStatusComponent {
               resortName: this.bookingTypeResort,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
-              checkInDate: this.authService.getSearchData('checkin'),
-              checkOutDate: this.authService.getSearchData('checkout'),
+              checkInDate: response.result.checkin,
+              checkOutDate: response.result.checkout,
               amount: 'INR 11000',
               upiId: 'QR917382151617-5587@unionbankofindia',
               qrCodeUrl: '1711639164121_qr2.pdf',
               contactPerson: 'Mr. Veerababu',
               contactNumber: '+919494151617',
               contactEmail: 'info@vanavihari.com',
-              guestEmail:response.result.email
-
+              guestEmail:response.result.email,
+              rooms:response.result.rooms,
+              totalGuest: response.result.total_guest,
+              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout)
             };
             
             // this.reservationDetails = {
@@ -113,5 +118,22 @@ export class BookingStatusComponent {
           console.error('Error:', err);
         },
       });
+  }
+
+  durationOfStay(checkin:any,checkout:any){
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+
+    // Set hours, minutes, seconds, and milliseconds to zero for both dates
+    checkinDate.setHours(0, 0, 0, 0);
+    checkoutDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const timeDifferenceMs = checkoutDate.getTime() - checkinDate.getTime();
+
+    // Convert milliseconds to days and round up to the nearest whole number
+    const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
+    return durationDays;
+
   }
 }
