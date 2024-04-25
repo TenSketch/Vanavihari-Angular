@@ -28,7 +28,11 @@ interface ReservationDetails {
 })
 export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
+<<<<<<< HEAD
   bookingId: any;
+=======
+  bookingTypeResort: any;
+>>>>>>> 665bd4f3cacd155e4e4d3b27a2c71007c14d04d6
   bookingStatus : any;
   constructor(
     private userService: UserService,
