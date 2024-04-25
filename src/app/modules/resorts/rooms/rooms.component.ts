@@ -387,7 +387,7 @@ export class RoomsComponent implements OnInit {
     this.loadingRooms = true
     let tempResort = this.selectedResort;
     if (this.selectedResort == 'Jungle Star, Valamuru') {
-      tempResort = 'junglestar';
+      tempResort = 'jungle-star';
     }
     if (this.selectedResort == 'Vanavihari, Maredumilli') {
       tempResort = 'vanavihari';
