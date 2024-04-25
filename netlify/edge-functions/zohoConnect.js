@@ -145,7 +145,7 @@ export default async (req) => {
         return new Response(null, {
           status: 302,
           headers: {
-            "Location": 'https://vanavihari.com/#/booking-successfull',
+            "Location": 'https://vanavihari.com/#/booking-status',
           },
         });
       } else {
