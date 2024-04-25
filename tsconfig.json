@@ -2,14 +2,22 @@
 {
   "compileOnSave": false,
   "allowSyntheticDefaultImports": true,
-
   "compilerOptions": {
+    "target": "es2017",
+    "module": "esnext",
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
     "outDir": "./dist/out-tsc",
     "strictPropertyInitialization": false,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
@@ -20,8 +28,6 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022",
     "useDefineForClassFields": false,
     "strictNullChecks": true,
 
@@ -29,10 +35,11 @@
       "ES2022",
       "dom"
     ],
-    "paths": {
-      "apexcharts": ["node_modules/apexcharts/types/apexcharts"]
-    },
+   
   },
+  "typeRoots": ["node_modules/@types", "src/types"],
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

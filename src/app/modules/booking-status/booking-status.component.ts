@@ -30,6 +30,8 @@ export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
   bookingId: any;
 
+  bookingTypeResort: any;
+  bookingStatus : any;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -52,7 +54,26 @@ export class BookingStatusComponent {
       .subscribe({
         next: (response) => {
           if (response.code == 3000 && response.result.status == 'success') {
-            console.log(response);
+            this.bookingStatus = 'success'
+            setTimeout(() => {
+              localStorage.clear();
+            }, 3000);
+            this.reservationDetails = {
+              guestName: response.result.name,
+              resortName: this.bookingTypeResort,
+              resortLocation: 'Jungle Star, Valamuru',
+              bookingId: 'BJ2404971',
+              checkInDate: this.authService.getSearchData('checkin'),
+              checkOutDate: this.authService.getSearchData('checkout'),
+              amount: 'INR 11000',
+              upiId: 'QR917382151617-5587@unionbankofindia',
+              qrCodeUrl: '1711639164121_qr2.pdf',
+              contactPerson: 'Mr. Veerababu',
+              contactNumber: '+919494151617',
+              contactEmail: 'info@vanavihari.com',
+              guestEmail:response.result.email
+
+            };
             
             // this.reservationDetails = {
             //   guestName: response.result.name,
@@ -72,9 +93,12 @@ export class BookingStatusComponent {
             // };
           } else if (response.code == 3000) {
             this.userService.clearUser();
+            this.bookingStatus = 'failed'
             alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
+            this.bookingStatus = 'failed'
+
             this.userService.clearUser();
             alert('Login Error!');
             // this.router.navigate(['/home']);

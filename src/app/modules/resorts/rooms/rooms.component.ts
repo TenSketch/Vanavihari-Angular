@@ -26,7 +26,7 @@ import * as data from '../../../../assets/json/rooms.json';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UserService } from 'src/app/user.service';
-import { GalleryService } from 'src/app/gallery.service';
+import { GalleryService } from '@/app/gallery.service';
 
 interface Room {
   //roomId:string;
@@ -60,7 +60,7 @@ interface RoomData {
   Room_Name: string;
   is_button_disabled: boolean;
   isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
-  
+
   // Add more properties as needed
 }
 
@@ -71,8 +71,8 @@ interface RoomData {
 })
 export class RoomsComponent implements OnInit {
   @ViewChild('guestSelect') guestSelect: MatSelect;
-  isRoomDataEmpty = false
-  
+  isRoomDataEmpty = false;
+
   currentImage: string | null = null;
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
@@ -80,7 +80,7 @@ export class RoomsComponent implements OnInit {
   roomData: RoomData[] = [];
   filteredRoomData: any;
   // imageFilenames2: string[] = [];
-  noof_guests: any;
+  noof_guests: any = 0;
   isWeekend: boolean = false; // Variable to determine if it's a weekend
 
   searchResortData: any;
@@ -117,7 +117,7 @@ export class RoomsComponent implements OnInit {
   extraGuestsType: any;
   totalExtraGuestCharges: number;
   noof_guest: number | null = null; // Initialize it with null or any default value
-  extraChildren: any;
+  extraChildren: any = 0;
   bookingRooms: any;
   storedData: any;
   addExtraGuestCharge = false;
@@ -182,8 +182,8 @@ export class RoomsComponent implements OnInit {
     this.checkoutDate = this.authService.getSearchData('checkout');
     this.fetchRoomList();
 
-    this.extraChildren = this.storedData?.extra_children;
-    this.noof_guests = this.storedData?.noof_guests?.length;
+    // this.extraChildren = this.storedData?.extra_children;
+    // this.noof_guests = this.storedData?.noof_guests?.length;
   }
 
   ngOnInit(): void {
@@ -251,37 +251,37 @@ export class RoomsComponent implements OnInit {
         return this.galleryService.bahuda();
       case 'bear':
         return this.galleryService.bear();
-        case 'bonnet':
+      case 'bonnet':
         return this.galleryService.bonnet();
-        case 'bulbul':
+      case 'bulbul':
         return this.galleryService.bulbul();
-        case 'chital':
+      case 'chital':
         return this.galleryService.chital();
-        case 'chousingha':
+      case 'chousingha':
         return this.galleryService.chousingha();
-        case 'hornbill':
+      case 'hornbill':
         return this.galleryService.hornbill();
-        case 'kingfisher':
+      case 'kingfisher':
         return this.galleryService.kingfisher();
-        case 'pamuleru':
+      case 'pamuleru':
         return this.galleryService.pamuleru();
-        case 'narmada':
+      case 'narmada':
         return this.galleryService.narmada();
-        case 'peacock':
+      case 'peacock':
         return this.galleryService.peacock();
-        case 'redjunglefowl':
+      case 'redjunglefowl':
         return this.galleryService.redjunglefowl();
-        case 'sambar':
+      case 'sambar':
         return this.galleryService.sambar();
-        case 'sokuleru':
+      case 'sokuleru':
         return this.galleryService.sokuleru();
-        case 'bear':
+      case 'bear':
         return this.galleryService.bear();
-        case 'tapathi':
+      case 'tapathi':
         return this.galleryService.tapathi();
-        case 'tribal':
+      case 'tribal':
         return this.galleryService.tribal();
-        case 'woodpecker':
+      case 'woodpecker':
         return this.galleryService.woodpecker();
 
       default:
@@ -306,7 +306,6 @@ export class RoomsComponent implements OnInit {
   }
 
   showFullImage(item: string): void {
-    console.log('cliked');
     this.fullImageSrc = item; // Set the full-size image source to the clicked image filename
     this.isFullImageVisible = true; // Show the full-size image overlay/modal
   }
@@ -384,7 +383,7 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
-    this.loadingRooms = true
+    this.loadingRooms = true;
     let tempResort = this.selectedResort;
     if (this.selectedResort == 'Jungle Star, Valamuru') {
       tempResort = 'jungle-star';
@@ -394,7 +393,6 @@ export class RoomsComponent implements OnInit {
     }
 
     let perm = '';
-    console.log(this.checkinDate);
     perm += `&resort=${tempResort}`;
 
     // Concatenate checkin date parameter
@@ -405,7 +403,6 @@ export class RoomsComponent implements OnInit {
       this.checkoutDate?.toString()
     )}`;
 
-    console.log(perm);
     this.http
       .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
       .subscribe({
@@ -413,6 +410,7 @@ export class RoomsComponent implements OnInit {
           const roomDataResponse = response.result.data;
 
           this.roomData = Object.keys(roomDataResponse).map((key) => {
+            const roomId = key;
             const roomObj = roomDataResponse[key];
             return {
               Room_Id: roomObj.room_id,
@@ -426,16 +424,15 @@ export class RoomsComponent implements OnInit {
               Select_Resort: roomObj.resort,
               Max_Allowed_Adult: roomObj.max_adult,
               Room_Image: '', // Add default value for Room_Image
-              ID: '', // Add default value for ID
+              ID: roomId, // Add default value for ID
               is_button_disabled: false, // Add default value for is_button_disabled
               isExtraGuestChecked: false,
             };
           });
           this.loadingRooms = false;
           this.filteredRoomData = this.filterByResort(this.selectedResort);
-          console.log(this.roomData)
-          if(this.roomData.length==0){
-             this.isRoomDataEmpty = true
+          if (this.roomData.length == 0) {
+            this.isRoomDataEmpty = true;
           }
         },
         error: (err) => {
@@ -510,7 +507,6 @@ export class RoomsComponent implements OnInit {
     }
 
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-
     if (this.roomIds.length == 0) {
       this.showBookingSummary = false;
     }
@@ -600,6 +596,21 @@ export class RoomsComponent implements OnInit {
     let summaryData = JSON.stringify(summary);
 
     localStorage.setItem('summaryData', summaryData);
+
+    const bookingRoomsStr = localStorage.getItem('booking_rooms');
+    if (bookingRoomsStr) {
+      const bookingRooms = JSON.parse(bookingRoomsStr);
+      const roomDataToStore: RoomData[] = [];
+
+      bookingRooms.forEach((roomId: string) => {
+        const room = this.roomData.find((room: any) => room.Room_Id === roomId);
+        if (room) {
+          roomDataToStore.push(room);
+        }
+      });
+
+      localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
+    }
 
     let status = this.userService.isLoggedIn();
     if (status) {

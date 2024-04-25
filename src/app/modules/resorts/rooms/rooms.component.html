@@ -73,8 +73,10 @@
               <strong>Amenities:</strong> AC, geyser, western toilet, Prices
               exclude 12% GST.
             </li>
-            <li><strong>Food:</strong>Food: Room rates include three meals per day.</li>
-
+            <li *ngIf="selectedResort == 'Jungle Star, Valamuru'">
+              <strong>Food:</strong>Food: Room rates include three meals per
+              day.
+            </li>
           </ul>
         </div>
         <div class="col-md-4">
@@ -261,10 +263,16 @@
               </div>
 
               <div class="d-flex justify-content-between font-weight-bold py-1">
-                <span class="mb-0">Total {{'(' + calculateDurationOfStay() + " days" + ')'}}</span>
-                <span>{{
-                  calculateTotalPrice() | currency : "INR " : "symbol" : "1.2-2"
-                }} </span>
+                <span class="mb-0"
+                  >Total
+                  {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span
+                >
+                <span
+                  >{{
+                    calculateTotalPrice()
+                      | currency : "INR " : "symbol" : "1.2-2"
+                  }}
+                </span>
               </div>
               <div class="d-flex justify-content-between font-weight-bold py-1">
                 <span class="mb-0">GST @ 12%</span>
@@ -309,7 +317,12 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <div class="booking-summary-bar text-dark rounded-3">
-                      <h4 class="m-0 font-weight-bold" [class.booking-summary-bar--title]="isRoomAvailable()">Booking Summary</h4>
+                      <h4
+                        class="m-0 font-weight-bold"
+                        [class.booking-summary-bar--title]="isRoomAvailable()"
+                      >
+                        Booking Summary
+                      </h4>
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -460,8 +473,13 @@
                     <div
                       class="d-flex justify-content-between font-weight-bold py-1"
                     >
-                    <span class="mb-0">Total {{'(' + calculateDurationOfStay() + " days" + ')'}}</span>
-                    <span>{{
+                      <span class="mb-0"
+                        >Total
+                        {{
+                          "(" + calculateDurationOfStay() + " days" + ")"
+                        }}</span
+                      >
+                      <span>{{
                         calculateTotalPrice()
                           | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
@@ -514,7 +532,7 @@
           <!-- </section> -->
         </aside>
         <main class="rooms-listing col-md-9">
-          <ng-template #loading>
+          <ng-template #loading >
             <div class="text-center">
               <!-- Increase size using Bootstrap utility classes -->
               <div
@@ -527,120 +545,138 @@
               <p>Loading rooms...</p>
             </div>
           </ng-template>
-
+          <div class="card mb-3 text-center" *ngIf="isRoomDataEmpty">
+                   Sorry, rooms are not available
+          </div>
           <div *ngIf="!loadingRooms; else loading">
-            <div class="card mb-3" *ngFor="let room of filteredRoomData">
-              <div class="row">
-                <div class="col-md-5">
-                  <!-- <img [src]="room.image" alt="Resort Room image"> -->
-                  <!-- <div class="masonry-layout">
-                    <lightgallery [settings]="settings">
-                      <a
-                        *ngFor="let item of imageFilenames"
-                        className="gallery-item"
-                        [attr.href]="item"
-                      >
-                        <img className="img-responsive" src="{{ item }}" />
-                      </a>
-                    </lightgallery>
-                  </div> -->
-                  <!-- your-component.component.html -->
-                  <div class="containerg">
-                    
-                    <div class="card-containerg" #cardContainer>
-                    
-                      <div class="card" *ngFor="let item of getRoomImages(room.Room_Name)" >
-                        <img class="img-responsive" src="{{ item }}" alt="" (click)="showFullImage(item)"  />
-                      </div>
-                    </div>
-                    <div class="full-image-overlay" *ngIf="isFullImageVisible" (click)="closeFullImage()">
-                      <div class="full-image-container">
-                        <img class="full-image" [src]="fullImageSrc" alt="" />
-                        <div class="overlay-controls">
-                          <!-- <button class="download-button" (click)="downloadImage()">Download</button> -->
-                          <button class="close-button" (click)="closeFullImage()">X</button>
+          <div *ngIf="!isRoomDataEmpty">
+              <div class="card mb-3" *ngFor="let room of filteredRoomData">
+                <div class="row">
+                  <div class="col-md-5">
+                    <!-- <img [src]="room.image" alt="Resort Room image"> -->
+                    <!-- <div class="masonry-layout">
+            <lightgallery [settings]="settings">
+              <a
+                *ngFor="let item of imageFilenames"
+                className="gallery-item"
+                [attr.href]="item"
+              >
+                <img className="img-responsive" src="{{ item }}" />
+              </a>
+            </lightgallery>
+          </div> -->
+                    <!-- your-component.component.html -->
+                    <div class="containerg">
+                      <div class="card-containerg" #cardContainer>
+                        <div
+                          class="card"
+                          *ngFor="let item of getRoomImages(room.Room_Name)"
+                        >
+                          <img
+                            class="img-responsive"
+                            src="{{ item }}"
+                            alt=""
+                            (click)="showFullImage(item)"
+                          />
                         </div>
                       </div>
+                      <div
+                        class="full-image-overlay"
+                        *ngIf="isFullImageVisible"
+                        (click)="closeFullImage()"
+                      >
+                        <div class="full-image-container">
+                          <img class="full-image" [src]="fullImageSrc" alt="" />
+                          <div class="overlay-controls">
+                            <!-- <button class="download-button" (click)="downloadImage()">Download</button> -->
+                            <button
+                              class="close-button"
+                              (click)="closeFullImage()"
+                            >
+                              X
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="scroll-icon left"
+                        (click)="scrollLeft()"
+                        #scrollLeftIcon
+                      >
+                        &#10094;
+                      </div>
+                      <div
+                        class="scroll-icon right"
+                        (click)="scrollRight()"
+                        #scrollRightIcon
+                      >
+                        &#10095;
+                      </div>
                     </div>
-                    
-                    <div
-                      class="scroll-icon left"
-                      (click)="scrollLeft()"
-                      #scrollLeftIcon
-                    >
-                      &#10094;
-                    </div>
-                    <div
-                      class="scroll-icon right"
-                      (click)="scrollRight()"
-                      #scrollRightIcon
-                    >
-                      &#10095;
-                    </div>
-                    
                   </div>
-                </div>
-                <div class="col-md-7 row justify-content-between">
-                  <div class="col-md-8">
-                    <h5>
-                      <span class="text-primary-dark font-weight-bold"
-                        >Room name: </span
-                      >{{ room.Room_Name }}
-                    </h5>
-                    <h6>
-                      <span class="text-primary-dark font-weight-bold"
-                        >Cottage type: </span
-                      >{{ room.Cottage_Type }}
-                    </h6>
-                    <h6>
-                      <span class="text-primary-dark font-weight-bold"
-                        >Resort name:
-                      </span>
-                      {{ room.Select_Resort }}
-                    </h6>
-                  </div>
-                  <div
-                    class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0"
-                  >
-                    <div class="col-auto">
-                      <h6 class="p-0 m-0">
-                        <strong>{{
-                          isWeekend
-                            ? room.Week_End_Rate
-                            : (room.Week_Days_Rate
-                              | currency : "INR " : true : "1.2-2")
-                        }}</strong>
+                  <div class="col-md-7 row justify-content-between">
+                    <div class="col-md-8">
+                      <h5>
+                        <span class="text-primary-dark font-weight-bold"
+                          >Room name: </span
+                        >{{ room.Room_Name }}
+                      </h5>
+                      <h6>
+                        <span class="text-primary-dark font-weight-bold"
+                          >Cottage type: </span
+                        >{{ room.Cottage_Type }}
                       </h6>
-                      <p class="text-primary-dark">For 2 guests</p>
-                    </div>
-                    <div class="col-auto">
-                      <h6 class="p-0 m-0">
-                        <strong
-                          *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-                          >{{ 500 | currency : "INR " : true : "1.2-2" }}
-                        </strong>
-                        <strong
-                          *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                          >{{ 1500 | currency : "INR " : true : "1.2-2" }}
-                        </strong>
+                      <h6>
+                        <span class="text-primary-dark font-weight-bold"
+                          >Resort name:
+                        </span>
+                        {{ room.Select_Resort }}
                       </h6>
-                      <p class="text-primary-dark">For an extra guest</p>
                     </div>
-                    <div class="col-12"><em>+ GST @ 12%</em></div>
-                    <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
-                      <small>+ gst @ 12%</small><br>
-                      <small>(for 1 Extra Bed)</small> -->
-                  </div>
-                  <div class="col my-2 pe-0">
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      class="float-end float-md-start"
-                      [disabled]="isRoomAdded(room.Room_Id)"
-                      (click)="addRoom(room)"
+                    <div
+                      class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0"
                     >
-                      Add room
-                    </button>
+                      <div class="col-auto">
+                        <h6 class="p-0 m-0">
+                          <strong>{{
+                            isWeekend
+                              ? room.Week_End_Rate
+                              : (room.Week_Days_Rate
+                                | currency : "INR " : true : "1.2-2")
+                          }}</strong>
+                        </h6>
+                        <p class="text-primary-dark">For 2 guests</p>
+                      </div>
+                      <div class="col-auto">
+                        <h6 class="p-0 m-0">
+                          <strong
+                            *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
+                            >{{ 500 | currency : "INR " : true : "1.2-2" }}
+                          </strong>
+                          <strong
+                            *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                            >{{ 1500 | currency : "INR " : true : "1.2-2" }}
+                          </strong>
+                        </h6>
+                        <p class="text-primary-dark">For an extra guest</p>
+                      </div>
+                      <div class="col-12"><em>+ GST @ 12%</em></div>
+                      <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
+              <small>+ gst @ 12%</small><br>
+              <small>(for 1 Extra Bed)</small> -->
+                    </div>
+                    <div class="col my-2 pe-0">
+                      <button
+                        mat-raised-button
+                        color="primary"
+                        class="float-end float-md-start"
+                        [disabled]="isRoomAdded(room.Room_Id)"
+                        (click)="addRoom(room)"
+                      >
+                        Add room
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -651,23 +687,3 @@
     </div>
   </div>
 </app-layout>
-
-
-<!-- Add this HTML structure to your component's template -->
-<!-- <div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmation</h5>
-        <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to go back?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary text-bg-secondary" (click)="onCancel()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="onConfirm()">Switch Anyway</button>
-      </div>
-    </div>
-  </div>
-</div> -->
