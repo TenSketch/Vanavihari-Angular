@@ -65,13 +65,13 @@ export class BookingStatusComponent {
               localStorage.clear();
             }, 3000);
             this.reservationDetails = {
-              guestName: response.result.name,
+              guestName: response.result.guest_name,
               resortName: this.bookingTypeResort,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
-              checkInDate: this.authService.getSearchData('checkin'),
-              checkOutDate: this.authService.getSearchData('checkout'),
-              amount: 'INR 11000',
+              checkInDate: response.result.checkin,
+              checkOutDate: response.result.checkout,
+              amount: 'INR '+response.result.payment_transaction_amt,
               upiId: 'QR917382151617-5587@unionbankofindia',
               qrCodeUrl: '1711639164121_qr2.pdf',
               contactPerson: 'Mr. Veerababu',
@@ -113,5 +113,18 @@ export class BookingStatusComponent {
           console.error('Error:', err);
         },
       });
+  }
+  convertDateFormat(dateString: string): string {
+    if (!dateString) {
+      return ''; // Return an empty string if dateString is undefined
+    }
+
+    const date = new Date(dateString);
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const month = date.toLocaleString('en-US', { month: 'short' });
+    const year = date.getUTCFullYear();
+
+    const formattedDate = `${day}-${month}-${year}`;
+    return formattedDate;
   }
 }

@@ -1,7 +1,8 @@
 <div class="reservation-details" *ngIf="bookingStatus=='success'">
     <h2>Dear Guest <span class="bold">{{ reservationDetails.guestName }}</span>,</h2>
-    <p>We're thrilled to confirm your reservation at <span class="bold">{{ reservationDetails.resortName }}</span>, {{
-        reservationDetails.resortLocation }}</p>
+    <p>We're thrilled to confirm your reservation at <span class="bold">{{ reservationDetails.resortName }}</span>,
+    <!-- {{ reservationDetails.resortLocation }} -->
+    </p>
     <p><strong>Booking ID:</strong> {{ reservationDetails.bookingId }}</p>
     <p><strong>Check-in:</strong> {{ reservationDetails.checkInDate }}</p>
     <p><strong>Check-out:</strong> {{ reservationDetails.checkOutDate }}</p>
