@@ -18,7 +18,7 @@ import { ResortListingComponent } from './modules/resort-listing/resort-listing.
 import { BookingSummaryComponent } from './modules/booking-summary/booking-summary.component';
 import { ShowSuccessMessageComponent } from './auth/show-success-message/show-success-message.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
-import { BookingStatusComponent } from './modules/booking-status/booking-status.component';
+import { BookingStatusComponent } from './modules/booking-status2/booking-status.component';
 import { BookingStatusTestComponent } from './modules/booking-status-test/booking-status-test.component';
 import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
@@ -43,7 +43,7 @@ const routes: Routes = [
 {path:'terms-and-conditions', component: TermsAndConditionsComponent},
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
 {path:'booking-summary', component: BookingSummaryComponent},
-{path:'booking-successfull', component: BookingStatusComponent},
+{path:'booking-result', component: BookingStatusComponent},
 {path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},
 {path:'dashboard', component:SettingsComponent},

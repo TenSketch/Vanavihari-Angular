@@ -28,8 +28,8 @@ interface ReservationDetails {
 })
 export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
-  bookingTypeResort: any;
-
+  bookingId: any;
+  bookingStatus : any;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -40,24 +40,25 @@ export class BookingStatusComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.bookingTypeResort = params['bookingTypeResort'];
+      this.bookingId = params['booking_id'];
     });
+    console.log(this.bookingId);
+    this.bookingStatus = 'success';
 
-    const params = new HttpParams()
-      .set('email', this.authService.getAccountUsername() ?? '')
-      .set('token', this.authService.getAccessToken() ?? '');
+    const params = new HttpParams().set('booking_id', this.bookingId);
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=profile_details',
+        'https://vanavihari.com/zoho-connect?api_type=booking_detail',
         { params }
       )
       .subscribe({
         next: (response) => {
           console.log('response===', response);
           if (response.code == 3000 && response.result.status == 'success') {
+            this.bookingStatus = 'success'
             this.reservationDetails = {
               guestName: response.result.name,
-              resortName: this.bookingTypeResort,
+              resortName: this.bookingId,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: 'BJ2404971',
               checkInDate: this.authService.getSearchData('checkin'),
@@ -73,9 +74,12 @@ export class BookingStatusComponent {
             };
           } else if (response.code == 3000) {
             this.userService.clearUser();
+            this.bookingStatus = 'failed'
             alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
+            this.bookingStatus = 'failed'
+
             this.userService.clearUser();
             alert('Login Error!');
             // this.router.navigate(['/home']);

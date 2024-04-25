@@ -1,0 +1,21 @@
+<div class="reservation-details">
+    <h2>Dear Guest <span class="bold">{{ reservationDetails.guestName }}</span>,</h2>
+    <p>We're thrilled to confirm your reservation at <span class="bold">{{ reservationDetails.resortName }}</span>, {{
+        reservationDetails.resortLocation }}</p>
+    <p><strong>Booking ID:</strong> {{ reservationDetails.bookingId }}</p>
+    <p><strong>Check-in:</strong> {{ reservationDetails.checkInDate }}</p>
+    <p><strong>Check-out:</strong> {{ reservationDetails.checkOutDate }}</p>
+    <p>To secure your stay amidst the tranquil surroundings, kindly make a UPI payment of <span class="bold">{{
+            reservationDetails.amount }}</span>.</p>
+    <p><strong>UPI Details:</strong></p>
+    <p><strong>UPI ID:</strong> {{ reservationDetails.upiId }}</p>
+    <p><strong>QR Code:</strong> <a href="{{ reservationDetails.qrCodeUrl }}">Download QR Code</a></p>
+    <p>Should you have any questions about your stay or require information on nearby adventures, feel free to contact,
+    </p>
+    <p><span class="bold">{{ reservationDetails.contactPerson }}</span> at <span class="bold">{{
+            reservationDetails.contactNumber }}</span> or <span class="bold">{{ reservationDetails.contactEmail
+            }}</span>.</p>
+            <p>Invoice and booking details are sent to your email <strong>({{reservationDetails.guestEmail}})</strong></p>
+    <p>We eagerly await your arrival!</p>
+    <p>Best Regards, <span class="bold">{{ reservationDetails.resortName }}</span></p>
+</div>
