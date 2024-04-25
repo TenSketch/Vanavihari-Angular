@@ -283,7 +283,20 @@ export class RoomsComponent implements OnInit {
         return this.galleryService.tribal();
       case 'woodpecker':
         return this.galleryService.woodpecker();
-
+      case 'ambara':
+        return this.galleryService.ambara();
+      case 'aditya':
+        return this.galleryService.aditya();
+      case 'avani':
+        return this.galleryService.avani();
+      case 'aranya':
+        return this.galleryService.aranya();
+      case 'prakruti':
+        return this.galleryService.prakruti();
+      case 'prana':
+        return this.galleryService.prana();
+      case 'vanya':
+        return this.galleryService.vanya();
       default:
         return this.galleryService.panther();
 
@@ -616,9 +629,9 @@ export class RoomsComponent implements OnInit {
     if (status) {
       this.router.navigate(['/booking-summary']);
     } else {
-      // this.router.navigate(['/booking-summary']);
+      this.router.navigate(['/booking-summary']);
 
-      this.router.navigate(['/sign-in']);
+      // this.router.navigate(['/sign-in']);
     }
   }
 

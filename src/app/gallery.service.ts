@@ -150,4 +150,61 @@ export class GalleryService {
 
     return imageFilenames.map(filename => imageFolder + filename);
   }
+
+  ambara(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/ambara/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg','img-4.jpg','img-5.jpg', 'img-6.jpg', 'img-7.jpg','img-8.jpg','img-9.jpg', 'img-10.jpg', 'img-11.jpg','img-12.jpg','img-13.jpg', 'img-14.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+  aditya(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/aditya/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+
+  avani(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/avani/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+  aranya(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/aranya/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg','img-4.jpg','img-5.jpg', 'img-6.jpg', 'img-7.jpg','img-8.jpg','img-9.jpg', 'img-10.jpg', 'img-11.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+
+  prakruti(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/prakruti/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg','img-4.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+
+  prana(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/prana/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+
+  vanya(): string[] {
+    // Assuming the images are located in the assets/images folder
+    const imageFolder = 'assets/img/vanya/';
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg','img-4.jpg']; // Replace with actual filenames
+
+    return imageFilenames.map(filename => imageFolder + filename);
+  }
+
+
+
 }
