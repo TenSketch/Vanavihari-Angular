@@ -55,6 +55,9 @@ export class BookingStatusComponent {
         next: (response) => {
           if (response.code == 3000 && response.result.status == 'success') {
             this.bookingStatus = 'success'
+            setTimeout(() => {
+              localStorage.clear();
+            }, 3000);
             this.reservationDetails = {
               guestName: response.result.name,
               resortName: this.bookingTypeResort,
@@ -71,7 +74,6 @@ export class BookingStatusComponent {
               guestEmail:response.result.email
 
             };
-            console.log(response);
             
             // this.reservationDetails = {
             //   guestName: response.result.name,

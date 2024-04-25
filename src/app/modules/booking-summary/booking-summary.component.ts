@@ -7,24 +7,6 @@ import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
 
-interface RoomData {
-  Week_Days_Rate: string;
-  Charges_per_Bed_Week_Days: string;
-  Charges_per_Bed_Week_End: string;
-  Cottage_Type: string;
-  Room_Id: string;
-  Room_Image: string;
-  Max_Allowed_Guest: string;
-  ID: string;
-  Week_End_Rate: string;
-  Max_Allowed_Adult: string;
-  Select_Resort: string;
-  Room_Name: string;
-  is_button_disabled: boolean;
-  isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
-  // Add more properties as needed
-}
-
 @Component({
   selector: 'app-booking-summary',
   templateUrl: './booking-summary.component.html',
@@ -35,8 +17,9 @@ export class BookingSummaryComponent {
   formattedCheckinDate: { day: number; month: string; year: number };
   formattedCheckoutDate: { day: number; month: string; year: number };
   form: FormGroup;
-  adultsCount: number = 1;
-  guestCount: number = 0;
+  adultsCount: any = 1;
+  guestCount: any = 0;
+
   roomsCount: number = 1;
   roomDetails: any[];
   checkInDate: string;
@@ -45,14 +28,14 @@ export class BookingSummaryComponent {
   seslectedResort: string;
   getFullUser: string;
   maxAdultCount: number = 2;
-  totalPrice: number = 0;
-  totalGSTPrice: number = 0;
+  totalPrice: any;
+  totalGSTPrice: any;
   bookingTypeResort: string;
   roomGuestDetails: any[] = [];
   // me
   summaryData: any;
   resortName: any;
-  roomData: RoomData[] = [];
+  roomData: any;
   roomNamesWithGuests: any[] = [];
   guestDetails: any[];
   totalGuests: any;
@@ -85,8 +68,6 @@ export class BookingSummaryComponent {
     if (this.roomDetails.length > 0) {
       this.adultsCount = 0;
       this.guestCount = 0;
-      this.totalPrice = 0;
-      this.totalGSTPrice = 0;
       for (const room of this.roomDetails) {
         if (parseInt(room.noof_guest) > 0) {
           this.roomGuestDetails.push(room.id, room.noof_guest);
@@ -118,6 +99,12 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
+    // Clear local storage after 5 minutes
+    setTimeout(() => {
+      localStorage.clear();
+      this.router.navigate(['/rooms']);
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
@@ -227,65 +214,14 @@ export class BookingSummaryComponent {
   }
 
   fetchRoomList() {
-    let tempResort = this.selectedResort;
-    if (this.selectedResort == 'Jungle Star, Valamuru') {
-      tempResort = 'junglestar';
+    const roomDataString = localStorage.getItem('room_data');
+
+    if (roomDataString) {
+      const roomData = JSON.parse(roomDataString);
+      this.roomData = roomData;
+      console.log(roomData);
     }
-    if (this.selectedResort == 'Vanavihari, Maredumilli') {
-      tempResort = 'vanavihari';
-    }
-
-    let perm = '';
-    perm += `&resort=${tempResort}`;
-
-    // Concatenate checkin date parameter
-    perm += `&checkin=${this.convertDateFormat(this.checkinDate?.toString())}`;
-
-    // Concatenate checkout date pa rameter
-    perm += `&checkout=${this.convertDateFormat(
-      this.checkoutDate?.toString()
-    )}`;
-
-    this.http
-      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-      .subscribe({
-        next: (response) => {
-          const roomDataResponse = response.result.data;
-          console.log(roomDataResponse);
-          this.roomData = Object.keys(roomDataResponse).map((key) => {
-            const roomId = key;
-
-            const roomObj = roomDataResponse[key];
-            return {
-              Room_Id: roomObj.room_id,
-              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-              Cottage_Type: roomObj.cottage_type,
-              Max_Allowed_Guest: roomObj.max_guest,
-              Week_Days_Rate: roomObj.week_day_rate,
-              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-              Week_End_Rate: roomObj.week_end_rate,
-              Room_Name: roomObj.name,
-              Select_Resort: roomObj.resort,
-              Max_Allowed_Adult: roomObj.max_adult,
-              Room_Image: '', // Add default value for Room_Image
-              ID: roomId, // Add default value for ID
-              is_button_disabled: false, // Add default value for is_button_disabled
-              isExtraGuestChecked: false,
-            };
-          });
-          console.log(this.roomData);
-          this.getRoomData();
-        },
-        error: (err) => {
-          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-            this.roomData = data;
-            this.getRoomData();
-          });
-          // this.showErrorAlert(
-          //   'An error occurred while fetching room list. Please try again later.'
-          // );
-        },
-      });
+    this.getRoomData();
   }
 
   convertDateFormat(dateString: string): string {
@@ -313,13 +249,19 @@ export class BookingSummaryComponent {
 
     let roomIdarray = JSON.parse(this.summaryData.booking_rooms);
     this.grandTotal = JSON.parse(this.summaryData.grand_total);
+    this.totalPrice = JSON.parse(this.summaryData.room_charges);
+    this.totalGSTPrice = JSON.parse(this.summaryData.total_gst);
+
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
+    console.log(this.roomData);
     this.resortName = room?.Select_Resort;
     this.room_ids = roomIdarray;
     this.roomID = roomIdarray.map((roomId: string) => {
-      const room = this.roomData.find((room) => room.Room_Id === roomId);
+      const room = this.roomData.find(
+        (room: { Room_Id: string }) => room.Room_Id === roomId
+      );
       return room ? room.ID : null;
     });
     console.log(this.roomID);
@@ -359,13 +301,11 @@ export class BookingSummaryComponent {
       0
     );
 
-    this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
     //  payment details
-    this.totalPrice = JSON.parse(this.summaryData.room_charges);
-    this.totalGSTPrice = JSON.parse(this.summaryData.total_gst);
 
-    this.guestCount = this.totalGuests + this.extra_children;
-    this.adultsCount = this.totalGuests;
+    this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
+   
+
   }
 
   isLoggedIn(): boolean {
@@ -377,6 +317,11 @@ export class BookingSummaryComponent {
   }
 
   submitBooking() {
+    this.guestCount = parseInt(this.totalGuests + this.extra_children);
+    this.adultsCount = parseInt(this.totalGuests);
+    console.log(this.adultsCount);
+    console.log(this.guestCount);
+    
     console.log(
       this.convertDateFormat(this.checkinDate),
       this.convertDateFormat(this.checkoutDate),
@@ -385,18 +330,18 @@ export class BookingSummaryComponent {
       this.adultsCount,
       this.guestCount
     );
-    if(this.resortName == 'Vanavihari, Maredumilli'){
-      this.resort_name = 'vanavihari'
+    if (this.resortName == 'Vanavihari, Maredumilli') {
+      this.resort_name = 'vanavihari';
     }
-    if(this.resortName == 'Jungle Star, Valamuru'){
-      this.resort_name = 'jungle-star'
+    if (this.resortName == 'Jungle Star, Valamuru') {
+      this.resort_name = 'jungle-star';
     }
     if (this.form.valid) {
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
-        .set('checkin', this.convertDateFormat(this.checkinDate)        )
-        .set('checkout', this.convertDateFormat(this.checkoutDate)        )
+        .set('checkin', this.convertDateFormat(this.checkinDate))
+        .set('checkout', this.convertDateFormat(this.checkoutDate))
         .set('resort', this.resort_name)
         .set('selected_rooms', this.roomID)
         .set(
@@ -515,6 +460,13 @@ export class BookingSummaryComponent {
   calculateGrandTotal() {
     return this.grandTotal;
   }
+  calculateTotalPrice() {
+    return JSON.parse(this.summaryData.room_charges);
+  }
+  calculateTotalGSTPrice() {
+    return JSON.parse(this.summaryData.total_gst);
+  }
+
   showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {
       duration: 3000,

@@ -137,12 +137,12 @@
               <h5>Payment details</h5>
               <p>
                 <strong>Total Room Charges:</strong>
-                {{ totalPrice | currency : "INR " : "symbol" : "1.2-2" }}
+                {{ calculateTotalPrice() }}
               </p>
               <!-- <p>Total room tarri: 5400</p> -->
               <p>
                 <strong>GST @12%:</strong>
-                {{ totalGSTPrice | currency : "INR " : "symbol" : "1.2-2" }}
+                {{ calculateTotalGSTPrice()  }}
               </p>
               <h4>
                 <strong>Grand Total: </strong>
