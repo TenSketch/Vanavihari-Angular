@@ -28,11 +28,7 @@ interface ReservationDetails {
 })
 export class BookingStatusComponent {
   reservationDetails: ReservationDetails = {} as ReservationDetails;
-<<<<<<< HEAD
-  bookingId: any;
-=======
   bookingTypeResort: any;
->>>>>>> 665bd4f3cacd155e4e4d3b27a2c71007c14d04d6
   bookingStatus : any;
   constructor(
     private userService: UserService,
@@ -44,15 +40,15 @@ export class BookingStatusComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.bookingId = params['booking_id'];
+      this.bookingTypeResort = params['bookingTypeResort'];
     });
-    console.log(this.bookingId);
-    this.bookingStatus = 'success';
 
-    const params = new HttpParams().set('booking_id', this.bookingId);
+    const params = new HttpParams()
+      .set('email', this.authService.getAccountUsername() ?? '')
+      .set('token', this.authService.getAccessToken() ?? '');
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=booking_detail',
+        'https://vanavihari.com/zoho-connect?api_type=profile_details',
         { params }
       )
       .subscribe({
@@ -62,7 +58,7 @@ export class BookingStatusComponent {
             this.bookingStatus = 'success'
             this.reservationDetails = {
               guestName: response.result.name,
-              resortName: this.bookingId,
+              resortName: this.bookingTypeResort,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: 'BJ2404971',
               checkInDate: this.authService.getSearchData('checkin'),
