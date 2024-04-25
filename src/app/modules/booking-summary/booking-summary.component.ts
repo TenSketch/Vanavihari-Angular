@@ -66,9 +66,7 @@ export class BookingSummaryComponent {
   selectedResort: any;
   checkinDate: any;
   checkoutDate: any;
-   resort_name: any
-
-
+  resort_name: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -397,8 +395,8 @@ export class BookingSummaryComponent {
       let params = new HttpParams()
         .set('email', this.authService.getAccountUsername() ?? '')
         .set('token', this.authService.getAccessToken() ?? '')
-        .set('checkin', this.convertDateFormat(this.checkinDate))
-        .set('checkout', this.convertDateFormat(this.checkoutDate))
+        .set('checkin', this.convertDateFormat(this.checkinDate)        )
+        .set('checkout', this.convertDateFormat(this.checkoutDate)        )
         .set('resort', this.resort_name)
         .set('selected_rooms', this.roomID)
         .set(
@@ -412,8 +410,8 @@ export class BookingSummaryComponent {
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
-      this.showSnackBarAlert('Reservation Success! Booking Id');
-      this.router.navigate(['/booking-successfull']);
+      // this.showSnackBarAlert("Reservation Success! Booking Id");
+      // this.router.navigate(['/booking-successfull']);
       this.http
         .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
           params,
