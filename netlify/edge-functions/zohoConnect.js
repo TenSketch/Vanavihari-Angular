@@ -112,7 +112,8 @@ export default async (req) => {
         const formData = new URLSearchParams(body);
         const msg = formData.get('msg');
         const msgres = msg.split('|');
-        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${msgres[1]}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split('-')[1]}`;
+        const booking_id = msgres[1];
+        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${booking_id}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split('-')[1]}`;
         method = "GET";
         break;
       case "booking_detail":
@@ -145,7 +146,7 @@ export default async (req) => {
         return new Response(null, {
           status: 302,
           headers: {
-            "Location": 'https://vanavihari.com/#/booking-status',
+            "Location": `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
           },
         });
       } else {

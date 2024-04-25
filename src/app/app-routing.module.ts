@@ -43,7 +43,7 @@ const routes: Routes = [
 {path:'terms-and-conditions', component: TermsAndConditionsComponent},
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
 {path:'booking-summary', component: BookingSummaryComponent},
-{path:'booking-successfull', component: BookingStatusComponent},
+{path:'booking-status', component: BookingStatusComponent},
 {path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},
 {path:'dashboard', component:SettingsComponent},

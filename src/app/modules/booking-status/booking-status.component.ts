@@ -62,7 +62,7 @@ export class BookingStatusComponent {
               guestName: response.result.name,
               resortName: this.bookingTypeResort,
               resortLocation: 'Jungle Star, Valamuru',
-              bookingId: 'BJ2404971',
+              bookingId: response.result.booking_id,
               checkInDate: this.authService.getSearchData('checkin'),
               checkOutDate: this.authService.getSearchData('checkout'),
               amount: 'INR 11000',

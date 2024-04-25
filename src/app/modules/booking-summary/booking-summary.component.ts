@@ -62,7 +62,7 @@ export class BookingSummaryComponent {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    // this.fetchRoomList();
+    this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
     if (this.roomDetails.length > 0) {
