@@ -1,5 +1,7 @@
 .booking-summary {
-  padding-top: 10rem;
+  @media (max-width:768px) {
+    padding-top: 10rem;
+  }
 }
 
 .card {
