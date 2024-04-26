@@ -177,10 +177,10 @@ export class RoomsComponent implements OnInit {
       });
     this.selectedSortOption = 'lowToHigh';
 
-    this.selectedResort = this.authService.getSearchData('resort');
-    this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkoutDate = this.authService.getSearchData('checkout');
-    this.fetchRoomList();
+    // this.selectedResort = this.authService.getSearchData('resort');
+    // this.checkinDate = this.authService.getSearchData('checkin');
+    // this.checkoutDate = this.authService.getSearchData('checkout');
+    // this.fetchRoomList();
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
