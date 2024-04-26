@@ -74,7 +74,7 @@
               exclude 12% GST.
             </li>
             <li *ngIf="selectedResort == 'Jungle Star, Valamuru'">
-              <strong>Food: </strong>Room rates include three meals per
+              <strong>Food:</strong>Food: Room rates include three meals per
               day.
             </li>
           </ul>
@@ -568,52 +568,23 @@
                     <!-- your-component.component.html -->
                     <div class="containerg">
                       <div class="card-containerg" #cardContainer>
-                        <div
-                          class="card"
-                          *ngFor="let item of getRoomImages(room.Room_Name)"
-                        >
-                          <img
-                            class="img-responsive"
-                            src="{{ item }}"
-                            alt=""
-                            (click)="showFullImage(item)"
-                          />
+                        <div class="card" *ngFor="let item of getRoomImages(room.Room_Name)">
+                          <img class="img-responsive" src="{{ item }}" alt="" (click)="showFullImage(item)" />
                         </div>
                       </div>
-                      <div
-                        class="full-image-overlay"
-                        *ngIf="isFullImageVisible"
-                        (click)="closeFullImage()"
-                      >
+                      <div class="full-image-overlay" *ngIf="isFullImageVisible" (click)="closeFullImage()">
                         <div class="full-image-container">
                           <img class="full-image" [src]="fullImageSrc" alt="" />
                           <div class="overlay-controls">
-                            <!-- <button class="download-button" (click)="downloadImage()">Download</button> -->
-                            <button
-                              class="close-button"
-                              (click)="closeFullImage()"
-                            >
-                              X
-                            </button>
+                            <button class="close-button" (click)="closeFullImage()">X</button>
                           </div>
                         </div>
                       </div>
-
-                      <div
-                        class="scroll-icon left"
-                        (click)="scrollLeft()"
-                        #scrollLeftIcon
-                      >
-                        &#10094;
-                      </div>
-                      <div
-                        class="scroll-icon right"
-                        (click)="scrollRight()"
-                        #scrollRightIcon
-                      >
-                        &#10095;
-                      </div>
+                    
+                      <div class="scroll-icon left" (click)="scrollLeft(cardContainer)" #scrollLeftIcon>&#10094;</div>
+                      <div class="scroll-icon right" (click)="scrollRight(cardContainer)" #scrollRightIcon>&#10095;</div>
                     </div>
+                    
                   </div>
                   <div class="col-md-7 row justify-content-between">
                     <div class="col-md-8">

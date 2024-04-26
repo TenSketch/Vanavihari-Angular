@@ -319,15 +319,16 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-  scrollLeft() {
-    this.cardContainer.nativeElement.scrollBy({
+  scrollLeft(cardContainer: HTMLElement) {
+    cardContainer.scrollBy({
       left: -250,
       behavior: 'smooth',
     });
   }
+  
 
-  scrollRight() {
-    this.cardContainer.nativeElement.scrollBy({
+  scrollRight(cardContainer: HTMLElement) {
+  cardContainer.scrollBy({
       left: 250,
       behavior: 'smooth',
     });
