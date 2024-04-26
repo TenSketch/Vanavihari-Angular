@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -50,6 +50,43 @@ export class BookingSummaryComponent {
   checkinDate: any;
   checkoutDate: any;
   resort_name: any;
+
+  date: any;
+  now: any;
+  targetTime: any;
+  difference: number;
+
+  @ViewChild('minutes', { static: true }) minutes: ElementRef;
+  @ViewChild('seconds', { static: true }) seconds: ElementRef;
+
+  ngAfterViewInit() {
+    // Set target time 5 minutes from now
+    this.targetTime = new Date();
+    this.targetTime.setMinutes(this.targetTime.getMinutes() + 5);
+
+    setInterval(() => {
+      this.tickTock();
+      this.difference = this.targetTime - this.now;
+      const minutesLeft = Math.floor(
+        (this.difference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
+      if (this.difference <= 0) {
+        localStorage.clear();
+        this.router.navigate(['resorts/rooms']);
+      }
+      this.minutes.nativeElement.innerText =
+        minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft;
+      this.seconds.nativeElement.innerText =
+        secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
+    }, 1000);
+  }
+
+  tickTock() {
+    this.date = new Date();
+    this.now = this.date.getTime();
+  }
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -100,10 +137,6 @@ export class BookingSummaryComponent {
   }
   ngOnInit(): void {
     // Clear local storage after 5 minutes
-    setTimeout(() => {
-      localStorage.clear();
-      this.router.navigate(['/rooms']);
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
@@ -304,8 +337,6 @@ export class BookingSummaryComponent {
     //  payment details
 
     this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
-   
-
   }
 
   isLoggedIn(): boolean {
@@ -321,7 +352,7 @@ export class BookingSummaryComponent {
     this.adultsCount = parseInt(this.totalGuests);
     console.log(this.adultsCount);
     console.log(this.guestCount);
-    
+
     console.log(
       this.convertDateFormat(this.checkinDate),
       this.convertDateFormat(this.checkoutDate),
