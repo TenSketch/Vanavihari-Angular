@@ -129,6 +129,7 @@ export class SearchResortComponent implements OnInit {
           checkout: checkoutDateString,
         },
       ]);
+      this.authService.buttonClick$.next();
       this.searchService.setSearchCriteria(this.selectedResort);
       this.authService.refreshRoomsComponent();
 
