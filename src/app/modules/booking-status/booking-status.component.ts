@@ -39,6 +39,7 @@ export class BookingStatusComponent {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private http: HttpClient,
     private formBuilder: FormBuilder
@@ -108,13 +109,18 @@ export class BookingStatusComponent {
             this.userService.clearUser();
             this.bookingStatus = 'failed'
             // alert('Login Error!');
-            // this.router.navigate(['/home']);
+            setTimeout(() => {
+              localStorage.clear();
+              this.router.navigate(['/home']);
+            }, 10 * 1000); 
           } else {
 
             this.userService.clearUser();
             // alert('Login Error!');
-            // this.router.navigate(['/home']);
-          }
+            setTimeout(() => {
+              localStorage.clear();
+              this.router.navigate(['/home']);
+            }, 10 * 1000);           }
         },
         error: (err) => {
           console.error('Error:', err);
