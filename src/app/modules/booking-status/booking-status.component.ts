@@ -70,7 +70,7 @@ export class BookingStatusComponent {
               localStorage.clear();
             }, 3000);
             this.reservationDetails = {
-              guestName: response.result.name,
+              guestName: response.result.guest_name,
               resortName: this.bookingTypeResort,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
