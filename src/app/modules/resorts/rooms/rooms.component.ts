@@ -459,6 +459,10 @@ export class RoomsComponent implements OnInit {
           if (this.roomData.length == 0) {
             this.isRoomDataEmpty = true;
           }
+          else{
+            this.isRoomDataEmpty = false;
+          }
+          console.log(this.isRoomDataEmpty)
         },
         error: (err) => {
           this.loadingRooms = false;
