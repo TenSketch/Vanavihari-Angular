@@ -297,6 +297,12 @@ export class RoomsComponent implements OnInit {
         return this.galleryService.prana();
       case 'vanya':
         return this.galleryService.vanya();
+      case 'agathi':
+        return this.galleryService.agathi();
+      case 'vennela':
+        return this.galleryService.vennela();
+      case 'jabilli':
+        return this.galleryService.jabilli();
       default:
         return this.galleryService.panther();
 
