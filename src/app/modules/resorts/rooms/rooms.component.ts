@@ -180,18 +180,21 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    this.fetchRoomList();
+    if(this.selectedResort){
+
+      this.fetchRoomList();
+    }
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
   }
 
   ngOnInit(): void {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      window.scrollTo(0, 0);
-    });
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() => {
+    //   window.scrollTo(0, 0);
+    // });
   
     // Set extra_guests in localStorage to an empty array
     localStorage.setItem('extra_guests', JSON.stringify([]));
@@ -459,6 +462,10 @@ export class RoomsComponent implements OnInit {
           if (this.roomData.length == 0) {
             this.isRoomDataEmpty = true;
           }
+          else{
+            this.isRoomDataEmpty = false;
+          }
+          console.log(this.isRoomDataEmpty)
         },
         error: (err) => {
           this.loadingRooms = false;

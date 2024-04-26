@@ -51,10 +51,10 @@ const routes: Routes = [
 { path:'change-password', component: ChangePasswordComponent},
 { path:'contact-us', component: ContactUsComponent},
 { path:'booking-status-test', component: BookingStatusTestComponent},
-{ path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
-{ path: '**', redirectTo: '/home' }, // Handle undefined routes (optional)
+{ path: '', redirectTo: '/home', pathMatch: 'full' }, 
+{ path: '**', redirectTo: '/home' }, 
 
- //{path:'', component: HomeComponent }
+ 
 ];
 
 @NgModule({
