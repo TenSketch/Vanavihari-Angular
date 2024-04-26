@@ -107,12 +107,12 @@ export class BookingStatusComponent {
           } else if (response.code == 3000) {
             this.userService.clearUser();
             this.bookingStatus = 'failed'
-            alert('Login Error!');
+            // alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
 
             this.userService.clearUser();
-            alert('Login Error!');
+            // alert('Login Error!');
             // this.router.navigate(['/home']);
           }
         },
