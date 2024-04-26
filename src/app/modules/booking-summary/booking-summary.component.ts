@@ -259,7 +259,6 @@ export class BookingSummaryComponent {
     if (roomDataString) {
       const roomData = JSON.parse(roomDataString);
       this.roomData = roomData;
-      console.log(roomData);
     }
     this.getRoomData();
   }
@@ -295,7 +294,6 @@ export class BookingSummaryComponent {
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
-    console.log(this.roomData);
     this.resortName = room?.Select_Resort;
     this.room_ids = roomIdarray;
     this.roomID = roomIdarray.map((roomId: string) => {
@@ -304,7 +302,6 @@ export class BookingSummaryComponent {
       );
       return room ? room.ID : null;
     });
-    console.log(this.roomID);
 
     this.room_ids.forEach((roomId: any) => {
       const room = this.roomData.find(
@@ -357,17 +354,8 @@ export class BookingSummaryComponent {
   submitBooking() {
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
-    console.log(this.adultsCount);
-    console.log(this.guestCount);
 
-    console.log(
-      this.convertDateFormat(this.checkinDate),
-      this.convertDateFormat(this.checkoutDate),
-      this.resortName,
-      this.roomID,
-      this.adultsCount,
-      this.guestCount
-    );
+   
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
     }
