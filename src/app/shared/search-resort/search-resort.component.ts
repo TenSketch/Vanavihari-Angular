@@ -43,7 +43,7 @@ export class SearchResortComponent implements OnInit {
   ) {
     // Set the minimum to the next date from the present date.
     const currentDate = new Date();
-    // currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
+    currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
     this.minDate = currentDate;
     this.searchForm = this.formBuilder.group({
       selectedResort: [],

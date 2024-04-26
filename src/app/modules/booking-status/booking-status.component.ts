@@ -22,6 +22,7 @@ interface ReservationDetails {
   rooms:any[];
   totalGuest:any;
   stayDuration:any;
+  email:any;
 }
 
 @Component({
@@ -38,6 +39,7 @@ export class BookingStatusComponent {
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private http: HttpClient,
     private formBuilder: FormBuilder
@@ -83,7 +85,8 @@ export class BookingStatusComponent {
               guestEmail:response.result.email,
               rooms:response.result.rooms,
               totalGuest: response.result.total_guest,
-              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout)
+              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout),
+              email:response.result.email
             };
             
             // this.reservationDetails = {
@@ -105,14 +108,19 @@ export class BookingStatusComponent {
           } else if (response.code == 3000) {
             this.userService.clearUser();
             this.bookingStatus = 'failed'
-            alert('Login Error!');
-            // this.router.navigate(['/home']);
+            // alert('Login Error!');
+            setTimeout(() => {
+              localStorage.clear();
+              this.router.navigate(['/home']);
+            }, 10 * 1000); 
           } else {
 
             this.userService.clearUser();
-            alert('Login Error!');
-            // this.router.navigate(['/home']);
-          }
+            // alert('Login Error!');
+            setTimeout(() => {
+              localStorage.clear();
+              this.router.navigate(['/home']);
+            }, 10 * 1000);           }
         },
         error: (err) => {
           console.error('Error:', err);
