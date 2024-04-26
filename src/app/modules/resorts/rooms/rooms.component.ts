@@ -11,8 +11,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsComponent } from '../rooms/rooms.component';
@@ -187,6 +187,12 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      window.scrollTo(0, 0);
+    });
+  
     // Set extra_guests in localStorage to an empty array
     localStorage.setItem('extra_guests', JSON.stringify([]));
 
