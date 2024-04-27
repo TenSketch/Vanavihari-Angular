@@ -56,7 +56,7 @@ export class BookingSummaryComponent {
   now: any;
   targetTime: any;
   difference: number;
-
+  subBillerId: string;
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
 
