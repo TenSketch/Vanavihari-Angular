@@ -408,10 +408,15 @@ export class BookingSummaryComponent {
               const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
               const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' + rU + '&' + Date.now().toFixed().substring(0, 10);
+              console.log(str);
+              
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
               const msg = `${str}|${checksum}`;
+              console.log(msg);
+              return;
+              
 
               let pg_params = new HttpParams()
                 .set('MerchantId', MerchantId)
