@@ -9,6 +9,9 @@ import { UserService } from '../../user.service';
 })
 export class MyBookingsComponent {
 
+  bookingData:any[]=[]
+  formattedDate: { day: string, month: string };
+
   constructor(private http: HttpClient, private userService: UserService) {}
   ngOnInit(): void {
     let params = new HttpParams()
@@ -20,12 +23,28 @@ export class MyBookingsComponent {
       )
       .subscribe({
         next: (response) => {
-          console.log(response);
+          console.log(response.result.details);
+          this.bookingData = response.result.details
+          console.log(this.bookingData)
+          console.log(response.result.details.checkin)
         },
         error: (err) => {
           console.error('Error:', err);
         },
     });
+  }
+
+  formatDate(dateStr: string): { day: string, month: string, year: string } {
+    const date = new Date(dateStr);
+    const day = date.getDate().toString();
+    const month = this.getMonthName(date.getMonth());
+    const year = date.getFullYear().toString();
+    return { day, month, year };
+  }
+
+  getMonthName(month: number): string {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[month];
   }
   
   fetchRoomList() { 

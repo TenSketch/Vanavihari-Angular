@@ -14,16 +14,19 @@ import { AuthService } from '../../auth.service';
 export class SignInComponent implements OnInit {
   form: FormGroup;
   isLoading: boolean = false;
-  showAlert:boolean=false
+  showAlert:boolean=false;
+  returnUrl: string = '';
+  disableSign = false
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private router: Router,
-    private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute
   ) {
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+
     this.form = this.formBuilder.group({
       email_address: ['', Validators.required],
       password: ['', Validators.required],
@@ -31,17 +34,17 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params['message']) {
-        const message = params['message'];
-        this.showSnackBarAlert(message);
-      }
-    });
+    // this.route.queryParams.subscribe((params) => {
+    //   if (params['message']) {
+    //     const message = params['message'];
+    //     this.showSnackBarAlert(message);
+    //   }
+    // });
     
   }
 
   onSubmit() {
-   
+   this.disableSign = true
     if (this.form.valid) {
       this.isLoading = true;
       this.showAlert=true
@@ -56,9 +59,9 @@ export class SignInComponent implements OnInit {
         )
         .subscribe({
           next: (response) => {
+             this.disableSign = false
             console.log('response--', response);
             if (response.code == 3000 && response.result.status == 'success') {
-              this.router.navigate(['/home']);
               this.isLoading = false;
               this.showAlert=false
               this.showSnackBarAlert(
@@ -73,6 +76,8 @@ export class SignInComponent implements OnInit {
               this.authService.setAccountUserFullname(
                 response.result.userfullname
               );
+              this.router.navigateByUrl('resorts/rooms');
+
             } else if (response.code == 3000) {
               this.isLoading = false;
               this.showSnackBarAlert(response.result.msg);
@@ -82,6 +87,8 @@ export class SignInComponent implements OnInit {
             }
           },
           error: (err) => {
+            this.disableSign = false
+
             this.isLoading = false;
             console.error('Error:', err);
           },
@@ -93,7 +100,7 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['/sign-in']);
   }
   goToSignup() {
-    this.router.navigate(['/sign-up']);
+    this.router.navigate(['/sign-up'],{ queryParams: { returnUrl: '/sign-in' } });
   }
 
   showSnackBarAlert(msg = '', redirect = true) {

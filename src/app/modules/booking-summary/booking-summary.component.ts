@@ -57,8 +57,95 @@ export class BookingSummaryComponent {
   targetTime: any;
   difference: number;
 
+  isModalVisible: boolean = false;
+  isInfoModalVisible = false
+
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) {
+    this.form = this.formBuilder.group({
+      gname: [''],
+      gphone: [''],
+      gemail: ['', Validators.email],
+      gaddress: ['', Validators.required],
+      gcity: [''],
+      gstate: [''],
+      gpincode: [''],
+      gcountry: [''],
+      foodPreference: ['']
+
+    });
+
+    this.selectedResort = this.authService.getSearchData('resort');
+    this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkoutDate = this.authService.getSearchData('checkout');
+    this.fetchRoomList();
+
+    this.roomDetails = this.authService.getBookingRooms('vanvihari');
+    if (this.roomDetails.length > 0) {
+      this.adultsCount = 0;
+      this.guestCount = 0;
+      for (const room of this.roomDetails) {
+        if (parseInt(room.noof_guest) > 0) {
+          this.roomGuestDetails.push(room.id, room.noof_guest);
+        }
+        this.adultsCount += parseInt(room.noof_guest);
+        this.guestCount += parseInt(room.extra_guests);
+
+        this.totalPrice += parseInt(
+          room.week_day_rate + room.noof_guest * room.week_day_bed_charge
+        );
+        this.totalGSTPrice +=
+          (parseInt(
+            room.week_day_rate + room.noof_guest * room.week_day_bed_charge
+          ) *
+            12) /
+          100;
+      }
+    }
+
+    
+  }
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
+
+    this.route.queryParams.subscribe((params) => {
+      this.bookingTypeResort = params['bookingTypeResort'];
+    });
+    this.checkInDate = this.authService.getSearchData('checkin');
+    this.checkOutDate = this.authService.getSearchData('checkout');
+    this.seslectedResort = this.authService.getSearchData('resort');
+
+    const startDate = new Date(this.checkInDate);
+    const endDate = new Date(this.checkOutDate);
+
+    this.formattedCheckinDate = this.parseDate(new Date(this.checkInDate));
+    this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate));
+    // this.checkOutDate = endDate
+
+    const durationMs = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
+    // const weeks = Math.floor(durationMs / (1000 * 60 * 60 * 24 * 7));
+    this.durationOfStay = `${days} day${days > 1 ? 's' : ''}`;
+
+    this.getFullUser = this.userService.getFullUser();
+
+    this.getUserDetails();
+  }
 
   ngAfterViewInit() {
     // Set target time 5 minutes from now
@@ -88,95 +175,16 @@ export class BookingSummaryComponent {
     this.now = this.date.getTime();
   }
 
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-    private http: HttpClient,
-    private formBuilder: FormBuilder,
-    private userService: UserService,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute
-  ) {
-    this.selectedResort = this.authService.getSearchData('resort');
-    this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkoutDate = this.authService.getSearchData('checkout');
-    this.fetchRoomList();
-
-    this.roomDetails = this.authService.getBookingRooms('vanvihari');
-    if (this.roomDetails.length > 0) {
-      this.adultsCount = 0;
-      this.guestCount = 0;
-      for (const room of this.roomDetails) {
-        if (parseInt(room.noof_guest) > 0) {
-          this.roomGuestDetails.push(room.id, room.noof_guest);
-        }
-        this.adultsCount += parseInt(room.noof_guest);
-        this.guestCount += parseInt(room.extra_guests);
-
-        this.totalPrice += parseInt(
-          room.week_day_rate + room.noof_guest * room.week_day_bed_charge
-        );
-        this.totalGSTPrice +=
-          (parseInt(
-            room.week_day_rate + room.noof_guest * room.week_day_bed_charge
-          ) *
-            12) /
-          100;
-      }
-    }
-
-    this.form = this.formBuilder.group({
-      gname: [''],
-      gphone: [''],
-      gemail: ['', Validators.email],
-      gaddress: [''],
-      gcity: [''],
-      gstate: [''],
-      gpincode: [''],
-      gcountry: [''],
-    });
-  }
-  ngOnInit(): void {
-    // Clear local storage after 5 minutes
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      window.scrollTo(0, 0);
-    });
-  
-    this.route.queryParams.subscribe((params) => {
-      this.bookingTypeResort = params['bookingTypeResort'];
-    });
-    this.checkInDate = this.authService.getSearchData('checkin');
-    this.checkOutDate = this.authService.getSearchData('checkout');
-    this.seslectedResort = this.authService.getSearchData('resort');
-
-    const startDate = new Date(this.checkInDate);
-    const endDate = new Date(this.checkOutDate);
-
-    this.formattedCheckinDate = this.parseDate(new Date(this.checkInDate));
-    this.formattedCheckoutDate = this.parseDate(new Date(this.checkOutDate));
-    // this.checkOutDate = endDate
-
-    const durationMs = endDate.getTime() - startDate.getTime();
-    const days = Math.floor(durationMs / (1000 * 60 * 60 * 24));
-    // const weeks = Math.floor(durationMs / (1000 * 60 * 60 * 24 * 7));
-    this.durationOfStay = `${days} day${days > 1 ? 's' : ''}`;
-
-    this.getFullUser = this.userService.getFullUser();
-
-    this.getUserDetails();
-  }
-
-  isModalVisible: boolean = false;
-
   triggerModal() {
     this.isModalVisible = true;
+  }
+  triggerInfoModal(){
+    this.isInfoModalVisible = true;
   }
 
   onCancel() {
     this.isModalVisible = false;
+    this.isInfoModalVisible = false;
     // window.location.reload(); // Reload the page
   }
 
@@ -185,45 +193,52 @@ export class BookingSummaryComponent {
     this.router.navigate(['/resorts/rooms']);
   }
 
+  onOk(){
+
+    this.submitBooking()
+    this.isInfoModalVisible = false;
+
+  }
+
+
   getUserDetails() {
-    // const params = new HttpParams()
-    //   .set('email', this.authService.getAccountUsername() ?? '')
-    //   .set('token', this.authService.getAccessToken() ?? '');
-    // this.http
-    //   .get<any>(
-    //     'https://vanavihari.com/zoho-connect?api_type=profile_details',
-    //     { params }
-    //   )
-    //   .subscribe({
-    //     next: (response) => {
-    //       if (response.code == 3000 && response.result.status == 'success') {
-    //         this.form = this.formBuilder.group({
-    //           gname: [response.result.name],
-    //           gphone: [response.result.phone],
-    //           gemail: [response.result.email, Validators.email],
-    //           dob: [response.result.dob, Validators.required],
-    //           nationality: [response.result.nationality],
-    //           gaddress: [response.result.address1],
-    //           address2: [response.result.address2],
-    //           gcity: [response.result.city],
-    //           gstate: [response.result.state],
-    //           gpincode: [response.result.pincode],
-    //           gcountry: [response.result.country],
-    //         });
-    //       } else if (response.code == 3000) {
-    //         this.userService.clearUser();
-    //         alert('Login Error!');
-    //         // this.router.navigate(['/home']);
-    //       } else {
-    //         this.userService.clearUser();
-    //         alert('Login Error!');
-    //         // this.router.navigate(['/home']);
-    //       }
-    //     },
-    //     error: (err) => {
-    //       console.error('Error:', err);
-    //     },
-    //   });
+    const params = new HttpParams()
+      .set('email', this.authService.getAccountUsername() ?? '')
+      .set('token', this.authService.getAccessToken() ?? '');
+    this.http
+      .get<any>(
+        'https://vanavihari.com/zoho-connect?api_type=profile_details',
+        { params }
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.code == 3000 && response.result.status == 'success') {
+            this.form.patchValue({
+              gname: [response.result.name],
+              gphone: [response.result.phone],
+              gemail: [response.result.email],
+              gaddress: [response.result.address1],
+              gcity: [response.result.city],
+              gstate: [response.result.state],
+              gpincode: [response.result.pincode],
+              gcountry: [response.result.country],
+              foodPreference:[response.result.foodPreference]
+            });
+            console.log(this.form.value)
+          } else if (response.code == 3000) {
+            this.userService.clearUser();
+            alert('Login Error!');
+            // this.router.navigate(['/home']);
+          } else {
+            this.userService.clearUser();
+            alert('Login Error!');
+            // this.router.navigate(['/home']);
+          }
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        },
+      });
   }
 
   parseDate(date: Date): { day: number; month: string; year: number } {
@@ -355,7 +370,6 @@ export class BookingSummaryComponent {
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
 
-   
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
     }
@@ -455,6 +469,7 @@ export class BookingSummaryComponent {
               form.submit();
             } else if (response.code == 3000) {
               this.showSnackBarAlert(response.result.msg);
+
             } else {
               this.showSnackBarAlert('Reservation Error!');
             }
