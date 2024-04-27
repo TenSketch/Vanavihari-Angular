@@ -50,6 +50,7 @@ export class BookingSummaryComponent {
   checkinDate: any;
   checkoutDate: any;
   resort_name: any;
+  subBillerId: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -332,9 +333,11 @@ export class BookingSummaryComponent {
     );
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
+      this.subBillerId = 'JSTAR';
     }
     if (this.resortName == 'Jungle Star, Valamuru') {
       this.resort_name = 'jungle-star';
+      this.subBillerId = 'MMILLI';
     }
     if (this.form.valid) {
       let params = new HttpParams()
@@ -376,24 +379,10 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              const amount = 1;
-              const rU =
-                'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
+              const amount = 5;
+              const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
-              const str =
-                MerchantId +
-                '|' +
-                bookingId +
-                '|NA|' +
-                amount +
-                '|NA|NA|NA|' +
-                CurrencyType +
-                '|NA|R|' +
-                SecurityId +
-                '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' +
-                rU +
-                '&' +
-                Date.now().toFixed().substring(0, 10);
+              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' + rU + '&' + Date.now().toFixed().substring(0, 10);
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
@@ -405,9 +394,10 @@ export class BookingSummaryComponent {
                 .set('SecurityId', SecurityId)
                 .set('txtCustomerID', txtCustomerID)
                 .set('txtTxnAmount', amount)
-                .set('txtAdditionalInfo1', bookingId)
-                .set('txtAdditionalInfo2', this.form.value.gname)
-                .set('txtAdditionalInfo3', this.form.value.gphone)
+                .set('txtAdditionalInfo1', this.subBillerId)   // Sub Biller id
+                .set('txtAdditionalInfo2', bookingId)
+                .set('txtAdditionalInfo3', this.form.value.gname)
+                .set('txtAdditionalInfo4', this.form.value.gphone)
                 .set('RU', rU)
                 .set('CheckSumKey', secretKey)
                 .set('CheckSum', checksum)
@@ -415,8 +405,7 @@ export class BookingSummaryComponent {
 
               const form = document.createElement('form');
               form.method = 'post';
-              form.action =
-                'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
+              form.action = 'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
               pg_params.keys().forEach((key) => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
