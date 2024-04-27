@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'vKYC';
+
+
+  ngOnInit() {
+    window.scrollTo(0, 0);
+   
+  }
+
 }

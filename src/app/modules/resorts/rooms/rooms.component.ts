@@ -11,8 +11,8 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { AuthService } from '../../../auth.service';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsComponent } from '../rooms/rooms.component';
@@ -180,13 +180,22 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    this.fetchRoomList();
+    if(this.selectedResort){
+
+      this.fetchRoomList();
+    }
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
   }
 
   ngOnInit(): void {
+    // this.router.events.pipe(
+    //   filter(event => event instanceof NavigationEnd)
+    // ).subscribe(() => {
+    //   window.scrollTo(0, 0);
+    // });
+  
     // Set extra_guests in localStorage to an empty array
     localStorage.setItem('extra_guests', JSON.stringify([]));
 
@@ -310,15 +319,16 @@ export class RoomsComponent implements OnInit {
     }
   }
 
-  scrollLeft() {
-    this.cardContainer.nativeElement.scrollBy({
+  scrollLeft(cardContainer: HTMLElement) {
+    cardContainer.scrollBy({
       left: -250,
       behavior: 'smooth',
     });
   }
+  
 
-  scrollRight() {
-    this.cardContainer.nativeElement.scrollBy({
+  scrollRight(cardContainer: HTMLElement) {
+  cardContainer.scrollBy({
       left: 250,
       behavior: 'smooth',
     });
@@ -453,6 +463,10 @@ export class RoomsComponent implements OnInit {
           if (this.roomData.length == 0) {
             this.isRoomDataEmpty = true;
           }
+          else{
+            this.isRoomDataEmpty = false;
+          }
+          console.log(this.isRoomDataEmpty)
         },
         error: (err) => {
           this.loadingRooms = false;

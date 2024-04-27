@@ -131,9 +131,10 @@ export class SearchResortComponent implements OnInit {
       ]);
       this.searchService.setSearchCriteria(this.selectedResort);
       this.authService.refreshRoomsComponent();
-
       this.authService.buttonClick$.next();
       this.router.navigate(['resorts/rooms']);
+      
+      
     } else {
       if (this.selectionChanged && array.length !== 2) {
         this.triggerModal();

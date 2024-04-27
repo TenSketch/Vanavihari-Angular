@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-booking-summary',
@@ -50,7 +51,43 @@ export class BookingSummaryComponent {
   checkinDate: any;
   checkoutDate: any;
   resort_name: any;
-  subBillerId: any;
+
+  date: any;
+  now: any;
+  targetTime: any;
+  difference: number;
+
+  @ViewChild('minutes', { static: true }) minutes: ElementRef;
+  @ViewChild('seconds', { static: true }) seconds: ElementRef;
+
+  ngAfterViewInit() {
+    // Set target time 5 minutes from now
+    this.targetTime = new Date();
+    this.targetTime.setMinutes(this.targetTime.getMinutes() + 5);
+
+    setInterval(() => {
+      this.tickTock();
+      this.difference = this.targetTime - this.now;
+      const minutesLeft = Math.floor(
+        (this.difference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
+      if (this.difference <= 0) {
+        localStorage.clear();
+        this.router.navigate(['resorts/rooms']);
+      }
+      this.minutes.nativeElement.innerText =
+        minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft;
+      this.seconds.nativeElement.innerText =
+        secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
+    }, 1000);
+  }
+
+  tickTock() {
+    this.date = new Date();
+    this.now = this.date.getTime();
+  }
+
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -101,11 +138,13 @@ export class BookingSummaryComponent {
   }
   ngOnInit(): void {
     // Clear local storage after 5 minutes
-    setTimeout(() => {
-      localStorage.clear();
-      this.router.navigate(['/rooms']);
-    }, 5 * 60 * 1000); // 5 minutes in milliseconds
 
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      window.scrollTo(0, 0);
+    });
+  
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
@@ -220,7 +259,6 @@ export class BookingSummaryComponent {
     if (roomDataString) {
       const roomData = JSON.parse(roomDataString);
       this.roomData = roomData;
-      console.log(roomData);
     }
     this.getRoomData();
   }
@@ -256,7 +294,6 @@ export class BookingSummaryComponent {
     const room = this.roomData.find(
       (room: { Room_Id: any }) => room.Room_Id == roomIdarray[0]
     );
-    console.log(this.roomData);
     this.resortName = room?.Select_Resort;
     this.room_ids = roomIdarray;
     this.roomID = roomIdarray.map((roomId: string) => {
@@ -265,7 +302,6 @@ export class BookingSummaryComponent {
       );
       return room ? room.ID : null;
     });
-    console.log(this.roomID);
 
     this.room_ids.forEach((roomId: any) => {
       const room = this.roomData.find(
@@ -305,8 +341,6 @@ export class BookingSummaryComponent {
     //  payment details
 
     this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
-   
-
   }
 
   isLoggedIn(): boolean {
@@ -320,17 +354,8 @@ export class BookingSummaryComponent {
   submitBooking() {
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
-    console.log(this.adultsCount);
-    console.log(this.guestCount);
-    
-    console.log(
-      this.convertDateFormat(this.checkinDate),
-      this.convertDateFormat(this.checkoutDate),
-      this.resortName,
-      this.roomID,
-      this.adultsCount,
-      this.guestCount
-    );
+
+   
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
       this.subBillerId = 'JSTAR';
