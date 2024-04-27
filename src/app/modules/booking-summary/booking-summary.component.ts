@@ -57,6 +57,9 @@ export class BookingSummaryComponent {
   targetTime: any;
   difference: number;
   subBillerId: string;
+  isModalVisible: boolean = false;
+  isInfoModalVisible = false;
+
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
 
@@ -137,14 +140,12 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
-    // Clear local storage after 5 minutes
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
 
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      window.scrollTo(0, 0);
-    });
-  
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
@@ -169,14 +170,16 @@ export class BookingSummaryComponent {
     this.getUserDetails();
   }
 
-  isModalVisible: boolean = false;
 
   triggerModal() {
     this.isModalVisible = true;
   }
-
+  triggerInfoModal(){
+    this.isInfoModalVisible = true;
+  }
   onCancel() {
     this.isModalVisible = false;
+    this.isInfoModalVisible = false;
     // window.location.reload(); // Reload the page
   }
 
@@ -184,46 +187,50 @@ export class BookingSummaryComponent {
     this.isModalVisible = false;
     this.router.navigate(['/resorts/rooms']);
   }
+  onOk(){
 
+    this.submitBooking()
+    this.isInfoModalVisible = false;
+
+  }
   getUserDetails() {
-    // const params = new HttpParams()
-    //   .set('email', this.authService.getAccountUsername() ?? '')
-    //   .set('token', this.authService.getAccessToken() ?? '');
-    // this.http
-    //   .get<any>(
-    //     'https://vanavihari.com/zoho-connect?api_type=profile_details',
-    //     { params }
-    //   )
-    //   .subscribe({
-    //     next: (response) => {
-    //       if (response.code == 3000 && response.result.status == 'success') {
-    //         this.form = this.formBuilder.group({
-    //           gname: [response.result.name],
-    //           gphone: [response.result.phone],
-    //           gemail: [response.result.email, Validators.email],
-    //           dob: [response.result.dob, Validators.required],
-    //           nationality: [response.result.nationality],
-    //           gaddress: [response.result.address1],
-    //           address2: [response.result.address2],
-    //           gcity: [response.result.city],
-    //           gstate: [response.result.state],
-    //           gpincode: [response.result.pincode],
-    //           gcountry: [response.result.country],
-    //         });
-    //       } else if (response.code == 3000) {
-    //         this.userService.clearUser();
-    //         alert('Login Error!');
-    //         // this.router.navigate(['/home']);
-    //       } else {
-    //         this.userService.clearUser();
-    //         alert('Login Error!');
-    //         // this.router.navigate(['/home']);
-    //       }
-    //     },
-    //     error: (err) => {
-    //       console.error('Error:', err);
-    //     },
-    //   });
+    const params = new HttpParams()
+      .set('email', this.authService.getAccountUsername() ?? '')
+      .set('token', this.authService.getAccessToken() ?? '');
+    this.http
+      .get<any>(
+        'https://vanavihari.com/zoho-connect?api_type=profile_details',
+        { params }
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.code == 3000 && response.result.status == 'success') {
+            this.form.patchValue({
+              gname: [response.result.name],
+              gphone: [response.result.phone],
+              gemail: [response.result.email],
+              gaddress: [response.result.address1],
+              gcity: [response.result.city],
+              gstate: [response.result.state],
+              gpincode: [response.result.pincode],
+              gcountry: [response.result.country],
+              foodPreference:[response.result.foodPreference]
+            });
+            console.log(this.form.value)
+          } else if (response.code == 3000) {
+            this.userService.clearUser();
+            alert('Login Error!');
+            // this.router.navigate(['/home']);
+          } else {
+            this.userService.clearUser();
+            alert('Login Error!');
+            // this.router.navigate(['/home']);
+          }
+        },
+        error: (err) => {
+          console.error('Error:', err);
+        },
+      });
   }
 
   parseDate(date: Date): { day: number; month: string; year: number } {
@@ -408,15 +415,10 @@ export class BookingSummaryComponent {
               const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
               const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' + rU + '&' + Date.now().toFixed().substring(0, 10);
-              console.log(str);
-              
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
               const msg = `${str}|${checksum}`;
-              console.log(msg);
-              return;
-              
 
               let pg_params = new HttpParams()
                 .set('MerchantId', MerchantId)
@@ -492,11 +494,6 @@ export class BookingSummaryComponent {
     });
   }
 
-  generateJWSToken() {
-    this.http.post<any>('https://vanavihari.com/test', {}).subscribe({
-      next: (response) => {},
-    });
-  }
   urlBase64Encode(str: string): string {
     let base64 = btoa(unescape(encodeURIComponent(str)));
     const padding = '='.repeat((4 - (base64.length % 4)) % 4);

@@ -51,11 +51,11 @@
                             <div *ngIf="validCaptchaError && !captchaError">{{'Please enter Valid captcha' | languageTranslatorImpure}}
                             </div> -->
                 <!-- </div> -->
-                <button mat-raised-button color="primary" (click)="goToSignin()" class="w-100 mt-1">Sign In</button>
+                <button mat-raised-button color="primary" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1">Sign In</button>
                 <!-- <a (click)="register()">Register here</a> -->
-                <div class="alert alert-success mt-3" role="alert" *ngIf="showAlert">
+                <!-- <div class="alert alert-success mt-3" role="alert" *ngIf="showAlert">
                   Login successfully
-                </div>
+                </div> -->
                 
               </form>
               <div class="d-flex justify-content-between mt-5">

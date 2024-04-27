@@ -34,7 +34,9 @@ export class SignUpComponent implements OnInit {
   isChecked: boolean = false;
   termsAccepted: boolean = false;
   isLoading: boolean = false;
-  showAlert:boolean=false
+  showAlert:boolean=false;
+  returnUrl: string = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -45,7 +47,10 @@ export class SignUpComponent implements OnInit {
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+
+  }
   // {
   //   this.form = this.formBuilder.group(
   //     {
@@ -147,7 +152,7 @@ export class SignUpComponent implements OnInit {
 
       this.http
         .get<any>(
-          'https://www.zohoapis.com/creator/custom/vanavihari/Account_Registration?publickey=kFs7xRDC5eRPfyCQ0W7yQNCRv&fullname=Venkat&email=venkat408prabhu@gmail.com&mobile=8056562076&password=123456',
+          'https://vanavihari.com/zoho-connect?api_type=register',
           { params }
         )
         .subscribe({
@@ -156,6 +161,8 @@ export class SignUpComponent implements OnInit {
               this.isLoading = false;
               this.showSuccessAlert();
               this.showAlert=false
+              this.router.navigateByUrl(this.returnUrl);
+
             } else if (response.code == 3000) {
               this.isLoading = false;
               this.showErrorAlert(response.result.msg);
