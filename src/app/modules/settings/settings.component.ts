@@ -57,11 +57,11 @@ export class SettingsComponent
 
         } else if (response.code == 3000) {
           this.userService.clearUser();
-          alert('Login Error!');
+          // alert('Login Error!');
           this.router.navigate(['/home']);
         } else {
           this.userService.clearUser();
-          alert('Login Error!');
+          // alert('Login Error!');
           this.router.navigate(['/home']);
         }
       },
@@ -137,7 +137,7 @@ export class SettingsComponent
     this.storedUser = { ...this.storedUser, ...this.form.value };
     this.userService.setUser(this.storedUser); 
     this.editingField = null;
-    alert('Changes saved successfully!');
+    // alert('Changes saved successfully!');
   }
 
   goToSignin() {

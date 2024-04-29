@@ -292,13 +292,14 @@
                 />
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="mt-3" *ngIf="selectedResort=='Jungle Star, Valamuru'">
+              <mat-form-field
+                appearance="outline"
+                class="mt-3"
+                *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+              >
                 <mat-label>Food Preference</mat-label>
 
-                <select
-                matNativeControl
-                  formControlName="gpincode"
-                >
+                <select matNativeControl formControlName="gpincode">
                   <option value="vegetarian">Vegetarian</option>
                   <option value="nonvegetarian">Non-Vegetarian</option>
                 </select>
@@ -312,6 +313,15 @@
                 Confirm and Pay
               </button>
               <section class="booking-terms mt-4">
+                <p>
+                  🛑 Please avoid closing or returning to the previous page
+                  before completing payment.
+                </p>
+                <p>
+                  💳 If payment isn't successful, you won't receive an invoice
+                  via email. However, you'll still get booking details. Contact
+                  support with your booking ID to confirm your reservation.
+                </p>
                 <h5 class="mb-3">Review the terms before booking.</h5>
                 <div class="row row-cols-1 row-cols-md-2 g-4">
                   <div class="col">
@@ -441,9 +451,9 @@
   class="modal"
   tabindex="-1"
   *ngIf="isInfoModalVisible"
-  style="display: block"
+  [ngStyle]="getModalStyles()"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
@@ -456,8 +466,13 @@
       </div>
       <div class="modal-body">
         <p>
-          In the next payment page, do not close or press back btn, swap or
-          minimise windows or applications. Otherwise payment may fail.
+          🛑 Please avoid closing or returning to the previous page before
+          completing payment.
+        </p>
+        <p>
+          💳 If payment isn't successful, you won't receive an invoice via
+          email. However, you'll still get booking details. Contact support with
+          your booking ID to confirm your reservation.
         </p>
       </div>
       <div class="modal-footer">

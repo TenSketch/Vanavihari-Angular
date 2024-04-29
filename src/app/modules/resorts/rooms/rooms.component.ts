@@ -122,6 +122,7 @@ export class RoomsComponent implements OnInit {
   storedData: any;
   addExtraGuestCharge = false;
   removeExtraGuestCharge = false;
+  isPromptModalVisible = false;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -615,6 +616,17 @@ export class RoomsComponent implements OnInit {
     return payablePrice;
   }
 
+  triggerModal(){
+     let status = this.userService.isLoggedIn();
+    if (status) {
+      this.router.navigate(['/booking-summary']);
+    } else {
+      // this.router.navigate(['/booking-summary']);
+      this.isPromptModalVisible = true
+    }
+  }
+
+
   goToBooking() {
     let summary = {
       booking_rooms: localStorage.getItem('booking_rooms'),
@@ -645,14 +657,24 @@ export class RoomsComponent implements OnInit {
       localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
     }
 
-    let status = this.userService.isLoggedIn();
-    if (status) {
-      this.router.navigate(['/booking-summary']);
-    } else {
-      // this.router.navigate(['/booking-summary']);
+    // let status = this.userService.isLoggedIn();
+    // if (status) {
+    //   this.router.navigate(['/booking-summary']);
+    // } else {
+    //   // this.router.navigate(['/booking-summary']);
 
-      this.router.navigate(['/sign-in'],{ queryParams: { returnUrl: 'resorts/rooms' } });
-    }
+    //   this.router.navigate(['/sign-in']);
+    // }
+  }
+
+  signIn(){
+    localStorage.setItem('guestMail','')
+    this.router.navigate(['/sign-in']);
+  }
+
+  Guest(){
+    this.router.navigate(['/booking-summary']);
+     
   }
 
   trackByRoomCard(index: number, card: any): string {

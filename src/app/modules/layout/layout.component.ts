@@ -55,7 +55,6 @@ export class LayoutComponent implements OnInit {
     this.userService.logout(); // Implement this method in UserService to clear authentication state
 
     this.router.navigate(['/home']);
-    alert('Logout Successfully');
   }
 
   toggleSidebar() {

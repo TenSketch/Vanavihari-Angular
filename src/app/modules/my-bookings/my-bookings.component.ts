@@ -10,7 +10,9 @@ import { UserService } from '../../user.service';
 export class MyBookingsComponent {
 
   bookingData:any[]=[]
+  message:any
   formattedDate: { day: string, month: string };
+  noBookings = false
 
   constructor(private http: HttpClient, private userService: UserService) {}
   ngOnInit(): void {
@@ -27,8 +29,14 @@ export class MyBookingsComponent {
           this.bookingData = response.result.details
           console.log(this.bookingData)
           console.log(response.result.details.checkin)
+          if(this.bookingData.length == 0){
+             this.message = 'You have not made any bookings yet'
+             this.noBookings = true
+          }
         },
         error: (err) => {
+          this.noBookings = true
+          this.message = err
           console.error('Error:', err);
         },
     });

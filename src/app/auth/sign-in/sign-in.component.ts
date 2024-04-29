@@ -14,9 +14,11 @@ import { AuthService } from '../../auth.service';
 export class SignInComponent implements OnInit {
   form: FormGroup;
   isLoading: boolean = false;
-  showAlert:boolean=false;
+  showAlert: boolean = false;
   returnUrl: string = '';
-  disableSign = false
+  disableSign = false;
+  lastRoute: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -40,35 +42,30 @@ export class SignInComponent implements OnInit {
     //     this.showSnackBarAlert(message);
     //   }
     // });
-    
   }
 
   onSubmit() {
-   this.disableSign = true
+    this.disableSign = true;
     if (this.form.valid) {
       this.isLoading = true;
-      this.showAlert=true
+      this.showAlert = true;
       const params = new HttpParams()
         .set('username', this.form.value.email_address)
         .set('password', this.form.value.password);
 
       this.http
-        .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=login',
-          { params }
-        )
+        .get<any>('https://vanavihari.com/zoho-connect?api_type=login', {
+          params,
+        })
         .subscribe({
           next: (response) => {
-             this.disableSign = false
+            this.disableSign = false;
             console.log('response--', response);
             if (response.code == 3000 && response.result.status == 'success') {
               this.isLoading = false;
-              this.showAlert=false
-              this.showSnackBarAlert(
-                'Login Success',
-                false
-              );
-              console.log(response.result.token)
+              this.showAlert = false;
+              this.showSnackBarAlert('Login Success', false);
+              console.log(response.result.token);
               this.authService.setAccessToken(response.result.token);
               this.authService.setAccountUsername(
                 this.form.value.email_address
@@ -76,8 +73,12 @@ export class SignInComponent implements OnInit {
               this.authService.setAccountUserFullname(
                 response.result.userfullname
               );
-              this.router.navigateByUrl('resorts/rooms');
-
+              let rooms = localStorage.getItem('booking_rooms');
+              if (rooms == '[]') {
+                this.router.navigateByUrl('resorts/rooms');
+              } else {
+                this.router.navigateByUrl('booking-summary');
+              }
             } else if (response.code == 3000) {
               this.isLoading = false;
               this.showSnackBarAlert(response.result.msg);
@@ -87,7 +88,7 @@ export class SignInComponent implements OnInit {
             }
           },
           error: (err) => {
-            this.disableSign = false
+            this.disableSign = false;
 
             this.isLoading = false;
             console.error('Error:', err);
@@ -100,7 +101,9 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['/sign-in']);
   }
   goToSignup() {
-    this.router.navigate(['/sign-up'],{ queryParams: { returnUrl: '/sign-in' } });
+    this.router.navigate(['/sign-up'], {
+      queryParams: { returnUrl: '/sign-in' },
+    });
   }
 
   showSnackBarAlert(msg = '', redirect = true) {

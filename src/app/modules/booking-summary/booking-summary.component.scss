@@ -115,6 +115,23 @@ td {
   
 }
 
+.centered-modal {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 992px) {
+  .centered-modal {
+    display: block; // Reset display property for larger screens
+    position: static; // Reset position property for larger screens
+    transform: none; // Reset transform property for larger screens
+  }
+}
+
+
 @media screen and (max-width: 430px) {
   .count-down-timer {
     max-width: 150px;
