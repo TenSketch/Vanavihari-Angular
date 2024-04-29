@@ -438,10 +438,10 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              const amount = 5;
+              const amount = 5.00;
               const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
-              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|' + rU + '&' + Date.now().toFixed().substring(0, 10);
+              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|'+this.subBillerId+'|NA|NA|NA|NA|NA|NA|' + rU;
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
