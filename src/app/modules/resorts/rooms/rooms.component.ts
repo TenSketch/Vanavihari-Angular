@@ -135,8 +135,8 @@ export class RoomsComponent implements OnInit {
   modalPromise: any;
   @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
-  guestCheck : any
-  signinCheck: any
+  guestCheck: any;
+  signinCheck: any;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -183,8 +183,7 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    if(this.selectedResort){
-
+    if (this.selectedResort) {
       this.fetchRoomList();
     }
 
@@ -198,7 +197,7 @@ export class RoomsComponent implements OnInit {
     // ).subscribe(() => {
     //   window.scrollTo(0, 0);
     // });
-  
+
     // Set extra_guests in localStorage to an empty array
     localStorage.setItem('extra_guests', JSON.stringify([]));
 
@@ -328,10 +327,9 @@ export class RoomsComponent implements OnInit {
       behavior: 'smooth',
     });
   }
-  
 
   scrollRight(cardContainer: HTMLElement) {
-  cardContainer.scrollBy({
+    cardContainer.scrollBy({
       left: 250,
       behavior: 'smooth',
     });
@@ -465,11 +463,10 @@ export class RoomsComponent implements OnInit {
           this.filteredRoomData = this.filterByResort(this.selectedResort);
           if (this.roomData.length == 0) {
             this.isRoomDataEmpty = true;
-          }
-          else{
+          } else {
             this.isRoomDataEmpty = false;
           }
-          console.log(this.isRoomDataEmpty)
+          console.log(this.isRoomDataEmpty);
         },
         error: (err) => {
           this.loadingRooms = false;
@@ -618,16 +615,18 @@ export class RoomsComponent implements OnInit {
     return payablePrice;
   }
 
-  triggerModal(){
-     let status = this.userService.isLoggedIn();
+  triggerModal() {
+    this.guestCheck = false
+    this.signinCheck = false
+    let status = this.userService.isLoggedIn();
     if (status) {
+      this.goToBooking()
       this.router.navigate(['/booking-summary']);
     } else {
       // this.router.navigate(['/booking-summary']);
-      this.isPromptModalVisible = true
+      this.isPromptModalVisible = true;
     }
   }
-
 
   goToBooking() {
     let summary = {
@@ -657,19 +656,25 @@ export class RoomsComponent implements OnInit {
       });
 
       const promise = new Promise<void>((resolve, reject) => {
-        localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
-        resolve(); // Resolve the promise once localStorage operation is completed
+        try {
+          localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
+           console.log('1')
+          resolve(); // Resolve the promise once localStorage operation is completed
+        } catch (error) {
+          reject(error); // Reject the promise if an error occurs during storage
+        }
       });
-    
+
       promise.then(() => {
+        console.log('2');
         // Call your function or method here
-        if(this.guestCheck){
+        if (this.guestCheck) {
           this.router.navigate(['/booking-summary']);
         }
-        if(this.signinCheck){
+        if (this.signinCheck) {
           this.router.navigate(['/sign-in']);
-        }      });
-
+        }
+      });
     }
 
     // let status = this.userService.isLoggedIn();
@@ -680,19 +685,18 @@ export class RoomsComponent implements OnInit {
 
     //   this.router.navigate(['/sign-in']);
     // }
-    
   }
 
-  signIn(){
-    this.signinCheck = true
-    this.guestCheck = false
-    this.goToBooking()
+  signIn() {
+    this.signinCheck = true;
+    this.guestCheck = false;
+    this.goToBooking();
   }
 
-  Guest(){
-    this.guestCheck = true
-    this.signinCheck = false
-     this.goToBooking()
+  Guest() {
+    this.guestCheck = true;
+    this.signinCheck = false;
+    this.goToBooking();
   }
 
   trackByRoomCard(index: number, card: any): string {

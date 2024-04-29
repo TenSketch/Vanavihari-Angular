@@ -11,8 +11,8 @@
             <!-- Room image and resort details -->
             <div class="col-md-3 room-image">
               <img
-                src="assets/img/pamuleru/img-1.jpg"
-                class="img-fluid"
+              src="{{ getRoomImages(item.rooms.name)[0] }}"
+              class="img-fluid"
                 alt="Room Image"
               />
             </div>
@@ -42,21 +42,24 @@
                 </div>
                 <div class="show-date">
                   <p>Check-out</p>
-                  <h1 class="display-3">20</h1>
-                  <p>May 2024</p>
+                  <h1 class="display-3">{{ formatDate(item.checkout).day }}</h1>
+                  <p> {{ formatDate(item.checkout).month }}
+                    {{ formatDate(item.checkout).year }}</p>
                 </div>
               </div>
             </div>
             <div class="col-md-3 d-flex flex-column booking-status">
               <p>Status:</p>
               <h6>{{ item.status }}</h6>
-              <button class="btn btn-primary mt-2">Call Support</button>
-              <button class="btn btn-primary mt-2 d-none" [disabled]="true">
+              <button class="btn  mt-2">Call Support</button>
+              <button class="btn  mt-2 d-none" [disabled]="true">
                 Cancel
               </button>
 
-              <button class="btn btn-primary mt-2">Add Review</button>
-
+              <button class="btn  mt-2" [disabled]="item.status !== 'completed'">
+                Add Review
+              </button>
+              
               <!-- Booking status and completion button -->
             </div>
           </div>
