@@ -140,6 +140,7 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
+    console.log(this.isMobileOrTablet())
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -170,6 +171,32 @@ export class BookingSummaryComponent {
     this.getUserDetails();
   }
 
+  isMobileOrTablet(): boolean {
+    const screenWidth = window.innerWidth;
+    return screenWidth < 992; // 992px is the Bootstrap breakpoint for medium devices
+  }
+  getModalStyles(): object {
+    if (this.isMobileOrTablet()) {
+      return {
+        display: 'block',
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      };
+    } else {
+      return {
+        display: 'block',
+        position: 'fixed',
+        top: '%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+
+
+      }; // Return empty object for default styles on larger devices
+    }
+  }
+  
 
   triggerModal() {
     this.isModalVisible = true;
@@ -219,11 +246,12 @@ export class BookingSummaryComponent {
             console.log(this.form.value)
           } else if (response.code == 3000) {
             this.userService.clearUser();
-            alert('Login Error!');
+            
+            // alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
             this.userService.clearUser();
-            alert('Login Error!');
+            // alert('Login Error!');
             // this.router.navigate(['/home']);
           }
         },

@@ -1,52 +1,68 @@
 <app-layout>
-  <div class="main">
-     <section class="min-vh-noscroll">
-          <div class="container booking-container">
-              <div class="booking-card">
-                <h1>My Bookings</h1>
-                <div class="row" *ngFor="let item of bookingData">
-                  <!-- Room image and resort details -->
-                  <div class="col-md-3 room-image">
-                    <img src="assets/img/pamuleru/img-1.jpg" class="img-fluid" alt="Room Image">
-                  </div>
-                  <div class="col-md-3 booking-details">
-                    <h4><strong>Resort name:</strong> {{item.rooms.restort}}</h4>
-                    <p><strong>Room name:</strong> {{item.rooms.name}}</p>
-                    <p><strong>Cottage type:</strong> {{item.rooms.cottage}}</p>
-                    <p><strong>Guest info:</strong> {{item.noof_guest}} guests, {{item.noof_children}} child, {{item.noof_extra_guest}} extra guest</p>
-                    <p><strong>Total amount:</strong> {{item.payable_amt}}</p>
-                    <p><strong>Food preference:</strong> Vegetarian</p>
-                  </div>
-                  <div class="col-md-3 bordered-col">
-                    <!-- Booking dates -->
-                    <h3>Booking dates</h3>
-                    <div class="d-flex gap-3">
-                      <div class="show-date">
-                        <p>Check-in</p>
-                        <h1 class="display-3">{{ formatDate(item.checkin).day}} </h1>
-                        <p>{{ formatDate(item.checkin).month}}  {{ formatDate(item  .checkin).year}}</p>
-                      </div>
-                      <div class="show-date">
-                        <p>Check-out</p>
-                        <h1 class="display-3">20</h1>
-                        <p>May 2024</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 d-flex flex-column booking-status">
-                    <p>Status:</p>
-                    <h6>{{item.status}}</h6>
-                    <button class="btn btn-primary mt-2">Call Support</button>
-                    <button class="btn btn-primary mt-2 d-none" [disabled]="true">Cancel</button>
-
-                    <button class="btn btn-primary mt-2">Add Review</button>
-
-                    <!-- Booking status and completion button -->
-                  </div>
+  <div class="main d-flex justify-content-center align-items-center">
+    <div class="container booking-container  text-center" style="position: fixed; display: block; top: 30%;" *ngIf="noBookings">
+      <p>{{ message }}</p>
+    </div>
+    <section class="min-vh-noscroll">
+      <div class="container booking-container" *ngIf="!noBookings">
+        <div class="booking-card">
+          <h1>My Bookings</h1>
+          <div class="row" *ngFor="let item of bookingData">
+            <!-- Room image and resort details -->
+            <div class="col-md-3 room-image">
+              <img
+                src="assets/img/pamuleru/img-1.jpg"
+                class="img-fluid"
+                alt="Room Image"
+              />
+            </div>
+            <div class="col-md-3 booking-details">
+              <h4><strong>Resort name:</strong> {{ item.rooms.restort }}</h4>
+              <p><strong>Room name:</strong> {{ item.rooms.name }}</p>
+              <p><strong>Cottage type:</strong> {{ item.rooms.cottage }}</p>
+              <p>
+                <strong>Guest info:</strong> {{ item.noof_guest }} guests,
+                {{ item.noof_children }} child,
+                {{ item.noof_extra_guest }} extra guest
+              </p>
+              <p><strong>Total amount:</strong> {{ item.payable_amt }}</p>
+              <p><strong>Food preference:</strong> Vegetarian</p>
+            </div>
+            <div class="col-md-3 bordered-col">
+              <!-- Booking dates -->
+              <h3>Booking dates</h3>
+              <div class="d-flex gap-3">
+                <div class="show-date">
+                  <p>Check-in</p>
+                  <h1 class="display-3">{{ formatDate(item.checkin).day }}</h1>
+                  <p>
+                    {{ formatDate(item.checkin).month }}
+                    {{ formatDate(item.checkin).year }}
+                  </p>
+                </div>
+                <div class="show-date">
+                  <p>Check-out</p>
+                  <h1 class="display-3">20</h1>
+                  <p>May 2024</p>
                 </div>
               </div>
             </div>
-        </section>
-         
-    </div>
+            <div class="col-md-3 d-flex flex-column booking-status">
+              <p>Status:</p>
+              <h6>{{ item.status }}</h6>
+              <button class="btn btn-primary mt-2">Call Support</button>
+              <button class="btn btn-primary mt-2 d-none" [disabled]="true">
+                Cancel
+              </button>
+
+              <button class="btn btn-primary mt-2">Add Review</button>
+
+              <!-- Booking status and completion button -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   
+  </div>
 </app-layout>
