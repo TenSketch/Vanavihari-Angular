@@ -188,7 +188,7 @@ export class BookingSummaryComponent {
       return {
         display: 'block',
         position: 'fixed',
-        top: '%',
+        top: '15%',
         left: '50%',
         transform: 'translate(-50%, -50%)'
 
@@ -246,7 +246,6 @@ export class BookingSummaryComponent {
             console.log(this.form.value)
           } else if (response.code == 3000) {
             this.userService.clearUser();
-            
             // alert('Login Error!');
             // this.router.navigate(['/home']);
           } else {
