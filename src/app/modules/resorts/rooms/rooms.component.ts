@@ -656,7 +656,20 @@ export class RoomsComponent implements OnInit {
         }
       });
 
-      localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
+      const promise = new Promise<void>((resolve, reject) => {
+        localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
+        resolve(); // Resolve the promise once localStorage operation is completed
+      });
+    
+      promise.then(() => {
+        // Call your function or method here
+        if(this.guestCheck){
+          this.router.navigate(['/booking-summary']);
+        }
+        if(this.signinCheck){
+          this.router.navigate(['/sign-in']);
+        }      });
+
     }
 
     // let status = this.userService.isLoggedIn();
@@ -667,12 +680,7 @@ export class RoomsComponent implements OnInit {
 
     //   this.router.navigate(['/sign-in']);
     // }
-    if(this.guestCheck){
-      this.router.navigate(['/booking-summary']);
-    }
-    if(this.signinCheck){
-      this.router.navigate(['/sign-in']);
-    }
+    
   }
 
   signIn(){
