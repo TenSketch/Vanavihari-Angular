@@ -135,6 +135,8 @@ export class RoomsComponent implements OnInit {
   modalPromise: any;
   @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
+  guestCheck : any
+  signinCheck: any
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -665,16 +667,24 @@ export class RoomsComponent implements OnInit {
 
     //   this.router.navigate(['/sign-in']);
     // }
+    if(this.guestCheck){
+      this.router.navigate(['/booking-summary']);
+    }
+    if(this.signinCheck){
+      this.router.navigate(['/sign-in']);
+    }
   }
 
   signIn(){
-    localStorage.setItem('guestMail','')
-    this.router.navigate(['/sign-in']);
+    this.signinCheck = true
+    this.guestCheck = false
+    this.goToBooking()
   }
 
   Guest(){
-    this.router.navigate(['/booking-summary']);
-     
+    this.guestCheck = true
+    this.signinCheck = false
+     this.goToBooking()
   }
 
   trackByRoomCard(index: number, card: any): string {
