@@ -9,9 +9,6 @@ export class AppComponent {
   title = 'vKYC';
 
 
-  ngOnInit() {
-    window.scrollTo(0, 0);
-   
-  }
+ 
 
 }
