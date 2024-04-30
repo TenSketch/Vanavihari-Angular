@@ -390,11 +390,11 @@ export class BookingSummaryComponent {
    
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
-      this.subBillerId = 'JSTAR';
+      this.subBillerId = 'MMILLI';
     }
     if (this.resortName == 'Jungle Star, Valamuru') {
       this.resort_name = 'jungle-star';
-      this.subBillerId = 'MMILLI';
+      this.subBillerId = 'JSTAR';
     }
     if (this.form.valid) {
       let params = new HttpParams()
