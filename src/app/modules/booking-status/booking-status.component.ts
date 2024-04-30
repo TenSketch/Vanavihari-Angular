@@ -8,6 +8,7 @@ import { UserService } from 'src/app/user.service';
 interface ReservationDetails {
   guestName: string;
   resortName: string;
+  transactionId: string;
   resortLocation: string;
   bookingId: string;
   checkInDate: string;
@@ -72,6 +73,7 @@ export class BookingStatusComponent {
             this.reservationDetails = {
               guestName: response.result.guest_name,
               resortName: this.bookingTypeResort,
+              transactionId: response.result.payment_transaction_id??null,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
               checkInDate: response.result.checkin,
