@@ -83,7 +83,6 @@ export class HomeComponent implements OnInit {
 
   // onBeforeSlide(detail: BeforeSlideDetail): void {
   //   const { index, prevIndex } = detail;
-  //   // console.log(`Slide changed from ${prevIndex} to ${index}`);
   // }
   openLightbox(index: number, id: string) {
     this.resortTypeId = id;

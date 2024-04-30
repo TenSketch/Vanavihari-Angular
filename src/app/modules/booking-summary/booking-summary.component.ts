@@ -140,7 +140,6 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
-    console.log(this.isMobileOrTablet())
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -243,7 +242,6 @@ export class BookingSummaryComponent {
               gcountry: [response.result.country],
               foodPreference:[response.result.foodPreference]
             });
-            console.log(this.form.value)
           } else if (response.code == 3000) {
             this.userService.clearUser();
             // alert('Login Error!');
