@@ -26,9 +26,7 @@ export class MyBookingsComponent {
       )
       .subscribe({
         next: (response) => {
-          console.log(response.result.details);
           this.bookingData = response.result.details
-          console.log(this.bookingData)
           
 
           if(this.bookingData.length == 0){
@@ -193,7 +191,6 @@ export class MyBookingsComponent {
           ...json[key]
         };
     });
-    console.log(jsonArray);
     
     // this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
 

@@ -29,7 +29,6 @@ export class LayoutComponent implements OnInit {
     this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=profile_details', {params}).subscribe({
       next: response => {
         if(response.code == 3000 && response.result.status == 'success') {
-          console.log(response.result)
           this.userData = response.result
         } else if (response.code == 3000) {
           this.userService.clearUser();
@@ -93,12 +92,19 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/my-account/my-bookings']);
   }
   goToVanavihari() {
-    this.authService.setSearchData( [{ resort:'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
     
-    this.searchService.setSearchCriteria('Vanavihari, Maredumilli')
+    this.authService.setSearchData([{ resort: 'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
+    this.searchService.setSearchCriteria('Vanavihari, Maredumilli');
     this.authService.buttonClick$.next();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanvihari' } });
     
+    // Update query parameters without reloading the page
+    this.router.navigate(['/resorts/rooms'], {
+      queryParams: { bookingTypeResort: 'vanvihari' },
+      queryParamsHandling: 'merge' // Merge new query params with existing ones
+    });
+    
+    window.location.reload()
+
   }
 
   goToJungleStar() {
@@ -106,7 +112,12 @@ export class LayoutComponent implements OnInit {
     
     this.searchService.setSearchCriteria('Jungle Star, Valamuru')
     this.authService.buttonClick$.next();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "junglestar" } });
+    this.router.navigate(['/resorts/rooms'], {
+      queryParams: { bookingTypeResort: 'junglestar' },
+      queryParamsHandling: 'merge' // Merge new query params with existing ones
+    });  
+    window.location.reload()
+
   }
   goToTourist()
   {

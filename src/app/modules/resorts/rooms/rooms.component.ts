@@ -466,7 +466,6 @@ export class RoomsComponent implements OnInit {
           } else {
             this.isRoomDataEmpty = false;
           }
-          console.log(this.isRoomDataEmpty);
         },
         error: (err) => {
           this.loadingRooms = false;
@@ -658,7 +657,6 @@ export class RoomsComponent implements OnInit {
       const promise = new Promise<void>((resolve, reject) => {
         try {
           localStorage.setItem('room_data', JSON.stringify(roomDataToStore));
-           console.log('1')
           resolve(); // Resolve the promise once localStorage operation is completed
         } catch (error) {
           reject(error); // Reject the promise if an error occurs during storage
@@ -666,7 +664,6 @@ export class RoomsComponent implements OnInit {
       });
 
       promise.then(() => {
-        console.log('2');
         // Call your function or method here
         if (this.guestCheck) {
           this.router.navigate(['/booking-summary']);

@@ -660,12 +660,8 @@
                     >
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
-                          <strong>{{
-                            isWeekend
-                              ? room.Week_End_Rate
-                              : (room.Week_Days_Rate
-                                | currency : "INR " : true : "1.2-2")
-                          }}</strong>
+                          <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
+                          </strong>
                         </h6>
                         <p class="text-primary-dark">For 2 guests</p>
                       </div>
@@ -673,11 +669,11 @@
                         <h6 class="p-0 m-0">
                           <strong
                             *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-                            >{{ 500 | currency : "INR " : true : "1.2-2" }}
+                            >{{ 500  }}
                           </strong>
                           <strong
                             *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                            >{{ 1500 | currency : "INR " : true : "1.2-2" }}
+                            >{{ 1500 }}
                           </strong>
                         </h6>
                         <p class="text-primary-dark">For an extra guest</p>

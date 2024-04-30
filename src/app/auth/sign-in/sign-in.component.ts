@@ -60,12 +60,10 @@ export class SignInComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.disableSign = false;
-            console.log('response--', response);
             if (response.code == 3000 && response.result.status == 'success') {
               this.isLoading = false;
               this.showAlert = false;
               this.showSnackBarAlert('Login Success', false);
-              console.log(response.result.token);
               this.authService.setAccessToken(response.result.token);
               this.authService.setAccountUsername(
                 this.form.value.email_address
