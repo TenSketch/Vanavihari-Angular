@@ -36,12 +36,14 @@
                       <strong>Email:</strong>
                       {{ reservationDetails.email }}
                     </p>
-                    <p>
-                    <p>
-                  <p>
-                    <strong>Booking ID:</strong>
-                    {{ reservationDetails.bookingId }}
-                  </p>
+                      <p>
+                        <strong>Booking ID:</strong>
+                        {{ reservationDetails.bookingId }}
+                      </p>
+                      <p *ngIf="reservationDetails.transactionId">
+                        <strong>Transaction Id:</strong>
+                        {{ reservationDetails.transactionId }}
+                      </p>
                   <p>
                     <strong>Check-in:</strong>
                     {{ reservationDetails.checkInDate }}
@@ -74,7 +76,7 @@
                 </div>
                 <p class="">
                   Your invoice and booking details have been sent to your email at
-                  <strong>guest@gmail.com</strong>
+                  <strong>{{ reservationDetails.email }}</strong>
                 </p>
               </div>
             </div>

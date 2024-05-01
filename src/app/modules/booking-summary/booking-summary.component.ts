@@ -390,11 +390,11 @@ export class BookingSummaryComponent {
    
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
-      this.subBillerId = 'JSTAR';
+      this.subBillerId = 'MMILLI';
     }
     if (this.resortName == 'Jungle Star, Valamuru') {
       this.resort_name = 'jungle-star';
-      this.subBillerId = 'MMILLI';
+      this.subBillerId = 'JSTAR';
     }
     if (this.form.valid) {
       let params = new HttpParams()
@@ -439,7 +439,7 @@ export class BookingSummaryComponent {
               const amount = "5.00";
               const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
-              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|'+this.subBillerId+'|NA|NA|NA|NA|NA|NA|' + rU;
+              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|'+this.subBillerId+'|'+this.form.value.gname+'|'+this.form.value.gphone+'|'+this.resort_name+'|NA|NA|NA|' + rU;
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
