@@ -76,7 +76,7 @@ export class BookingSummaryComponent {
       );
       const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
       if (this.difference <= 0) {
-        localStorage.clear();
+        // localStorage.clear();
         this.router.navigate(['resorts/rooms']);
       }
       this.minutes.nativeElement.innerText =
@@ -172,7 +172,7 @@ export class BookingSummaryComponent {
 
   isMobileOrTablet(): boolean {
     const screenWidth = window.innerWidth;
-    return screenWidth < 992; // 992px is the Bootstrap breakpoint for medium devices
+    return screenWidth < 992; 
   }
   getModalStyles(): object {
     if (this.isMobileOrTablet()) {
