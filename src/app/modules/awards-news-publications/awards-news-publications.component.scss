@@ -1,3 +1,13 @@
 .page-banner {
     background-image: url('/assets/img/home-gallery/vanavihari-home-gallery-1.jpg');
 }
+.nav-link.active {
+    color: #f06807 !important; 
+}
+.gallery-image {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .gallery-image:hover {
+    transform: scale(1.1);
+  }

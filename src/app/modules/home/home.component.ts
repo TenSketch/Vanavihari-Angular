@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   items: GalleryItem[] = [];
   resortTypeId:String
   localLightBox : any
+  bookingTypeResort : any
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -40,6 +41,8 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private searchService: SearchService
   ) {
+
+    this.authService.clearBookingRooms(this.bookingTypeResort)
 
     for (let i = 2; i <= 16; i++) {
       this.imageFilenames.push(

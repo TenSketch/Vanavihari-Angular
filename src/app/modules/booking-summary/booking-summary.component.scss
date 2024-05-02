@@ -68,7 +68,7 @@ td {
   position: fixed;
   top: 80px;
   right: 20px;
-  z-index: 9999;
+  z-index: 500;
   box-shadow: 2px 6px 9px 2px rgb(0 0 0 / 20%);
   text-align: center;
   background-color: #4d9900;
@@ -115,20 +115,8 @@ td {
   
 }
 
-.centered-modal {
-  display: block;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-@media (min-width: 992px) {
-  .centered-modal {
-    display: block; // Reset display property for larger screens
-    position: static; // Reset position property for larger screens
-    transform: none; // Reset transform property for larger screens
-  }
+.modal-dialog-centered{
+  top:10% !important;
 }
 
 
@@ -137,7 +125,6 @@ td {
     max-width: 150px;
     padding: 5px;
     top: 55px;
-
     .wrapper {
       margin-top: -5px;
       .title{

@@ -21,12 +21,13 @@
               <p><strong>Room name:</strong> {{ item.rooms.name }}</p>
               <p><strong>Cottage type:</strong> {{ item.rooms.cottage }}</p>
               <p>
-                <strong>Guest info:</strong> {{ item.noof_guest }} guests,
-                {{ item.noof_children }} child,
-                {{ item.noof_extra_guest }} extra guest
+                <strong>Guest info:</strong> 
+                <title>{{ item.noof_guest }} guests,
+                  {{ item.noof_children }} child,
+                  {{ item.noof_extra_guest }} extra guest</title>
               </p>
               <p><strong>Total amount:</strong> {{ item.payable_amt }}</p>
-              <p><strong>Food preference:</strong> Vegetarian</p>
+              <p *ngIf="item.food_preference"><strong>Food preference:</strong> {{ item.food_preference }}</p>
             </div>
             <div class="col-md-3 bordered-col">
               <!-- Booking dates -->

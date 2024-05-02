@@ -27,7 +27,6 @@ export class MyBookingsComponent {
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details
-          
 
           if(this.bookingData.length == 0){
              this.message = 'You have not made any bookings yet'

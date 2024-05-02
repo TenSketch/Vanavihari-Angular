@@ -1,32 +1,85 @@
- <app-layout>
-        <div class="main">
-            <section class="page-banner d-grid place-items-center">
-                <h1 class="display-3 text-center">Awards</h1>
-            </section>
-            <section class="my-5">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <ul class="list-unstyled">
-                                <li class="mb-3">
-                                    <p><strong>Eco-Friendly Tourism Achievement:</strong></p>
-                                    <p>In 2010, the Chairperson and Vice Chairperson of CBET were honored with the Eco-Friendly Tourism Award by the former esteemed Chief Minister of Andhra Pradesh, recognizing their commitment to sustainable tourism practices.</p>
-                                    <img src="assets\img\Awards and news.jpg" alt="Eco-Friendly Tourism Award Image">
-                                </li>
-                                <li class="mb-3">
-                                    <p><strong>National Recognition:</strong></p>
-                                    <p>At the Second National Level Convention on "Sustainable Action and Network through Community Leaders Programme" (SANCALP), hosted by the Indian Institute of Bio-Social Research and Development (IBRAD) in Calcutta in 2010-11, the CBET Coordinator was acknowledged with a certificate of appreciation.</p>
-                                    <img src="assets\img\AWARDS AND NEWS (1).jpg" alt="Eco-Friendly Tourism Award Image">
-                                </li>
-                                <li class="mb-3">
-                                    <p><strong>International Recognition Efforts:</strong></p>
-                                    <p>CBET, Maredumilli, has submitted proposals to the prestigious PATA (Pacific Asia Travel Association) international award, endorsed by the Department of Tourism, Government of Andhra Pradesh, as a commendation of its outstanding contributions to the tourism sector.</p>
-                                    <img src="assets\img\AWARDS AND NEWS (2).jpg" alt="Eco-Friendly Tourism Award Image">
-                            </li>
-                            </ul>
-                        </div>
-                    </div>
+<app-layout>
+    <div class="main">
+      <section class="page-banner d-grid place-items-center">
+        <h1 class="display-3 text-center">{{ title }}</h1>
+      </section>
+      <section class="my-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid m-0 p-0">
+                  <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div
+                    class="collapse navbar-collapse m-0 p-0"
+                    id="navbarSupportedContent"
+                  >
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item m-0 p-0">
+                        <a
+                          class="nav-link  m-0 p-0"
+                          (click)="
+                            showAwards = true; showNews = false; switchTitle()
+                          "
+                          [class.active]="showAwards"
+                          >Awards</a
+                        >
+                      </li>
+                      <li class="nav-item ms-5">
+                        <a
+                          class="nav-link  m-0 p-0"
+                          
+                          (click)="
+                            showNews = true; showAwards = false; switchTitle()
+                          "
+                          [class.active]="showNews"
+                          >News Articles</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-            </section>
+              </nav>
+              <div *ngIf="showAwards">
+                <ul class="list-unstyled">
+                  <li class="mb-3" *ngFor="let item of awards">
+                    <p><strong>{{item.header}}:</strong></p>
+                    <p>{{item.content}}</p>
+                    <img [src]="item.image" alt="Eco-Friendly Tourism Award Image">
+                </li>
+               
+                  <!-- Other awards content -->
+                </ul>
+              </div>
+              <div *ngIf="showNews">
+               <div class="col-md-8">
+                  <div class="masonry-layout" id="vanavihari-gallery">
+  
+                 
+                    <div class="gallerize-example">
+                     
+                      <p class="" gallerize>
+                        <img *ngFor="let img of imageFilenames;let i= index"      
+                        [src]="img" class="gallery-image">
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </app-layout>
+      </section>
+    </div>
+  </app-layout>
+  

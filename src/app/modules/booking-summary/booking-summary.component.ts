@@ -68,6 +68,8 @@ export class BookingSummaryComponent {
     this.targetTime = new Date();
     this.targetTime.setMinutes(this.targetTime.getMinutes() + 5);
 
+    let redirectDone = false; // Flag to track if redirection has been done
+
     setInterval(() => {
       this.tickTock();
       this.difference = this.targetTime - this.now;
@@ -75,7 +77,9 @@ export class BookingSummaryComponent {
         (this.difference % (1000 * 60 * 60)) / (1000 * 60)
       );
       const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
-      if (this.difference <= 0) {
+      if (this.difference <= 0 && !redirectDone) {
+        redirectDone = true; // Set flag to true to indicate redirection
+        this.authService.clearBookingRooms(this.bookingTypeResort)
         // localStorage.clear();
         this.router.navigate(['resorts/rooms']);
       }
@@ -85,6 +89,7 @@ export class BookingSummaryComponent {
         secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
     }, 1000);
   }
+
 
   tickTock() {
     this.date = new Date();
@@ -423,6 +428,7 @@ export class BookingSummaryComponent {
         })
         .subscribe({
           next: (response) => {
+            console.log(response)
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
@@ -536,7 +542,7 @@ export class BookingSummaryComponent {
     const arr = new Uint8Array(utf8.length);
     for (let i = 0; i < utf8.length; i++) {
       arr[i] = utf8.charCodeAt(i);
-    }
+    } 
     return arr;
   }
 }

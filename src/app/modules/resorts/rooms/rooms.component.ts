@@ -135,7 +135,6 @@ export class RoomsComponent implements OnInit {
   modalPromise: any;
   @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
-  guestCheck: any;
   signinCheck: any;
   constructor(
     private router: Router,
@@ -150,7 +149,7 @@ export class RoomsComponent implements OnInit {
     private galleryService: GalleryService
   ) {
     // this.authService.clearBookingRooms(this.bookingTypeResort);
-
+   
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
     const storedObjectString = localStorage.getItem('summaryData');
@@ -165,7 +164,9 @@ export class RoomsComponent implements OnInit {
       this.selectedResort = this.authService.getSearchData('resort');
       this.checkinDate = this.authService.getSearchData('checkin');
       this.checkoutDate = this.authService.getSearchData('checkout');
+      window.location.reload()
       this.fetchRoomList();
+      console.log(this.selectedResort)
     });
     this.checkIfWeekend(); // Check if it's a weekend on component initialization
 
@@ -192,6 +193,7 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     // this.router.events.pipe(
     //   filter(event => event instanceof NavigationEnd)
     // ).subscribe(() => {
@@ -615,7 +617,6 @@ export class RoomsComponent implements OnInit {
   }
 
   triggerModal() {
-    this.guestCheck = false
     this.signinCheck = false
     let status = this.userService.isLoggedIn();
     if (status) {
@@ -665,9 +666,7 @@ export class RoomsComponent implements OnInit {
 
       promise.then(() => {
         // Call your function or method here
-        if (this.guestCheck) {
-          this.router.navigate(['/booking-summary']);
-        }
+      
         if (this.signinCheck) {
           this.router.navigate(['/sign-in']);
         }
@@ -686,13 +685,6 @@ export class RoomsComponent implements OnInit {
 
   signIn() {
     this.signinCheck = true;
-    this.guestCheck = false;
-    this.goToBooking();
-  }
-
-  Guest() {
-    this.guestCheck = true;
-    this.signinCheck = false;
     this.goToBooking();
   }
 

@@ -4,6 +4,7 @@ import { UserService } from '../../user.service';
 import { AuthService } from '../../auth.service';
 import { SearchService } from 'src/app/search.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -11,14 +12,56 @@ import { HttpClient, HttpParams } from '@angular/common/http';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService, private http:HttpClient) {}
   accountusername: string = 'John Doe';
   isSidebarOpen: boolean = false;
   userData:any
+  resortNumber:any
+  resortAddress:any
+  resortEmail:any
+  selectedResort:any
+  private subscription : Subscription
 
+  constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService, private http:HttpClient) {
+    
+    this.subscription = this.authService.buttonClick$.subscribe(() => {
+      console.log('cliked now')
+      // Retrieve data when button is clicked
+      this.selectedResort = this.authService.getSearchData('resort');
+      console.log(this.selectedResort)
+      if(this.selectedResort=='Vanavihari, Maredumilli'){
+        this.resortNumber = '+919494151623'
+        this.resortAddress = 'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295'
+        this.resortEmail = 'info@vanavihari.com'
+      }
+      if(this.selectedResort=='Jungle Star, Valamuru'){
+        this.resortNumber = '+9173821 51617'
+        this.resortAddress = 'Jungle Nature Camp Site Treck Path Valamuru, Andhra Pradesh 533295'
+        this.resortEmail = 'junglestarecocamp@gmail.com'
+      }
+      
+    });
+
+    this.selectedResort = this.authService.getSearchData('resort');
+    console.log(this.selectedResort)
+    if(this.selectedResort=='Vanavihari, Maredumilli'){
+      this.resortNumber = '+919494151623'
+      this.resortAddress = 'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295'
+        this.resortEmail = 'info@vanavihari.com'
+    }
+    if(this.selectedResort=='Jungle Star, Valamuru'){
+      this.resortNumber = '+9173821 51617'
+      this.resortAddress = 'Jungle Nature Camp Site Treck Path Valamuru, Andhra Pradesh 533295'
+        this.resortEmail = 'junglestarecocamp@gmail.com'
+    }
+  }
+
+
+
+  
   ngOnInit(): void {
     this.accountusername = this.userService.getFullUser();
     // this.getUserData()
+    
   }
 
 
@@ -96,14 +139,17 @@ export class LayoutComponent implements OnInit {
     this.authService.setSearchData([{ resort: 'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
     this.searchService.setSearchCriteria('Vanavihari, Maredumilli');
     this.authService.buttonClick$.next();
-    
+    this.authService.removeRooms()
     // Update query parameters without reloading the page
     this.router.navigate(['/resorts/rooms'], {
       queryParams: { bookingTypeResort: 'vanvihari' },
       queryParamsHandling: 'merge' // Merge new query params with existing ones
     });
-    
-    window.location.reload()
+    // setTimeout(()=>{
+    //   window.location.reload()
+    // },500)
+
+
 
   }
 
@@ -112,12 +158,15 @@ export class LayoutComponent implements OnInit {
     
     this.searchService.setSearchCriteria('Jungle Star, Valamuru')
     this.authService.buttonClick$.next();
+    this.authService.removeRooms()
+
     this.router.navigate(['/resorts/rooms'], {
       queryParams: { bookingTypeResort: 'junglestar' },
       queryParamsHandling: 'merge' // Merge new query params with existing ones
     });  
-    window.location.reload()
-
+    // setTimeout(()=>{
+    //   window.location.reload()
+    // },500)
   }
   goToTourist()
   {

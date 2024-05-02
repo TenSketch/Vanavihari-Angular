@@ -15,6 +15,8 @@ export class AuthService {
   private extraGuests = 'extra_guests';
   private noofGuests = 'noof_guests'
   private searchData = 'search_data';
+  private summaryData ='summaryData'
+  private roomData = 'room_data'
 
   private refreshRoomsComponentSource = new Subject<void>();
   refreshRoomsComponent$ = this.refreshRoomsComponentSource.asObservable();
@@ -23,6 +25,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+
+  removeRooms(){
+    localStorage.setItem('booking_rooms', JSON.stringify([]));
+  }
+  
   sendDataToServer(apiUri: any, params: any): Observable<any> {
     // const headers = new HttpHeaders({
     //   'Content-Type': 'application/json'
@@ -98,6 +105,8 @@ export class AuthService {
     localStorage.removeItem(this.bookingRooms);
     localStorage.removeItem(this.extraGuests);
     localStorage.removeItem(this.noofGuests);
+    localStorage.removeItem(this.summaryData);
+    localStorage.removeItem(this.roomData);
 
   }
 

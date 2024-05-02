@@ -94,7 +94,7 @@ export class SearchResortComponent implements OnInit {
 
     this.authService.buttonClick$.next();
     localStorage.setItem('booking_rooms', JSON.stringify([]));
-    window.location.reload();
+    // window.location.reload();
     this.router.navigate(['resorts/rooms']);
   }
 
