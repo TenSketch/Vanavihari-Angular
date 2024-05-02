@@ -575,19 +575,7 @@
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
                 <div class="row">
                   <div class="col-md-5">
-                    <!-- <img [src]="room.image" alt="Resort Room image"> -->
-                    <!-- <div class="masonry-layout">
-                        <lightgallery [settings]="settings">
-                          <a
-                            *ngFor="let item of imageFilenames"
-                            className="gallery-item"
-                            [attr.href]="item"
-                          >
-                            <img className="img-responsive" src="{{ item }}" />
-                          </a>
-                        </lightgallery>
-                      </div> -->
-                    <!-- your-component.component.html -->
+                   
                     <div class="containerg">
                       <div class="card-containerg" #cardContainer>
                         <div
@@ -600,6 +588,7 @@
                             alt=""
                             (click)="showFullImage(item)"
                           />
+                          
                         </div>
                       </div>
                       <div
@@ -608,7 +597,22 @@
                         (click)="closeFullImage()"
                       >
                         <div class="full-image-container">
+                          <div
+                          class="scroll-icon left"
+                          (click)="scrollLeft(cardContainer)"
+                          #scrollLeftIcon
+                        >
+                          &#10094;
+                        </div>
                           <img class="full-image" [src]="fullImageSrc" alt="" />
+                          <div
+                          class="scroll-icon right"
+                          (click)="scrollRight(cardContainer)"
+                          #scrollRightIcon
+                        >
+                          &#10095;
+                        </div>
+
                           <div class="overlay-controls">
                             <button
                               class="close-button"

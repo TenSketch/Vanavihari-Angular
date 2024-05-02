@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-awards-news-publications',
@@ -11,8 +11,9 @@ export class AwardsNewsPublicationsComponent {
   title : any
   imageFilenames:any[]
   awards:any[]=[]
-
-  constructor(){
+  showLoader = false
+  constructor(private renderer: Renderer2){
+    this.showLoader = true
     if(this.showAwards){
       this.title = 'Awards'
     }
@@ -53,6 +54,18 @@ export class AwardsNewsPublicationsComponent {
       }
       
     ]
+  }
+
+  ngOnInit(){
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+  }
+
+  ngAfterViewInit(){
+
+   setTimeout(()=>{
+    this.showLoader = false
+   },1000)    
   }
 
   switchTitle(){

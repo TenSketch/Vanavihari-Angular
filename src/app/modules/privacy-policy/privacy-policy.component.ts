@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./privacy-policy.component.scss']
 })
 export class PrivacyPolicyComponent {
+
+  constructor(private renderer:Renderer2){
+
+  }
+
+  ngOnInit(){
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+  }
 
 }

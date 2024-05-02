@@ -1,6 +1,11 @@
 <app-layout>
   <div class="main d-flex justify-content-center align-items-center">
-    <div class="container booking-container  text-center" style="position: fixed; display: block; top: 30%;" *ngIf="noBookings">
+   <app-loader *ngIf="showLoader"></app-loader>
+    <div
+      class="container booking-container text-center"
+      style="position: fixed; display: block; top: 30%"
+      *ngIf="noBookings"
+    >
       <p>{{ message }}</p>
     </div>
     <section class="min-vh-noscroll">
@@ -11,8 +16,8 @@
             <!-- Room image and resort details -->
             <div class="col-md-3 room-image">
               <img
-              src="{{ getRoomImages(item.rooms.name)[0] }}"
-              class="img-fluid"
+                src="{{ getRoomImages(item.rooms.name)[0] }}"
+                class="img-fluid"
                 alt="Room Image"
               />
             </div>
@@ -21,13 +26,16 @@
               <p><strong>Room name:</strong> {{ item.rooms.name }}</p>
               <p><strong>Cottage type:</strong> {{ item.rooms.cottage }}</p>
               <p>
-                <strong>Guest info:</strong> 
-                <title>{{ item.noof_guest }} guests,
-                  {{ item.noof_children }} child,
-                  {{ item.noof_extra_guest }} extra guest</title>
+                <strong>Guest info:</strong>
+                <title>
+                  {{ item.noof_guest }} guests, {{ item.noof_children }} child,
+                  {{ item.noof_extra_guest }} extra guest
+                </title>
               </p>
               <p><strong>Total amount:</strong> {{ item.payable_amt }}</p>
-              <p *ngIf="item.food_preference"><strong>Food preference:</strong> {{ item.food_preference }}</p>
+              <p *ngIf="item.food_preference">
+                <strong>Food preference:</strong> {{ item.food_preference }}
+              </p>
             </div>
             <div class="col-md-3 bordered-col">
               <!-- Booking dates -->
@@ -44,29 +52,28 @@
                 <div class="show-date">
                   <p>Check-out</p>
                   <h1 class="display-3">{{ formatDate(item.checkout).day }}</h1>
-                  <p> {{ formatDate(item.checkout).month }}
-                    {{ formatDate(item.checkout).year }}</p>
+                  <p>
+                    {{ formatDate(item.checkout).month }}
+                    {{ formatDate(item.checkout).year }}
+                  </p>
                 </div>
               </div>
             </div>
             <div class="col-md-3 d-flex flex-column booking-status">
               <p>Status:</p>
               <h6>{{ item.status }}</h6>
-              <button class="btn  mt-2">Call Support</button>
-              <button class="btn  mt-2 d-none" [disabled]="true">
-                Cancel
-              </button>
+              <button class="btn mt-2">Call Support</button>
+              <button class="btn mt-2 d-none" [disabled]="true">Cancel</button>
 
-              <button class="btn  mt-2" [disabled]="item.status !== 'completed'">
+              <button class="btn mt-2" [disabled]="item.status !== 'completed'">
                 Add Review
               </button>
-              
+
               <!-- Booking status and completion button -->
             </div>
           </div>
         </div>
       </div>
     </section>
-   
   </div>
 </app-layout>

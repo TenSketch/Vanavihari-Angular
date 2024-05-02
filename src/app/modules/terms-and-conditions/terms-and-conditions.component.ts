@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class TermsAndConditionsComponent {
 
+  constructor(private renderer:Renderer2){}
+
+  ngOnInit(){
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+  }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserService } from '../../user.service';
 import { GalleryService } from '@/app/gallery.service';
@@ -14,9 +14,13 @@ export class MyBookingsComponent {
   message:any
   formattedDate: { day: string, month: string };
   noBookings = false
+  showLoader = false
 
-  constructor(private http: HttpClient, private userService: UserService, private galleryService:GalleryService) {}
+  constructor(private renderer:Renderer2 ,private http: HttpClient, private userService: UserService, private galleryService:GalleryService) {}
   ngOnInit(): void {
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+    this.showLoader= true
     let params = new HttpParams()
     .set('email', this.userService.getUser())
     .set('token', this.userService.getUserToken());
@@ -27,7 +31,7 @@ export class MyBookingsComponent {
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details
-
+           this.showLoader = false
           if(this.bookingData.length == 0){
              this.message = 'You have not made any bookings yet'
              this.noBookings = true
@@ -35,6 +39,7 @@ export class MyBookingsComponent {
         },
         error: (err) => {
           this.noBookings = true
+          this.showLoader = false
           this.message = err
           console.error('Error:', err);
         },

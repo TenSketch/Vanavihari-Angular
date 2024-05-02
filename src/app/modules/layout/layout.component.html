@@ -240,6 +240,7 @@
 </header>
 <!-- End Header -->
 <main>
+  <app-loader *ngIf="showLoader"></app-loader>
   <ng-content select=".main"></ng-content>
 </main>
 

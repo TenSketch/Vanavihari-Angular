@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -59,6 +59,7 @@ export class BookingSummaryComponent {
   subBillerId: string;
   isModalVisible: boolean = false;
   isInfoModalVisible = false;
+  showLoader = false
 
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
@@ -79,7 +80,7 @@ export class BookingSummaryComponent {
       const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
       if (this.difference <= 0 && !redirectDone) {
         redirectDone = true; // Set flag to true to indicate redirection
-        this.authService.clearBookingRooms(this.bookingTypeResort)
+        this.authService.clearBookingRooms(this.bookingTypeResort);
         // localStorage.clear();
         this.router.navigate(['resorts/rooms']);
       }
@@ -89,7 +90,6 @@ export class BookingSummaryComponent {
         secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
     }, 1000);
   }
-
 
   tickTock() {
     this.date = new Date();
@@ -103,7 +103,8 @@ export class BookingSummaryComponent {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
@@ -145,11 +146,7 @@ export class BookingSummaryComponent {
     });
   }
   ngOnInit(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        window.scrollTo(0, 0);
-      });
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
@@ -177,7 +174,7 @@ export class BookingSummaryComponent {
 
   isMobileOrTablet(): boolean {
     const screenWidth = window.innerWidth;
-    return screenWidth < 992; 
+    return screenWidth < 992;
   }
   getModalStyles(): object {
     if (this.isMobileOrTablet()) {
@@ -186,7 +183,7 @@ export class BookingSummaryComponent {
         position: 'fixed',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, -50%)',
       };
     } else {
       return {
@@ -194,18 +191,15 @@ export class BookingSummaryComponent {
         position: 'fixed',
         top: '15%',
         left: '50%',
-        transform: 'translate(-50%, -50%)'
-
-
+        transform: 'translate(-50%, -50%)',
       }; // Return empty object for default styles on larger devices
     }
   }
-  
 
   triggerModal() {
     this.isModalVisible = true;
   }
-  triggerInfoModal(){
+  triggerInfoModal() {
     this.isInfoModalVisible = true;
   }
   onCancel() {
@@ -218,13 +212,12 @@ export class BookingSummaryComponent {
     this.isModalVisible = false;
     this.router.navigate(['/resorts/rooms']);
   }
-  onOk(){
-
-    this.submitBooking()
+  onOk() {
+    this.submitBooking();
     this.isInfoModalVisible = false;
-
   }
   getUserDetails() {
+    this.showLoader= true
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername() ?? '')
       .set('token', this.authService.getAccessToken() ?? '');
@@ -235,6 +228,7 @@ export class BookingSummaryComponent {
       )
       .subscribe({
         next: (response) => {
+          this.showLoader = false
           if (response.code == 3000 && response.result.status == 'success') {
             this.form.patchValue({
               gname: [response.result.name],
@@ -245,7 +239,7 @@ export class BookingSummaryComponent {
               gstate: [response.result.state],
               gpincode: [response.result.pincode],
               gcountry: [response.result.country],
-              foodPreference:[response.result.foodPreference]
+              foodPreference: [response.result.foodPreference],
             });
           } else if (response.code == 3000) {
             this.userService.clearUser();
@@ -258,6 +252,7 @@ export class BookingSummaryComponent {
           }
         },
         error: (err) => {
+          this.showLoader = false
           console.error('Error:', err);
         },
       });
@@ -392,7 +387,6 @@ export class BookingSummaryComponent {
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
 
-   
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
       this.subBillerId = 'MMILLI';
@@ -428,7 +422,6 @@ export class BookingSummaryComponent {
         })
         .subscribe({
           next: (response) => {
-            console.log(response)
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
@@ -442,10 +435,30 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              const amount = "5.00";
-              const rU = 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
+              const amount = '5.00';
+              const rU =
+                'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
-              const str = MerchantId + '|' + bookingId + '|NA|' + amount + '|NA|NA|NA|' + CurrencyType + '|NA|R|' + SecurityId + '|NA|NA|F|'+this.subBillerId+'|'+this.form.value.gname+'|'+this.form.value.gphone+'|'+this.resort_name+'|NA|NA|NA|' + rU;
+              const str =
+                MerchantId +
+                '|' +
+                bookingId +
+                '|NA|' +
+                amount +
+                '|NA|NA|NA|' +
+                CurrencyType +
+                '|NA|R|' +
+                SecurityId +
+                '|NA|NA|F|' +
+                this.subBillerId +
+                '|' +
+                this.form.value.gname +
+                '|' +
+                this.form.value.gphone +
+                '|' +
+                this.resort_name +
+                '|NA|NA|NA|' +
+                rU;
 
               const hmac = HmacSHA256(str, secretKey);
               const checksum = hmac.toString().toUpperCase();
@@ -457,7 +470,7 @@ export class BookingSummaryComponent {
                 .set('SecurityId', SecurityId)
                 .set('txtCustomerID', txtCustomerID)
                 .set('txtTxnAmount', amount)
-                .set('txtAdditionalInfo1', this.subBillerId)   // Sub Biller id
+                .set('txtAdditionalInfo1', this.subBillerId) // Sub Biller id
                 .set('txtAdditionalInfo2', bookingId)
                 .set('txtAdditionalInfo3', this.form.value.gname)
                 .set('txtAdditionalInfo4', this.form.value.gphone)
@@ -468,7 +481,8 @@ export class BookingSummaryComponent {
 
               const form = document.createElement('form');
               form.method = 'post';
-              form.action = 'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
+              form.action =
+                'https://pgi.billdesk.com/pgidsk/PGIMerchantPayment';
               pg_params.keys().forEach((key) => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
@@ -542,7 +556,7 @@ export class BookingSummaryComponent {
     const arr = new Uint8Array(utf8.length);
     for (let i = 0; i < utf8.length; i++) {
       arr[i] = utf8.charCodeAt(i);
-    } 
+    }
     return arr;
   }
 }

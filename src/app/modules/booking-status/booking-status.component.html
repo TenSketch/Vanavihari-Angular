@@ -1,5 +1,6 @@
 <app-layout>
   <div class="main">
+    <app-loader *ngIf="showLoader"></app-loader>
     <!-- successfull booking -->
     <div class="reservation-details" *ngIf="bookingStatus == 'success'">
       <section class="page-banner d-grid place-items-center d-none">

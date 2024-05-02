@@ -11,3 +11,26 @@
   .gallery-image:hover {
     transform: scale(1.1);
   }
+
+
+  // 
+  @media (max-width: 767px) {
+    .navbar-nav {
+      flex-direction: row;
+      align-items: baseline;
+    }
+  
+    .navbar-nav .nav-item {
+      margin: 0.5rem 0;
+    }
+  
+    .navbar-nav .nav-link {
+      padding: 0.5rem 0;
+    }
+  
+    .navbar-nav .nav-link.active {
+      font-weight: bold;
+      color: #000; /* Adjust the color for active link */
+    }
+  }
+  

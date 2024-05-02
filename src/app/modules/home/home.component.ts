@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 // import lgZoom from 'lightgallery/plugins/zoom';
@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   resortTypeId:String
   localLightBox : any
   bookingTypeResort : any
+  showLoader = false
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -39,7 +40,8 @@ export class HomeComponent implements OnInit {
     public gallery: Gallery,
     public lightbox: Lightbox,
     private authService: AuthService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private renderer : Renderer2
   ) {
 
     this.authService.clearBookingRooms(this.bookingTypeResort)
@@ -55,6 +57,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showLoader = true
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+    setTimeout(()=>{
+      this.showLoader = false
+
+    },1000)
     localStorage.setItem('booking_rooms', JSON.stringify([]));
     const lightboxRef = this.gallery.ref('lightbox');
     if (this.resortTypeId === 'vanavihari') {
@@ -107,6 +115,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('hours', { static: true }) hours: ElementRef;
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
+
   ngAfterViewInit() {
     setInterval(() => {
       this.tickTock();

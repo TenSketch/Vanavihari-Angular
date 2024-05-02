@@ -73,6 +73,7 @@ import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-tra
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
 import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 import { BookingStatusTestComponent } from './modules/booking-status-test/booking-status-test.component';
+import { LoaderComponent } from './modules/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { BookingStatusTestComponent } from './modules/booking-status-test/bookin
     ReadPaymentTransactionResponseComponent,
     PaymentPoliciesComponent,
     ContactUsComponent,
-    BookingStatusTestComponent
+    BookingStatusTestComponent,
+    LoaderComponent
 
   ],
   imports: [

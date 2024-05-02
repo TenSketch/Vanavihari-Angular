@@ -20,14 +20,13 @@ export class LayoutComponent implements OnInit {
   resortEmail:any
   selectedResort:any
   private subscription : Subscription
+  showLoader = false
 
   constructor(private router: Router, private userService: UserService, private authService: AuthService, private searchService: SearchService, private http:HttpClient) {
     
     this.subscription = this.authService.buttonClick$.subscribe(() => {
-      console.log('cliked now')
       // Retrieve data when button is clicked
       this.selectedResort = this.authService.getSearchData('resort');
-      console.log(this.selectedResort)
       if(this.selectedResort=='Vanavihari, Maredumilli'){
         this.resortNumber = '+919494151623'
         this.resortAddress = 'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295'
@@ -42,7 +41,6 @@ export class LayoutComponent implements OnInit {
     });
 
     this.selectedResort = this.authService.getSearchData('resort');
-    console.log(this.selectedResort)
     if(this.selectedResort=='Vanavihari, Maredumilli'){
       this.resortNumber = '+919494151623'
       this.resortAddress = 'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295'
@@ -94,9 +92,12 @@ export class LayoutComponent implements OnInit {
   }
 
   logout(): void {
-    this.userService.logout(); // Implement this method in UserService to clear authentication state
-
-    this.router.navigate(['/home']);
+    this.showLoader = true
+    setTimeout(()=>{
+      this.showLoader = false
+      this.userService.logout();
+      this.router.navigate(['/home']);
+    },1000)
   }
 
   toggleSidebar() {

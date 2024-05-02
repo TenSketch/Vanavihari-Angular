@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-about-vanavihari',
@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AboutVanavihariComponent {
 
+  constructor(private renderer: Renderer2){
+
+  }
+  
+  ngOnInit(){
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+  }
 }

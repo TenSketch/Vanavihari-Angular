@@ -37,6 +37,8 @@ export class BookingStatusComponent {
 
   bookingTypeResort: any;
   bookingStatus : any;
+  showLoader = false
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -47,6 +49,8 @@ export class BookingStatusComponent {
   ) {}
 
   ngOnInit(): void {
+    this.showLoader = true
+
     this.route.queryParams.subscribe((params) => {
       this.bookingId = params['booking_id'];
     });
@@ -59,6 +63,7 @@ export class BookingStatusComponent {
       )
       .subscribe({
         next: (response) => {
+          this.showLoader = false
           if(response.result.payment_transaction_id == ''){
             this.bookingStatus = 'failed'
           }
@@ -67,6 +72,8 @@ export class BookingStatusComponent {
 
           }
           if (response.code == 3000 && response.result.status == 'success') {
+            this.showLoader = false
+
             setTimeout(() => {
               localStorage.clear();
             }, 3000);
@@ -108,6 +115,8 @@ export class BookingStatusComponent {
 
             // };
           } else if (response.code == 3000) {
+            this.showLoader = false
+
             this.userService.clearUser();
             this.bookingStatus = 'failed'
             // alert('Login Error!');
@@ -125,6 +134,8 @@ export class BookingStatusComponent {
             }, 10 * 1000);           }
         },
         error: (err) => {
+          this.showLoader = false
+
           console.error('Error:', err);
         },
       });

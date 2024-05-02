@@ -48,7 +48,6 @@ export class SignInComponent implements OnInit {
     this.disableSign = true;
     if (this.form.valid) {
       this.isLoading = true;
-      this.showAlert = true;
       const params = new HttpParams()
         .set('username', this.form.value.email_address)
         .set('password', this.form.value.password);
@@ -72,7 +71,7 @@ export class SignInComponent implements OnInit {
                 response.result.userfullname
               );
               let rooms = localStorage.getItem('booking_rooms');
-              if (rooms == '[]') {
+              if (rooms == '[]' || rooms==null) {
                 this.router.navigateByUrl('resorts/rooms');
               } else {
                 this.router.navigateByUrl('booking-summary');

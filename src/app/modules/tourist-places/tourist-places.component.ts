@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-tourist-places',
@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class TouristPlacesComponent {
 
+  constructor(private renderer: Renderer2){
+    
+  }
+
+  ngOnInit(){
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+  }
 }
