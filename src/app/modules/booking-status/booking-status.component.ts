@@ -78,7 +78,7 @@ export class BookingStatusComponent {
               bookingId: response.result.booking_id,
               checkInDate: response.result.checkin,
               checkOutDate: response.result.checkout,
-              amount: 'INR 11000',
+              amount: response.result.payment_transaction_amt,
               upiId: 'QR917382151617-5587@unionbankofindia',
               qrCodeUrl: '1711639164121_qr2.pdf',
               contactPerson: 'Mr. Veerababu',
