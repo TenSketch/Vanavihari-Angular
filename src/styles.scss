@@ -275,13 +275,33 @@ gallery-thumbs {
 }
 
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 430px) {
+  .g-btn-close {
+      right: 1em !important;
+      top: 4.7em !important;
+  }
+  .g-counter {
+    top: 69px !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .g-btn-close {
+      right: 1em !important;
+      top: 5em !important;
+  }
+  .g-counter {
+    top: 75px !important;
+  }
+}
+
+@media only screen and (min-width: 481px) {
       .g-btn-close {
           right: 1em !important;
-          top: 4.7em !important;
+          top: 5.2em !important;
       }
       .g-counter {
-        top: 69px !important;
+        top: 70px !important;
       }
   }
 
