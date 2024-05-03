@@ -164,7 +164,7 @@ export class RoomsComponent implements OnInit {
       this.selectedResort = this.authService.getSearchData('resort');
       this.checkinDate = this.authService.getSearchData('checkin');
       this.checkoutDate = this.authService.getSearchData('checkout');
-      window.location.reload()
+      // window.location.reload()
       this.fetchRoomList();
     });
     this.checkIfWeekend(); // Check if it's a weekend on component initialization
