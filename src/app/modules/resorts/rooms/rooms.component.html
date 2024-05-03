@@ -580,14 +580,13 @@
                       <div class="card-containerg" #cardContainer>
                         <div
                           class="card"
-                          *ngFor="let item of getRoomImages(room.Room_Name)"
+                          *ngFor="let item of getRoomImages(room.Room_Name); let i = index"
                         >
                           <img
                             class="img-responsive"
                             src="{{ item }}"
                             alt=""
-                            (click)="showFullImage(item)"
-                          />
+                            (click)="openLightbox(i, room.Room_Name)"                          />
                           
                         </div>
                       </div>

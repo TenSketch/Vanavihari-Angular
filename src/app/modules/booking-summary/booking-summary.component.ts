@@ -143,6 +143,8 @@ export class BookingSummaryComponent {
       gstate: [''],
       gpincode: [''],
       gcountry: [''],
+      gstnumber:[''],
+      companyname:['']
     });
   }
   ngOnInit(): void {
@@ -240,6 +242,8 @@ export class BookingSummaryComponent {
               gpincode: [response.result.pincode],
               gcountry: [response.result.country],
               foodPreference: [response.result.foodPreference],
+              gstnumber:[response.result.gstnumber],
+              companyname:[response.result.companyname]
             });
           } else if (response.code == 3000) {
             this.userService.clearUser();

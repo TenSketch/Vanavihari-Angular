@@ -10,18 +10,18 @@
             <div class="col-lg-8 mx-auto">
               <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="collapse navbar-collapse show" id="navbarSupportedContent">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-wrap">
-                    <li class="nav-item m-0 p-0">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-center align-items-center w-100 nav-tabs">
+                    <li class="nav-item m-0 p-0 nav-justified">
                       <a
-                        class="nav-link m-0 p-0"
+                        class="nav-link m-0 p-2 text-decoration-none"
                         (click)="showAwards = true; showNews = false; switchTitle()"
                         [class.active]="showAwards"
                         >Awards</a
                       >
                     </li>
-                    <li class="nav-item ms-5">
+                    <li class="nav-item ms-5 nav-justified">
                       <a
-                        class="nav-link m-0 p-0"
+                        class="nav-link m-0 p-2 text-decoration-none"
                         (click)="showNews = true; showAwards = false; switchTitle()"
                         [class.active]="showNews"
                         >News Articles</a

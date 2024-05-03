@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 // import lgZoom from 'lightgallery/plugins/zoom';
@@ -29,10 +35,10 @@ export class HomeComponent implements OnInit {
   imageFilenames1: string[] = [];
   currentImage: string | null = null;
   items: GalleryItem[] = [];
-  resortTypeId:String
-  localLightBox : any
-  bookingTypeResort : any
-  showLoader = false
+  resortTypeId: String;
+  localLightBox: any;
+  bookingTypeResort: any;
+  showLoader = false;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -41,10 +47,9 @@ export class HomeComponent implements OnInit {
     public lightbox: Lightbox,
     private authService: AuthService,
     private searchService: SearchService,
-    private renderer : Renderer2
+    private renderer: Renderer2
   ) {
-
-    this.authService.clearBookingRooms(this.bookingTypeResort)
+    this.authService.clearBookingRooms(this.bookingTypeResort);
 
     for (let i = 2; i <= 16; i++) {
       this.imageFilenames.push(
@@ -57,12 +62,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showLoader = true
+    this.showLoader = true;
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
-    setTimeout(()=>{
-      this.showLoader = false
-
-    },1000)
+    setTimeout(() => {
+      this.showLoader = false;
+    }, 1000);
     localStorage.setItem('booking_rooms', JSON.stringify([]));
     const lightboxRef = this.gallery.ref('lightbox');
     if (this.resortTypeId === 'vanavihari') {
@@ -75,10 +79,14 @@ export class HomeComponent implements OnInit {
       );
     }
 
-    lightboxRef.setConfig({
-      imageSize: ImageSize.Cover,
-      thumbPosition: ThumbnailsPosition.Right,
-    });
+
+    const lightboxConfig = {
+      closeIcon: `<img src="assets/images/icons/close.png">`,
+      imageSize: ImageSize.Contain,
+      thumbnails: null
+    };
+  
+    lightboxRef.setConfig(lightboxConfig);
     lightboxRef.load(this.items);
 
     // Retrieve the logged-in user's data using the UserService
@@ -147,21 +155,33 @@ export class HomeComponent implements OnInit {
   // }
   openLightbox(index: number, id: string) {
     this.resortTypeId = id;
-    this.ngOnInit()
-    this.lightbox.setConfig({closeIcon: `<img src="assets/images/close.jpg">`});
+    this.ngOnInit();
+    // this.lightbox.setConfig({
+    //   closeIcon: `<img src="assets/images/icons/close.png">    `,
+    // });
+    // this.lightbox.open(index);
     this.lightbox.open(index);
+
   }
-  
+
   goToVanavihari() {
-    this.authService.setSearchData( [{ resort:'Vanavihari, Maredumilli', checkin: '', checkout: '' }]);
-    this.searchService.setSearchCriteria('Vanavihari, Maredumilli')
+    this.authService.setSearchData([
+      { resort: 'Vanavihari, Maredumilli', checkin: '', checkout: '' },
+    ]);
+    this.searchService.setSearchCriteria('Vanavihari, Maredumilli');
     this.authService.buttonClick$.next();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort: 'vanvihari' } });
+    this.router.navigate(['/resorts/rooms'], {
+      queryParams: { bookingTypeResort: 'vanvihari' },
+    });
   }
   goToJungleStar() {
-    this.authService.setSearchData( [{ resort:'Jungle Star, Valamuru', checkin: '', checkout: '' }]);
-    this.searchService.setSearchCriteria('Jungle Star, Valamuru')
+    this.authService.setSearchData([
+      { resort: 'Jungle Star, Valamuru', checkin: '', checkout: '' },
+    ]);
+    this.searchService.setSearchCriteria('Jungle Star, Valamuru');
     this.authService.buttonClick$.next();
-    this.router.navigate(['/resorts/rooms'],{queryParams: { bookingTypeResort : "junglestar" } });
+    this.router.navigate(['/resorts/rooms'], {
+      queryParams: { bookingTypeResort: 'junglestar' },
+    });
   }
 }

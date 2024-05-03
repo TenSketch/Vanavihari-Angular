@@ -27,6 +27,14 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UserService } from 'src/app/user.service';
 import { GalleryService } from '@/app/gallery.service';
+import { Lightbox } from 'ng-gallery/lightbox';
+import {
+  Gallery,
+  GalleryItem,
+  ImageItem,
+  ImageSize,
+  ThumbnailsPosition,
+} from 'ng-gallery';
 
 interface Room {
   //roomId:string;
@@ -123,6 +131,8 @@ export class RoomsComponent implements OnInit {
   addExtraGuestCharge = false;
   removeExtraGuestCharge = false;
   isPromptModalVisible = false;
+  resortTypeId: String;
+
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -136,6 +146,10 @@ export class RoomsComponent implements OnInit {
   @ViewChildren('guestSelect') guestSelects: QueryList<MatSelect>;
 
   signinCheck: any;
+
+  localLightBox: any;
+  items: GalleryItem[] = [];
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -146,10 +160,12 @@ export class RoomsComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
+    public lightbox: Lightbox,
+    public gallery: Gallery
   ) {
     // this.authService.clearBookingRooms(this.bookingTypeResort);
-   
+
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
     const storedObjectString = localStorage.getItem('summaryData');
@@ -192,7 +208,6 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     // this.router.events.pipe(
     //   filter(event => event instanceof NavigationEnd)
     // ).subscribe(() => {
@@ -250,6 +265,29 @@ export class RoomsComponent implements OnInit {
     });
   }
 
+  setGalleryData(index:number,id: any) {
+    this.items = this.getRoomImages(id).map(
+      (item) => new ImageItem({ src: item })
+    );
+
+    const lightboxRef = this.gallery.ref('lightbox');
+
+    const lightboxConfig = {
+      closeIcon: `<img src="assets/images/icons/close.png">`,
+      imageSize: ImageSize.Contain,
+      thumbnails: null
+    };
+  
+    lightboxRef.setConfig(lightboxConfig);
+    lightboxRef.load(this.items);
+    this.lightbox.open(index);
+
+  }
+
+  openLightbox(index: number, id: string) {
+    this.resortTypeId = id;
+    this.setGalleryData(index,id);
+  }
   isModalVisible: boolean = false;
 
   getRoomImages(roomname: any): string[] {
@@ -616,10 +654,10 @@ export class RoomsComponent implements OnInit {
   }
 
   triggerModal() {
-    this.signinCheck = false
+    this.signinCheck = false;
     let status = this.userService.isLoggedIn();
     if (status) {
-      this.goToBooking()
+      this.goToBooking();
       this.router.navigate(['/booking-summary']);
     } else {
       // this.router.navigate(['/booking-summary']);
@@ -665,7 +703,7 @@ export class RoomsComponent implements OnInit {
 
       promise.then(() => {
         // Call your function or method here
-      
+
         if (this.signinCheck) {
           this.router.navigate(['/sign-in']);
         }

@@ -269,4 +269,19 @@ mat-hint{
 //   left: 50% !important;
 // }
 
+gallery-thumbs {
+  display: none !important;
+  
+}
+
+
+@media only screen and (max-width: 767px) {
+      .g-btn-close {
+          right: 1em !important;
+          top: 4.7em !important;
+      }
+      .g-counter {
+        top: 69px !important;
+      }
+  }
 
