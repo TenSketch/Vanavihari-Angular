@@ -115,8 +115,13 @@ td {
   
 }
 
+.modal{
+  overflow: hidden !important;
+}
+
 .modal-dialog-centered{
   top:10% !important;
+  overflow-y: hidden !important;
 }
 
 

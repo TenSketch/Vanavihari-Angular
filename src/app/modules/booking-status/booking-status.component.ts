@@ -75,7 +75,8 @@ export class BookingStatusComponent {
             this.showLoader = false
 
             setTimeout(() => {
-              localStorage.clear();
+              this.authService.clearBookingRooms(this.bookingTypeResort);
+
             }, 3000);
             this.reservationDetails = {
               guestName: response.result.guest_name,
@@ -121,7 +122,7 @@ export class BookingStatusComponent {
             this.bookingStatus = 'failed'
             // alert('Login Error!');
             setTimeout(() => {
-              localStorage.clear();
+              this.authService.clearBookingRooms(this.bookingTypeResort);
               this.router.navigate(['/home']);
             }, 10 * 1000); 
           } else {
@@ -129,7 +130,7 @@ export class BookingStatusComponent {
             this.userService.clearUser();
             // alert('Login Error!');
             setTimeout(() => {
-              localStorage.clear();
+              this.authService.clearBookingRooms(this.bookingTypeResort);
               this.router.navigate(['/home']);
             }, 10 * 1000);           }
         },

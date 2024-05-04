@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
@@ -46,7 +46,8 @@ export class SignUpComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private renderer : Renderer2
   ) {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 
@@ -74,6 +75,8 @@ export class SignUpComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
     // mobile validation function- NO SPACE ALLOWED
     function mobileNumberValidator(
       control: FormControl

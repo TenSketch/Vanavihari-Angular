@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../user.service';
@@ -25,7 +25,8 @@ export class SignInComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private renderer: Renderer2
   ) {
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 
@@ -36,6 +37,8 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
     // this.route.queryParams.subscribe((params) => {
     //   if (params['message']) {
     //     const message = params['message'];
