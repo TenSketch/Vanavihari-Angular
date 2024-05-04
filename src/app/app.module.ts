@@ -74,6 +74,7 @@ import { PaymentPoliciesComponent } from './modules/payment-policies/payment-pol
 import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 import { BookingStatusTestComponent } from './modules/booking-status-test/booking-status-test.component';
 import { LoaderComponent } from './modules/loader/loader.component';
+import { BioDiversityZoneComponent } from './modules/bio-diversity-zone/bio-diversity-zone.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { LoaderComponent } from './modules/loader/loader.component';
     PaymentPoliciesComponent,
     ContactUsComponent,
     BookingStatusTestComponent,
-    LoaderComponent
+    LoaderComponent,
+    BioDiversityZoneComponent
 
   ],
   imports: [

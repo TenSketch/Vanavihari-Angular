@@ -24,6 +24,7 @@ import { RoomsComponent } from './modules/resorts/rooms/rooms.component';
 import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-transaction-response/read-payment-transaction-response.component';
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
 import { ContactUsComponent } from './modules/contact-us/contact-us.component';
+import { BiodiversityZoneComponent } from './modules/biodiversity-zone/biodiversity-zone.component';
 
 const routes: Routes = [
 {path:'home', component:HomeComponent}, 
@@ -51,6 +52,7 @@ const routes: Routes = [
 { path:'change-password', component: ChangePasswordComponent},
 { path:'contact-us', component: ContactUsComponent},
 { path:'booking-status-test', component: BookingStatusTestComponent},
+{path:'biodiversity-zone', component:BiodiversityZoneComponent},
 { path: '', redirectTo: '/home', pathMatch: 'full' }, 
 { path: '**', redirectTo: '/home' }, 
 

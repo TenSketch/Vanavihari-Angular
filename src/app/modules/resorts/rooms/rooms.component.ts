@@ -281,7 +281,7 @@ export class RoomsComponent implements OnInit {
     lightboxRef.setConfig(lightboxConfig);
     lightboxRef.load(this.items);
     this.lightbox.open(index);
-
+    console.log(this.items)
   }
 
   openLightbox(index: number, id: string) {

@@ -1,0 +1,39 @@
+.nav-link.active {
+  color: #f06807 !important;
+}
+.gallery-image {
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.gallery-image:hover {
+  transform: scale(1.1);
+}
+
+//
+@media (max-width: 767px) {
+  .navbar-nav {
+    flex-direction: row;
+    align-items: baseline;
+  }
+
+  .navbar-nav .nav-item {
+    margin: 0.5rem 0;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.5rem 0;
+  }
+
+  .navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #000; /* Adjust the color for active link */
+  }
+
+  .masonry-layout {
+    column-count: 2 !important;
+  }
+}
+
+.masonry-layout {
+  column-count: 3;
+}

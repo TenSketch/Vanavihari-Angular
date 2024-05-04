@@ -1,0 +1,75 @@
+<app-layout>
+    <div class="main">
+        <section class="my-5" >
+            <div class="container" >
+              <div class="row w-100" >
+                <div class="col-lg-8 mx-auto">
+                  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="collapse navbar-collapse show" id="navbarSupportedContent">
+                      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-center align-items-center w-100 nav-tabs">
+                        <li class="nav-item m-0 p-0 nav-justified">
+                          <a
+                            class="nav-link m-0 p-2 text-decoration-none"
+                            (click)="showAnimals = true; showBirds = false; showTrees=false; switchTitle()"
+                            [class.active]="showAnimals"
+                            >Animals</a
+                          >
+                        </li>
+                        <li class="nav-item ms-5 nav-justified">
+                          <a
+                            class="nav-link m-0 p-2 text-decoration-none"
+                            (click)="showAnimals = false; showBirds = true; showTrees=false; switchTitle()"
+                            [class.active]="showBirds"
+                            >Birds</a
+                          >
+                        </li>
+                        <li class="nav-item ms-5 nav-justified">
+                            <a
+                              class="nav-link m-0 p-2 text-decoration-none"
+                              (click)="showAnimals = false; showBirds = false; showTrees=true; switchTitle()"
+                              [class.active]="showBirds"
+                              >Trees</a
+                            >
+                          </li>
+                      </ul>
+                    </div>
+                  </nav>
+                  
+                  <div *ngIf="showAnimals">
+                    <div class="masonry-layout" id="vanavihari-gallery">
+                        <div class="gallerize-example">
+                          <p class="" gallerize>
+                            <img *ngFor="let img of animalsFilenames;let i= index"  (click)="openLightbox(i, 'vanavihari')"     
+                            [src]="img" class="gallery-image">
+                          </p>
+                        </div>
+                      </div>
+                   
+                      <!-- Other awards content -->
+                  </div>
+                  <div *ngIf="showBirds">
+                      <div class="masonry-layout" id="vanavihari-gallery">
+                        <div class="gallerize-example">
+                          <p class="" gallerize>
+                            <img *ngFor="let img of birdsFilenames;let i= index"  (click)="openLightbox(i, 'vanavihari')"     
+                            [src]="img" class="gallery-image">
+                          </p>
+                        </div>
+                      </div>
+                  </div>
+                  <div *ngIf="showTrees">
+                    <div class="masonry-layout" id="vanavihari-gallery">
+                      <div class="gallerize-example">
+                        <p class="" gallerize>
+                          <img *ngFor="let img of treesFilenames;let i= index"  (click)="openLightbox(i, 'vanavihari')"     
+                          [src]="img" class="gallery-image">
+                        </p>
+                      </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </section>
+    </div>
+</app-layout>
