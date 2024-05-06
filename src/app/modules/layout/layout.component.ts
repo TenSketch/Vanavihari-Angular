@@ -176,6 +176,10 @@ export class LayoutComponent implements OnInit {
   goToTribalPg() {
     this.router.navigate(['/tribal-community']);
   } 
+  goToBiodiversity(){
+    this.router.navigate(['/biodiversity-zone']);
+
+  }
   goToPrivacy()
   {
     this.router.navigate(['/privacy-policy']);
