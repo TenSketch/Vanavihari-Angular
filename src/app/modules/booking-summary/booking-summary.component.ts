@@ -381,6 +381,7 @@ export class BookingSummaryComponent {
   }
 
   submitBooking() {
+    this.showLoader = true
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
 
@@ -419,6 +420,7 @@ export class BookingSummaryComponent {
         })
         .subscribe({
           next: (response) => {
+            this.showLoader = false
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
@@ -497,6 +499,7 @@ export class BookingSummaryComponent {
             }
           },
           error: (err) => {
+            this.showLoader = false
             console.error('Error:', err);
           },
         });
