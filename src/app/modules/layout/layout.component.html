@@ -260,35 +260,36 @@
 </main>
 
 <footer id="footer" class="footer py-4">
-  <div class="container pt-5">
-    <div class="row">
+  <div class="container pt-5" >
+    <div class="row w-100">
       <div class="col-md-3">
         <h3>Pages</h3>
         <ul class="list-unstyled">
-          <li class="sidebar-item d-flex mt-2">
-            <a class="sidebar-link" (click)="toggleSidebar(); goToVanavihari()">
-              <span class="ml-5">Vanavihar, Maredumilli</span>
+          <li class=" mt-2">
+            <a class="" (click)="toggleSidebar(); goToVanavihari()">
+              <span class="">Vanavihar, Maredumilli</span>
             </a>
           </li>
-          <li class="sidebar-item d-flex mt-2">
+          
+          <li class="d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToJungleStar()">
-              <span class="ml-5">Jungle star, Valamuru</span>
+              <span class="">Jungle star, Valamuru</span>
             </a>
           </li>
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToAboutUs()">
-              <span class="ml-5">About Us</span>
+              <span class="">About Us</span>
             </a>
           </li>
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToTourist()">
-              <span class="ml-5">Tourist Destinations</span>
+              <span class="">Tourist Destinations</span>
             </a>
           </li>
 
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToTribalPg()">
-              <span class="ml-5">Tribal Community</span>
+              <span class="">Tribal Community</span>
             </a>
           </li>
 
@@ -297,12 +298,12 @@
               class="sidebar-link d-flex"
               (click)="toggleSidebar(); goToBiodiversity()"
             >
-              <span class="ml-5">Biodiversity Zone</span>
+              <span class="">Biodiversity Zone</span>
             </a>
           </li>
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="goToAwards()">
-              <span class="ml-5">Awards and News</span></a
+              <span class="">Awards and News</span></a
             >
           </li>
         </ul>
@@ -326,7 +327,76 @@
       <div class="col-md-6">
         <h3 class="text-center ">Contact Info</h3>
        
-        <div class="d-flex">
+        <div class="d-flex " *ngIf="!isMobileOrTablet">
+          <ul class="list-unstyled">
+            <h5>Vanavihari</h5>
+            <li class="mt-2">
+              <i class="fa fa-envelope me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="mailto:info@vanavihari.com"
+                title="click to send email"
+                >info@vanavihari.com</a
+              >
+            </li>
+            <li class="mt-2">
+              <!-- font awesome email -->
+              <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="tel:+919494151617"
+                title="call"
+                >+919494151617</a
+              >
+            </li>
+            <li class="mt-2">
+              <!-- font awesome email -->
+              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="tel:+919494151617"
+                title="call"
+                >Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh
+                533295</a
+              >
+            </li>
+          </ul>
+          <ul class="list-unstyled">
+            <h5>Junglestar</h5>
+            <li class="mt-2">
+              <i class="fa fa-envelope me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="mailto:info@vanavihari.com"
+                title="click to send email"
+                >junglestarecocamp@gmail.com</a
+              >
+            </li>
+            <li class="mt-2">
+              <!-- font awesome email -->
+              <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="tel:+919494151617"
+                title="call"
+                >+9173821 51617</a
+              >
+            </li>
+            <li class="mt-2">
+              <!-- font awesome email -->
+              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
+              <a
+                class="text-decoration-none"
+                href="tel:+919494151617"
+                title="call"
+                >Jungle Nature Camp Site Treck Path Valamuru, Andhra Pradesh
+                533295</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="d-flex flex-column" *ngIf="isMobileOrTablet">
           <ul class="list-unstyled">
             <h5>Vanavihari</h5>
             <li class="mt-2">

@@ -48,7 +48,7 @@ export class LayoutComponent implements OnInit {
         this.resortEmail = 'info@vanavihari.com';
       }
       if (this.selectedResort == 'Jungle Star, Valamuru') {
-        this.resortNumber = '+9173821 51617';
+        this.resortNumber = '+917382151617';
         this.resortAddress =
           'Jungle Nature Camp Site Treck Path Valamuru, Andhra Pradesh 533295';
         this.resortEmail = 'junglestarecocamp@gmail.com';
@@ -57,13 +57,13 @@ export class LayoutComponent implements OnInit {
 
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort == 'Vanavihari, Maredumilli') {
-      this.resortNumber = '+919494151623';
+      this.resortNumber = '+919494151617';
       this.resortAddress =
         'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295';
       this.resortEmail = 'info@vanavihari.com';
     }
     if (this.selectedResort == 'Jungle Star, Valamuru') {
-      this.resortNumber = '+9173821 51617';
+      this.resortNumber = '+917382151617';
       this.resortAddress =
         'Jungle Nature Camp Site Treck Path Valamuru, Andhra Pradesh 533295';
       this.resortEmail = 'junglestarecocamp@gmail.com';
