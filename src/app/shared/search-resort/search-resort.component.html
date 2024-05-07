@@ -16,7 +16,7 @@
       <div class="col-md-3">
         <mat-form-field appearance="outline">
           <mat-label>Checkin date</mat-label>
-          <input   matInput [min]="minDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date"
+          <input   matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" (click)="picker.open()" placeholder="Checkin date"
             name="CheckinDate" [(ngModel)]="checkinDate" #checkinDateInput="ngModel" required />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
