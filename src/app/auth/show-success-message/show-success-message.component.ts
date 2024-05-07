@@ -13,7 +13,6 @@ export class ShowSuccessMessageComponent {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.email_id = params['id'];
-      console.log("this.id==",this.email_id)
     });
   }
 }

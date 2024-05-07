@@ -12,7 +12,6 @@ export class ReadPaymentTransactionResponseComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      console.log('All Query Parameters:', params);
     });
   }
 }

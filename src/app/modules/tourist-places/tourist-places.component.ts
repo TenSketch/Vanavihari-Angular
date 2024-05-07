@@ -3,16 +3,12 @@ import { Component, Renderer2 } from '@angular/core';
 @Component({
   selector: 'app-tourist-places',
   templateUrl: './tourist-places.component.html',
-  styleUrls: ['./tourist-places.component.scss']
+  styleUrls: ['./tourist-places.component.scss'],
 })
 export class TouristPlacesComponent {
+  constructor(private renderer: Renderer2) {}
 
-  constructor(private renderer: Renderer2){
-    
-  }
-
-  ngOnInit(){
+  ngOnInit() {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
-
   }
 }

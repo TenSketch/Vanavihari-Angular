@@ -132,6 +132,8 @@ export class RoomsComponent implements OnInit {
   removeExtraGuestCharge = false;
   isPromptModalVisible = false;
   resortTypeId: String;
+  showLoader = false
+  isSelectionSwitched = false
 
   @HostBinding('class.sticky')
   get stickyClass() {
@@ -180,6 +182,7 @@ export class RoomsComponent implements OnInit {
       this.selectedResort = this.authService.getSearchData('resort');
       this.checkinDate = this.authService.getSearchData('checkin');
       this.checkoutDate = this.authService.getSearchData('checkout');
+      this.isSelectionSwitched = true
       // window.location.reload()
       this.fetchRoomList();
     });
@@ -199,7 +202,7 @@ export class RoomsComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-    if (this.selectedResort) {
+    if (this.selectedResort && !this.isSelectionSwitched) {
       this.fetchRoomList();
     }
 
@@ -281,7 +284,6 @@ export class RoomsComponent implements OnInit {
     lightboxRef.setConfig(lightboxConfig);
     lightboxRef.load(this.items);
     this.lightbox.open(index);
-    console.log(this.items)
   }
 
   openLightbox(index: number, id: string) {
@@ -452,6 +454,7 @@ export class RoomsComponent implements OnInit {
   }
 
   fetchRoomList() {
+
     this.loadingRooms = true;
     let tempResort = this.selectedResort;
     if (this.selectedResort == 'Jungle Star, Valamuru') {
@@ -472,10 +475,13 @@ export class RoomsComponent implements OnInit {
       this.checkoutDate?.toString()
     )}`;
 
+    this.showLoader = true
+
     this.http
       .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
       .subscribe({
         next: (response) => {
+          this.showLoader = false
           const roomDataResponse = response.result.data;
 
           this.roomData = Object.keys(roomDataResponse).map((key) => {
@@ -507,6 +513,7 @@ export class RoomsComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.showLoader = false
           this.loadingRooms = false;
 
           this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
@@ -556,6 +563,8 @@ export class RoomsComponent implements OnInit {
     room.is_button_disabled = true;
 
     this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
+    this.showSnackBarAlert('Room added successfully', false);
+
     this.isRoomAdded(room.Room_Id);
   }
 
@@ -583,6 +592,8 @@ export class RoomsComponent implements OnInit {
     }
 
     this.authService.setBookingRooms(this.bookingTypeResort, this.roomIds);
+    this.showSnackBarAlert('Room removed successfully', false);
+
   }
 
   calculateTotalPrice(): number {
@@ -804,5 +815,17 @@ export class RoomsComponent implements OnInit {
   };
   onBeforeSlide(detail: BeforeSlideDetail): void {
     const { index, prevIndex } = detail;
+  }
+
+  showSnackBarAlert(msg = '', redirect = true) {
+    var snackBar = this.snackBar.open(msg, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right',
+    });
+    if (redirect) {
+      snackBar.afterDismissed().subscribe(() => {
+        this.router.navigate(['/sign-in']);
+      });
+    }
   }
 }

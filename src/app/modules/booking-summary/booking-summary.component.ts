@@ -247,12 +247,10 @@ export class BookingSummaryComponent {
             });
           } else if (response.code == 3000) {
             this.userService.clearUser();
-            // alert('Login Error!');
-            // this.router.navigate(['/home']);
+            
           } else {
             this.userService.clearUser();
-            // alert('Login Error!');
-            // this.router.navigate(['/home']);
+           
           }
         },
         error: (err) => {
@@ -301,7 +299,7 @@ export class BookingSummaryComponent {
 
   convertDateFormat(dateString: string): string {
     if (!dateString) {
-      return ''; // Return an empty string if dateString is undefined
+      return ''; 
     }
 
     const date = new Date(dateString);

@@ -2,7 +2,7 @@ import { Component, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../user.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
 
 @Component({
@@ -265,6 +265,7 @@ export class SettingsComponent {
     'Zambia',
     'Zimbabwe',
   ];
+
   showLoader = false;
 
   constructor(
@@ -292,10 +293,7 @@ export class SettingsComponent {
 
   ngOnInit(): void {
     this.showLoader = true;
-
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
-
-    // this.openModal();
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername() ?? '')
       .set('token', this.authService.getAccessToken() ?? '');
@@ -325,18 +323,15 @@ export class SettingsComponent {
             this.showLoader = false;
 
             this.userService.clearUser();
-            // alert('Login Error!');
             this.router.navigate(['/home']);
           } else {
             this.showLoader = false;
 
             this.userService.clearUser();
-            // alert('Login Error!');
             this.router.navigate(['/home']);
           }
         },
         error: (err) => {
-          console.error('Error:', err);
         },
       });
   }
@@ -366,6 +361,7 @@ export class SettingsComponent {
     const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
     return formattedDate;
   }
+
   onSubmit() {
     if (this.form.valid) {
       let params = new HttpParams()
@@ -389,30 +385,23 @@ export class SettingsComponent {
           next: (response) => {
             if (response.code == 3000 && response.result.status == 'success') {
               // this.router.navigate(['/home']);
-              console.log(response.result);
               alert('Profile Update Successfully!');
             } else if (response.code == 3000) {
-              console.log('error', response.result.msg);
             } else {
-              console.log('error', 'Please Check this Credential!');
             }
           },
           error: (err) => {
-            console.error('Error:', err);
           },
         });
 
-      // if (this.userService.getUser() && this.userService.getUser() === this.form.value.email) {
-      //   // this.router.navigate(['/home']);
-      //   alert('Login successful! Welcome ' + storedUser.full_name);
-      // } else {
-      //   alert('Invalid email or password');
-      // }
+      
     }
   }
+
   editField(field: string) {
     this.editingField = field;
   }
+
   cancelEditing(field: string) {
     this.form.patchValue(this.storedUser);
     this.editingField = null;
@@ -422,12 +411,12 @@ export class SettingsComponent {
     this.storedUser = { ...this.storedUser, ...this.form.value };
     this.userService.setUser(this.storedUser);
     this.editingField = null;
-    // alert('Changes saved successfully!');
   }
 
   goToSignin() {
     this.router.navigate(['/sign-in']);
   }
+
   goToSignup() {
     this.router.navigate(['/sign-up']);
   }

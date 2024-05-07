@@ -41,7 +41,6 @@ export class MyBookingsComponent {
           this.noBookings = true
           this.showLoader = false
           this.message = err
-          console.error('Error:', err);
         },
     });
   }

@@ -1,5 +1,8 @@
 <app-layout>
   <div class="main">
+    <app-loader *ngIf="showLoader">
+
+    </app-loader>
     <section
       class="page-banner d-grid place-items-center"
       *ngIf="selectedResortInfo"
@@ -526,7 +529,7 @@
                     mat-raised-button
                     color="primary"
                     class="w-100 mt-3"
-                    (click)="triggerModal()"
+                    (click)="signIn()"
                     *ngIf="showBookingSummary"
                     [disabled]="isGuestSelectEmpty(guestSelect)"
                   >
@@ -570,7 +573,7 @@
           >
             Sorry, rooms are not available
           </div>
-          <div *ngIf="!loadingRooms; else loading">
+          <div *ngIf="!loadingRooms;">
             <div *ngIf="!isRoomDataEmpty">
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
                 <div class="row">
