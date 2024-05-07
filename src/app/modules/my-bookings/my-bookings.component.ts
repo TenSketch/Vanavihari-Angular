@@ -11,6 +11,7 @@ import { AuthService } from '@/app/auth.service';
 })
 export class MyBookingsComponent {
   bookingData: any[] = [];
+  successData: any[] = [];
   message: any;
   formattedDate: { day: string; month: string };
   noBookings = false;
@@ -42,11 +43,19 @@ export class MyBookingsComponent {
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details;
+          console.log(this.bookingData)
           this.showLoader = false;
-          if (this.bookingData.length == 0) {
+          this.bookingData.forEach(item => {
+            if (item.pay_trans_id) {
+                this.successData.push(item);
+            }
+        });
+          if (this.successData.length == 0) {
             this.message = 'You have not made any bookings yet';
             this.noBookings = true;
           }
+
+          console.log(this.successData)
           
         },
         error: (err) => {

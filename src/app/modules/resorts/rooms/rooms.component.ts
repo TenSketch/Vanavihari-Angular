@@ -166,6 +166,7 @@ export class RoomsComponent implements OnInit {
     public lightbox: Lightbox,
     public gallery: Gallery
   ) {
+
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
@@ -243,6 +244,7 @@ export class RoomsComponent implements OnInit {
       this.showBookingSummary = true;
     }
   }
+
 
   ngAfterViewInit() {
     this.cardContainer?.nativeElement.addEventListener('scroll', () => {
