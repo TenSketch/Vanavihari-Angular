@@ -436,6 +436,8 @@
 
 <!-- Add this HTML structure to your component's template -->
 <div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block">
+  <div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
+
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -472,6 +474,8 @@
   *ngIf="isInfoModalVisible"
   [ngStyle]="getModalStyles()"
 >
+<div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
+
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
       <div class="modal-header">

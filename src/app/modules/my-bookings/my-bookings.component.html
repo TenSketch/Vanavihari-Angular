@@ -62,10 +62,12 @@
             <div class="col-md-3 d-flex flex-column booking-status">
               <p>Status:</p>
               <h6>{{ item.status }}</h6>
-              <button class="btn mt-2">Call Support</button>
+              <button class="btn mt-2" (click)="callSupport('Vanavihari, Maredumilli')" *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">Call Support</button>
+              <button class="btn mt-2" (click)="callSupport('Jungle Star, Valamuru')" *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">Call Support</button>
+
               <button class="btn mt-2 d-none" [disabled]="true">Cancel</button>
 
-              <button class="btn mt-2" [disabled]="item.status !== 'completed'">
+              <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
                 Add Review
               </button>
 

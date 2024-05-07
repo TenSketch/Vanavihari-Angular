@@ -125,6 +125,13 @@ td {
 }
 
 
+
+.dark-overlay {
+  background-color: rgba(0, 0, 0, 0.7); 
+}
+
+
+
 @media screen and (max-width: 430px) {
   .count-down-timer {
     max-width: 150px;

@@ -118,7 +118,6 @@ export class BookingStatusComponent {
           } else if (response.code == 3000) {
             this.showLoader = false
 
-            this.userService.clearUser();
             this.bookingStatus = 'failed'
             // alert('Login Error!');
             setTimeout(() => {
@@ -127,7 +126,6 @@ export class BookingStatusComponent {
             }, 10 * 1000); 
           } else {
 
-            this.userService.clearUser();
             // alert('Login Error!');
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);

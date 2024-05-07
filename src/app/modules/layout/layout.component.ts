@@ -21,6 +21,8 @@ export class LayoutComponent implements OnInit {
   selectedResort: any;
   private subscription: Subscription;
   showLoader = false;
+  isMobileOrTablet: boolean = false;
+
 
   constructor(
     private router: Router,
@@ -29,11 +31,18 @@ export class LayoutComponent implements OnInit {
     private searchService: SearchService,
     private http: HttpClient
   ) {
+    const screenWidth = window.innerWidth;
+    // Define your breakpoint for mobile and tablet devices
+    const mobileBreakpoint = 768; // Example: below 768px is considered mobile
+    const tabletBreakpoint = 1024; // Example: between 768px and 1024px is considered tablet
+
+    this.isMobileOrTablet = screenWidth < mobileBreakpoint || screenWidth < tabletBreakpoint;
+    
     this.subscription = this.authService.buttonClick$.subscribe(() => {
       // Retrieve data when button is clicked
       this.selectedResort = this.authService.getSearchData('resort');
       if (this.selectedResort == 'Vanavihari, Maredumilli') {
-        this.resortNumber = '+919494151623';
+        this.resortNumber = '+919494151617';
         this.resortAddress =
           'Vanavihari Eco-tourism Complex, Maredumilli, Andhra Pradesh 533295';
         this.resortEmail = 'info@vanavihari.com';
@@ -176,6 +185,14 @@ export class LayoutComponent implements OnInit {
       window.location.reload();
     }, 1500);
   }
+
+  // vanavihariRoute(){
+  //   this.router.navigate(['/resorts/vanavihari-maredumilli'])
+  // }
+  // jungleStarRoute(){
+  //   this.router.navigate(['/resorts/junglestar-valamuru'])
+
+  // }
 
   goToTourist() {
     this.router.navigate(['/tourist-destination']);

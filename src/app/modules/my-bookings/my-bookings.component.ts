@@ -2,58 +2,78 @@ import { Component, Renderer2 } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserService } from '../../user.service';
 import { GalleryService } from '@/app/gallery.service';
+import { AuthService } from '@/app/auth.service';
 
 @Component({
   selector: 'app-my-bookings',
   templateUrl: './my-bookings.component.html',
-  styleUrls: ['./my-bookings.component.scss']
+  styleUrls: ['./my-bookings.component.scss'],
 })
 export class MyBookingsComponent {
+  bookingData: any[] = [];
+  message: any;
+  formattedDate: { day: string; month: string };
+  noBookings = false;
+  showLoader = false;
+  selectedResort: any;
+  resortNumber: any;
 
-  bookingData:any[]=[]
-  message:any
-  formattedDate: { day: string, month: string };
-  noBookings = false
-  showLoader = false
-
-  constructor(private renderer:Renderer2 ,private http: HttpClient, private userService: UserService, private galleryService:GalleryService) {}
+  constructor(
+    private authService: AuthService,
+    private renderer: Renderer2,
+    private http: HttpClient,
+    private userService: UserService,
+    private galleryService: GalleryService
+  ) {}
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
-    this.showLoader= true
+   
+
+    this.showLoader = true;
     let params = new HttpParams()
-    .set('email', this.userService.getUser())
-    .set('token', this.userService.getUserToken());
+      .set('email', this.userService.getUser())
+      .set('token', this.userService.getUserToken());
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=booking_history&'+params.toString()
+        'https://vanavihari.com/zoho-connect?api_type=booking_history&' +
+          params.toString()
       )
       .subscribe({
         next: (response) => {
-          this.bookingData = response.result.details
-           this.showLoader = false
-          if(this.bookingData.length == 0){
-             this.message = 'You have not made any bookings yet'
-             this.noBookings = true
+          this.bookingData = response.result.details;
+          this.showLoader = false;
+          if (this.bookingData.length == 0) {
+            this.message = 'You have not made any bookings yet';
+            this.noBookings = true;
           }
+          
         },
         error: (err) => {
-          this.noBookings = true
-          this.showLoader = false
-          this.message = err
+          this.noBookings = true;
+          this.showLoader = false;
+          this.message = err;
         },
-    });
+      });
   }
 
- 
-  
+  callSupport(resort:any) {
+    this.selectedResort = resort
+          if (this.selectedResort == 'Vanavihari, Maredumilli') {
+            this.resortNumber = '+919494151623';
+          }
+          if (this.selectedResort == 'Jungle Star, Valamuru') {
+            this.resortNumber = '+9173821 51617';
+          }
+    window.location.href = 'tel:' + this.resortNumber;
+  }
+
   getRoomImages(roomname: any): string[] {
     const lowercaseRoomName = roomname.toLowerCase();
 
     switch (lowercaseRoomName) {
       case 'panther':
         return this.galleryService.panther();
-
       case 'bahuda':
         return this.galleryService.bahuda();
       case 'bear':
@@ -117,7 +137,7 @@ export class MyBookingsComponent {
     }
   }
 
-  formatDate(dateStr: string): { day: string, month: string, year: string } {
+  formatDate(dateStr: string): { day: string; month: string; year: string } {
     const date = new Date(dateStr);
     const day = date.getDate().toString();
     const month = this.getMonthName(date.getMonth());
@@ -126,11 +146,24 @@ export class MyBookingsComponent {
   }
 
   getMonthName(month: number): string {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
     return months[month];
   }
-  
-  fetchRoomList() { 
+
+  fetchRoomList() {
     interface ReservationDetails {
       checkin: string;
       noof_guest: number;
@@ -144,57 +177,57 @@ export class MyBookingsComponent {
         restort: string;
       };
     }
-    
+
     // // Sample JSON object with the defined type
     const json: { [key: string]: ReservationDetails } = {
-          0: {
-            rooms: {
-                name: "Bonnet",
-                cottage: "Hill Top Guest House",
-                restort: "Vanavihari, Maredumilli"
-            },
-            checkin: "2024-03-03",
-            noof_guest: 0,
-            noof_adult: 2,
-            noof_child: 0,
-            checkout: "2024-03-19",
-            noof_rooms: 1
+      0: {
+        rooms: {
+          name: 'Bonnet',
+          cottage: 'Hill Top Guest House',
+          restort: 'Vanavihari, Maredumilli',
         },
-        1: {
-            rooms: {
-                name: "Bear",
-                cottage: "Pre-Fabricated Cottages",
-                restort: "Vanavihari, Maredumilli"
-            },
-            checkin: "2024-03-19",
-            noof_guest: 0,
-            noof_adult: 1,
-            noof_child: 0,
-            checkout: "2024-03-19",
-            noof_rooms: 0
+        checkin: '2024-03-03',
+        noof_guest: 0,
+        noof_adult: 2,
+        noof_child: 0,
+        checkout: '2024-03-19',
+        noof_rooms: 1,
+      },
+      1: {
+        rooms: {
+          name: 'Bear',
+          cottage: 'Pre-Fabricated Cottages',
+          restort: 'Vanavihari, Maredumilli',
         },
-        2: {
-            rooms: {
-                name: "CHOUSINGHA",
-                cottage: "Pre-Fabricated Cottages",
-                restort: "Vanavihari, Maredumilli"
-            },
-            checkin: "2024-03-13",
-            noof_guest: 1,
-            noof_adult: 5,
-            noof_child: 2,
-            checkout: "2024-03-13",
-            noof_rooms: 0
-      }
+        checkin: '2024-03-19',
+        noof_guest: 0,
+        noof_adult: 1,
+        noof_child: 0,
+        checkout: '2024-03-19',
+        noof_rooms: 0,
+      },
+      2: {
+        rooms: {
+          name: 'CHOUSINGHA',
+          cottage: 'Pre-Fabricated Cottages',
+          restort: 'Vanavihari, Maredumilli',
+        },
+        checkin: '2024-03-13',
+        noof_guest: 1,
+        noof_adult: 5,
+        noof_child: 2,
+        checkout: '2024-03-13',
+        noof_rooms: 0,
+      },
     };
-    const jsonArray = Object.keys(json).map(key => {
-        return json[key];
-        return {
-          id: key,
-          ...json[key]
-        };
+    const jsonArray = Object.keys(json).map((key) => {
+      return json[key];
+      return {
+        id: key,
+        ...json[key],
+      };
     });
-    
+
     // this.roomCards = this.mapRoomData(jsonArray, this.roomIds);
 
     // setTimeout(() => {

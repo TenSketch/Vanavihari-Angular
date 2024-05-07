@@ -81,7 +81,6 @@ export class BookingSummaryComponent {
       if (this.difference <= 0 && !redirectDone) {
         redirectDone = true; // Set flag to true to indicate redirection
         this.authService.clearBookingRooms(this.bookingTypeResort);
-        // localStorage.clear();
         this.router.navigate(['resorts/rooms']);
       }
       this.minutes.nativeElement.innerText =
@@ -190,10 +189,6 @@ export class BookingSummaryComponent {
     } else {
       return {
         display: 'block',
-        position: 'fixed',
-        top: '15%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
       }; // Return empty object for default styles on larger devices
     }
   }
@@ -246,10 +241,10 @@ export class BookingSummaryComponent {
               companyname:[response.result.companyname]
             });
           } else if (response.code == 3000) {
-            this.userService.clearUser();
+            this.authService.clearBookingRooms(this.bookingTypeResort)
             
           } else {
-            this.userService.clearUser();
+            this.authService.clearBookingRooms(this.bookingTypeResort)
            
           }
         },
@@ -437,7 +432,7 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              const amount = '5.00';
+              const amount = this.calculateGrandTotal();
               const rU =
                 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
@@ -526,11 +521,16 @@ export class BookingSummaryComponent {
   }
 
   calculateGrandTotal() {
-    return this.grandTotal;
+    let total = parseFloat(this.grandTotal).toFixed(2);
+
+    return total;
   }
   calculateTotalPrice() {
     return JSON.parse(this.summaryData.room_charges);
   }
+
+
+
   calculateTotalGSTPrice() {
     return JSON.parse(this.summaryData.total_gst);
   }

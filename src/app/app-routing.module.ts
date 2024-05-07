@@ -37,7 +37,7 @@ const routes: Routes = [
 {path:'my-account/settings', component: SettingsComponent},
 {path:'my-account/my-bookings', component: MyBookingsComponent},
 {path:'resorts/vanavihari-maredumilli', component: VanavihariMaredumilliComponent},
-{path:'resorts/jungleStar-Valamuru', component: JungleStarValamuruComponent},
+{path:'resorts/junglestar-valamuru', component: JungleStarValamuruComponent},
 {path:'tribal-community', component: TribalCommunityComponent},
 {path:'privacy-policy', component: PrivacyPolicyComponent},
 {path:'payment-policy', component: PaymentPoliciesComponent},
