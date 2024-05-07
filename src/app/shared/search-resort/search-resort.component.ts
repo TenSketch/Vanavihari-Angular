@@ -29,6 +29,7 @@ export class SearchResortComponent implements OnInit {
   checkoutDate: string;
   currentDate: any;
   minDate: Date;
+  maxDate: Date;
   firstResort: string;
   previousResort: string;
   selectionChanged = false;
@@ -38,34 +39,46 @@ export class SearchResortComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private router: Router,
-   private authService: AuthService,
-    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private formBuilder: FormBuilder
   ) {
     // Set the minimum to the next date from the present date.
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1); // Increment current date by 1 day
-    this.minDate = currentDate;
+
     this.searchForm = this.formBuilder.group({
       selectedResort: [],
       checkinDate: [],
       checkoutDate: [],
     });
 
+    const maxDate = new Date();
+    maxDate.setMonth(maxDate.getMonth() + 3); // Increment current month by 3
+    this.maxDate = maxDate;
+
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
 
-  
-
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
 
-   
     this.currentDate = new Date();
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
 
     this.firstResort = '';
     this.previousResort = this.authService.getSearchData('resort');
+
+    const currentDate = new Date();
+
+    if(this.selectedResort == 'Vanavihari, Maredumilli'){
+      currentDate.setDate(currentDate.getDate());
+      this.minDate = currentDate;
+
+    }
+    if(this.selectedResort == 'Jungle Star, Valamuru'){
+      currentDate.setDate(currentDate.getDate()+1); // Increment current date by 1 day
+      this.minDate = currentDate;
+
+    }
   }
   ngOnInit(): void {}
 
@@ -74,6 +87,22 @@ export class SearchResortComponent implements OnInit {
   triggerModal() {
     this.isModalVisible = true;
     this.selectionChanged = false;
+  }
+
+  setMinDate(){
+    const currentDate = new Date();
+    console.log(this.selectedResort)
+    if(this.selectedResort == 'Vanavihari, Maredumilli'){
+      currentDate.setDate(currentDate.getDate());
+      this.minDate = currentDate;
+
+    }
+    if(this.selectedResort == 'Jungle Star, Valamuru'){
+      currentDate.setDate(currentDate.getDate()+1); // Increment current date by 1 day
+      this.minDate = currentDate;
+
+    }
+
   }
 
   onCancel() {
@@ -107,8 +136,6 @@ export class SearchResortComponent implements OnInit {
     return null;
   }
 
- 
-  
   submitSearch() {
     let bookingRooms = JSON.stringify(localStorage.getItem('booking_rooms'));
     let array = JSON.parse(bookingRooms);
@@ -133,8 +160,6 @@ export class SearchResortComponent implements OnInit {
       this.authService.refreshRoomsComponent();
       this.authService.buttonClick$.next();
       this.router.navigate(['resorts/rooms']);
-      
-      
     } else {
       if (this.selectionChanged && array.length !== 2) {
         this.triggerModal();
