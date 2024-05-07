@@ -125,34 +125,10 @@ export class HomeComponent implements OnInit {
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
 
   ngAfterViewInit() {
-    setInterval(() => {
-      this.tickTock();
-      this.difference = this.targetTime - this.now;
-      this.difference = this.difference / (1000 * 60 * 60 * 24);
-
-      !isNaN(this.days.nativeElement.innerText)
-        ? (this.days.nativeElement.innerText = Math.floor(this.difference))
-        : (this.days.nativeElement.innerHTML = `<img src="https://i.gifer.com/VAyR.gif" />`);
-    }, 1000);
+   
   }
-  tickTock() {
-    this.date = new Date();
-    this.now = this.date.getTime();
-    this.days.nativeElement.innerText = Math.floor(this.difference);
-    this.hours.nativeElement.innerText = 23 - this.date.getHours();
-    this.minutes.nativeElement.innerText = 60 - this.date.getMinutes();
-    this.seconds.nativeElement.innerText = 60 - this.date.getSeconds();
-  }
-  // timer ends
 
-  // settings = {
-  //   counter: false,
-  //   plugins: [lgZoom], // Include the lgZoom plugin
-  // };
-
-  // onBeforeSlide(detail: BeforeSlideDetail): void {
-  //   const { index, prevIndex } = detail;
-  // }
+  
   openLightbox(index: number, id: string) {
     this.resortTypeId = id;
     this.ngOnInit();

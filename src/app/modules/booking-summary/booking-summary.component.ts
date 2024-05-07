@@ -241,10 +241,8 @@ export class BookingSummaryComponent {
               companyname:[response.result.companyname]
             });
           } else if (response.code == 3000) {
-            this.authService.clearBookingRooms(this.bookingTypeResort)
             
           } else {
-            this.authService.clearBookingRooms(this.bookingTypeResort)
            
           }
         },
