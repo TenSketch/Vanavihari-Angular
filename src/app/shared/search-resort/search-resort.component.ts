@@ -130,10 +130,7 @@ export class SearchResortComponent implements OnInit {
     if (this.checkinDate) {
       const minDate = new Date(this.checkinDate);
       minDate.setDate(minDate.getDate() + 1); // Add one day to the checkinDate
-      if(this.selectedResort == 'Vanavihari, Maredumilli'){
-        minDate.setDate(minDate.getDate() + 1);
-
-      }
+      
       return minDate;
     }
     return null;
