@@ -44,12 +44,12 @@
             href="mailto:info@vanavihari.com"
             title="click to send email"
           >
-            <i class="fa-regular fa-envelope me-2"></i>{{ resortEmail }}</a
+            <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a
           >
         </li>
         <li class="nav-item d-none d-lg-block">
-          <a class="nav-link" href="tel:{{ resortNumber }}}" title="call">
-            <i class="fa-solid fa-mobile-screen me-2"></i>{{ resortNumber }}</a
+          <a class="nav-link" href="tel:+919494151617" title="call">
+            <i class="fa-solid fa-mobile-screen me-2"></i>+919494151617</a
           >
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn()">
@@ -200,16 +200,7 @@
           >
         </li>
 
-        <li class="sidebar-item d-flex">
-          <a
-            class="sidebar-link"
-            href="mailto:{{ resortEmail }}"
-            title="click to send email"
-          >
-            <i class="fa-regular fa-envelope"></i
-            ><span class="ml-5">info@vanavihari.com</span>
-          </a>
-        </li>
+      
         <li class="sidebar-item d-flex justify-content-start align-items-start" *ngIf="isMobileOrTablet">
           <!-- font awesome email -->
           <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
@@ -349,9 +340,9 @@
                 >+919494151617</a
               >
             </li>
-            <li class="mt-2">
+            <li class="mt-2 d-flex justify-content-start align-items-start">
               <!-- font awesome email -->
-              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
+              <i class="fa fa-address-card me-2 mt-1" aria-hidden="true"></i>
               <address>Vanavihari Eco-tourism Complex,<br>Maredumilli, Andhra Pradesh
                 533295</address>
             </li>
@@ -377,9 +368,9 @@
                 >+9173821 51617</a
               >
             </li>
-            <li class="mt-2">
+            <li class="mt-2 d-flex justify-content-start align-items-start">
               <!-- font awesome email -->
-              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
+              <i class="fa fa-address-card me-2 mt-1" aria-hidden="true"></i>
               <address>Jungle Nature Camp Site<br>Valamuru, Andhra Pradesh
                 533295</address>
             </li>

@@ -277,9 +277,9 @@ export class SettingsComponent {
     private http: HttpClient
   ) {
     this.form = this.formBuilder.group({
-      full_name: ['Venkat'],
-      mobile_number: ['8056562076'],
-      email: ['venkat408prabhu@gmail.com', Validators.email],
+      full_name: [''],
+      mobile_number: [''],
+      email: ['', Validators.email],
       dob: ['', Validators.required],
       nationality: [''],
       address1: [''],

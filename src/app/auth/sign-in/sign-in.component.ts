@@ -26,7 +26,8 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private userService:UserService
   ) {
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 
@@ -38,6 +39,10 @@ export class SignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+    let loginStatus = this.userService.isLoggedIn()
+    if(loginStatus){
+      
+    }
 
     // this.route.queryParams.subscribe((params) => {
     //   if (params['message']) {

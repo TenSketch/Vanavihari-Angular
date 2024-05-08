@@ -133,18 +133,36 @@ export class BookingSummaryComponent {
       }
     }
 
-    this.form = this.formBuilder.group({
-      gname: [''],
-      gphone: [''],
-      gemail: ['', Validators.email],
-      gaddress: [''],
-      gcity: [''],
-      gstate: [''],
-      gpincode: [''],
-      gcountry: [''],
-      gstnumber:[''],
-      companyname:['']
-    });
+    if(this.selectedResort == 'Jungle Star, Valamuru'){
+      this.form = this.formBuilder.group({
+        gname: [''],
+        gphone: [''],
+        gemail: ['', Validators.email],
+        gaddress: ['', Validators.required],
+        gcity: ['', Validators.required],
+        gstate: ['', Validators.required],
+        gpincode: ['', Validators.required],
+        gcountry: ['', Validators.required],
+        gstnumber:[''],
+        companyname:[''],
+        foodpreference:['', Validators.required]
+      });
+    }
+    else{
+      this.form = this.formBuilder.group({
+        gname: [''],
+        gphone: [''],
+        gemail: ['', Validators.email],
+        gaddress: ['', Validators.required],
+        gcity: ['', Validators.required],
+        gstate: ['', Validators.required],
+        gpincode: ['', Validators.required],
+        gcountry: ['', Validators.required],
+        gstnumber:[''],
+        companyname:[''],
+        foodpreference:['']
+      });
+    }
   }
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
@@ -238,7 +256,8 @@ export class BookingSummaryComponent {
               gcountry: [response.result.country],
               foodPreference: [response.result.foodPreference],
               gstnumber:[response.result.gstnumber],
-              companyname:[response.result.companyname]
+              companyname:[response.result.companyname],
+              
             });
           } else if (response.code == 3000) {
             

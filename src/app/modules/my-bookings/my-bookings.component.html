@@ -1,6 +1,6 @@
 <app-layout>
   <div class="main d-flex justify-content-center align-items-center">
-   <app-loader *ngIf="showLoader"></app-loader>
+    <app-loader *ngIf="showLoader"></app-loader>
     <div
       class="container booking-container text-center"
       style="position: fixed; display: block; top: 30%"
@@ -36,6 +36,14 @@
               <p *ngIf="item.food_preference">
                 <strong>Food preference:</strong> {{ item.food_preference }}
               </p>
+              <div class="d-flex flex-column" *ngIf="item.rooms.restort == 'Jungle Star, Valamuru'">
+                <button class="btn">
+                  <a class="text-decoration-none" style="color: #ffffff !important;" href="assets/PDF/Foodmenu.pdf" target="_blank">View Food Menu</a>
+                </button>
+                <button class="btn mt-2" (click)="downloadPdf()">
+                  Download Food MENU
+                </button>
+              </div>
             </div>
             <div class="col-md-3 bordered-col">
               <!-- Booking dates -->
@@ -63,14 +71,35 @@
               <p>Booking Status:</p>
               <h6>{{ item.status }}</h6>
               <p>Payment Status:</p>
-              <h6>{{item.pay_status}}</h6>
-              <p *ngIf="item.pay_status=='Not Paid'" class="my-2">We haven't received your payment yet. If the amount has been debited, it will be refunded to your account within 5 to 7 working days. To confirm your booking, please reach out to support with your <br> booking ID : {{item.booking_id}}</p>
-              <button class="btn mt-2" (click)="callSupport('Vanavihari, Maredumilli')" *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">Call Support</button>
-              <button class="btn mt-2" (click)="callSupport('Jungle Star, Valamuru')" *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">Call Support</button>
+              <h6>{{ item.pay_status }}</h6>
+              <p *ngIf="item.pay_status == 'Not Paid'" class="my-2">
+                We haven't received your payment yet. If the amount has been
+                debited, it will be refunded to your account within 5 to 7
+                working days. To confirm your booking, please reach out to
+                support with your <br />
+                booking ID : {{ item.booking_id }}
+              </p>
+              <button
+                class="btn mt-2"
+                (click)="callSupport('Vanavihari, Maredumilli')"
+                *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'"
+              >
+                Call Support
+              </button>
+              <button
+                class="btn mt-2"
+                (click)="callSupport('Jungle Star, Valamuru')"
+                *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'"
+              >
+                Call Support
+              </button>
 
               <button class="btn mt-2 d-none" [disabled]="true">Cancel</button>
 
-              <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
+              <button
+                class="btn mt-2 d-none"
+                [disabled]="item.status !== 'completed'"
+              >
                 Add Review
               </button>
 

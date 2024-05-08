@@ -273,16 +273,6 @@
                 />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
-                <mat-label>Country</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your country"
-                  formControlName="gcountry"
-                />
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Pincode</mat-label>
                 <input
                   type="number"
@@ -292,6 +282,17 @@
                   formControlName="gpincode"
                 />
               </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-3">
+                <mat-label>Country</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  required
+                  placeholder="Enter your country"
+                  formControlName="gcountry"
+                />
+              </mat-form-field>
+              
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>GST Number</mat-label>
                 <input
@@ -315,10 +316,11 @@
                 appearance="outline"
                 class="mt-3"
                 *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                required
               >
                 <mat-label>Food Preference</mat-label>
 
-                <select matNativeControl formControlName="gpincode">
+                <select matNativeControl formControlName="foodpreference">
                   <option value="vegetarian">Vegetarian</option>
                   <option value="nonvegetarian">Non-Vegetarian</option>
                 </select>

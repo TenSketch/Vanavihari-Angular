@@ -288,6 +288,11 @@ gallery-thumbs {
   z-index: 500 !important; 
 }
 
+.btn:disabled {
+  background-color: #97a786;
+  
+}
+
 @media only screen and (max-width: 430px) {
   .g-btn-close {
       right: 1em !important;

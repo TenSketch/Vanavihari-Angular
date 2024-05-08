@@ -122,14 +122,14 @@ export class BookingStatusComponent {
             // alert('Login Error!');
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);
-              this.router.navigate(['/home']);
+              // this.router.navigate(['/home']);
             }, 10 * 1000); 
           } else {
 
             // alert('Login Error!');
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);
-              this.router.navigate(['/home']);
+              // this.router.navigate(['/home']);
             }, 10 * 1000);           }
         },
         error: (err) => {

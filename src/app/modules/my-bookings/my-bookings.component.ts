@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserService } from '../../user.service';
 import { GalleryService } from '@/app/gallery.service';
 import { AuthService } from '@/app/auth.service';
+import {  SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-my-bookings',
@@ -18,13 +19,16 @@ export class MyBookingsComponent {
   showLoader = false;
   selectedResort: any;
   resortNumber: any;
+  // pdfUrl: any;
+  showPdfViewer: boolean = false;
+  pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
 
   constructor(
     private authService: AuthService,
     private renderer: Renderer2,
     private http: HttpClient,
     private userService: UserService,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
   ) {}
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
@@ -63,6 +67,15 @@ export class MyBookingsComponent {
           this.message = err;
         },
       });
+  }
+
+
+  // Function to download PDF
+  downloadPdf() {
+    const link = document.createElement('a');
+    link.href = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
+    link.download = 'Foodmenu.pdf'; // Name of the downloaded file
+    link.click();
   }
 
   callSupport(resort:any) {

@@ -13,7 +13,7 @@
           <div class="row">
             <div class="col-6 mx-auto text-center">
               <h2 class="mb-3">Booking Confirmation</h2>
-              <h1 class="display-5 mb-4">
+              <h1 class="display-5 congo mb-4">
                 Congratulations, Your booking is successful!
               </h1>
             </div>
@@ -91,7 +91,7 @@
     </div>
     <!-- failed booking -->
     <div *ngIf="bookingStatus == 'failed'">
-      <div class="row" style="margin-top: 200px; min-height: 50vh">
+      <div class="container" style="margin-top: 200px; min-height: 50vh">
         <div class="col-md-6 mx-auto">
           <p>Dear {{ reservationDetails.guestName }},</p>
           <p>
@@ -117,92 +117,93 @@
     </div>
 
     <div *ngIf="reservationDetails.resortName == 'Jungle Star, Valamuru' && bookingStatus == 'success'">
-      <p>Dear {{ reservationDetails.guestName }},</p>
-
-      <p>Greetings!</p>
+      <div class="container">
+        <p>Dear {{ reservationDetails.guestName }},</p>
+        <p>Greetings!</p> 
+  
+        <p>
+          We're thrilled to inform you that your payment has been successfully
+          processed, and your reservation is now confirmed. Below, you'll find the
+          invoice detailing your booking and payment information. Should you
+          require any assistance, please feel free to reach out to our support
+          team at the number provided below.
+        </p>
+  
+        <p>Invoice</p>
+  
+        <table
+          cellpadding="8"
+          cellspacing="0"
+          style="width: 100%; border-collapse: collapse"
+        >
+          <thead>
+            <tr
+              style="background-color: #4d9900; color: #ffffff; font-weight: bold"
+            >
+              <th style="text-align: center">Day</th>
+              <th>Meal</th>
+              <th>Time</th>
+              <th>Items</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                rowspan="3"
+                style="
+                  vertical-align: middle;
+                  text-align: center;
+                  font-weight: bold;
+                "
+              >
+                Day 1
+              </td>
+              <td>Lunch</td>
+              <td>1:00 PM to 2:30 PM</td>
+              <td>
+                Pulihora (Complimentary), White Rice, Veg. Curry, Dal, Veg. Fry,
+                Sambar, Curd, Pickle, Papad, Sweet/Banana
+              </td>
+            </tr>
+            <tr>
+              <td>Evening refreshments</td>
+              <td>5:00 PM to 5:30 PM</td>
+              <td>Onion Pakoda with Tea</td>
+            </tr>
+            <tr>
+              <td>Dinner</td>
+              <td>8:00 PM to 9:00 PM</td>
+              <td>
+                Raita, Veg. Dum Biryani, Chicken Curry, Mixed Veg. Curry, White
+                Rice, Curd, Rasam
+              </td>
+            </tr>
+            <tr>
+              <td
+                rowspan="2"
+                style="
+                  vertical-align: middle;
+                  text-align: center;
+                  font-weight: bold;
+                "
+              >
+                Day 2
+              </td>
+              <td>Morning refreshments</td>
+              <td>6:30 AM at Canteen</td>
+              <td>Coffee</td>
+            </tr>
+            <tr>
+              <td>Breakfast</td>
+              <td>7:30 AM to 8:30 AM</td>
+              <td>Idly, Vada, Tea</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <p>Signature</p>
+      </div>
+      </div>
       
-
-      <p>
-        We're thrilled to inform you that your payment has been successfully
-        processed, and your reservation is now confirmed. Below, you'll find the
-        invoice detailing your booking and payment information. Should you
-        require any assistance, please feel free to reach out to our support
-        team at the number provided below.
-      </p>
-
-      <p>Invoice</p>
-
-      <table
-        cellpadding="8"
-        cellspacing="0"
-        style="width: 100%; border-collapse: collapse"
-      >
-        <thead>
-          <tr
-            style="background-color: #4d9900; color: #ffffff; font-weight: bold"
-          >
-            <th style="text-align: center">Day</th>
-            <th>Meal</th>
-            <th>Time</th>
-            <th>Items</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td
-              rowspan="3"
-              style="
-                vertical-align: middle;
-                text-align: center;
-                font-weight: bold;
-              "
-            >
-              Day 1
-            </td>
-            <td>Lunch</td>
-            <td>1:00 PM to 2:30 PM</td>
-            <td>
-              Pulihora (Complimentary), White Rice, Veg. Curry, Dal, Veg. Fry,
-              Sambar, Curd, Pickle, Papad, Sweet/Banana
-            </td>
-          </tr>
-          <tr>
-            <td>Evening refreshments</td>
-            <td>5:00 PM to 5:30 PM</td>
-            <td>Onion Pakoda with Tea</td>
-          </tr>
-          <tr>
-            <td>Dinner</td>
-            <td>8:00 PM to 9:00 PM</td>
-            <td>
-              Raita, Veg. Dum Biryani, Chicken Curry, Mixed Veg. Curry, White
-              Rice, Curd, Rasam
-            </td>
-          </tr>
-          <tr>
-            <td
-              rowspan="2"
-              style="
-                vertical-align: middle;
-                text-align: center;
-                font-weight: bold;
-              "
-            >
-              Day 2
-            </td>
-            <td>Morning refreshments</td>
-            <td>6:30 AM at Canteen</td>
-            <td>Coffee</td>
-          </tr>
-          <tr>
-            <td>Breakfast</td>
-            <td>7:30 AM to 8:30 AM</td>
-            <td>Idly, Vada, Tea</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>Signature</p>
-    </div>
   </div>
 </app-layout>
