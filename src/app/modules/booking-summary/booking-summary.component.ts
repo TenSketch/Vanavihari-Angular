@@ -2,7 +2,14 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
@@ -143,12 +150,8 @@ export class BookingSummaryComponent {
         gstate: ['', Validators.required],
         gpincode: ['', Validators.required],
         gcountry: ['', Validators.required],
-        gstnumber: ['', [Validators.required, this.validateGSTNumber()]],
-        companyname: [
-          '',
-          [Validators.required,
-          Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]
-        ],
+        gstnumber: [''],
+        companyname: [''],
         foodpreference: ['', Validators.required],
       });
     } else {
@@ -161,16 +164,50 @@ export class BookingSummaryComponent {
         gstate: ['', Validators.required],
         gpincode: ['', Validators.required],
         gcountry: ['', Validators.required],
-        gstnumber: ['', [Validators.required, this.validateGSTNumber()]],
-        companyname: [
-          '',
-          [Validators.required,
-          Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]
-        ],
+        gstnumber: [''],
+        companyname: [''],
         foodpreference: [''],
       });
     }
+
+    this.form.get('gstnumber')?.valueChanges.subscribe(() => {
+      this.updateGSTNumberValidators();
+    });
+
+    this.form.get('companyname')?.valueChanges.subscribe(() => {
+      this.updateCompanyNameValidators();
+    });
   }
+
+  private updateGSTNumberValidators(): void {
+    const gstNumberControl = this.form.get('gstnumber');
+
+    if (gstNumberControl?.value) {
+      gstNumberControl.setValidators([Validators.pattern('^[a-zA-Z0-9]*$')]);
+    } else {
+      gstNumberControl?.clearValidators();
+    }
+
+    gstNumberControl?.updateValueAndValidity();
+  }
+
+  private updateCompanyNameValidators(): void {
+    const companyNameControl = this.form.get('companyname');
+
+    if (companyNameControl?.value) {
+      companyNameControl.setValidators([Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]);
+    } else {
+      companyNameControl?.clearValidators();
+    }
+
+    companyNameControl?.updateValueAndValidity();
+  }
+
+  // Function to access form control
+  getFormControl(controlName: string): any {
+    return this.form.get(controlName);
+  }
+
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
@@ -198,16 +235,12 @@ export class BookingSummaryComponent {
     this.getUserDetails();
   }
 
-  validateGSTNumber(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      const gstNumberRegex = /^[a-zA-Z0-9]*$/; // Regular expression to allow only alphanumeric characters
-      if (control.value && !gstNumberRegex.test(control.value)) {
-        return { invalidGSTNumber: true }; // Return an error if the GST number contains any special characters
-      }
-      return null;
-    };
+  isCompanyNameValidationRequired(): boolean {
+    // Add your condition to determine whether company name validation is required or not
+    // For example, you can return true or false based on certain criteria
+    // Here, returning true means company name validation is required
+    return false;
   }
-  
 
   isMobileOrTablet(): boolean {
     const screenWidth = window.innerWidth;
@@ -264,17 +297,17 @@ export class BookingSummaryComponent {
           this.showLoader = false;
           if (response.code == 3000 && response.result.status == 'success') {
             this.form.patchValue({
-              gname: [response.result.name],
-              gphone: [response.result.phone],
-              gemail: [response.result.email],
-              gaddress: [response.result.address1],
-              gcity: [response.result.city],
-              gstate: [response.result.state],
-              gpincode: [response.result.pincode],
-              gcountry: [response.result.country],
-              foodPreference: [response.result.foodPreference],
-              gstnumber: [response.result.gstnumber],
-              companyname: [response.result.companyname],
+              gname: response.result.name,
+              gphone: response.result.phone,
+              gemail: response.result.email,
+              gaddress: response.result.address1,
+              gcity: response.result.city,
+              gstate: response.result.state,
+              gpincode: response.result.pincode,
+              gcountry: response.result.country,
+              foodPreference: response.result.foodPreference,
+              gstnumber: response.result.gstnumber,
+              companyname: response.result.companyname,
             });
           } else if (response.code == 3000) {
           } else {
@@ -454,7 +487,7 @@ export class BookingSummaryComponent {
           next: (response) => {
             this.showLoader = false;
             if (response.code == 3000 && response.result.status == 'success') {
-              this.authService.clearBookingRooms(this.bookingTypeResort);
+              // this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
                 'Reservation Success! Booking Id: ' + response.result.booking_id
               );
