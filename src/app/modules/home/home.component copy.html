@@ -1,5 +1,6 @@
 <app-layout>
   <div class="main">
+    <app-loader *ngIf="showLoader"></app-loader>
     <section id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
@@ -7,7 +8,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Vanavihari</h1>
-            <p>
+            <p class="h4">
               Vanavihari resort, nestled in Maredumilli, is a haven for
               eco-tourism enthusiasts. This community-centric guesthouse offers
               a peaceful escape surrounded by nature.
@@ -19,7 +20,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Vanavihari</h1>
-            <p>
+            <p class="h4">
               Providing cozy cottages and rooms, it sits within easy reach of
               Maredumilli Waterfalls, ensuring guests enjoy a tranquil
               environment.
@@ -31,7 +32,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Jungle Star</h1>
-            <p>
+            <p class="h4">
               Jungle Star Eco Camp, managed by the Andhra Pradesh Forest
               Department, offers seven cottages atop a hillock, reachable only
               by a bridge.
@@ -43,7 +44,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Jungle Star</h1>
-            <p>
+            <p class="h4">
               This eco-friendly site provides adventure activities like treks
               and campfires, nestled deep in the unexplored Eastern Ghats.
             </p>
@@ -54,7 +55,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Amruthadhara Falls</h1>
-            <p>
+            <p class="h4">
               Amruthadhara falls a popular destination for nature lovers,
               especially during the monsoon season when the falls are at their
               most spectacular.
@@ -66,7 +67,7 @@
           <div class="carousel-overlay"></div>
           <div class="carousel-caption p-0">
             <h1 class="display-3">Rampa Falls</h1>
-            <p>
+            <p class="h4">
               In East Godavari's Agency track, discover Rampa V.S.S nestled in
               semi-evergreen forests, featuring Neelakanteswara and Rampa
               waterfalls.
@@ -170,12 +171,18 @@
             <h2 class="mb-3 text-center">Gallery</h2>
             <div class="masonry-layout" id="vanavihari-gallery">
 
-              <lightgallery [settings]="settings">
+              <!-- <lightgallery [settings]="settings">
                 <a *ngFor="let item of imageFilenames" className="gallery-item" [attr.href]="item">
                   <img className="img-responsive" src="{{ item }}" />
                 </a>
-              </lightgallery>
-              <!-- Loop through the image filenames array and generate HTML elements -->
+              </lightgallery> -->
+           
+              <div class="gallerize-example">
+               
+                <p class="" gallerize>
+                  <img *ngFor="let img of imageFilenames;let i= index" [src]="img" (click)="openLightbox(i, 'vanavihari')" class="gallery-image">
+                </p>
+              </div>
             </div>
           </div>
           <div class="col-md-4 mt-3 mt-md-0">
@@ -224,12 +231,13 @@
         <div class="row">
           <div class="col-md-8">
             <h2 class="mb-3 text-center">Gallery</h2>
-            <div class="masonry-layout" id="junglestar-gallery">
-              <lightgallery [settings]="settings">
-                <a *ngFor="let item of imageFilenames1" className="gallery-item" [attr.href]="item">
-                  <img className="img-responsive" src="{{ item }}" />
-                </a>
-              </lightgallery>
+            <div class="masonry-layout" id="jungle-star-gallery">
+            <div class="gallerize-example">
+               
+              <p class="" gallerize>
+                <img *ngFor="let img of imageFilenames1;let i= index" [src]="img" (click)="openLightbox(i, 'jungle-star')" class="gallery-image">
+              </p>
+            </div>
             </div>
           </div>
           <div class="col-md-4 mt-3 mt-md-0">
@@ -279,24 +287,22 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <blockquote class="blockquote text-center">
-                <p class="mb-0">
+                <p class="">
                   The resort was an absolute paradise! The staff was friendly,
                   the rooms were luxurious, and the amenities were top-notch. I
                   can't wait to come back!
                 </p>
-                <br />
-                <footer class="blockquote-footer">John Doe</footer>
+                <footer class="blockquote-footer">Rajesh</footer>
               </blockquote>
             </div>
             <div class="carousel-item">
               <blockquote class="blockquote text-center">
-                <p class="mb-0">
+                <p class="">
                   Our family had a fantastic time at the resort. The kids loved
                   the pool, and we enjoyed the beautiful beach. The service was
                   exceptional, and we left with unforgettable memories.
                 </p>
-                <br />
-                <footer class="blockquote-footer">Jane Smith</footer>
+                <footer class="blockquote-footer">Lakshmi</footer>
               </blockquote>
             </div>
             <!-- Add more carousel items as needed -->
