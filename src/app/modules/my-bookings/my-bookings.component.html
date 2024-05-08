@@ -60,8 +60,11 @@
               </div>
             </div>
             <div class="col-md-3 d-flex flex-column booking-status">
-              <p>Status:</p>
+              <p>Booking Status:</p>
               <h6>{{ item.status }}</h6>
+              <p>Payment Status:</p>
+              <h6>{{item.pay_status}}</h6>
+              <p *ngIf="item.pay_status=='Not Paid'" class="my-2">We haven't received your payment yet. If the amount has been debited, it will be refunded to your account within 5 to 7 working days. To confirm your booking, please reach out to support with your <br> booking ID : {{item.booking_id}}</p>
               <button class="btn mt-2" (click)="callSupport('Vanavihari, Maredumilli')" *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">Call Support</button>
               <button class="btn mt-2" (click)="callSupport('Jungle Star, Valamuru')" *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">Call Support</button>
 

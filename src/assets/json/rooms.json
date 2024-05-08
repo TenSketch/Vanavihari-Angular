@@ -11,7 +11,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Narmada"
+    "Room_Name": "Narmada",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -25,7 +27,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Bahuda"
+    "Room_Name": "Bahuda",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -39,7 +43,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Tapathi"
+    "Room_Name": "Tapathi",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -53,7 +59,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Bear"
+    "Room_Name": "Bear",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -67,7 +75,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Chital"
+    "Room_Name": "Chital",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -81,7 +91,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Chousingha"
+    "Room_Name": "Chousingha",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -95,7 +107,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Sambar"
+    "Room_Name": "Sambar",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -109,7 +123,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Bonnet"
+    "Room_Name": "Bonnet",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "2500.00",
@@ -123,7 +139,9 @@
     "Week_End_Rate": "3500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Panther"
+    "Room_Name": "Panther",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "1750.00",
@@ -137,7 +155,9 @@
     "Week_End_Rate": "2000.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Red Jungle Fowl"
+    "Room_Name": "Red Jungle Fowl",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "1750.00",
@@ -151,7 +171,9 @@
     "Week_End_Rate": "2000.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Peacock"
+    "Room_Name": "Peacock",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -165,7 +187,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Hornbill"
+    "Room_Name": "Hornbill",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -179,7 +203,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Bulbul"
+    "Room_Name": "Bulbul",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -193,7 +219,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Woodpecker"
+    "Room_Name": "Woodpecker",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -207,7 +235,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Kingfisher"
+    "Room_Name": "Kingfisher",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -221,7 +251,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Sokuleru"
+    "Room_Name": "Sokuleru",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "4000.00",
@@ -235,7 +267,9 @@
     "Week_End_Rate": "4500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
-    "Room_Name": "Pamuleru"
+    "Room_Name": "Pamuleru",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -249,7 +283,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Aranya"
+    "Room_Name": "Aranya",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -263,7 +299,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Prana"
+    "Room_Name": "Prana",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -277,7 +315,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Vanya"
+    "Room_Name": "Vanya",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -291,7 +331,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Prakruti"
+    "Room_Name": "Prakruti",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -305,7 +347,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Aditya"
+    "Room_Name": "Aditya",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -319,7 +363,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Ambara"
+    "Room_Name": "Ambara",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -333,7 +379,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Avani"
+    "Room_Name": "Avani",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -347,7 +395,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Jabilli"
+    "Room_Name": "Jabilli",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -361,7 +411,9 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Vennela"
+    "Room_Name": "Vennela",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   },
   {
     "Week_Days_Rate": "5000.00",
@@ -375,6 +427,8 @@
     "Week_End_Rate": "7500.00",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
-    "Room_Name": "Agathi"
+    "Room_Name": "Agathi",
+    "is_button_disabled": false, 
+    "isExtraGuestChecked": false
   }
 ]

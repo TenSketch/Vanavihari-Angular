@@ -143,7 +143,7 @@ export class GalleryService {
   sambar(): string[] {
     // Assuming the images are located in the assets/images folder
     const imageFolder = 'assets/img/sambar/';
-    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg', 'img-4.jpg']; // Replace with actual filenames
+    const imageFilenames = ['img-1.jpg', 'img-2.jpg', 'img-3.jpg']; // Replace with actual filenames
 
     return imageFilenames.map((filename) => imageFolder + filename);
   }

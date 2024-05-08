@@ -28,7 +28,7 @@
         <mat-form-field appearance="outline">
           <mat-label>Checkout date</mat-label>
           <input matInput [matDatepicker]="picker1" (click)="picker1.open()" placeholder="Checkout date"
-            name="CheckOutDate" [(ngModel)]="checkoutDate" [min]="setMinCheckoutDate()" [max]="maxDate" #checkoutDateInput="ngModel"
+            name="CheckOutDate" [(ngModel)]="checkoutDate" [min]="setMinCheckoutDate()"  #checkoutDateInput="ngModel"
             required />
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>

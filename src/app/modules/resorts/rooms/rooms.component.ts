@@ -478,7 +478,8 @@ export class RoomsComponent implements OnInit {
 
     this.showLoader = true;
 
-    this.http
+    if(this.checkinDate){
+      this.http
       .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
       .subscribe({
         next: (response) => {
@@ -521,11 +522,27 @@ export class RoomsComponent implements OnInit {
             this.roomData = data;
             this.filteredRoomData = this.filterByResort(this.selectedResort);
           });
-          // this.showErrorAlert(
-          //   'An error occurred while fetching room list. Please try again later.'
-          // );
+         
         },
       });
+    }
+    else{
+      this.showLoader = false;
+      this.loadingRooms = false;
+     
+
+      this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+        this.roomData = data;
+        if (this.roomData.length == 0) {
+          this.isRoomDataEmpty = true;
+        } else {
+          this.isRoomDataEmpty = false;
+        }
+        this.filteredRoomData = this.filterByResort(this.selectedResort)
+      });
+    }
+
+   
   }
 
   isAnyRoomChecked(): boolean {
