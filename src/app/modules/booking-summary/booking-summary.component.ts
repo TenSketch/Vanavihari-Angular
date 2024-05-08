@@ -2,7 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
@@ -59,7 +59,7 @@ export class BookingSummaryComponent {
   subBillerId: string;
   isModalVisible: boolean = false;
   isInfoModalVisible = false;
-  showLoader = false
+  showLoader = false;
 
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
@@ -133,7 +133,7 @@ export class BookingSummaryComponent {
       }
     }
 
-    if(this.selectedResort == 'Jungle Star, Valamuru'){
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
       this.form = this.formBuilder.group({
         gname: [''],
         gphone: [''],
@@ -143,12 +143,15 @@ export class BookingSummaryComponent {
         gstate: ['', Validators.required],
         gpincode: ['', Validators.required],
         gcountry: ['', Validators.required],
-        gstnumber:[''],
-        companyname:[''],
-        foodpreference:['', Validators.required]
+        gstnumber: ['', [Validators.required, this.validateGSTNumber()]],
+        companyname: [
+          '',
+          [Validators.required,
+          Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]
+        ],
+        foodpreference: ['', Validators.required],
       });
-    }
-    else{
+    } else {
       this.form = this.formBuilder.group({
         gname: [''],
         gphone: [''],
@@ -158,9 +161,13 @@ export class BookingSummaryComponent {
         gstate: ['', Validators.required],
         gpincode: ['', Validators.required],
         gcountry: ['', Validators.required],
-        gstnumber:[''],
-        companyname:[''],
-        foodpreference:['']
+        gstnumber: ['', [Validators.required, this.validateGSTNumber()]],
+        companyname: [
+          '',
+          [Validators.required,
+          Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]
+        ],
+        foodpreference: [''],
       });
     }
   }
@@ -190,6 +197,17 @@ export class BookingSummaryComponent {
 
     this.getUserDetails();
   }
+
+  validateGSTNumber(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const gstNumberRegex = /^[a-zA-Z0-9]*$/; // Regular expression to allow only alphanumeric characters
+      if (control.value && !gstNumberRegex.test(control.value)) {
+        return { invalidGSTNumber: true }; // Return an error if the GST number contains any special characters
+      }
+      return null;
+    };
+  }
+  
 
   isMobileOrTablet(): boolean {
     const screenWidth = window.innerWidth;
@@ -232,7 +250,7 @@ export class BookingSummaryComponent {
     this.isInfoModalVisible = false;
   }
   getUserDetails() {
-    this.showLoader= true
+    this.showLoader = true;
     const params = new HttpParams()
       .set('email', this.authService.getAccountUsername() ?? '')
       .set('token', this.authService.getAccessToken() ?? '');
@@ -243,7 +261,7 @@ export class BookingSummaryComponent {
       )
       .subscribe({
         next: (response) => {
-          this.showLoader = false
+          this.showLoader = false;
           if (response.code == 3000 && response.result.status == 'success') {
             this.form.patchValue({
               gname: [response.result.name],
@@ -255,18 +273,15 @@ export class BookingSummaryComponent {
               gpincode: [response.result.pincode],
               gcountry: [response.result.country],
               foodPreference: [response.result.foodPreference],
-              gstnumber:[response.result.gstnumber],
-              companyname:[response.result.companyname],
-              
+              gstnumber: [response.result.gstnumber],
+              companyname: [response.result.companyname],
             });
           } else if (response.code == 3000) {
-            
           } else {
-           
           }
         },
         error: (err) => {
-          this.showLoader = false
+          this.showLoader = false;
           console.error('Error:', err);
         },
       });
@@ -311,7 +326,7 @@ export class BookingSummaryComponent {
 
   convertDateFormat(dateString: string): string {
     if (!dateString) {
-      return ''; 
+      return '';
     }
 
     const date = new Date(dateString);
@@ -398,7 +413,7 @@ export class BookingSummaryComponent {
   }
 
   submitBooking() {
-    this.showLoader = true
+    this.showLoader = true;
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
 
@@ -437,7 +452,7 @@ export class BookingSummaryComponent {
         })
         .subscribe({
           next: (response) => {
-            this.showLoader = false
+            this.showLoader = false;
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
@@ -452,7 +467,7 @@ export class BookingSummaryComponent {
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
               // const amount = this.calculateGrandTotal();
-              const amount = '3.00'
+              const amount = '3.00';
               const rU =
                 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
@@ -517,7 +532,7 @@ export class BookingSummaryComponent {
             }
           },
           error: (err) => {
-            this.showLoader = false
+            this.showLoader = false;
             console.error('Error:', err);
           },
         });
@@ -549,8 +564,6 @@ export class BookingSummaryComponent {
   calculateTotalPrice() {
     return JSON.parse(this.summaryData.room_charges);
   }
-
-
 
   calculateTotalGSTPrice() {
     return JSON.parse(this.summaryData.total_gst);
