@@ -605,15 +605,15 @@ export class RoomsComponent implements OnInit {
       this.showLoader = false;
       this.loadingRooms = false;
 
-      // this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-      //   this.roomData = data;
-      //   if (this.roomData.length == 0) {
-      //     this.isRoomDataEmpty = true;
-      //   } else {
-      //     this.isRoomDataEmpty = false;
-      //   }
-      //   this.filteredRoomData = this.filterByResort(this.selectedResort)
-      // });
+      this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+        this.roomData = data;
+        if (this.roomData.length == 0) {
+          this.isRoomDataEmpty = true;
+        } else {
+          this.isRoomDataEmpty = false;
+        }
+        this.filteredRoomData = this.filterByResort(this.selectedResort)
+      });
     }
   }
 
