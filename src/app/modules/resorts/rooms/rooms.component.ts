@@ -152,6 +152,9 @@ export class RoomsComponent implements OnInit {
   localLightBox: any;
   items: GalleryItem[] = [];
 
+  vanavihariOrder: any[] = [];
+  junglestarOrder: any[] = [];
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -166,7 +169,6 @@ export class RoomsComponent implements OnInit {
     public lightbox: Lightbox,
     public gallery: Gallery
   ) {
-
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
     // for navigation filter
@@ -209,6 +211,38 @@ export class RoomsComponent implements OnInit {
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
+    this.vanavihariOrder = [
+      'NARMADA',
+      'BAHUDA',
+      'TAPATHI',
+      'BEAR',
+      'CHITAL',
+      'CHAUSINGHA',
+      'SAMBAR',
+      'BONNET',
+      'PANTHER',
+      'RED JUNGLE FOWL',
+      ,
+      'PEACOCK',
+      'HORNBILL',
+      'BULBUL',
+      'WOODPECKER',
+      'KINGFISHER',
+      'SOKULERU',
+      'PAMULERU',
+    ];
+    this.junglestarOrder = [
+      'Aranya',
+      'Prana',
+      'Vanya',
+      'Prakruti',
+      'Aditya',
+      'Ambara',
+      'Avani',
+      'Jabilli',
+      'Vennela',
+      'Agathi',
+    ];
   }
 
   ngOnInit(): void {
@@ -240,12 +274,11 @@ export class RoomsComponent implements OnInit {
 
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
-    console.log(this.roomIds.length)
-    if (this.roomIds.length >   0) {
+    // console.log(this.roomIds.length);
+    if (this.roomIds.length > 0) {
       this.showBookingSummary = false;
     }
   }
-
 
   ngAfterViewInit() {
     this.cardContainer?.nativeElement.addEventListener('scroll', () => {
@@ -479,71 +512,109 @@ export class RoomsComponent implements OnInit {
 
     this.showLoader = true;
 
-    if(this.checkinDate){
+    if (this.checkinDate) {
       this.http
-      .get<any>('https://vanavihari.com/zoho-connect?api_type=room_list' + perm)
-      .subscribe({
-        next: (response) => {
-          this.showLoader = false;
-          const roomDataResponse = response.result.data;
+        .get<any>(
+          'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
+        )
+        .subscribe({
+          next: (response) => {
+            this.showLoader = false;
+            const roomDataResponse = response.result.data;
 
-          this.roomData = Object.keys(roomDataResponse).map((key) => {
-            const roomId = key;
-            const roomObj = roomDataResponse[key];
-            return {
-              Room_Id: roomObj.room_id,
-              Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
-              Cottage_Type: roomObj.cottage_type,
-              Max_Allowed_Guest: roomObj.max_guest,
-              Week_Days_Rate: roomObj.week_day_rate,
-              Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
-              Week_End_Rate: roomObj.week_end_rate,
-              Room_Name: roomObj.name,
-              Select_Resort: roomObj.resort,
-              Max_Allowed_Adult: roomObj.max_adult,
-              Room_Image: '', // Add default value for Room_Image
-              ID: roomId, // Add default value for ID
-              is_button_disabled: false, // Add default value for is_button_disabled
-              isExtraGuestChecked: false,
-            };
-          });
-          this.loadingRooms = false;
-          this.filteredRoomData = this.filterByResort(this.selectedResort);
-          if (this.roomData.length == 0) {
-            this.isRoomDataEmpty = true;
-          } else {
-            this.isRoomDataEmpty = false;
-          }
-        },
-        error: (err) => {
-          this.showLoader = false;
-          this.loadingRooms = false;
+            this.roomData = Object.keys(roomDataResponse).map((key) => {
+              const roomId = key;
+              const roomObj = roomDataResponse[key];
+              return {
+                Room_Id: roomObj.room_id,
+                Charges_per_Bed_Week_Days: roomObj.week_day_bed_charge,
+                Cottage_Type: roomObj.cottage_type,
+                Max_Allowed_Guest: roomObj.max_guest,
+                Week_Days_Rate: roomObj.week_day_rate,
+                Charges_per_Bed_Week_End: roomObj.week_end_bed_charge,
+                Week_End_Rate: roomObj.week_end_rate,
+                Room_Name: roomObj.name,
+                Select_Resort: roomObj.resort,
+                Max_Allowed_Adult: roomObj.max_adult,
+                Room_Image: '', // Add default value for Room_Image
+                ID: roomId, // Add default value for ID
+                is_button_disabled: false, // Add default value for is_button_disabled
+                isExtraGuestChecked: false,
+              };
+            });
+            this.loadingRooms = false;
 
-          this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-            this.roomData = data;
             this.filteredRoomData = this.filterByResort(this.selectedResort);
-          });
-         
-        },
-      });
-    }
-    else{
+            // console.log(this.filteredRoomData);
+            // this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
+            //   console.log(room.Room_Name);
+            // });
+            const roomIndexMap = new Map<string, number>();
+            if(this.selectedResort == 'Jungle Star, Valamuru'){
+              this.junglestarOrder.forEach((roomName, index) => {
+                roomIndexMap.set(roomName, index);
+              });
+
+            }
+            if(this.selectedResort == 'Vanavihari, Maredumilli'){
+              this.vanavihariOrder.forEach((roomName, index) => {
+                roomIndexMap.set(roomName, index);
+              });
+            }
+
+            this.filteredRoomData = this.filteredRoomData.sort((a:any, b:any) => {
+              const indexA = roomIndexMap.get(a.Room_Name);
+              const indexB = roomIndexMap.get(b.Room_Name);
+              
+              // If both Room_Names are in junglestarOrder, compare their indices
+              if (indexA !== undefined && indexB !== undefined) {
+                return indexA - indexB;
+              }
+              
+              // If one of the Room_Names is not in junglestarOrder, prioritize the one that is
+              if (indexA !== undefined) {
+                return -1; // Place a before b
+              }
+              if (indexB !== undefined) {
+                return 1; // Place b before a
+              }
+              
+              // If neither Room_Name is in junglestarOrder, maintain the current order
+              return 0;
+            });
+            // this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
+            //   console.log('after',room.Room_Name);
+            // });
+            if (this.roomData.length == 0) {
+              this.isRoomDataEmpty = true;
+            } else {
+              this.isRoomDataEmpty = false;
+            }
+          },
+          error: (err) => {
+            this.showLoader = false;
+            this.loadingRooms = false;
+
+            // this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+            //   this.roomData = data;
+            //   this.filteredRoomData = this.filterByResort(this.selectedResort);
+            // });
+          },
+        });
+    } else {
       this.showLoader = false;
       this.loadingRooms = false;
-     
 
-      this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
-        this.roomData = data;
-        if (this.roomData.length == 0) {
-          this.isRoomDataEmpty = true;
-        } else {
-          this.isRoomDataEmpty = false;
-        }
-        this.filteredRoomData = this.filterByResort(this.selectedResort)
-      });
+      // this.http.get<any[]>('./assets/json/rooms.json').subscribe((data) => {
+      //   this.roomData = data;
+      //   if (this.roomData.length == 0) {
+      //     this.isRoomDataEmpty = true;
+      //   } else {
+      //     this.isRoomDataEmpty = false;
+      //   }
+      //   this.filteredRoomData = this.filterByResort(this.selectedResort)
+      // });
     }
-
-   
   }
 
   isAnyRoomChecked(): boolean {
