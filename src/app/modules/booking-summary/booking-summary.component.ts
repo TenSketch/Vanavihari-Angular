@@ -312,8 +312,8 @@ export class BookingSummaryComponent {
               gpincode: response.result.pincode,
               gcountry: response.result.country,
               foodPreference: response.result.foodPreference,
-              gstnumber: response.result.gstnumber,
-              companyname: response.result.companyname,
+              gstnumber: response.result.gstnumber ? response.result.gstnumber : '',
+              companyname: response.result.companyname ? response.result.companyname: '',
             });
           } else if (response.code == 3000) {
           } else {
