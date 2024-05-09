@@ -23,6 +23,8 @@ export class SearchResortComponent implements OnInit {
   selectedAges: string[] = [];
   ageDropdowns: number[];
   RoomValues: any;
+  bookingTypeResort: any;
+
   //selectedResort: string = "vanavihari";
   selectedResort: string;
   checkinDate: string;
@@ -85,11 +87,14 @@ export class SearchResortComponent implements OnInit {
   isModalVisible: boolean = false;
 
   triggerModal() {
-    this.isModalVisible = true;
+    this.onConfirm()
+    // this.isModalVisible = true;
     this.selectionChanged = false;
   }
 
   setMinDate(){
+    this.selectionChanged = true
+
     const currentDate = new Date();
     if(this.selectedResort == 'Vanavihari, Maredumilli'){
       currentDate.setDate(currentDate.getDate());
@@ -109,6 +114,7 @@ export class SearchResortComponent implements OnInit {
   }
 
   onConfirm() {
+    // this.authService.clearBookingRooms(this.bookingTypeResort)
     this.isModalVisible = false;
     this.authService.setSearchData([
       {
@@ -122,8 +128,8 @@ export class SearchResortComponent implements OnInit {
 
     this.authService.buttonClick$.next();
     localStorage.setItem('booking_rooms', JSON.stringify([]));
-    // window.location.reload();
     this.router.navigate(['resorts/rooms']);
+    window.location.reload();
   }
 
   setMinCheckoutDate() {
@@ -139,7 +145,7 @@ export class SearchResortComponent implements OnInit {
   submitSearch() {
     let bookingRooms = JSON.stringify(localStorage.getItem('booking_rooms'));
     let array = JSON.parse(bookingRooms);
-
+    
     const dateString = this.checkinDate;
     const date = new Date(dateString);
     const date2 = new Date(this.checkoutDate);
@@ -163,7 +169,7 @@ export class SearchResortComponent implements OnInit {
     } else {
       if (this.selectionChanged && array.length !== 2) {
         this.triggerModal();
-      } else {
+  } else {
         this.authService.setSearchData([
           {
             resort: this.selectedResort,

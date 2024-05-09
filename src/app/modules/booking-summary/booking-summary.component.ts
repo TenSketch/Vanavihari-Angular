@@ -70,6 +70,7 @@ export class BookingSummaryComponent {
 
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
+  intervalId: any;
 
   ngAfterViewInit() {
     // Set target time 5 minutes from now
@@ -78,7 +79,7 @@ export class BookingSummaryComponent {
 
     let redirectDone = false; // Flag to track if redirection has been done
 
-    setInterval(() => {
+    this.intervalId =setInterval(() => {
       this.tickTock();
       this.difference = this.targetTime - this.now;
       const minutesLeft = Math.floor(
@@ -97,6 +98,11 @@ export class BookingSummaryComponent {
     }, 1000);
   }
 
+  ngOnDestroy() {
+    // Clear the interval when the component is destroyed
+    clearInterval(this.intervalId);
+  }
+  
   tickTock() {
     this.date = new Date();
     this.now = this.date.getTime();
@@ -487,7 +493,7 @@ export class BookingSummaryComponent {
           next: (response) => {
             this.showLoader = false;
             if (response.code == 3000 && response.result.status == 'success') {
-              // this.authService.clearBookingRooms(this.bookingTypeResort);
+              this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
                 'Reservation Success! Booking Id: ' + response.result.booking_id
               );
@@ -559,8 +565,12 @@ export class BookingSummaryComponent {
               document.body.appendChild(form);
               form.submit();
             } else if (response.code == 3000) {
+              this.authService.clearBookingRooms(this.bookingTypeResort);
+
               this.showSnackBarAlert(response.result.msg);
             } else {
+              this.authService.clearBookingRooms(this.bookingTypeResort);
+
               this.showSnackBarAlert('Reservation Error!');
             }
           },

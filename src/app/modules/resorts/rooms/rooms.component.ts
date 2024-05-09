@@ -240,8 +240,9 @@ export class RoomsComponent implements OnInit {
 
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
-    if (this.roomIds.length > 0) {
-      this.showBookingSummary = true;
+    console.log(this.roomIds.length)
+    if (this.roomIds.length >   0) {
+      this.showBookingSummary = false;
     }
   }
 
@@ -605,7 +606,7 @@ export class RoomsComponent implements OnInit {
     }
 
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-    if (this.roomIds.length == 0) {
+    if (this.roomIds.length > 0) {
       this.showBookingSummary = false;
     }
 
