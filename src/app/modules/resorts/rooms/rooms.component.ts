@@ -212,24 +212,23 @@ export class RoomsComponent implements OnInit {
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
     this.vanavihariOrder = [
-      'NARMADA',
-      'BAHUDA',
-      'TAPATHI',
-      'BEAR',
-      'CHITAL',
-      'CHAUSINGHA',
-      'SAMBAR',
-      'BONNET',
-      'PANTHER',
-      'RED JUNGLE FOWL',
-      ,
-      'PEACOCK',
-      'HORNBILL',
-      'BULBUL',
-      'WOODPECKER',
-      'KINGFISHER',
-      'SOKULERU',
-      'PAMULERU',
+      'Narmada',
+      'Bahuda',
+      'Tapathi',
+      'Bear',
+      'Chital',
+      'Chausingha',
+      'Sambar',
+      'Bonnet',
+      'Panther',
+      'Red Jungle Fowl',
+      'Peacock',
+      'Hornbill',
+      'Bulbul',
+      'Woodpecker',
+      'Kingfisher',
+      'Sokuleru',
+      'Pamuleru',
     ];
     this.junglestarOrder = [
       'Aranya',
@@ -545,10 +544,10 @@ export class RoomsComponent implements OnInit {
             this.loadingRooms = false;
 
             this.filteredRoomData = this.filterByResort(this.selectedResort);
-            // console.log(this.filteredRoomData);
-            // this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
-            //   console.log(room.Room_Name);
-            // });
+            console.log(this.filteredRoomData);
+            this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
+              console.log(room.Room_Name);
+            });
             const roomIndexMap = new Map<string, number>();
             if(this.selectedResort == 'Jungle Star, Valamuru'){
               this.junglestarOrder.forEach((roomName, index) => {
@@ -556,7 +555,7 @@ export class RoomsComponent implements OnInit {
               });
 
             }
-            if(this.selectedResort == 'Vanavihari, Maredumilli'){
+            else{
               this.vanavihariOrder.forEach((roomName, index) => {
                 roomIndexMap.set(roomName, index);
               });
@@ -582,9 +581,9 @@ export class RoomsComponent implements OnInit {
               // If neither Room_Name is in junglestarOrder, maintain the current order
               return 0;
             });
-            // this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
-            //   console.log('after',room.Room_Name);
-            // });
+            this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
+              console.log('after',room.Room_Name);
+            });
             if (this.roomData.length == 0) {
               this.isRoomDataEmpty = true;
             } else {
