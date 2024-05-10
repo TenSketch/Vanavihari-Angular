@@ -537,8 +537,8 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              // const amount = this.calculateGrandTotal();
-              const amount = '1.00';
+              const amount = this.calculateGrandTotal();
+              // const amount = '1.00';
               const rU =
                 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 

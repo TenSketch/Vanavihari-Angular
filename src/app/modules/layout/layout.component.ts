@@ -22,7 +22,7 @@ export class LayoutComponent implements OnInit {
   private subscription: Subscription;
   showLoader = false;
   isMobileOrTablet: boolean = false;
-
+  isModalVisible = false
 
   constructor(
     private router: Router,
@@ -170,6 +170,19 @@ export class LayoutComponent implements OnInit {
       }, 1500);
 
     }
+  }
+
+  triggerModal(){
+    this.isModalVisible = true
+  }
+
+  onCancel() {
+    this.isModalVisible = false;
+  }
+  
+  onConfirm(){
+    this.isModalVisible = false;
+    this.logout()
   }
 
   goToJungleStar() {
