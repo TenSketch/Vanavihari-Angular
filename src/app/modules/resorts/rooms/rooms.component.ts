@@ -769,9 +769,18 @@ export class RoomsComponent implements OnInit {
       total_gst: this.calculateTotalGst(),
     };
 
+    const bookingRoomsString = localStorage.getItem('booking_rooms');
+    const bookingRoomsArray = JSON.parse(bookingRoomsString || '[]');
+        const length = bookingRoomsArray.length;
+    
+    console.log(length);
+    
     let summaryData = JSON.stringify(summary);
-
     localStorage.setItem('summaryData', summaryData);
+    localStorage.setItem('checkindate', JSON.stringify(this.checkinDate));
+    localStorage.setItem('checkoutdate', JSON.stringify(this.checkoutDate));
+    localStorage.setItem('noofrooms',JSON.stringify(length))
+   
 
     const bookingRoomsStr = localStorage.getItem('booking_rooms');
     if (bookingRoomsStr) {
@@ -807,14 +816,7 @@ export class RoomsComponent implements OnInit {
       });
     }
 
-    // let status = this.userService.isLoggedIn();
-    // if (status) {
-    //   this.router.navigate(['/booking-summary']);
-    // } else {
-    //   // this.router.navigate(['/booking-summary']);
-
-    //   this.router.navigate(['/sign-in']);
-    // }
+    
   }
 
   signIn() {

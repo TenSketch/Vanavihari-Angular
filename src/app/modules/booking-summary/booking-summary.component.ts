@@ -30,8 +30,8 @@ export class BookingSummaryComponent {
 
   roomsCount: number = 1;
   roomDetails: any[];
-  checkInDate: string;
-  checkOutDate: string;
+  checkInDate: any;
+  checkOutDate: any;
   durationOfStay: any;
   seslectedResort: string;
   getFullUser: string;
@@ -67,7 +67,7 @@ export class BookingSummaryComponent {
   isModalVisible: boolean = false;
   isInfoModalVisible = false;
   showLoader = false;
-
+  noofrooms: any;
   @ViewChild('minutes', { static: true }) minutes: ElementRef;
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
   intervalId: any;
@@ -79,7 +79,7 @@ export class BookingSummaryComponent {
 
     let redirectDone = false; // Flag to track if redirection has been done
 
-    this.intervalId =setInterval(() => {
+    this.intervalId = setInterval(() => {
       this.tickTock();
       this.difference = this.targetTime - this.now;
       const minutesLeft = Math.floor(
@@ -102,7 +102,7 @@ export class BookingSummaryComponent {
     // Clear the interval when the component is destroyed
     clearInterval(this.intervalId);
   }
-  
+
   tickTock() {
     this.date = new Date();
     this.now = this.date.getTime();
@@ -119,8 +119,11 @@ export class BookingSummaryComponent {
     private renderer: Renderer2
   ) {
     this.selectedResort = this.authService.getSearchData('resort');
-    this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkoutDate = this.authService.getSearchData('checkout');
+
+    // this.checkinDate = this.authService.getSearchData('checkin');
+    this.checkinDate = localStorage.getItem('checkindate');
+    // this.checkoutDate = this.authService.getSearchData('checkout');
+    this.checkoutDate = localStorage.getItem('checkoutdate');
     this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
@@ -183,9 +186,7 @@ export class BookingSummaryComponent {
     this.form.get('companyname')?.valueChanges.subscribe(() => {
       this.updateCompanyNameValidators();
     });
-    
   }
-  
 
   private updateGSTNumberValidators(): void {
     const gstNumberControl = this.form.get('gstnumber');
@@ -203,7 +204,9 @@ export class BookingSummaryComponent {
     const companyNameControl = this.form.get('companyname');
 
     if (companyNameControl?.value) {
-      companyNameControl.setValidators([Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$')]);
+      companyNameControl.setValidators([
+        Validators.pattern('^[a-zA-Z.]+(?:\\s[a-zA-Z.]+)*$'),
+      ]);
     } else {
       companyNameControl?.clearValidators();
     }
@@ -222,8 +225,21 @@ export class BookingSummaryComponent {
     this.route.queryParams.subscribe((params) => {
       this.bookingTypeResort = params['bookingTypeResort'];
     });
-    this.checkInDate = this.authService.getSearchData('checkin');
-    this.checkOutDate = this.authService.getSearchData('checkout');
+    // this.checkInDate = this.authService.getSearchData('checkin');
+    const checkInDateString = localStorage.getItem('checkindate');
+    if (checkInDateString) {
+      this.checkInDate = JSON.parse(checkInDateString);
+    }
+    const checkOutDateString = localStorage.getItem('checkoutdate');
+    if (checkOutDateString) {
+      this.checkOutDate = JSON.parse(checkOutDateString);
+    }
+
+    const noofroomsString = localStorage.getItem('noofrooms');
+    if (noofroomsString) {
+      this.noofrooms = JSON.parse(noofroomsString);
+    }
+    // this.checkOutDate = this.authService.getSearchData('checkout');
     this.seslectedResort = this.authService.getSearchData('resort');
 
     const startDate = new Date(this.checkInDate);
@@ -271,7 +287,8 @@ export class BookingSummaryComponent {
   }
 
   triggerModal() {
-    this.isModalVisible = true;
+    // this.isModalVisible = true;
+    this.router.navigate(['/resorts/rooms']);
   }
   triggerInfoModal() {
     this.isInfoModalVisible = true;
@@ -314,8 +331,12 @@ export class BookingSummaryComponent {
               gpincode: response.result.pincode,
               gcountry: response.result.country,
               foodPreference: response.result.foodPreference,
-              gstnumber: response.result.gstnumber ? response.result.gstnumber : '',
-              companyname: response.result.companyname ? response.result.companyname: '',
+              gstnumber: response.result.gstnumber
+                ? response.result.gstnumber
+                : '',
+              companyname: response.result.companyname
+                ? response.result.companyname
+                : '',
             });
           } else if (response.code == 3000) {
           } else {
@@ -439,11 +460,9 @@ export class BookingSummaryComponent {
       (total, room) => total + room.numGuests,
       0
     );
+    this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
 
     //  payment details
-
- 
-
   }
 
   isLoggedIn(): boolean {
@@ -457,10 +476,10 @@ export class BookingSummaryComponent {
   submitBooking() {
     this.showLoader = true;
     this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
-    this.totalGuests = this.totalGuests + this.extra_guests
+    // this.totalGuests = this.totalGuests + this.extra_guests
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
-    
+    // noof_child
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
       this.subBillerId = 'MMILLI';
@@ -483,8 +502,9 @@ export class BookingSummaryComponent {
             .map((item) => `${item.id}-${item.noof_guest}`)
             .join(',')
         )
-        .set('noof_adult', this.adultsCount)
-        .set('noof_guest', this.guestCount);
+        .set('noof_adult', this.totalGuests)
+        .set('noof_guest', this.extra_guests)
+        .set('noof_child', this.extra_children);
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
