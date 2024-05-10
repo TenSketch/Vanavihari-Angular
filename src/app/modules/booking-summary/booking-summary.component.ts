@@ -86,16 +86,20 @@ export class BookingSummaryComponent {
         (this.difference % (1000 * 60 * 60)) / (1000 * 60)
       );
       const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
+      
       if (this.difference <= 0 && !redirectDone) {
         redirectDone = true; // Set flag to true to indicate redirection
-        this.authService.clearBookingRooms(this.bookingTypeResort);
+        clearInterval(this.intervalId); // Clear the interval when difference reaches 0
         this.router.navigate(['resorts/rooms']);
+        this.authService.clearBookingRooms(this.bookingTypeResort);
       }
+      
       this.minutes.nativeElement.innerText =
         minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft;
       this.seconds.nativeElement.innerText =
         secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
     }, 1000);
+    
   }
 
   ngOnDestroy() {
