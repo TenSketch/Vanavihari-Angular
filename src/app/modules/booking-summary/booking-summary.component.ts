@@ -121,9 +121,9 @@ export class BookingSummaryComponent {
     this.selectedResort = this.authService.getSearchData('resort');
 
     // this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkinDate = localStorage.getItem('checkindate');
+    this.checkinDate = JSON.parse(localStorage.getItem('checkindate') as string);
     // this.checkoutDate = this.authService.getSearchData('checkout');
-    this.checkoutDate = localStorage.getItem('checkoutdate');
+    this.checkoutDate = JSON.parse(localStorage.getItem('checkoutdate') as string);
     this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
