@@ -721,6 +721,8 @@ export class RoomsComponent implements OnInit {
       return (totalPrice -= this.calculateExtraGuestCharges());
     }
 
+    totalPrice = totalPrice * this.calculateDurationOfStay()
+
     return totalPrice;
   }
 
