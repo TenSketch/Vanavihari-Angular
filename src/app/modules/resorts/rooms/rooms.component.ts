@@ -154,6 +154,7 @@ export class RoomsComponent implements OnInit {
 
   vanavihariOrder: any[] = [];
   junglestarOrder: any[] = [];
+  showMessage= false
 
   constructor(
     private router: Router,
@@ -187,6 +188,12 @@ export class RoomsComponent implements OnInit {
       this.checkoutDate = this.authService.getSearchData('checkout');
       this.isSelectionSwitched = true;
       // window.location.reload()
+      if(this.checkinDate && this.checkoutDate){
+        this.showMessage = false
+     }
+     else{
+       this.showMessage = true
+     }
       this.fetchRoomList();
     });
     this.checkIfWeekend(); // Check if it's a weekend on component initialization
@@ -208,6 +215,12 @@ export class RoomsComponent implements OnInit {
     if (this.selectedResort && !this.isSelectionSwitched) {
       this.fetchRoomList();
     }
+    if(this.checkinDate && this.checkoutDate){
+      this.showMessage = false
+   }
+   else{
+     this.showMessage = true
+   }
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;

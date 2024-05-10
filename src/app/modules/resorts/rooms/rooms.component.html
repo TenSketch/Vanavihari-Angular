@@ -128,7 +128,7 @@
       <!-- rooms listing section -->
       <div class="row mt-5">
         <aside
-          class="col-sm-5 col-md-3 h-100"
+          class="col-sm-5 mt-3 col-md-3 h-100"
           [ngClass]="
             isMobile == false ? 'position-sticky' : 'position-sticky-for-mobile'
           "
@@ -575,7 +575,14 @@
           </div>
           <div *ngIf="!loadingRooms;">
             <div *ngIf="!isRoomDataEmpty">
+              <div class="row my-2 w-100  d-flex align-items-center justify-content-center">
+                <div>
+          
+                  <pre *ngIf="showMessage" class="text-center">*** Please select dates and search rooms ****</pre>
+                </div>
+              </div>
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
+                
                 <div class="row">
                   <div class="col-md-5">
                    
