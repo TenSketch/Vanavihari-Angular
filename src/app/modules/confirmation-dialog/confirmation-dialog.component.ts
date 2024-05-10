@@ -8,10 +8,21 @@ import { Component } from '@angular/core';
 })
 export class ConfirmationDialogComponent {
   bookingTypeResort: string;
-
-  constructor(private authService: AuthService) {}
+  showCancelBtn:any = true
+  constructor(private authService: AuthService) {
+    let status = localStorage.getItem('showCancel')
+    if(status == 'no'){
+      this.showCancelBtn = false
+    }
+    if(status == 'yes'){
+      this.showCancelBtn = true
+    }
+  }
 
   clearData() {
+    localStorage.setItem('showCancel','yes')
     this.authService.clearBookingRooms(this.bookingTypeResort);
   }
+
+
 }

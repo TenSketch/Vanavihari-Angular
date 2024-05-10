@@ -4,5 +4,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="true"  (click)="clearData()">Yes</button>
-  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button *ngIf="showCancelBtn" mat-button  [mat-dialog-close]="false">Cancel</button>
 </div>

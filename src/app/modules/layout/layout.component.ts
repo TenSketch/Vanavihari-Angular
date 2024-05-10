@@ -163,9 +163,9 @@ export class LayoutComponent implements OnInit {
       queryParams: { bookingTypeResort: 'vanvihari' },
       queryParamsHandling: 'merge',
     });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 1500);
   }
 
   goToJungleStar() {
@@ -181,9 +181,9 @@ export class LayoutComponent implements OnInit {
       queryParams: { bookingTypeResort: 'junglestar' },
       queryParamsHandling: 'merge',
     });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 1500);
   }
 
   // vanavihariRoute(){

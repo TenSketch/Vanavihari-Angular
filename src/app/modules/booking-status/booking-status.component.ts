@@ -22,6 +22,8 @@ interface ReservationDetails {
   guestEmail:string;
   rooms:any[];
   totalGuest:any;
+  totalExtraGuests:any;
+  totalChildren:any;
   stayDuration:any;
   email:any;
 }
@@ -95,6 +97,8 @@ export class BookingStatusComponent {
               guestEmail:response.result.email,
               rooms:response.result.rooms,
               totalGuest: response.result.total_guest,
+              totalExtraGuests : response.result.total_extra_guest,
+              totalChildren : response.result.total_children,
               stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout),
               email:response.result.email
             };
@@ -135,7 +139,7 @@ export class BookingStatusComponent {
         error: (err) => {
           this.showLoader = false
 
-          console.error('Error:', err);
+          // console.error('Error:', err);
         },
       });
   }

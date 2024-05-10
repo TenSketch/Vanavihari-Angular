@@ -75,7 +75,7 @@ export class BookingSummaryComponent {
   ngAfterViewInit() {
     // Set target time 5 minutes from now
     this.targetTime = new Date();
-    this.targetTime.setMinutes(this.targetTime.getMinutes() + 5);
+    this.targetTime.setMinutes(this.targetTime.getMinutes() + 1);
 
     let redirectDone = false; // Flag to track if redirection has been done
 
@@ -90,6 +90,7 @@ export class BookingSummaryComponent {
       if (this.difference <= 0 && !redirectDone) {
         redirectDone = true; // Set flag to true to indicate redirection
         clearInterval(this.intervalId); // Clear the interval when difference reaches 0
+        localStorage.setItem('showCancel','no')
         this.router.navigate(['resorts/rooms']);
         this.authService.clearBookingRooms(this.bookingTypeResort);
       }
@@ -348,7 +349,7 @@ export class BookingSummaryComponent {
         },
         error: (err) => {
           this.showLoader = false;
-          console.error('Error:', err);
+          // console.error('Error:', err);
         },
       });
   }
@@ -535,7 +536,7 @@ export class BookingSummaryComponent {
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
               // const amount = this.calculateGrandTotal();
-              const amount = '3.00';
+              const amount = '1.00';
               const rU =
                 'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
 
@@ -605,7 +606,7 @@ export class BookingSummaryComponent {
           },
           error: (err) => {
             this.showLoader = false;
-            console.error('Error:', err);
+            // console.error('Error:', err);
           },
         });
     }

@@ -773,7 +773,7 @@ export class RoomsComponent implements OnInit {
     const bookingRoomsArray = JSON.parse(bookingRoomsString || '[]');
         const length = bookingRoomsArray.length;
     
-    console.log(length);
+    // console.log(length);
     
     let summaryData = JSON.stringify(summary);
     localStorage.setItem('summaryData', summaryData);

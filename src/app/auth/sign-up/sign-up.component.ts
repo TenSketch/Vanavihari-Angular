@@ -164,8 +164,7 @@ export class SignUpComponent implements OnInit {
               this.isLoading = false;
               this.showSuccessAlert();
               this.showAlert=false
-              this.router.navigateByUrl(this.returnUrl);
-
+              this.router.navigate(['/success']);
             } else if (response.code == 3000) {
               this.isLoading = false;
               this.showErrorAlert(response.result.msg);
@@ -206,7 +205,7 @@ export class SignUpComponent implements OnInit {
 
   showSuccessAlert() {
     this.snackBar
-      .open('Form submitted successfully!', 'Close', {
+      .open('Check email for verification!', 'Close', {
         duration: 3000,
       })
       .afterDismissed()
