@@ -75,6 +75,8 @@ import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 import { BookingStatusTestComponent } from './modules/booking-status-test/booking-status-test.component';
 import { LoaderComponent } from './modules/loader/loader.component';
 import { BioDiversityZoneComponent } from './modules/bio-diversity-zone/bio-diversity-zone.component';
+import { ConfirmationDialogComponent } from './modules/confirmation-dialog/confirmation-dialog.component';
+import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +108,9 @@ import { BioDiversityZoneComponent } from './modules/bio-diversity-zone/bio-dive
     ContactUsComponent,
     BookingStatusTestComponent,
     LoaderComponent,
-    BioDiversityZoneComponent
+    BioDiversityZoneComponent,
+    ConfirmationDialogComponent,
+    FoodMenuComponent
 
   ],
   imports: [

@@ -273,7 +273,6 @@ export class RoomsComponent implements OnInit {
 
     // this.authService.clearBookingRooms(this.bookingTypeResort);
 
-    // console.log(this.roomIds.length);
     if (this.roomIds.length > 0) {
       this.showBookingSummary = false;
     }
@@ -544,10 +543,7 @@ export class RoomsComponent implements OnInit {
             this.loadingRooms = false;
 
             this.filteredRoomData = this.filterByResort(this.selectedResort);
-            console.log(this.filteredRoomData);
-            this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
-              console.log(room.Room_Name);
-            });
+            
             const roomIndexMap = new Map<string, number>();
             if(this.selectedResort == 'Jungle Star, Valamuru'){
               this.junglestarOrder.forEach((roomName, index) => {
@@ -581,9 +577,7 @@ export class RoomsComponent implements OnInit {
               // If neither Room_Name is in junglestarOrder, maintain the current order
               return 0;
             });
-            this.filteredRoomData.forEach((room: { Room_Name: any; }) => {
-              console.log('after',room.Room_Name);
-            });
+           
             if (this.roomData.length == 0) {
               this.isRoomDataEmpty = true;
             } else {

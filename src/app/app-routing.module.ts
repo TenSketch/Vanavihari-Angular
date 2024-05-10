@@ -25,6 +25,7 @@ import { ReadPaymentTransactionResponseComponent } from './auth/read-payment-tra
 import { PaymentPoliciesComponent } from './modules/payment-policies/payment-policies.component';
 import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 import { BiodiversityZoneComponent } from './modules/biodiversity-zone/biodiversity-zone.component';
+import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 
 const routes: Routes = [
 {path:'home', component:HomeComponent}, 
@@ -53,6 +54,7 @@ const routes: Routes = [
 { path:'contact-us', component: ContactUsComponent},
 { path:'booking-status-test', component: BookingStatusTestComponent},
 {path:'biodiversity-zone', component:BiodiversityZoneComponent},
+{path:'food-menu',component:FoodMenuComponent},
 { path: '', redirectTo: '/home', pathMatch: 'full' }, 
 { path: '**', redirectTo: '/home' }, 
 

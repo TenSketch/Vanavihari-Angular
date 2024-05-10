@@ -183,7 +183,9 @@ export class BookingSummaryComponent {
     this.form.get('companyname')?.valueChanges.subscribe(() => {
       this.updateCompanyNameValidators();
     });
+    
   }
+  
 
   private updateGSTNumberValidators(): void {
     const gstNumberControl = this.form.get('gstnumber');
@@ -440,7 +442,8 @@ export class BookingSummaryComponent {
 
     //  payment details
 
-    this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
+ 
+
   }
 
   isLoggedIn(): boolean {
@@ -453,9 +456,11 @@ export class BookingSummaryComponent {
 
   submitBooking() {
     this.showLoader = true;
+    this.extra_guests = JSON.parse(this.summaryData.extra_guests).length;
+    this.totalGuests = this.totalGuests + this.extra_guests
     this.guestCount = parseInt(this.totalGuests + this.extra_children);
     this.adultsCount = parseInt(this.totalGuests);
-
+    
     if (this.resortName == 'Vanavihari, Maredumilli') {
       this.resort_name = 'vanavihari';
       this.subBillerId = 'MMILLI';
