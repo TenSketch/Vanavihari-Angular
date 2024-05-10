@@ -123,6 +123,8 @@ export class BookingSummaryComponent {
     private route: ActivatedRoute,
     private renderer: Renderer2
   ) {
+    localStorage.setItem('isSummary','yes')
+
     this.selectedResort = this.authService.getSearchData('resort');
 
     // this.checkinDate = this.authService.getSearchData('checkin');

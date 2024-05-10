@@ -35,6 +35,7 @@ export class SearchResortComponent implements OnInit {
   firstResort: string;
   previousResort: string;
   selectionChanged = false;
+  showMessage= false
 
   @ViewChild('confirmationModal') confirmationModal: ElementRef;
 
@@ -59,7 +60,13 @@ export class SearchResortComponent implements OnInit {
     this.selectedResort = this.authService.getSearchData('resort');
     this.checkinDate = this.authService.getSearchData('checkin');
     this.checkoutDate = this.authService.getSearchData('checkout');
-
+ 
+    if(this.checkinDate=='' && this.checkoutDate==''){
+       this.showMessage = true
+    }
+    else{
+      this.showMessage = false
+    }
     this.RoomValues = 'Adult-' + 2 + ' Children- ' + 0 + ' Rooms-' + 1;
 
     this.currentDate = new Date();
