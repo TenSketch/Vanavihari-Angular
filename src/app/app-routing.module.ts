@@ -26,6 +26,7 @@ import { PaymentPoliciesComponent } from './modules/payment-policies/payment-pol
 import { ContactUsComponent } from './modules/contact-us/contact-us.component';
 import { BiodiversityZoneComponent } from './modules/biodiversity-zone/biodiversity-zone.component';
 import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
+import { CanDeactivateGuard } from './can-deactivate-guard.service';
 
 const routes: Routes = [
 {path:'home', component:HomeComponent}, 
@@ -44,7 +45,7 @@ const routes: Routes = [
 {path:'payment-policy', component: PaymentPoliciesComponent},
 {path:'terms-and-conditions', component: TermsAndConditionsComponent},
 {path:'awards-and-publications', component: AwardsNewsPublicationsComponent},
-{path:'booking-summary', component: BookingSummaryComponent},
+{path:'booking-summary', component: BookingSummaryComponent, canDeactivate: [CanDeactivateGuard] },
 {path:'booking-status', component: BookingStatusComponent},
 {path:'resorts/rooms', component: RoomsComponent},
 {path: 'tourist-destination', component: TouristPlacesComponent},

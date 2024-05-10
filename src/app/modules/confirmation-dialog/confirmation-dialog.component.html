@@ -1,6 +1,8 @@
-<div class="confirmation-dialog">
-    <p>{{ message }}</p>
-    <button (click)="confirm()">OK</button>
-    <button (click)="cancel()">Cancel</button>
-  </div>
-  
+<h1 mat-dialog-title>Confirm Action</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to leave this page, you may loose the data saved?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="true"  (click)="clearData()">Yes</button>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+</div>

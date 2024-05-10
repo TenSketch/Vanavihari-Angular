@@ -1,21 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthService } from '@/app/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
-  styleUrls: ['./confirmation-dialog.component.scss']
+  styleUrls: ['./confirmation-dialog.component.scss'],
 })
 export class ConfirmationDialogComponent {
-  @Output() confirmed = new EventEmitter<boolean>();
+  bookingTypeResort: string;
 
-  message = 'Are you sure you want to leave this page?';
+  constructor(private authService: AuthService) {}
 
-  confirm() {
-    this.confirmed.emit(true);
+  clearData() {
+    this.authService.clearBookingRooms(this.bookingTypeResort);
   }
-
-  cancel() {
-    this.confirmed.emit(false);
-  }
-
 }

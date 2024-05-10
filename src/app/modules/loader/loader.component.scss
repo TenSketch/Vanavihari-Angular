@@ -28,3 +28,12 @@
     100% { transform: rotate(360deg); }
   }
   
+
+  
+/* Media Query for Small Screens */
+@media screen and (max-width: 768px) {
+  .loader-container {
+      align-items: center; /* Center horizontally */
+      justify-content: center; /* Center vertically */
+  }
+}
