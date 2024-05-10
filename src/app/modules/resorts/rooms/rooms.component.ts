@@ -721,7 +721,7 @@ export class RoomsComponent implements OnInit {
       return (totalPrice -= this.calculateExtraGuestCharges());
     }
 
-    totalPrice = totalPrice * this.calculateDurationOfStay()
+    totalPrice = totalPrice
 
     return totalPrice;
   }
@@ -750,7 +750,7 @@ export class RoomsComponent implements OnInit {
   }
 
   calculateTotalGst(): number {
-    let totalPrice = this.calculateTotalPrice();
+    let totalPrice = this.calculateTotalPrice()*this.calculateDurationOfStay();
     const gstRate = 12; // GST rate is 12%
 
     totalPrice = (totalPrice * gstRate) / 100;
