@@ -708,9 +708,7 @@ export class RoomsComponent implements OnInit {
         (room: { Room_Id: any }) => room.Room_Id === roomId
       );
       if (room) {
-        const rate = isWeekend
-          ? parseFloat(room.Week_End_Rate)
-          : parseFloat(room.Week_Days_Rate);
+        const rate = parseFloat(room.Week_Days_Rate);
         totalPrice = this.getRoomCharges();
       }
     }
@@ -732,22 +730,17 @@ export class RoomsComponent implements OnInit {
     const currentDay = currentDate.getDay(); // 0 for Sunday, 1 for Monday, etc.
 
     for (const roomId of this.roomIds) {
-      const room = this.roomData.find(
-        (r: { Room_Id: any }) => r.Room_Id === roomId
-      );
-      if (room) {
-        if (currentDay === 0 || currentDay === 6) {
-          // It's a weekend (Sunday or Saturday)
-          roomCharges += parseFloat(room.Week_End_Rate);
-        } else {
-          // It's a weekday (Monday to Friday)
-          roomCharges += parseFloat(room.Week_Days_Rate);
+        const room = this.roomData.find(
+            (r: { Room_Id: any }) => r.Room_Id === roomId
+        );
+        if (room) {
+            roomCharges += parseFloat(room.Week_Days_Rate);
         }
-      }
     }
 
     return roomCharges;
-  }
+}
+
 
   calculateTotalGst(): number {
     let totalPrice = this.calculateTotalPrice()*this.calculateDurationOfStay();
