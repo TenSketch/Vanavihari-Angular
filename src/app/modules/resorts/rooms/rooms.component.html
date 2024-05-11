@@ -176,7 +176,7 @@
                     >{{ findRoomById(roomId).Room_Name }}
                   </div>
                   <div class="d-flex flex-column">
-                    <small>
+                    <!-- <small>
                       <strong>Room Tariff:</strong>
                       {{
                         isWeekend
@@ -184,7 +184,16 @@
                           : (findRoomById(roomId).Week_Days_Rate
                             | currency : "INR " : true : "1.2-2")
                       }}
+                    </small> -->
+                    <small>
+                      <strong>Room Tariff:</strong>
+                      {{
+                        
+                         (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
                     </small>
+
 
                     <small>
                       <strong>Cottage Type:</strong>
@@ -367,13 +376,20 @@
                           >{{ findRoomById(roomId).Room_Name }}
                         </div>
                         <div class="d-flex flex-column">
-                          <small>
+                          <!-- <small>
                             <strong>Room Tariff:</strong>
                             {{
                               isWeekend
                                 ? findRoomById(roomId).Week_End_Rate
                                 : (findRoomById(roomId).Week_Days_Rate
                                   | currency : "INR " : true : "1.2-2")
+                            }}
+                          </small> -->
+                          <small>
+                            <strong>Room Tariff:</strong>
+                            {{
+                              (findRoomById(roomId).Week_Days_Rate
+                              | currency : "INR " : true : "1.2-2")
                             }}
                           </small>
 
@@ -673,7 +689,9 @@
                     >
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
-                          <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
+                          <!-- <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
+                          </strong> -->
+                          <strong>{{  room.Week_Days_Rate }}
                           </strong>
                         </h6>
                         <p class="text-primary-dark">For 2 guests</p>
