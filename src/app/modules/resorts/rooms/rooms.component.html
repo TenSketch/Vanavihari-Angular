@@ -492,8 +492,8 @@
                         }}</span
                       >
                       <span>{{
-                        calculateTotalPrice()
-                          | currency : "INR " : "symbol" : "1.2-2"
+                        calculateTotalPrice()* calculateDurationOfStay()
+                        | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
                     <div
