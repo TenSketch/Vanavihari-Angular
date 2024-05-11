@@ -128,7 +128,7 @@
       <!-- rooms listing section -->
       <div class="row mt-5">
         <aside
-          class="col-sm-5 col-md-3 h-100"
+          class="col-sm-5 mt-3 col-md-3 h-100"
           [ngClass]="
             isMobile == false ? 'position-sticky' : 'position-sticky-for-mobile'
           "
@@ -176,10 +176,24 @@
                     >{{ findRoomById(roomId).Room_Name }}
                   </div>
                   <div class="d-flex flex-column">
+                    <!-- <small>
+                      <strong>Room Tariff:</strong>
+                      {{
+                        isWeekend
+                          ? findRoomById(roomId).Week_End_Rate
+                          : (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
+                    </small> -->
                     <small>
                       <strong>Room Tariff:</strong>
-                      {{ (findRoomById(roomId).Week_Days_Rate | currency : "INR " : true : "1.2-2") }}
+                      {{
+                        
+                         (findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2")
+                      }}
                     </small>
+
 
                     <small>
                       <strong>Cottage Type:</strong>
@@ -362,9 +376,21 @@
                           >{{ findRoomById(roomId).Room_Name }}
                         </div>
                         <div class="d-flex flex-column">
+                          <!-- <small>
+                            <strong>Room Tariff:</strong>
+                            {{
+                              isWeekend
+                                ? findRoomById(roomId).Week_End_Rate
+                                : (findRoomById(roomId).Week_Days_Rate
+                                  | currency : "INR " : true : "1.2-2")
+                            }}
+                          </small> -->
                           <small>
                             <strong>Room Tariff:</strong>
-                            {{ (findRoomById(roomId).Week_Days_Rate | currency : "INR " : true : "1.2-2") }}
+                            {{
+                              (findRoomById(roomId).Week_Days_Rate
+                              | currency : "INR " : true : "1.2-2")
+                            }}
                           </small>
 
                           <small>
@@ -565,7 +591,14 @@
           </div>
           <div *ngIf="!loadingRooms;">
             <div *ngIf="!isRoomDataEmpty">
+              <div class="row my-2 w-100  d-flex align-items-center justify-content-center">
+                <div>
+          
+                  <pre *ngIf="showMessage" class="text-center">*** Please select dates and search rooms ****</pre>
+                </div>
+              </div>
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
+                
                 <div class="row">
                   <div class="col-md-5">
                    
@@ -656,7 +689,9 @@
                     >
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
-                          <strong>{{ room.Week_Days_Rate }}
+                          <!-- <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
+                          </strong> -->
+                          <strong>{{  room.Week_Days_Rate }}
                           </strong>
                         </h6>
                         <p class="text-primary-dark">For 2 guests</p>

@@ -90,11 +90,14 @@
                 </small> -->
                 
 
-                <p *ngIf="extra_guests !== 0">
+                <p >
                   <strong>Extra Guest:</strong> {{ extra_guests }}
                 </p>
-                <p *ngIf="extra_children !== 0">
-                  No. of Children: {{ extra_children }}
+                <p >
+                  <strong>
+                    No. of Children: {{ extra_children }}
+
+                  </strong>
                 </p>
 
                 <a class="font-weight-bold" (click)="triggerModal()"
@@ -152,7 +155,7 @@
               <h5>Payment details</h5>
               <p>
                 <strong>Total Room Charges:</strong>
-                {{ calculateTotalPrice() }}
+                {{ calculateTotalPrice() * calculateDurationOfStay() }}
               </p>
               <!-- <p>Total room tarri: 5400</p> -->
               <p>
