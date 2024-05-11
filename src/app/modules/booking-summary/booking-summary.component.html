@@ -70,26 +70,25 @@
 
                 <div class="pt-2" *ngFor="let roomId of cardData">
                   <p class="m-0">
-                    <strong>Cottage Type:{{ roomId.Cottage_Type }}</strong>
+                    <strong>Cottage Type:</strong><span> {{ roomId.Cottage_Type }}</span>
                   </p>
                   <p class="m-0">
-                    <strong class="me-2"
-                      >Room Name: {{ roomId.Room_Name }}</strong
-                    >
+                    <strong class="me-2">Room Name:</strong><span> {{ roomId.Room_Name }}</span>
                   </p>
                 </div>
-                <hr />
+                <hr>
                 <p>
-                  <strong>Total no. of guest(s): </strong
+                  <strong>Number of room(s): </strong>
+                  <span id="totalRooms">{{ noofrooms }}</span>
+                </p>
+                <p>
+                  <strong>Number of guest(s): </strong
                   ><span>{{ totalGuests }}</span>
                 </p>
                 <!-- <small>
                   <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
                 </small> -->
-                <p>
-                  <strong>Number of room(s): </strong>
-                  <span id="totalRooms">{{ noofrooms }}</span>
-                </p>
+                
 
                 <p >
                   <strong>Extra Guest:</strong> {{ extra_guests }}
