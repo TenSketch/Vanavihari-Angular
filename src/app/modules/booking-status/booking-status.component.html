@@ -18,12 +18,16 @@
               </h1>
             </div>
           </div>
-          <div class="card d-flex justify-content-center align-items-center">
-            <div class="row">
+          <div class="card d-flex justify-content-center align-items-center" >
+            <div class="d-flex flex-column justify-content-end align-items-end w-100">
+                <a class="text-decoration-none" href="/my-bookings">Go to : <strong>My Bookings</strong> </a>
+                <strong>Status :  <i class="fa fa-check" aria-hidden="true"></i> </strong>
+            </div>
+            <div class="row w-100">
               <!-- <div class="col-md-6 text-center">
                 <img src="assets/img/Jungle_Star-reception.jpg" alt="Resort Name" class="img-fluid rounded-3">
               </div> -->
-              <div class="col-md-6 text-center mx-auto">
+              <div class="col-md-6 text-center mx-auto" >
                 <h3 class="mb-3">
                   <strong>Resort:</strong> {{ reservationDetails.resortName }}
                 </h3>
@@ -73,6 +77,11 @@
                     >{{ reservationDetails.totalChildren }}
                   </p>
 
+                  <img
+                src="{{ getRoomImages(reservationDetails.resortName) }}"
+                class="img-fluid"
+                alt="Room Image"
+              />
                   <!-- <p><strong>Number of Children:</strong></p> -->
                 </div>
                 <div class="mb-4">
@@ -102,6 +111,11 @@
     <div *ngIf="bookingStatus == 'failed'">
       <div class="container" style="margin-top: 200px; min-height: 50vh">
         <div class="col-md-6 mx-auto">
+          <div class="d-flex flex-column justify-content-end align-items-end w-100">
+            <a class="text-decoration-none" href="/my-bookings">Go to : <strong>My Bookings</strong> </a>
+            <strong>Status : <i class="fa-solid fa-xmark"></i>
+            </strong>
+        </div>
           <p>Dear {{ reservationDetails.guestName }},</p>
           <p>
             We apologize for the inconvenience, but it seems there was an issue
@@ -127,6 +141,7 @@
 
     <div *ngIf="reservationDetails.resortName == 'Jungle Star, Valamuru' && bookingStatus == 'success'">
       <div class="container">
+        
         <p>Dear {{ reservationDetails.guestName }},</p>
         <p>Greetings!</p> 
   
