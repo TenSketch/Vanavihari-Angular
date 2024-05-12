@@ -128,9 +128,9 @@ export class SignUpComponent implements OnInit {
           '',
           Validators.compose([
             Validators.required,
-            // Validators.minLength(6),
+            Validators.minLength(8),
             Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{6,}$/
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/
             ),
           ]),
         ],

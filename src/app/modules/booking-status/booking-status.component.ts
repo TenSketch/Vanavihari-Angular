@@ -1,3 +1,4 @@
+import { GalleryService } from '@/app/gallery.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -47,7 +48,8 @@ export class BookingStatusComponent {
     private router: Router,
     private authService: AuthService,
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private galleryService:GalleryService
   ) {}
 
   ngOnInit(): void {
@@ -142,6 +144,75 @@ export class BookingStatusComponent {
           // console.error('Error:', err);
         },
       });
+  }
+
+  getRoomImages(roomname: any): string[] {
+    const lowercaseRoomName = roomname.toLowerCase();
+
+    switch (lowercaseRoomName) {
+      case 'panther':
+        return this.galleryService.panther();
+      case 'bahuda':
+        return this.galleryService.bahuda();
+      case 'bear':
+        return this.galleryService.bear();
+      case 'bonnet':
+        return this.galleryService.bonnet();
+      case 'bulbul':
+        return this.galleryService.bulbul();
+      case 'chital':
+        return this.galleryService.chital();
+      case 'chousingha':
+        return this.galleryService.chousingha();
+      case 'hornbill':
+        return this.galleryService.hornbill();
+      case 'kingfisher':
+        return this.galleryService.kingfisher();
+      case 'pamuleru':
+        return this.galleryService.pamuleru();
+      case 'narmada':
+        return this.galleryService.narmada();
+      case 'peacock':
+        return this.galleryService.peacock();
+      case 'redjunglefowl':
+        return this.galleryService.redjunglefowl();
+      case 'sambar':
+        return this.galleryService.sambar();
+      case 'sokuleru':
+        return this.galleryService.sokuleru();
+      case 'bear':
+        return this.galleryService.bear();
+      case 'tapathi':
+        return this.galleryService.tapathi();
+      case 'tribal':
+        return this.galleryService.tribal();
+      case 'woodpecker':
+        return this.galleryService.woodpecker();
+      case 'ambara':
+        return this.galleryService.ambara();
+      case 'aditya':
+        return this.galleryService.aditya();
+      case 'avani':
+        return this.galleryService.avani();
+      case 'aranya':
+        return this.galleryService.aranya();
+      case 'prakruti':
+        return this.galleryService.prakruti();
+      case 'prana':
+        return this.galleryService.prana();
+      case 'vanya':
+        return this.galleryService.vanya();
+      case 'agathi':
+        return this.galleryService.agathi();
+      case 'vennela':
+        return this.galleryService.vennela();
+      case 'jabilli':
+        return this.galleryService.jabilli();
+      default:
+        return this.galleryService.panther();
+
+      // Add more cases for other rooms as needed
+    }
   }
 
   durationOfStay(checkin:any,checkout:any){
