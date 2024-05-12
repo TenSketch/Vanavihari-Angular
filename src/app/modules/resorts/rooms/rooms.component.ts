@@ -755,7 +755,8 @@ export class RoomsComponent implements OnInit {
     }
 
     return roomCharges;
-  }
+}
+
 
   calculateTotalGst(): number {
     let totalPrice = this.calculateTotalPrice()*this.calculateDurationOfStay();
