@@ -373,6 +373,8 @@ export class RoomsComponent implements OnInit {
         return this.galleryService.peacock();
       case 'redjunglefowl':
         return this.galleryService.redjunglefowl();
+        case 'red jungle fowl':
+          return this.galleryService.redjunglefowl();
       case 'sambar':
         return this.galleryService.sambar();
       case 'sokuleru':

@@ -63,8 +63,8 @@
                     *ngIf="form.controls.password.errors && (form.controls.password.dirty || form.controls.password.touched)">
                     <span *ngIf="form.controls.password.errors.required">Password is required.</span>
                     <!-- <span *ngIf="form.controls.password.errors.minlength">Password must be at least 6 characters long.</span> -->
-                    <span class="mb-4" *ngIf="form.controls.password.errors.pattern">Password must contain Min 6
-                      chars,max 12 chars,
+                    <span class="mb-4" *ngIf="form.controls.password.errors.pattern">Password must contain Min 8
+                      chars,
                       1 uppercase, number and 1 special char.</span>
                   </mat-error>
                 </mat-form-field>
