@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmailVerifyService } from '../../email-verify.service';
 import { AuthService } from '../../auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-email-verification',
@@ -10,19 +11,24 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   styleUrls: ['./email-verification.component.scss'],
 })
 export class EmailVerificationComponent implements OnInit {
+
+  api_url:any
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
     private http: HttpClient,
     private emailVerifyService: EmailVerifyService
-  ) {}
+  ) {
+    this.api_url = environment.API_URL
+  }
 
   ngOnInit(): void {
     const verificationUserId = this.route.snapshot.paramMap.get('userid');
     const verificationToken = this.route.snapshot.paramMap.get('token');
     if (verificationToken) {
-      this.http.get<any>('https://vanavihari.com/zoho-connect?api_type=email_verification&guest_id='+verificationUserId+'&token='+verificationToken).subscribe({
+      this.http.get<any>(this.api_url+'?api_type=email_verification&guest_id='+verificationUserId+'&token='+verificationToken).subscribe({
         next: response => {
           if(response.code == 3000 && response.result.status == "success") {
             this.router.navigate(['/sign-in'], { queryParams: { message: response.result.msg } });

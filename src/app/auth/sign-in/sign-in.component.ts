@@ -5,6 +5,7 @@ import { UserService } from '../../user.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../auth.service';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-sign-in',
@@ -18,6 +19,7 @@ export class SignInComponent implements OnInit {
   returnUrl: string = '';
   disableSign = false;
   lastRoute: string;
+  api_url : any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,6 +31,7 @@ export class SignInComponent implements OnInit {
     private renderer: Renderer2,
     private userService:UserService
   ) {
+    this.api_url = environment.API_URL
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
 
     this.form = this.formBuilder.group({
@@ -61,7 +64,7 @@ export class SignInComponent implements OnInit {
         .set('password', this.form.value.password);
 
       this.http
-        .get<any>('https://vanavihari.com/zoho-connect?api_type=login', {
+        .get<any>(this.api_url+'?api_type=login', {
           params,
         })
         .subscribe({

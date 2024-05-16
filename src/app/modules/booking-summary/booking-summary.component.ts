@@ -14,6 +14,7 @@ import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
 import { filter } from 'rxjs';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-booking-summary',
@@ -72,6 +73,8 @@ export class BookingSummaryComponent {
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
   intervalId: any;
 
+  api_url:any
+
   ngAfterViewInit() {
     // Set target time 5 minutes from now
     this.targetTime = new Date();
@@ -123,6 +126,8 @@ export class BookingSummaryComponent {
     private route: ActivatedRoute,
     private renderer: Renderer2
   ) {
+    this.api_url = environment.API_URL
+
     localStorage.setItem('isSummary','yes')
 
     this.selectedResort = this.authService.getSearchData('resort');
@@ -321,7 +326,7 @@ export class BookingSummaryComponent {
       .set('token', this.authService.getAccessToken() ?? '');
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=profile_details',
+        this.api_url+'?api_type=profile_details',
         { params }
       )
       .subscribe({
@@ -518,7 +523,7 @@ export class BookingSummaryComponent {
       // this.showSnackBarAlert("Reservation Success! Booking Id");
       // this.router.navigate(['/booking-successfull']);
       this.http
-        .get<any>('https://vanavihari.com/zoho-connect?api_type=booking', {
+        .get<any>(this.api_url+'?api_type=booking', {
           params,
         })
         .subscribe({
@@ -540,7 +545,7 @@ export class BookingSummaryComponent {
               const amount = this.calculateGrandTotal();
               // const amount = '1.00';
               const rU =
-                'https://vanavihari.com/zoho-connect?api_type=get_payment_response';
+                this.api_url+'?api_type=get_payment_response';
 
               const str =
                 MerchantId +

@@ -1,5 +1,19 @@
+
+import {environment } from '../../src/environments/environment'
+
 export default async (req) => {
-  const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
+  const zoho_api_uri = environment.zoho_api_url
+  const Account_Registration = environment.Account_Registration
+  const Edit_Profile = environment.Edit_Profile
+  const Email_Verification = environment.Email_Verification
+  const Login_Validation = environment.Login_Validation
+  const Profile_Details = environment.Profile_Details
+  const Reservation = environment.Reservation
+  const Reservation_Detail = environment.Reservation_Detail
+  const Reservation_Histrory = environment.Reservation_Histrory
+  const Rooms_List = environment.Rooms_List
+  const Update_Payment_Status = environment.Update_Payment_Status
+
   try {
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
     if (!queryParams) {
@@ -45,7 +59,7 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}Account_Registration?publickey=kFs7xRDC5eRPfyCQ0W7yQNCRv&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Account_Registration?publickey=${Account_Registration}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "login":
@@ -58,7 +72,7 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}Login_Validation?publickey=PWu6q9GvYJJjNSnM6UFSU6fSx&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Login_Validation?publickey=${Login_Validation}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "email_verification":
@@ -73,11 +87,11 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}Email_Verification?publickey=TJNXwBQpaFWVvUK3ZmKvufVOJ&&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Email_Verification?publickey=${Email_Verification}&&${queryParams.toString()}`;
         method = "GET";
         break;
       case "room_list":
-        apiUrl = `${zoho_api_uri}Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Rooms_List?publickey=${Rooms_List}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "profile_details":
@@ -87,7 +101,7 @@ export default async (req) => {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        apiUrl = `${zoho_api_uri}Profile_Details?publickey=7AwGYAgpPRaOUDEzbqYpeFyvs&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Profile_Details?publickey=${Profile_Details}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "edit_profile_details":
@@ -97,15 +111,15 @@ export default async (req) => {
                 headers: { 'Content-Type': 'application/json' },
             });
         }
-        apiUrl = `${zoho_api_uri}Edit_Profile?publickey=AKSTTeZV7TEPW4xd2JwaVOuYn&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Edit_Profile?publickey=${Edit_Profile}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "booking":
-        apiUrl = `${zoho_api_uri}Reservation?publickey=TDHrEVmP2ArM1VtEaM1xOdUwF&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Reservation?publickey=${Reservation}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "booking_history":
-        apiUrl = `${zoho_api_uri}Reservation_Histrory?publickey=hxxrtQ7g2t93U1QUbSOq4kj59&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Reservation_Histrory?publickey=${Reservation_Histrory}&${queryParams.toString()}`;
         method = "GET";
         break;
       case "get_payment_response":
@@ -120,11 +134,11 @@ export default async (req) => {
         }
         const msgres = msg.split('|');
         booking_id = msgres[1];
-        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=PqBnkhW5yqzF1TDKeEVDMNffd&booking_id=${booking_id}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split('-')[1]}`;
+        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${Update_Payment_Status}&booking_id=${booking_id}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split('-')[1]}`;
         method = "GET";
         break;
       case "booking_detail":
-        apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=UUnFYm7C9NStE1R8U84uWuT1v&${queryParams.toString()}`;
+        apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${Reservation_Detail}&${queryParams.toString()}`;
         method = "GET";
         break;
       default:

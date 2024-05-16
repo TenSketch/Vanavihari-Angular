@@ -4,6 +4,7 @@ import { UserService } from '../../user.service';
 import { GalleryService } from '@/app/gallery.service';
 import { AuthService } from '@/app/auth.service';
 import {  SafeUrl } from '@angular/platform-browser';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-my-bookings',
@@ -21,6 +22,7 @@ export class MyBookingsComponent {
   resortNumber: any;
   // pdfUrl: any;
   showPdfViewer: boolean = false;
+  api_url:any
   pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
 
   constructor(
@@ -29,7 +31,9 @@ export class MyBookingsComponent {
     private http: HttpClient,
     private userService: UserService,
     private galleryService: GalleryService,
-  ) {}
+  ) {
+    this.api_url = environment.API_URL
+  }
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
@@ -41,7 +45,7 @@ export class MyBookingsComponent {
       .set('token', this.userService.getUserToken());
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=booking_history&' +
+        this.api_url+'?api_type=booking_history&' +
           params.toString()
       )
       .subscribe({

@@ -1,4 +1,5 @@
 import { GalleryService } from '@/app/gallery.service';
+import { environment } from '@/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -42,6 +43,8 @@ export class BookingStatusComponent {
   bookingStatus : any;
   showLoader = false
 
+  api_url:any
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -50,7 +53,9 @@ export class BookingStatusComponent {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private galleryService:GalleryService
-  ) {}
+  ) {
+    this.api_url = environment.API_URL
+  }
 
   ngOnInit(): void {
     this.showLoader = true
@@ -62,7 +67,7 @@ export class BookingStatusComponent {
     const params = new HttpParams().set('booking_id', this.bookingId ?? '');
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=booking_detail',
+        this.api_url+'?api_type=booking_detail',
         { params }
       )
       .subscribe({

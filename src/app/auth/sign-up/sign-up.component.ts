@@ -10,13 +10,13 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
-// import { ZohoAuthServiceService } from '../../zoho-auth-service.service';
 import { AuthService } from '../../auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Regex } from 'src/app/utility/regex';
 import { TermsModalComponentComponent } from 'src/app/modules/terms-modal-component/terms-modal-component.component';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-sign-up',
@@ -36,12 +36,12 @@ export class SignUpComponent implements OnInit {
   isLoading: boolean = false;
   showAlert:boolean=false;
   returnUrl: string = '';
+  api_url:any
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
-    // private myService: ZohoAuthServiceService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -50,7 +50,7 @@ export class SignUpComponent implements OnInit {
     private renderer : Renderer2
   ) {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-
+    this.api_url = environment.API_URL
   }
   // {
   //   this.form = this.formBuilder.group(
@@ -155,7 +155,7 @@ export class SignUpComponent implements OnInit {
 
       this.http
         .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=register',
+          this.api_url+'?api_type=register',
           { params }
         )
         .subscribe({

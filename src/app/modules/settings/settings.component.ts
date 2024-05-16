@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../user.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../../auth.service';
+import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'app-settings',
@@ -267,6 +268,7 @@ export class SettingsComponent {
   ];
 
   showLoader = false;
+  api_url:any
 
   constructor(
     private renderer: Renderer2,
@@ -276,6 +278,8 @@ export class SettingsComponent {
     private authService: AuthService,
     private http: HttpClient
   ) {
+    this.api_url = environment.API_URL
+
     this.form = this.formBuilder.group({
       full_name: [''],
       mobile_number: [''],
@@ -299,7 +303,7 @@ export class SettingsComponent {
       .set('token', this.authService.getAccessToken() ?? '');
     this.http
       .get<any>(
-        'https://vanavihari.com/zoho-connect?api_type=profile_details',
+        this.api_url+'?api_type=profile_details',
         { params }
       )
       .subscribe({
@@ -378,7 +382,7 @@ export class SettingsComponent {
       });
       this.http
         .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=edit_profile_details',
+          this.api_url+'?api_type=edit_profile_details',
           { params }
         )
         .subscribe({

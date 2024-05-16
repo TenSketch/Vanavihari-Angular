@@ -35,6 +35,7 @@ import {
   ImageSize,
   ThumbnailsPosition,
 } from 'ng-gallery';
+import { environment } from '@/environments/environment';
 
 interface Room {
   //roomId:string;
@@ -92,6 +93,8 @@ export class RoomsComponent implements OnInit {
   isWeekend: boolean = false; // Variable to determine if it's a weekend
 
   searchResortData: any;
+  api_url:any
+
   resorts: any = {
     'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
@@ -171,7 +174,7 @@ export class RoomsComponent implements OnInit {
     public gallery: Gallery
   ) {
     // this.authService.clearBookingRooms(this.bookingTypeResort);
-
+     this.api_url = environment.API_URL
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
     const storedObjectString = localStorage.getItem('summaryData');
@@ -531,7 +534,7 @@ export class RoomsComponent implements OnInit {
     if (this.checkinDate) {
       this.http
         .get<any>(
-          'https://vanavihari.com/zoho-connect?api_type=room_list' + perm
+          this.api_url+'?api_type=room_list' + perm
         )
         .subscribe({
           next: (response) => {
