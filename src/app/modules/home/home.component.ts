@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     private renderer: Renderer2
   ) {
 
-    console.log(process.env['Account_Registration'],)
+    // console.log(process.env['Account_Registration'],)
     this.authService.clearBookingRooms(this.bookingTypeResort);
 
     for (let i = 2; i <= 16; i++) {
