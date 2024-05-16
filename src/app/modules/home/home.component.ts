@@ -49,6 +49,8 @@ export class HomeComponent implements OnInit {
     private searchService: SearchService,
     private renderer: Renderer2
   ) {
+
+    console.log(process.env.Email_Verification)
     this.authService.clearBookingRooms(this.bookingTypeResort);
 
     for (let i = 2; i <= 16; i++) {
