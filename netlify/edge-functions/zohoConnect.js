@@ -77,6 +77,7 @@ export default async (req) => {
           method = "GET";
           break;
         case "room_list":
+          console.log(process.env.Account_Registration)
           apiUrl = `${zoho_api_uri}Rooms_List?publickey=J4s0fXQ0wuxFDJJ2ns9Gs3GqK&${queryParams.toString()}`;
           method = "GET";
           break;
