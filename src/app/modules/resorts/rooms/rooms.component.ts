@@ -764,7 +764,7 @@ export class RoomsComponent implements OnInit {
 
   calculateTotalGst(): number {
     let totalPrice = this.calculateTotalPrice()*this.calculateDurationOfStay();
-    const gstRate = 12; // GST rate is 12%
+    const gstRate = 0; // GST rate is 12%
 
     totalPrice = (totalPrice * gstRate) / 100;
     return totalPrice;
@@ -772,10 +772,9 @@ export class RoomsComponent implements OnInit {
 
   calculatePayablePrice(): number {
     const totalPrice = this.calculateTotalPrice();
-    const gstPercentage = 0.12; // GST @12%
-    const gstAmount = totalPrice * gstPercentage;
+    // const gstPercentage = 0.12; // GST @12%
     let payablePrice =
-      (totalPrice + gstAmount) * this.calculateDurationOfStay();
+      (totalPrice ) * this.calculateDurationOfStay();
 
     return payablePrice;
   }

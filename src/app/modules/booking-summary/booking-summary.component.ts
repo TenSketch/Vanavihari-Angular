@@ -542,8 +542,8 @@ export class BookingSummaryComponent {
               const SecurityId = 'vanavihari';
               const txtCustomerID = 'BK986239234';
               const secretKey = 'rmvlozE7R4v9';
-              const amount = this.calculateGrandTotal();
-              // const amount = '1.00';
+              // const amount = this.calculateGrandTotal();
+              const amount = '1.00';
               const rU =
                 this.api_url+'?api_type=get_payment_response';
 

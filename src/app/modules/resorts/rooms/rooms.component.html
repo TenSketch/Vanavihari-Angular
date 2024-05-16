@@ -94,7 +94,7 @@
             <li><strong>Occupancy:</strong> 2 guests (1 extra allowed)</li>
             <li>
               <strong>Amenities:</strong> AC, geyser, western toilet, Prices
-              exclude 12% GST.
+             
             </li>
             <li *ngIf="selectedResort == 'Jungle Star, Valamuru'">
               <strong>Food: </strong>Room rates include three meals per day.
@@ -238,7 +238,7 @@
                         *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
                         >INR 500
                       </strong>
-                      <small>+ GST @ 12% will be charged</small>
+                      <!-- <small>+ GST @ 12% will be charged</small> -->
                     </div>
 
                     <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
@@ -305,12 +305,12 @@
                   }}
                 </span>
               </div>
-              <div class="d-flex justify-content-between font-weight-bold py-1">
+              <!-- <div class="d-flex justify-content-between font-weight-bold py-1">
                 <span class="mb-0">GST @ 12%</span>
                 <span>{{
                   calculateTotalGst() | currency : "INR " : "symbol" : "1.2-2"
                 }}</span>
-              </div>
+              </div> -->
               <div
                 class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5"
               >
@@ -448,7 +448,7 @@
                               "
                               >INR 500
                             </strong>
-                            <small>+ GST @ 12% will be charged</small>
+                            <!-- <small>+ GST @ 12% will be charged</small> -->
                           </div>
 
                           <!-- <input type="number" value="{{roomId.noof_guest}}" min="1" max="{{roomId.max_guest}}"
@@ -522,7 +522,7 @@
                         | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
-                    <div
+                    <!-- <div
                       class="d-flex justify-content-between font-weight-bold py-1"
                     >
                       <span class="mb-0">GST @ 12%</span>
@@ -530,7 +530,7 @@
                         calculateTotalGst()
                           | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
-                    </div>
+                    </div> -->
                     <div
                       class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5"
                     >
@@ -709,7 +709,7 @@
                         </h6>
                         <p class="text-primary-dark">For an extra guest</p>
                       </div>
-                      <div class="col-12"><em>+ GST @ 12%</em></div>
+                      <!-- <div class="col-12"><em>+ GST @ 12%</em></div> -->
                       <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
                 <small>+ gst @ 12%</small><br>
                 <small>(for 1 Extra Bed)</small> -->
