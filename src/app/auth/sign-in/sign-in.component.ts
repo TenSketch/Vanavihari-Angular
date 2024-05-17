@@ -20,6 +20,7 @@ export class SignInComponent implements OnInit {
   disableSign = false;
   lastRoute: string;
   api_url : any
+  hide = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,6 +39,11 @@ export class SignInComponent implements OnInit {
       email_address: ['', Validators.required],
       password: ['', Validators.required],
     });
+  }
+
+  togglePasswordVisibility(event: MouseEvent): void {
+    event.preventDefault(); // Prevent the default action (form submission)
+    this.hide = !this.hide;
   }
 
   ngOnInit(): void {

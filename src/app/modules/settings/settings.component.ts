@@ -269,7 +269,7 @@ export class SettingsComponent {
 
   showLoader = false;
   api_url:any
-
+  isModalVisible = false
   constructor(
     private renderer: Renderer2,
     private formBuilder: FormBuilder,
@@ -389,7 +389,8 @@ export class SettingsComponent {
           next: (response) => {
             if (response.code == 3000 && response.result.status == 'success') {
               // this.router.navigate(['/home']);
-              alert('Profile Update Successfully!');
+              this.isModalVisible = true
+              // alert('Profile Update Successfully!');
             } else if (response.code == 3000) {
             } else {
             }
@@ -400,6 +401,10 @@ export class SettingsComponent {
 
       
     }
+  }
+
+  closeModal(){
+    this.isModalVisible = false
   }
 
   editField(field: string) {

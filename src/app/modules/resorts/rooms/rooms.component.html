@@ -1,8 +1,6 @@
 <app-layout>
   <div class="main">
-    <app-loader *ngIf="showLoader">
-
-    </app-loader>
+    <app-loader *ngIf="showLoader"> </app-loader>
     <section
       class="page-banner d-grid place-items-center"
       *ngIf="selectedResortInfo"
@@ -94,7 +92,6 @@
             <li><strong>Occupancy:</strong> 2 guests (1 extra allowed)</li>
             <li>
               <strong>Amenities:</strong> AC, geyser, western toilet, Prices
-             
             </li>
             <li *ngIf="selectedResort == 'Jungle Star, Valamuru'">
               <strong>Food: </strong>Room rates include three meals per day.
@@ -134,19 +131,16 @@
           "
         >
           <!-- <section class="position-sticky"> -->
-          <div class="sort rounded-3 p-3 d-none">
+          <div class="sort rounded-3 p-3">
             <h4>Cottage Type</h4>
-            <mat-checkbox id="hilltop">Hilltop Guest House</mat-checkbox><br />
-            <mat-checkbox id="pre-fabricated"
-              >Pre-Fabricated Cottages</mat-checkbox
-            ><br />
-            <mat-checkbox id="wooden">Wooden Cottages</mat-checkbox><br />
-            <mat-checkbox id="deluxe">Deluxe Rooms</mat-checkbox><br />
-            <mat-checkbox id="tented">Tented Cottages</mat-checkbox
-            ><br /><br /><br />
+            <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']" (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox><br />
+            <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']" (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox><br />
+            <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']" (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox><br />
+            <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']" (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox><br />
+            <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']" (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox><br /><br /><br />
             <mat-form-field>
               <mat-label>Sort by Price</mat-label>
-              <mat-select [(value)]="selectedSortOption" name="priceSort">
+              <mat-select [(value)]="selectedSortOption" name="priceSort" (selectionChange)="onSortChange()">
                 <mat-option value="lowToHigh">Low to High</mat-option>
                 <mat-option value="highToLow">High to Low</mat-option>
               </mat-select>
@@ -188,12 +182,10 @@
                     <small>
                       <strong>Room Tariff:</strong>
                       {{
-                        
-                         (findRoomById(roomId).Week_Days_Rate
-                            | currency : "INR " : true : "1.2-2")
+                        findRoomById(roomId).Week_Days_Rate
+                          | currency : "INR " : true : "1.2-2"
                       }}
                     </small>
-
 
                     <small>
                       <strong>Cottage Type:</strong>
@@ -300,7 +292,7 @@
                 >
                 <span
                   >{{
-                    calculateTotalPrice()* calculateDurationOfStay()
+                    calculateTotalPrice() * calculateDurationOfStay()
                       | currency : "INR " : "symbol" : "1.2-2"
                   }}
                 </span>
@@ -388,8 +380,8 @@
                           <small>
                             <strong>Room Tariff:</strong>
                             {{
-                              (findRoomById(roomId).Week_Days_Rate
-                              | currency : "INR " : true : "1.2-2")
+                              findRoomById(roomId).Week_Days_Rate
+                                | currency : "INR " : true : "1.2-2"
                             }}
                           </small>
 
@@ -463,7 +455,7 @@
                   <hr class="my-1" />
                   <ng-container *ngIf="showBookingSummary">
                     <!-- <label for="">No of children</label> -->
-                    <div class=" mt-4">
+                    <div class="mt-4">
                       <mat-form-field appearance="outline" class="mat-small">
                         <mat-label>No of children</mat-label>
                         <mat-select
@@ -518,8 +510,8 @@
                         }}</span
                       >
                       <span>{{
-                        calculateTotalPrice()* calculateDurationOfStay()
-                        | currency : "INR " : "symbol" : "1.2-2"
+                        calculateTotalPrice() * calculateDurationOfStay()
+                          | currency : "INR " : "symbol" : "1.2-2"
                       }}</span>
                     </div>
                     <!-- <div
@@ -589,31 +581,35 @@
           >
             Sorry, rooms are not available
           </div>
-          <div *ngIf="!loadingRooms;">
+          <div *ngIf="!loadingRooms">
             <div *ngIf="!isRoomDataEmpty">
-              <div class="row my-2 w-100  d-flex align-items-center justify-content-center">
+              <div
+                class="row my-2 w-100 d-flex align-items-center justify-content-center"
+              >
                 <div>
-          
-                  <pre *ngIf="showMessage" class="text-center">*** Please select dates and search rooms ****</pre>
+                  <pre *ngIf="showMessage" class="text-center">
+*** Please select dates and search rooms ****</pre
+                  >
                 </div>
               </div>
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
-                
                 <div class="row">
                   <div class="col-md-5">
-                   
                     <div class="containerg">
                       <div class="card-containerg" #cardContainer>
                         <div
                           class="card"
-                          *ngFor="let item of getRoomImages(room.Room_Name); let i = index"
+                          *ngFor="
+                            let item of getRoomImages(room.Room_Name);
+                            let i = index
+                          "
                         >
                           <img
                             class="img-responsive"
                             src="{{ item }}"
                             alt=""
-                            (click)="openLightbox(i, room.Room_Name)"                          />
-                          
+                            (click)="openLightbox(i, room.Room_Name)"
+                          />
                         </div>
                       </div>
                       <div
@@ -623,20 +619,20 @@
                       >
                         <div class="full-image-container">
                           <div
-                          class="scroll-icon left"
-                          (click)="scrollLeft(cardContainer)"
-                          #scrollLeftIcon
-                        >
-                          &#10094;
-                        </div>
+                            class="scroll-icon left"
+                            (click)="scrollLeft(cardContainer)"
+                            #scrollLeftIcon
+                          >
+                            &#10094;
+                          </div>
                           <img class="full-image" [src]="fullImageSrc" alt="" />
                           <div
-                          class="scroll-icon right"
-                          (click)="scrollRight(cardContainer)"
-                          #scrollRightIcon
-                        >
-                          &#10095;
-                        </div>
+                            class="scroll-icon right"
+                            (click)="scrollRight(cardContainer)"
+                            #scrollRightIcon
+                          >
+                            &#10095;
+                          </div>
 
                           <div class="overlay-controls">
                             <button
@@ -691,8 +687,7 @@
                         <h6 class="p-0 m-0">
                           <!-- <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
                           </strong> -->
-                          <strong>{{  room.Week_Days_Rate }}
-                          </strong>
+                          <strong>{{ room.Week_Days_Rate }} </strong>
                         </h6>
                         <p class="text-primary-dark">For 2 guests</p>
                       </div>
@@ -700,7 +695,7 @@
                         <h6 class="p-0 m-0">
                           <strong
                             *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-                            >{{ 500  }}
+                            >{{ 500 }}
                           </strong>
                           <strong
                             *ngIf="selectedResort == 'Jungle Star, Valamuru'"
@@ -709,7 +704,9 @@
                         </h6>
                         <p class="text-primary-dark">For an extra guest</p>
                       </div>
-                      <!-- <div class="col-12"><em>+ GST @ 12%</em></div> -->
+                      <div class="col-12">
+                        <p class="text-primary-dark"  *ngIf="selectedResort == 'Jungle Star, Valamuru'" >Room price includes food</p>
+                      </div>
                       <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
                 <small>+ gst @ 12%</small><br>
                 <small>(for 1 Extra Bed)</small> -->
@@ -755,16 +752,15 @@
       </div>
       <div class="modal-body">
         <p>
-          "For a secure booking process, we suggest signing in. Would you like to sign in or proceed as a guest?"
-
+          "For a secure booking process, we suggest signing in. Would you like
+          to sign in or proceed as a guest?"
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="signIn()">
           Sign-in
         </button>
-        
       </div>
     </div>
   </div>
-</div> 
+</div>

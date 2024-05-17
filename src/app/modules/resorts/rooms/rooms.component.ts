@@ -82,6 +82,8 @@ export class RoomsComponent implements OnInit {
   @ViewChild('guestSelect') guestSelect: MatSelect;
   isRoomDataEmpty = false;
 
+  previousFilteredRoomData: any[] = []; // Store the previous filtered data
+
   currentImage: string | null = null;
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
@@ -158,6 +160,14 @@ export class RoomsComponent implements OnInit {
   vanavihariOrder: any[] = [];
   junglestarOrder: any[] = [];
   showMessage= false
+
+  cottageTypes: { [key: string]: boolean } = {
+    'Hilltop Guest House': false,
+    'Pre-Fabricated Cottages': false,
+    'Wooden Cottages': false,
+    'Deluxe Rooms': false,
+    'Tented Cottages': false,
+  };
 
   constructor(
     private router: Router,
@@ -507,6 +517,42 @@ export class RoomsComponent implements OnInit {
       (room: { Select_Resort: string }) => room.Select_Resort == selectResort
     );
   }
+  filterByPrice(): void {
+   
+
+    if (this.selectedSortOption === 'lowToHigh') {
+      this.filteredRoomData.sort((a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) => a.Week_Days_Rate - b.Week_Days_Rate);
+    } else if (this.selectedSortOption === 'highToLow') {
+      this.filteredRoomData.sort((a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) => b.Week_Days_Rate - a.Week_Days_Rate);
+    }
+
+  }
+
+  filterRoomsByCottageType(){
+    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(key => this.cottageTypes[key]);
+    if (selectedCottageTypes.length > 0 && selectedCottageTypes.length <2) {
+      this.filteredRoomData = this.filteredRoomData.filter(
+        (room: { Cottage_Type: string }) => selectedCottageTypes.includes(room.Cottage_Type)
+      );
+    }
+
+   
+
+    return this.filteredRoomData;
+  }
+
+  onSortChange(): void {
+    this.filterByPrice();
+  }
+
+  onCottageTypeChange(): void {
+    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(key => this.cottageTypes[key]);
+    if (selectedCottageTypes.length == 0) {
+      this.filteredRoomData = [...this.previousFilteredRoomData]; // Restore the previous state
+    } else {
+      this.filteredRoomData = this.filterRoomsByCottageType();
+    }
+  }
 
   fetchRoomList() {
     this.loadingRooms = true;
@@ -564,6 +610,8 @@ export class RoomsComponent implements OnInit {
             this.loadingRooms = false;
 
             this.filteredRoomData = this.filterByResort(this.selectedResort);
+            this.previousFilteredRoomData = [...this.filteredRoomData]; // Initial previous state
+
             
             const roomIndexMap = new Map<string, number>();
             if(this.selectedResort == 'Jungle Star, Valamuru'){
@@ -691,7 +739,6 @@ export class RoomsComponent implements OnInit {
     }
 
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-    console.log(roomIds.length)
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
     }else{
@@ -806,7 +853,6 @@ export class RoomsComponent implements OnInit {
     const bookingRoomsArray = JSON.parse(bookingRoomsString || '[]');
         const length = bookingRoomsArray.length;
     
-    // console.log(length);
     
     let summaryData = JSON.stringify(summary);
     localStorage.setItem('summaryData', summaryData);

@@ -36,12 +36,10 @@
               <p *ngIf="item.food_preference">
                 <strong>Food preference:</strong> {{ item.food_preference }}
               </p>
-              <div class="d-flex flex-column" *ngIf="item.rooms.restort == 'Jungle Star, Valamuru'">
-                <button class="btn">
+              <div class="w-100 d-flex flex-column align-items-start justify-content-start p-0 m-0" *ngIf="item.rooms.restort == 'Jungle Star, Valamuru'">
                   <!-- <a class="text-decoration-none" style="color: #ffffff !important;" href="assets/PDF/Foodmenu.pdf" target="_blank">View Food Menu</a> -->
-                                    <a class="text-decoration-none" style="color: #ffffff !important;" href="/#/food-menu" target="_blank">View Food Menu</a>
+                                    <a class="btn p-0 m-0"  href="/#/food-menu" target="_blank">View Food Menu</a>
 
-                </button>
                 
               </div>
             </div>

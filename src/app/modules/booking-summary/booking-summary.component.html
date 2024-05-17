@@ -70,13 +70,15 @@
 
                 <div class="pt-2" *ngFor="let roomId of cardData">
                   <p class="m-0">
-                    <strong>Cottage Type:</strong><span> {{ roomId.Cottage_Type }}</span>
+                    <strong>Cottage Type:</strong
+                    ><span> {{ roomId.Cottage_Type }}</span>
                   </p>
                   <p class="m-0">
-                    <strong class="me-2">Room Name:</strong><span> {{ roomId.Room_Name }}</span>
+                    <strong class="me-2">Room Name:</strong
+                    ><span> {{ roomId.Room_Name }}</span>
                   </p>
                 </div>
-                <hr>
+                <hr />
                 <p>
                   <strong>Number of room(s): </strong>
                   <span id="totalRooms">{{ noofrooms }}</span>
@@ -88,16 +90,10 @@
                 <!-- <small>
                   <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
                 </small> -->
-                
 
-                <p >
-                  <strong>Extra Guest:</strong> {{ extra_guests }}
-                </p>
-                <p >
-                  <strong>
-                    No. of Children: {{ extra_children }}
-
-                  </strong>
+                <p><strong>Extra Guest:</strong> {{ extra_guests }}</p>
+                <p>
+                  <strong> No. of Children: {{ extra_children }} </strong>
                 </p>
 
                 <a class="font-weight-bold" (click)="triggerModal()"
@@ -244,7 +240,7 @@
                   formControlName="gemail"
                 />
               </mat-form-field>
-              <mat-form-field appearance="outline" class="mt-3" >
+              <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Address</mat-label>
                 <input
                   type="text"
@@ -253,7 +249,6 @@
                   placeholder="Enter your address"
                   formControlName="gaddress"
                 />
-                
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>City</mat-label>
@@ -295,7 +290,7 @@
                   formControlName="gcountry"
                 />
               </mat-form-field>
-              
+
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>GST Number</mat-label>
                 <input
@@ -439,7 +434,8 @@
 
 <!-- Add this HTML structure to your component's template -->
 <div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block">
-  <div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
+  <div class="modal-overlay" [ngClass]="{ 'dark-overlay': isDarkMode }"></div>
+  <!-- Light/Dark overlay -->
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -477,7 +473,8 @@
   *ngIf="isInfoModalVisible"
   [ngStyle]="getModalStyles()"
 >
-<div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
+  <div class="modal-overlay" [ngClass]="{ 'dark-overlay': isDarkMode }"></div>
+  <!-- Light/Dark overlay -->
 
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content">
@@ -500,8 +497,12 @@
           email. However, you'll still get booking details. Contact support with
           your booking ID to confirm your reservation.
         </p>
+        <p>
+          If payment page doesn't open or fails, do not attempt rebooking. Check
+          your email and contact the support team with the booking ID received
+        </p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-primary" (click)="onOk()">
           Ok
         </button>

@@ -143,3 +143,28 @@
     </section>
   </div>
 </app-layout>
+
+<div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block">
+  <div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          (click)="onCancel()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Profile Updated successfully</p>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-primary" (click)="closeModal()">
+ok        </button>
+      </div>
+    </div>
+  </div>
+</div>

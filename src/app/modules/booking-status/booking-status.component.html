@@ -3,6 +3,8 @@
     <app-loader *ngIf="showLoader"></app-loader>
     <!-- successfull booking -->
     <div class="reservation-details" *ngIf="bookingStatus == 'success'">
+      <!-- <div class="reservation-details" > -->
+
       <section class="page-banner d-grid place-items-center d-none">
         <h1 class="display-3 text-center">
           About {{ reservationDetails.resortName }}
@@ -19,10 +21,7 @@
             </div>
           </div>
           <div class="card d-flex justify-content-center align-items-center" >
-            <div class="d-flex flex-column justify-content-end align-items-end w-100">
-                <a class="text-decoration-none" href="/my-bookings">Go to : <strong>My Bookings</strong> </a>
-                <strong>Status :  <i class="fa fa-check" aria-hidden="true"></i> </strong>
-            </div>
+            
             <div class="row w-100">
               <!-- <div class="col-md-6 text-center">
                 <img src="assets/img/Jungle_Star-reception.jpg" alt="Resort Name" class="img-fluid rounded-3">
@@ -30,6 +29,10 @@
               <div class="col-md-6 text-center mx-auto" >
                 <h3 class="mb-3">
                   <strong>Resort:</strong> {{ reservationDetails.resortName }}
+                </h3>
+                <h3>
+
+                  <strong>Status :  <i class="fa fa-check" style="color: #4d9900;" aria-hidden="true"></i> </strong>
                 </h3>
                 <div class="my-3">
                   <p>
@@ -78,7 +81,7 @@
                   </p>
 
                   <img
-                src="{{ getRoomImages(reservationDetails.resortName) }}"
+                src="{{ getRoomImages(reservationDetails.rooms[0])[0] }}"
                 class="img-fluid"
                 alt="Room Image"
               />
@@ -101,6 +104,9 @@
                   at
                   <strong>{{ reservationDetails.email }}</strong>
                 </p>
+                <div class="d-flex flex-column justify-content-center align-items-center w-100">
+                  <a class="text-decoration-none" href="/#/my-account/my-bookings">Go to : <strong>My Bookings</strong> </a>
+              </div>
               </div>
             </div>
           </div>
@@ -110,12 +116,15 @@
     <!-- failed booking -->
     <div *ngIf="bookingStatus == 'failed'">
       <div class="container" style="margin-top: 200px; min-height: 50vh">
-        <div class="col-md-6 mx-auto">
-          <div class="d-flex flex-column justify-content-end align-items-end w-100">
-            <a class="text-decoration-none" href="/my-bookings">Go to : <strong>My Bookings</strong> </a>
-            <strong>Status : <i class="fa-solid fa-xmark"></i>
-            </strong>
-        </div>
+        <div class="col-md-6 mx-auto text-center">
+          
+          <div class="justify-content-center my-2">
+            <div class="d-flex flex-column justify-content-center align-items-center w-100">
+              <h3> <strong>Status : <i class="fa-solid fa-xmark" style="color: #4d9900;"></i>
+              </strong></h3>
+              <a class="text-decoration-none" href="/#/my-account/my-bookings">Go to : <strong>My Bookings</strong> </a>
+          </div>
+          </div>
           <p>Dear {{ reservationDetails.guestName }},</p>
           <p>
             We apologize for the inconvenience, but it seems there was an issue
@@ -133,8 +142,8 @@
             Should you encounter any further difficulties, please don't hesitate
             to reach out to us for assistance.
           </p>
-          <p>Warm regards,</p>
           <p>{{ reservationDetails.resortName }}</p>
+          
         </div>
       </div>
     </div>

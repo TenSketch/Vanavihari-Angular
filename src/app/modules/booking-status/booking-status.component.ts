@@ -56,7 +56,7 @@ export class BookingStatusComponent {
   ) {
     this.api_url = environment.API_URL
   }
-
+// http://localhost:4200/#/booking-status?booking_id=BVJ2405062
   ngOnInit(): void {
     this.showLoader = true
 
@@ -89,7 +89,7 @@ export class BookingStatusComponent {
             }, 3000);
             this.reservationDetails = {
               guestName: response.result.guest_name,
-              resortName: this.bookingTypeResort,
+              resortName: response.result.resort,
               transactionId: response.result.payment_transaction_id??null,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
@@ -151,9 +151,11 @@ export class BookingStatusComponent {
       });
   }
 
-  getRoomImages(roomname: any): string[] {
-    const lowercaseRoomName = roomname.toLowerCase();
+  getRoomImages(roomname: string): string[] {
+    console.log(roomname)
+    let roomName = this.getRoomName(roomname);
 
+    const lowercaseRoomName = roomName.toLowerCase();
     switch (lowercaseRoomName) {
       case 'panther':
         return this.galleryService.panther();
@@ -218,6 +220,14 @@ export class BookingStatusComponent {
 
       // Add more cases for other rooms as needed
     }
+  }
+
+  getRoomName(room: string): string {
+    const index = room.indexOf(',');
+    if (index !== -1) {
+      return room.substring(0, index);
+    }
+    return room;  // If there's no comma, return the whole string
   }
 
   durationOfStay(checkin:any,checkout:any){
