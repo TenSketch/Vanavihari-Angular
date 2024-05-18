@@ -13,20 +13,24 @@
 #filterCottage {
   // background-color: #f8f9fa;
   background-color: $clr-primary-lighter;
-  
+
   // margin-bottom: 20px;
   width: 100vw;
   // height: 100vh;
   position: fixed;
   top: $nav-bar-height;
-  right: -100vw; 
+  right: -100vw;
   transition: right 0.3s ease;
-  visibility: hidden; 
+  visibility: hidden;
+
   // overflow-y: auto; 
   &.active {
     right: 0;
     visibility: visible;
     z-index: 1000000;
+    transition: right 0.3s ease;
+    box-shadow: 0 1px 8px 1px hsla(0, 0%, 20%, 0.639)
+
   }
 }
 
@@ -39,7 +43,7 @@
     right: auto;
     visibility: visible;
   }
-  }
+}
 
 .card {
   margin-bottom: 20px;
@@ -56,12 +60,13 @@ aside {
   padding-bottom: 1rem;
   left: 0;
   right: 0;
-  bottom: 0;
   z-index: 1000;
   top: $nav-bar-height;
-  overflow-y: auto;
-  height: 90vh;
+
   @media (min-width: 991px) {
+    overflow-y: auto;
+    bottom: 0;
+    height: 90vh;
     padding: 20px;
     z-index: unset;
   }
@@ -129,9 +134,11 @@ pre {
 
     .card {
       flex: 1 0 auto;
-      margin: 10px;
+      // margin: 10px;
       border: 0;
       box-shadow: unset;
+      padding-left: 0;
+
       img {
         width: 250px;
         height: 250px;

@@ -102,25 +102,31 @@
           <div class="text-center py-1 d-lg-none" (click)="toggleFilter()">
             <img class="icon-small me-3" src="/assets/images/icons/filter.svg" alt="filter svg"> Filter
           </div>
-          
-          <div id="filterCottage" class="" [ngClass]="{ 'active': isFilterOpen }">
-           <div class="d-flex justify-content-end mt-2"><i class="fa-solid fa-xmark fa-2xl" [ngClass]="{ 'd-none': !isFilterOpen }"></i></div>
+
+          <div id="filterCottage" class=" p-3" [ngClass]="{ 'active': isFilterOpen }">
+            <div class="d-flex justify-content-end mt-2"><i class="fa-solid fa-xmark fa-2xl"
+                (click)="toggleFilter()"></i></div>
 
             <h4> Filter by Cottage Type</h4>
             <div class="d-block">
-              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']" (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']"
+                (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
             </div>
             <div class="d-block">
-              <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']" (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
+              <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']"
+                (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
             </div>
             <div class="d-block">
-              <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']" (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
+              <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']"
+                (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
             </div>
             <div class="d-block">
-              <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']" (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox>
+              <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']"
+                (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox>
             </div>
             <div class="d-block">
-              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']" (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox>
+              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']"
+                (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox>
             </div>
             <!-- <mat-form-field>
               <mat-label>Sort by Price</mat-label>
@@ -130,7 +136,7 @@
               </mat-select>
             </mat-form-field> -->
           </div>
-          
+
           <!-- Booking Summary section -->
           <div *ngIf="!isMobile" class="booking-summary-bar text-dark rounded-3">
             <h4 class="mt-2 mb-0 pb-1 font-weight-bold">Booking Summary</h4>
@@ -324,8 +330,9 @@
                     </small> -->
                         </div>
 
-                        <div class="cflex-column mt-1">
-                          <span>
+                        <div class="flex-column mt-1">
+                          <div class="custom-dropdown mt-4">
+
                             <mat-form-field appearance="outline" class="mat-small">
                               <mat-label>No. of Guests</mat-label>
                               <mat-select (selectionChange)="
@@ -336,7 +343,7 @@
                               </mat-select>
                               <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
                             </mat-form-field>
-                          </span>
+                          </div>
                           <mat-checkbox [checked]="findRoomById(roomId).extra_guest" class="example-margin"
                             color="primary" (change)="extraGuestActions($event, roomId)">
                             <label>Add an extra guest </label>
@@ -364,25 +371,26 @@
                   <hr class="my-1" />
                   <ng-container *ngIf="showBookingSummary">
                     <!-- <label for="">No of children</label> -->
-                    <div class="mt-4">
-                      <mat-form-field appearance="outline" class="mat-small">
-                        <mat-label>No of children</mat-label>
-                        <mat-select required [(ngModel)]="extraChildren" size="small">
-                          <mat-option value="0">0</mat-option>
-                          <mat-option value="1">1</mat-option>
-                          <mat-option value="2">2</mat-option>
-                          <mat-option value="3">3</mat-option>
-                          <mat-option value="4">4</mat-option>
-                          <mat-option value="5">5</mat-option>
-                          <mat-option value="6">6</mat-option>
-                          <mat-option value="7">7</mat-option>
-                          <mat-option value="8">8</mat-option>
-                          <mat-option value="9">9</mat-option>
-                          <mat-option value="10">10</mat-option>
-                        </mat-select>
-                        <mat-hint class="px-0">Up to 5 years</mat-hint>
-                      </mat-form-field>
-                    </div>
+                      <div class="custom-dropdown mt-4">
+
+                        <mat-form-field appearance="outline" class="mat-small">
+                          <mat-label>No of children</mat-label>
+                          <mat-select required [(ngModel)]="extraChildren" size="small">
+                            <mat-option value="0">0</mat-option>
+                            <mat-option value="1">1</mat-option>
+                            <mat-option value="2">2</mat-option>
+                            <mat-option value="3">3</mat-option>
+                            <mat-option value="4">4</mat-option>
+                            <mat-option value="5">5</mat-option>
+                            <mat-option value="6">6</mat-option>
+                            <mat-option value="7">7</mat-option>
+                            <mat-option value="8">8</mat-option>
+                            <mat-option value="9">9</mat-option>
+                            <mat-option value="10">10</mat-option>
+                          </mat-select>
+                          <mat-hint class="px-0">Up to 5 years</mat-hint>
+                        </mat-form-field>
+                      </div>
                     <div class="d-flex justify-content-between pt-1">
                       <span>Room charges</span>
                       <span>{{
@@ -476,7 +484,7 @@
                   <div class="col-md-5">
                     <div class="containerg">
                       <div class="card-containerg" #cardContainer>
-                        <div class="card" *ngFor="
+                        <div class="card py-0" *ngFor="
                             let item of getRoomImages(room.Room_Name);
                             let i = index
                           ">
