@@ -1,6 +1,6 @@
 [
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Deluxe Rooms",
@@ -8,7 +8,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712896408126_delux-outer.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000314013",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Narmada",
@@ -16,7 +16,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Deluxe Rooms",
@@ -24,7 +24,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712896408126_delux-outer.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000314017",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Bahuda",
@@ -32,7 +32,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Deluxe Rooms",
@@ -40,7 +40,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712896408126_delux-outer.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000314021",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Tapathi",
@@ -48,7 +48,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Pre-Fabricated Cottages",
@@ -56,7 +56,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712896597564_bear-outer.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000314025",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Bear",
@@ -64,7 +64,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Pre-Fabricated Cottages",
@@ -72,7 +72,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712896597564_bear-outer.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000314031",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Chital",
@@ -80,7 +80,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Pre-Fabricated Cottages",
@@ -88,7 +88,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712899482105_CHOUSINGH-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317003",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Chousingha",
@@ -96,7 +96,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Pre-Fabricated Cottages",
@@ -104,7 +104,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712899629421_SAMBAR-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317009",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Sambar",
@@ -112,7 +112,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Hill Top Guest House",
@@ -120,7 +120,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712899776190_BONNET-OUTER-VIEW__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317015",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Bonnet",
@@ -128,7 +128,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "2500.00",
+    "Week_Days_Rate": "2500",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Hill Top",
@@ -136,7 +136,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900879986_OUTERVIEW_1.JPG",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317053",
-    "Week_End_Rate": "3500.00",
+    "Week_End_Rate": "3500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Panther",
@@ -144,7 +144,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "1750.00",
+    "Week_Days_Rate": "1750",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Bison Cottages",
@@ -152,7 +152,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900556301_RED-JUNGLE-FOWL-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317041",
-    "Week_End_Rate": "2000.00",
+    "Week_End_Rate": "2000",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Red Jungle Fowl",
@@ -160,7 +160,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "1750.00",
+    "Week_Days_Rate": "1750",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Bison Cottages",
@@ -168,7 +168,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900495867_PEACOCK-OUTER-VIEW__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317033",
-    "Week_End_Rate": "2000.00",
+    "Week_End_Rate": "2000",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Peacock",
@@ -176,7 +176,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Wooden Cottages",
@@ -184,7 +184,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900739013_WOODEN-COTTAGE-HORNBILL-HORNBILL-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317021",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Hornbill",
@@ -192,7 +192,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Wooden Cottages",
@@ -200,7 +200,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712900956614_WOODEN-COTTAGE-BULBUL-BULBUL-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317059",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Bulbul",
@@ -208,7 +208,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Wooden Cottages",
@@ -216,7 +216,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712901076267_WOODEN-COTTAGE-WOODPECKER-WOODPECKER-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317069",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Woodpecker",
@@ -224,7 +224,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Wooden Cottages",
@@ -232,7 +232,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712901154935_WOODEN-COTTAGE-KINGFISHER-KINGFISHER-OUTER__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317075",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Kingfisher",
@@ -240,7 +240,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Vihari",
@@ -248,7 +248,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712901352753_VIHARI-SOKULERU-OUTER-VIEW__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317081",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Sokuleru",
@@ -256,7 +256,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "4000.00",
+    "Week_Days_Rate": "4000",
     "Charges_per_Bed_Week_Days": "500",
     "Charges_per_Bed_Week_End": "700",
     "Cottage_Type": "Vihari",
@@ -264,7 +264,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712901451089_VIHARI-PAMULERU-OUTER-VIEW__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317087",
-    "Week_End_Rate": "4500.00",
+    "Week_End_Rate": "4500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Vanavihari, Maredumilli",
     "Room_Name": "Pamuleru",
@@ -272,7 +272,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Tented Cottage",
@@ -280,7 +280,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902348884_Aranya__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317093",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Aranya",
@@ -288,7 +288,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Tented Cottage",
@@ -296,7 +296,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902387332_Prana__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317099",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Prana",
@@ -304,7 +304,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Tented Cottage",
@@ -312,7 +312,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902478806_Vanya__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317105",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Vanya",
@@ -320,7 +320,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Tented Cottage",
@@ -328,7 +328,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902509024_Prakruti__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317111",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Prakruti",
@@ -336,7 +336,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -344,7 +344,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902897984_Aditya__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317117",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Aditya",
@@ -352,7 +352,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -360,7 +360,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902943050_Ambara__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317123",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Ambara",
@@ -368,7 +368,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -376,7 +376,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712902974335_Avani__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317129",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Avani",
@@ -384,7 +384,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -392,7 +392,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712903007710_Jabilli__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317135",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Jabilli",
@@ -400,7 +400,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -408,7 +408,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712903045518_Ambara__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317141",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Vennela",
@@ -416,7 +416,7 @@
     "isExtraGuestChecked": false
   },
   {
-    "Week_Days_Rate": "5000.00",
+    "Week_Days_Rate": "5000",
     "Charges_per_Bed_Week_Days": "1500",
     "Charges_per_Bed_Week_End": "7500",
     "Cottage_Type": "Permanent Cottage",
@@ -424,7 +424,7 @@
     "Room_Image": "/sharedBy/appLinkName/viewLinkName/fieldName/image/1712903147445_Avani__1_.jpg",
     "Max_Allowed_Guest": "1",
     "ID": "4554333000000317147",
-    "Week_End_Rate": "7500.00",
+    "Week_End_Rate": "7500",
     "Max_Allowed_Adult": "2",
     "Select_Resort": "Jungle Star, Valamuru",
     "Room_Name": "Agathi",

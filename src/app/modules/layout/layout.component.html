@@ -2,97 +2,53 @@
   <nav class="navbar navbar-light py-0 fixed-top bg-light">
     <div class="container-fluid align-items-baseline">
       <a class="navbar-brand me-auto py-0" href="#">
-        <img class="mb-md-2" src="assets/img/logo-vana.png" alt="logo-vana" />
+        <img class="" src="assets/img/logo-vana.png" alt="logo-vana" />
       </a>
       <ul class="navbar-nav d-flex flex-row gap-2 gap-lg-3">
         <li class="nav-item d-none d-md-block">
-          <a
-            class="nav-link"
-            routerLink="/home"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-          >
+          <a class="nav-link" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">
             <i class="fa-solid fa-home me-2"></i>Home
           </a>
         </li>
         <li class="nav-item dropdown d-none d-lg-block">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="dropdownId"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+          <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
             <i class="fa-solid fa-hotel me-2"></i>Book Resort
           </a>
-          <div
-            class="dropdown-menu position-absolute"
-            aria-labelledby="dropdownId"
-          >
-            <a class="dropdown-item" (click)="goToVanavihari()"
-              >Vanavihari, Maredumilli</a
-            >
-            <a class="dropdown-item" (click)="goToJungleStar()"
-              >Jungle Star, Valamuru</a
-            >
+          <div class="dropdown-menu position-absolute" aria-labelledby="dropdownId">
+            <a class="dropdown-item" (click)="goToVanavihari()">Vanavihari, Maredumilli</a>
+            <a class="dropdown-item" (click)="goToJungleStar()">Jungle Star, Valamuru</a>
           </div>
         </li>
         <li class="nav-item d-none d-lg-block">
-          <a
-            class="nav-link"
-            href="mailto:info@vanavihari.com"
-            title="click to send email"
-          >
-            <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a
-          >
+          <a class="nav-link" href="mailto:info@vanavihari.com" title="click to send email">
+            <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a>
         </li>
         <li class="nav-item d-none d-lg-block">
-          <a class="nav-link" href="tel:+919494151617" title="call">
-            <i class="fa-solid fa-mobile-screen me-2"></i>+919494151617</a
-          >
+          <a class="nav-link" href="tel:7382151617" title="call">
+            <i class="fa-solid fa-mobile-screen me-2"></i>7382151617</a>
         </li>
         <li class="nav-item" *ngIf="!isLoggedIn()">
-          <a
-            class="nav-link"
-            routerLink="/sign-in"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-          >
-            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Sign in</a
-          >
+          <a class="nav-link" routerLink="/sign-in" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Sign in</a>
         </li>
         <!-- <li class="nav-item" *ngIf="!isLoggedIn()">
           <a class="nav-link" routerLink="/sign-up" routerLinkActive="active" ariaCurrentWhenActive="page">
             <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>Sign up</a>
         </li> -->
         <!-- *ngIf="isLoggedIn()" -->
-        <li
-          class="nav-item dropdown"
-          style="z-index: 1000"
-          *ngIf="isLoggedIn()"
-        >
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="dropdownId"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+        <li class="nav-item dropdown" style="z-index: 1000" *ngIf="isLoggedIn()">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
             <i class="fa-regular fa-user-circle me-2"></i> {{ accountusername }}
           </a>
-          <div
-            class="dropdown-menu position-absolute py-3 px-2"
-            aria-labelledby="dropdownId"
-          >
+          <div class="dropdown-menu position-absolute py-3 px-2" aria-labelledby="dropdownId">
             <!-- nav item dropdown My Account>Settings, My Bookings, Saved -->
             <a class="dropdown-item" (click)="goToMyAccSettings()">
               <i class="fa-solid fa-cog me-3"></i><span>My account</span>
             </a>
             <a class="dropdown-item" (click)="goToMyBookings()">
-              <i class="fa-regular fa-calendar-check me-3"></i
-              ><span>My Bookings</span>
+              <i class="fa-regular fa-calendar-check me-3"></i><span>My Bookings</span>
             </a>
             <!-- <a class="dropdown-item" (click)="goToMyAccSettings">
               <i class="fa-regular fa-comment fa-flip-horizontal me-3"></i><span>Reviews</span>
@@ -106,20 +62,10 @@
           </div>
         </li>
       </ul>
-      <button
-        class="navbar-toggler border-0"
-        type="button"
-        (click)="toggleSidebar()"
-      >
-        <i
-          class="fa-solid fa-bars fa-2xl"
-          [ngClass]="{ 'd-none': isSidebarOpen }"
-        ></i>
+      <button class="navbar-toggler border-0" type="button" (click)="toggleSidebar()">
+        <i class="fa-solid fa-bars fa-2xl" [ngClass]="{ 'd-none': isSidebarOpen }"></i>
         <!-- <span class="navbar-toggler-icon" ></span> -->
-        <i
-          class="fa-solid fa-xmark fa-2xl"
-          [ngClass]="{ 'd-none': !isSidebarOpen }"
-        ></i>
+        <i class="fa-solid fa-xmark fa-2xl" [ngClass]="{ 'd-none': !isSidebarOpen }"></i>
       </button>
     </div>
   </nav>
@@ -131,37 +77,20 @@
     <div class="sidebar-content">
       <!-- Sidebar content goes here -->
       <ul class="sidebar-menu list-unstyled">
-        <div class="accordion d-lg-none" id="accordionExample">
+        <div class="accordion d-lg-none mb-3" id="accordionExample">
           <div class="accordion-item pb-2">
             <h2 class="accordion-header" id="headingOne">
-              <button
-                class="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
                 <i class="fa-solid fa-hotel me-2"></i> Book Resort
               </button>
             </h2>
-            <div
-              id="collapseOne"
-              class="accordion-collapse collapse"
-              aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample"
-            >
-              <div class="accordion-body">
-                <a
-                  class="dropdown-item ps-4"
-                  (click)="toggleSidebar(); goToVanavihari()"
-                  >Vanavihari, Maredumilli</a
-                >
-                <a
-                  class="dropdown-item ps-4"
-                  (click)="toggleSidebar(); goToJungleStar()"
-                  >Jungle Star, Valamuru</a
-                >
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body mb-0">
+                <a class="dropdown-item ps-4 py-1" (click)="toggleSidebar(); goToVanavihari()">Vanavihari,
+                  Maredumilli</a>
+                <a class="dropdown-item ps-4" (click)="toggleSidebar(); goToJungleStar()">Jungle Star, Valamuru</a>
               </div>
             </div>
           </div>
@@ -169,50 +98,43 @@
 
         <li class="sidebar-item d-flex mt-2">
           <a class="sidebar-link" (click)="toggleSidebar(); goToAboutUs()">
-            <i class="fa-solid fa-info-circle"></i
-            ><span class="ml-5">About Us</span>
+            <i class="fa-solid fa-info-circle"></i><span class="ml-5">About Us</span>
           </a>
         </li>
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToTourist()">
-            <i class="fa-regular fa-compass"></i
-            ><span class="ml-5">Tourist Destinations</span>
+            <i class="fa-regular fa-compass"></i><span class="ml-5">Tourist Destinations</span>
           </a>
         </li>
 
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToTribalPg()">
-            <i class="fa-solid fa-users"></i
-            ><span class="ml-5">Tribal Community</span>
+            <i class="fa-solid fa-users"></i><span class="ml-5">Tribal Community</span>
           </a>
         </li>
 
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToBiodiversity()">
-            <i class="fa fa-venus-mars fa-users"></i
-            ><span class="ml-5">Biodiversity Zone</span>
+            <i class="fa fa-venus-mars fa-users"></i><span class="ml-5">Biodiversity Zone</span>
           </a>
         </li>
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToAwards()">
-            <i class="fa fa-solid fa-award"></i
-            ><span class="ml-5">Awards and News</span></a
-          >
+            <i class="fa fa-solid fa-award"></i><span class="ml-5">Awards and News</span></a>
         </li>
 
-      
-        <li class="sidebar-item d-flex justify-content-start align-items-start" *ngIf="isMobileOrTablet">
+
+        <li class="sidebar-item d-flex justify-content-start">
           <!-- font awesome email -->
           <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-          <div class="d-flex flex-column justify-content-start align-items-start">
-
-            <a class="sidebar-link" href="tel:+919494151617" title="call"
-              >+919494151617</a
-            > 
-            <a class="sidebar-link" href="tel:+917382151617" title="call"
-              >+917382151617</a
-            >
+          <div class="d-flex flex-column">
+            <a class="sidebar-link" href="tel:9494151617" title="call">9494151617</a>
+            <a class="sidebar-link d-lg-none" href="tel:7382151617" title="call">7382151617</a>
           </div>
+        </li>
+        <li class="sidebar-item d-lg-none ">
+          <a class="sidebar-link" href="mailto:info@vanavihari.com" title="click to send email">
+            <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a>
         </li>
 
         <!-- <li class="sidebar-item">
@@ -222,15 +144,12 @@
         </li> -->
 
         <li class="sidebar-item d-none">
-          <a
-            class="sidebar-link d-flex gap-2 align-items-center"
-            href="#footer"
-          >
+          <a class="sidebar-link d-flex gap-2 align-items-center" href="#footer">
             <i class="fa-regular fa-envelope"></i><span>Contact Us</span>
           </a>
         </li>
 
-       
+
 
         <!-- <li class="sidebar-item">
           <a class="sidebar-link d-lg-none" routerLink="/sign-in" routerLinkActive="active"
@@ -251,7 +170,7 @@
 </main>
 
 <footer id="footer" class="footer py-4">
-  <div class="container pt-5" >
+  <div class="container pt-5">
     <div class="row w-100">
       <div class="col-md-2">
         <h3>Pages</h3>
@@ -261,7 +180,7 @@
               <span class="">Vanavihar, Maredumilli</span>
             </a>
           </li>
-          
+
           <li class="d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToJungleStar()">
               <span class="">Jungle star, Valamuru</span>
@@ -285,17 +204,13 @@
           </li>
 
           <li class="sidebar-item d-flex mt-2">
-            <a
-              class="sidebar-link d-flex"
-              (click)="toggleSidebar(); goToBiodiversity()"
-            >
+            <a class="sidebar-link d-flex" (click)="toggleSidebar(); goToBiodiversity()">
               <span class="">Biodiversity Zone</span>
             </a>
           </li>
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="goToAwards()">
-              <span class="">Awards and News</span></a
-            >
+              <span class="">Awards and News</span></a>
           </li>
         </ul>
       </div>
@@ -303,7 +218,7 @@
         <h3>Links</h3>
 
         <ul class="list-unstyled">
-         
+
           <li class="mt-2">
             <a class="" (click)="goToPrivacy()">Privacy Policy</a>
           </li>
@@ -317,28 +232,19 @@
       </div>
       <div class="col-md-8">
         <h3 class=" ">Contact Info</h3>
-       
+
         <div class="d-flex " *ngIf="!isMobileOrTablet">
           <ul class="list-unstyled">
             <h5>Vanavihari</h5>
             <li class="mt-2">
               <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="mailto:info@vanavihari.com"
-                title="click to send email"
-                >info@vanavihari.com</a
-              >
+              <a class="text-decoration-none" href="mailto:info@vanavihari.com"
+                title="click to send email">info@vanavihari.com</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="tel:+919494151617"
-                title="call"
-                >+919494151617</a
-              >
+              <a class="text-decoration-none" href="tel:+919494151617" title="call">+919494151617</a>
             </li>
             <li class="mt-2 d-flex justify-content-start align-items-start">
               <!-- font awesome email -->
@@ -351,22 +257,13 @@
             <h5>Jungle Star</h5>
             <li class="mt-2">
               <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="mailto:info@vanavihari.com"
-                title="click to send email"
-                >junglestarecocamp@gmail.com</a
-              >
+              <a class="text-decoration-none" href="mailto:info@vanavihari.com"
+                title="click to send email">junglestarecocamp@gmail.com</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="tel:+919494151617"
-                title="call"
-                >+9173821 51617</a
-              >
+              <a class="text-decoration-none" href="tel:+919494151617" title="call">+9173821 51617</a>
             </li>
             <li class="mt-2 d-flex justify-content-start align-items-start">
               <!-- font awesome email -->
@@ -382,64 +279,46 @@
             <h5>Vanavihari</h5>
             <li class="mt-2">
               <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="mailto:info@vanavihari.com"
-                title="click to send email"
-                >info@vanavihari.com</a
-              >
+              <a class="text-decoration-none" href="mailto:info@vanavihari.com"
+                title="click to send email">info@vanavihari.com</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="tel:+919494151617"
-                title="call"
-                >+919494151617</a
-              >
+              <a class="text-decoration-none" href="tel:+919494151617" title="call">+91-94941-51617</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-address-card me-2" aria-hidden="true"></i>
               <address>Vanavihari Eco-tourism Complex,<br>Maredumilli, Andhra Pradesh
                 533295</address>
-              
+
             </li>
           </ul>
           <ul class="list-unstyled">
             <h5>Junglestar</h5>
             <li class="mt-2">
               <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="mailto:info@vanavihari.com"
-                title="click to send email"
-                >junglestarecocamp@gmail.com</a
-              >
+              <a class="text-decoration-none" href="mailto:junglestarecocamp@gmail.com"
+                title="click to send email">junglestarecocamp@gmail.com</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a
-                class="text-decoration-none"
-                href="tel:+919494151617"
-                title="call"
-                >+9173821 51617</a
-              >
+              <a class="text-decoration-none" href="tel:+919494151617" title="call">+91-73821 51617</a>
             </li>
             <li class="mt-2">
               <!-- font awesome email -->
               <i class="fa fa-address-card me-2" aria-hidden="true"></i>
-             <address>Jungle Nature Camp Site<br>Valamuru, Andhra Pradesh
-              533295</address>
+              <address>Jungle Star Eco Camp site<br>Valamuru, Andhra Pradesh
+                533295</address>
             </li>
           </ul>
         </div>
 
       </div>
-      
-      
+
+
       <!-- <div class="col-md-4">
         <h3>Send a message</h3>
         <form >
@@ -476,17 +355,10 @@
   <div class="container">
     <div class="row justify-content-center justify-content-md-between">
       <span class="col-auto">&copy; 2024 VANAVIHARI</span>
-      <span class="col-auto mt-2 mt-sm-0"
-        >Made with love <i class="fas fa-heart"></i> by
-        <a
-          class="text-decoration-none"
-          href="https://tensketch.com/"
-          target="_blank"
-          link="no-referrer"
-        >
+      <span class="col-auto mt-2 mt-sm-0">Made with love <i class="fas fa-heart"></i> by
+        <a class="text-decoration-none" href="https://tensketch.com/" target="_blank" link="no-referrer">
           TenSketch
-        </a></span
-      >
+        </a></span>
     </div>
   </div>
 </footer>
@@ -499,22 +371,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="onCancel()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to sign out?</p>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary text-bg-secondary"
-          (click)="onCancel()"
-        >
+        <button type="button" class="btn btn-secondary text-bg-secondary" (click)="onCancel()">
           Cancel
         </button>
         <button type="button" class="btn btn-primary" (click)="onConfirm()">

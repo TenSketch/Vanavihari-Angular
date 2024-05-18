@@ -139,6 +139,7 @@ export class RoomsComponent implements OnInit {
   resortTypeId: String;
   showLoader = false;
   isSelectionSwitched = false;
+  isFilterOpen: boolean = false;
 
   @HostBinding('class.sticky')
   get stickyClass() {
@@ -994,5 +995,9 @@ export class RoomsComponent implements OnInit {
         this.router.navigate(['/sign-in']);
       });
     }
+  }
+  toggleFilter() {
+    console.log(this.isFilterOpen);
+    this.isFilterOpen = !this.isFilterOpen;
   }
 }

@@ -3,22 +3,43 @@
 .page-banner {
   background-image: url("/assets/img/home-gallery/vanavihari-home-gallery-1.jpg");
 }
-.card1 {
-  line-height: 2;
-}
+
 .breadcrumb {
   padding: 10px;
   background-color: #f8f9fa;
   // margin-bottom: 20px;
 }
 
-.filter-options,
-.sort {
-  background-color: #f8f9fa;
-  // padding: 15px;
-  margin-bottom: 20px;
-  // border-radius: 15px;
+#filterCottage {
+  // background-color: #f8f9fa;
+  background-color: $clr-primary-lighter;
+  
+  // margin-bottom: 20px;
+  width: 100vw;
+  // height: 100vh;
+  position: fixed;
+  top: $nav-bar-height;
+  right: -100vw; 
+  transition: right 0.3s ease;
+  visibility: hidden; 
+  // overflow-y: auto; 
+  &.active {
+    right: 0;
+    visibility: visible;
+    z-index: 1000000;
+  }
 }
+
+
+@media(min-width: 991px) {
+  #filterCottage {
+    width: auto;
+    height: auto;
+    position: static;
+    right: auto;
+    visibility: visible;
+  }
+  }
 
 .card {
   margin-bottom: 20px;
@@ -27,54 +48,38 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.star-rating {
-  display: inline-block;
-  font-size: 1.5rem;
-  color: #ffd700;
 
-  &::before {
-    content: "\2605\2605\2605\2605";
-  }
-
-  &::after {
-    content: "\2606";
-    margin-left: 3px;
-  }
-}
 
 aside {
-  // background-color: hsl($hue-primary, $saturation-primary, 85%);
+  position: sticky;
   background-color: $clr-primary-lighter;
-  padding: 20px;
-
-  @media (min-width: 768px) {
-    // flex-basis: 35%;
-    top: $nav-bar-height;
-    // margin-top: 2rem;
-    // bottom: 0;
-    left: 0;
-    right: 0;
-    // position: relative;
+  padding-bottom: 1rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  top: $nav-bar-height;
+  overflow-y: auto;
+  height: 90vh;
+  @media (min-width: 991px) {
+    padding: 20px;
+    z-index: unset;
   }
 
-  .booking-summary-bar{
-    &--title{
+  .booking-summary-bar {
+    &--title {
       // color: red;
       position: relative;
-      &::after{
+
+      &::after {
         position: absolute;
-        // content: "";
         content: "\f0f3";
         font-family: "Font Awesome 6 Free";
         font-size: 18px;
         color: red;
         top: 50%;
         transform: translateY(-50%);
-        // width: 18px;
-        // aspect-ratio: 1;
-        // background: red;
         right: -22%;
-        // border-radius: 50%;
       }
     }
   }
@@ -82,66 +87,33 @@ aside {
 
 main {
   &.rooms-listing {
-    // margin-left: 0;
-    // transition: margin-left 0.5s;
-    @media (min-width: 768px) {
-      // flex-basis: 65%;
-    }
+    @media (min-width: 768px) {}
   }
 }
-pre{
+
+pre {
   color: red;
 }
 
-.position-sticky-for-mobile {
-  top: $nav-bar-height;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  position: sticky;
-  padding: 6px !important;
-  h4,.custom-text {
-    font-size: 15px;
-  }
-  .booking-summary-bar{
-    &--title{
-      // color: red;
-      position: relative;
-      &::after{
-        position: absolute;
-        // content: "";
-        content: "\f0f3";
-        font-family: "Font Awesome 6 Free";
-        font-size: 18px;
-        color: red;
-        top: 50%;
-        transform: translateY(-50%);
-        // width: 18px;
-        // aspect-ratio: 1;
-        // background: red;
-        right: -22%;
-        // border-radius: 50%;
-      }
-    }
-  }
-}
 .accordion-body {
   height: 50dvh;
   overflow-y: scroll;
 }
+
 .policy-section {
   background: hsl(90, 100%, 85%);
   padding: 20px;
   margin: 20px 0px;
 }
+
 .custom-h4 {
   padding-left: 10px;
 }
 
-/* your-component.component.scss */
+/* room card gallery scss */
 
 .containerg {
-  width: min(991px, 80%);
+  // width: min(991px, 80%);
   position: relative;
 
   .card-containerg {
@@ -158,7 +130,8 @@ pre{
     .card {
       flex: 1 0 auto;
       margin: 10px;
-
+      border: 0;
+      box-shadow: unset;
       img {
         width: 250px;
         height: 250px;
@@ -172,18 +145,18 @@ pre{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 28px;
+    font-size: 25px;
     cursor: pointer;
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
-    color: #4d9900;
+    color: yellowgreen;
 
     &.left {
       left: 10px;
     }
 
     &.right {
-      right: 10px;
+      right: 0;
     }
   }
 
@@ -203,7 +176,6 @@ pre{
   }
 }
 
-/* your-component.component.css */
 .full-image-overlay {
   position: fixed;
   top: 0;
@@ -228,7 +200,6 @@ pre{
 }
 
 
-/* your-component.component.css */
 .overlay-controls {
   position: absolute;
   top: 10px;
@@ -252,26 +223,17 @@ pre{
 }
 
 
-/* Media query for screens smaller than 768px */
-@media screen and (max-width: 767px) {
-  .containerg {
-    width: min(991px, 100%);
-  }
-}
+// .star-rating {
+//   display: inline-block;
+//   font-size: 1.5rem;
+//   color: #ffd700;
 
-/* Media query for screens between 768px and 991px */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .container {
-    width: min(991px, 100%);
-    /* Styles for medium-sized screens */
-  }
-}
+//   &::before {
+//     content: "\2605\2605\2605\2605";
+//   }
 
-/* Media query for screens larger than 992px */
-@media screen and (min-width: 992px) {
-  .container {
-    width: min(991px, 100%);
-    /* Styles for larger screens */
-  }
-}
-
+//   &::after {
+//     content: "\2606";
+//     margin-left: 3px;
+//   }
+// }

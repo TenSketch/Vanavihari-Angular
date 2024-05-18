@@ -1,10 +1,7 @@
 <app-layout>
   <div class="main">
     <app-loader *ngIf="showLoader"> </app-loader>
-    <section
-      class="page-banner d-grid place-items-center"
-      *ngIf="selectedResortInfo"
-    >
+    <section class="page-banner d-grid place-items-center" *ngIf="selectedResortInfo">
       <h1 class="display-3 text-center">{{ selectedResortInfo.title }}</h1>
     </section>
 
@@ -20,39 +17,20 @@
       </nav>
       <div class="row" *ngIf="selectedResortInfo">
         <div class="col-md-4">
-          <div
-            class="map-container"
-            *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-          >
+          <div class="map-container" *ngIf="selectedResort == 'Vanavihari, Maredumilli'">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-              width="400"
-              height="300"
-              style="border: 0"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+              width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
-          <div
-            class="map-container"
-            *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-          >
+          <div class="map-container" *ngIf="selectedResort == 'Jungle Star, Valamuru'">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.321273036429!2d81.63047557463233!3d17.634936395627708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3725b319b638ff%3A0x6497bd032f830606!2sJUNGLE%20STAR%20ECO%20CAMP!5e0!3m2!1sen!2sin!4v1708782328839!5m2!1sen!2sin"
-              width="600"
-              height="450"
-              style="border: 0"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+              width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
-        <div
-          class="col-md-8 mt-4 mt-lg-0"
-          *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-        >
+        <div class="col-md-8 mt-4 mt-lg-0" *ngIf="selectedResort == 'Vanavihari, Maredumilli'">
           <h4>About {{ selectedResortInfo.title }}</h4>
           <p>
             {{ selectedResortInfo.about }}, situated in the serene landscapes of
@@ -66,10 +44,7 @@
             a heavenly experience for visitors.
           </p>
         </div>
-        <div
-          class="col-md-8 mt-4 mt-lg-0"
-          *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-        >
+        <div class="col-md-8 mt-4 mt-lg-0" *ngIf="selectedResort == 'Jungle Star, Valamuru'">
           <h4>About {{ selectedResortInfo.title }}</h4>
           <p>
             {{ selectedResortInfo.about }}, situated like an island surrounded
@@ -116,58 +91,57 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="container mt-3">
       <h2 class="text-center mb-3 mt-5">Search availability</h2>
       <!-- section for search bar - with inputs given in home page search, and user can modify -->
       <app-search-resort></app-search-resort>
-    </div>
-    <div class="container-fluid mt-3">
       <!-- rooms listing section -->
-      <div class="row mt-5">
-        <aside
-          class="col-sm-5 mt-3 col-md-3 h-100"
-          [ngClass]="
-            isMobile == false ? 'position-sticky' : 'position-sticky-for-mobile'
-          "
-        >
-          <!-- <section class="position-sticky"> -->
-          <div class="sort rounded-3 p-3">
-            <h4>Cottage Type</h4>
-            <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']" (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox><br />
-            <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']" (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox><br />
-            <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']" (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox><br />
-            <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']" (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox><br />
-            <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']" (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox><br /><br /><br />
-            <mat-form-field>
+      <div class="row mt-3">
+        <aside class="col-lg-4  mt-3">
+          <!-- filter icon mobile -->
+          <div class="text-center py-1 d-lg-none" (click)="toggleFilter()">
+            <img class="icon-small me-3" src="/assets/images/icons/filter.svg" alt="filter svg"> Filter
+          </div>
+          
+          <div id="filterCottage" class="" [ngClass]="{ 'active': isFilterOpen }">
+           <div class="d-flex justify-content-end mt-2"><i class="fa-solid fa-xmark fa-2xl" [ngClass]="{ 'd-none': !isFilterOpen }"></i></div>
+
+            <h4> Filter by Cottage Type</h4>
+            <div class="d-block">
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']" (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
+            </div>
+            <div class="d-block">
+              <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']" (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
+            </div>
+            <div class="d-block">
+              <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']" (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
+            </div>
+            <div class="d-block">
+              <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']" (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox>
+            </div>
+            <div class="d-block">
+              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']" (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox>
+            </div>
+            <!-- <mat-form-field>
               <mat-label>Sort by Price</mat-label>
               <mat-select [(value)]="selectedSortOption" name="priceSort" (selectionChange)="onSortChange()">
                 <mat-option value="lowToHigh">Low to High</mat-option>
                 <mat-option value="highToLow">High to Low</mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field> -->
           </div>
+          
           <!-- Booking Summary section -->
-          <div
-            *ngIf="!isMobile"
-            class="booking-summary-bar text-dark rounded-3"
-          >
-            <h4 class="m-0 pb-1 font-weight-bold">Booking Summary</h4>
-            <div
-              class="border-top pt-2"
-              *ngIf="showBookingSummary; else noBookings"
-            >
+          <div *ngIf="!isMobile" class="booking-summary-bar text-dark rounded-3">
+            <h4 class="mt-2 mb-0 pb-1 font-weight-bold">Booking Summary</h4>
+            <div class="border-top pt-2" *ngIf="showBookingSummary; else noBookings">
               <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
               <div class="" *ngFor="let roomId of roomIds">
                 <div *ngIf="findRoomById(roomId)">
-                  <a
-                    href="javascript:void(0)"
-                    class="float-end"
-                    (click)="removeRoom(roomIds, roomId)"
-                    ><i class="fa fa-trash"></i
-                  ></a>
+                  <a href="javascript:void(0)" class="float-end" (click)="removeRoom(roomIds, roomId)"><i
+                      class="fa fa-trash"></i></a>
                   <div>
-                    <strong class="me-2">Room Name: </strong
-                    >{{ findRoomById(roomId).Room_Name }}
+                    <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
                   </div>
                   <div class="d-flex flex-column">
                     <!-- <small>
@@ -182,8 +156,8 @@
                     <small>
                       <strong>Room Tariff:</strong>
                       {{
-                        findRoomById(roomId).Week_Days_Rate
-                          | currency : "INR " : true : "1.2-2"
+                      findRoomById(roomId).Week_Days_Rate
+                      | currency : "INR " : true : "1.2-2"
                       }}
                     </small>
 
@@ -201,34 +175,23 @@
                     <!-- <span> -->
                     <mat-form-field appearance="outline" class="mat-small">
                       <mat-label>No. of Guests</mat-label>
-                      <mat-select
-                        (selectionChange)="noOfGuestAction($event, roomId)"
-                        [(ngModel)]="selectedValues[roomId]"
-                        size="small"
-                        #guestSelect="matSelect"
-                      >
+                      <mat-select (selectionChange)="noOfGuestAction($event, roomId)"
+                        [(ngModel)]="selectedValues[roomId]" size="small" #guestSelect="matSelect">
                         <mat-option value="1">1</mat-option>
                         <mat-option value="2">2</mat-option>
                       </mat-select>
                       <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
                     </mat-form-field>
                     <!-- </span> -->
-                    <mat-checkbox
-                      [checked]="findRoomById(roomId).extra_guest"
-                      class="example-margin"
-                      color="primary"
-                      (change)="extraGuestActions($event, roomId)"
-                    >
+                    <mat-checkbox [checked]="findRoomById(roomId).extra_guest" class="example-margin" color="primary"
+                      (change)="extraGuestActions($event, roomId)">
                       <label>Add an extra guest </label>
                     </mat-checkbox>
 
                     <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
-                      <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                        >INR 1500
+                      <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">INR 1500
                       </strong>
-                      <strong
-                        *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-                        >INR 500
+                      <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">INR 500
                       </strong>
                       <!-- <small>+ GST @ 12% will be charged</small> -->
                     </div>
@@ -268,32 +231,26 @@
                 <span>Room charges</span>
                 <span>{{
                   getRoomCharges() | currency : "INR " : "symbol" : "1.2-2"
-                }}</span>
+                  }}</span>
               </div>
-              <div
-                class="d-flex justify-content-between pt-1"
-                *ngIf="
+              <div class="d-flex justify-content-between pt-1" *ngIf="
                   isAddedExtraGuest ||
                   isAnyRoomChecked() ||
                   calculateExtraGuestCharges()
-                "
-              >
+                ">
                 <span>Extra guest</span>
                 <span>{{
                   calculateExtraGuestCharges()
-                    | currency : "INR " : "symbol" : "1.2-2"
-                }}</span>
+                  | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
               </div>
 
               <div class="d-flex justify-content-between font-weight-bold py-1">
-                <span class="mb-0"
-                  >Total
-                  {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span
-                >
-                <span
-                  >{{
-                    calculateTotalPrice() * calculateDurationOfStay()
-                      | currency : "INR " : "symbol" : "1.2-2"
+                <span class="mb-0">Total
+                  {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
+                <span>{{
+                  calculateTotalPrice() * calculateDurationOfStay()
+                  | currency : "INR " : "symbol" : "1.2-2"
                   }}
                 </span>
               </div>
@@ -304,68 +261,40 @@
                 }}</span>
               </div> -->
               <div
-                class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5"
-              >
+                class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
                 <span class="mb-0">Grand Total</span>
                 <span>{{
                   calculatePayablePrice()
-                    | currency : "INR " : "symbol" : "1.2-2"
-                }}</span>
+                  | currency : "INR " : "symbol" : "1.2-2"
+                  }}</span>
               </div>
             </ng-container>
-            <button
-              mat-raised-button
-              color="primary"
-              class="w-100 mt-3"
-              (click)="signIn()"
-              *ngIf="showBookingSummary"
-              [disabled]="isGuestSelectEmpty()"
-            >
+            <button mat-raised-button color="primary" class="w-100 mt-3" (click)="signIn()" *ngIf="showBookingSummary"
+              [disabled]="isGuestSelectEmpty()">
               Proceed
             </button>
           </div>
           <mat-accordion *ngIf="isMobile">
-            <div
-              class=" "
-              [ngClass]="
-                isMobile == false
-                  ? 'position-sticky'
-                  : 'position-sticky-for-mobile'
-              "
-            >
-              <mat-expansion-panel
-                (opened)="panelOpenState = true"
-                (closed)="panelOpenState = false"
-              >
+            <div class=" mt-2">
+              <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <div class="booking-summary-bar text-dark rounded-3">
-                      <h4
-                        class="m-0 font-weight-bold"
-                        [class.booking-summary-bar--title]="isRoomAvailable()"
-                      >
+                      <h5 class="m-0 font-weight-bold" [class.booking-summary-bar--title]="isRoomAvailable()">
                         Booking Summary
-                      </h4>
+                      </h5>
                     </div>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div [ngClass]="{ 'accordion-body': showBookingSummary }">
-                  <div
-                    class="border-top pt-2"
-                    *ngIf="showBookingSummary; else noBookings"
-                  >
+                  <div class="border-top pt-2" *ngIf="showBookingSummary; else noBookings">
                     <!-- <h5 class="text-primary-dark pb-1 m-0"><strong class="me-2">Hill Top Guest House</strong></h5> -->
                     <div class="" *ngFor="let roomId of roomIds">
                       <div *ngIf="findRoomById(roomId)">
-                        <a
-                          href="javascript:void(0)"
-                          class="float-end"
-                          (click)="removeRoom(roomIds, roomId)"
-                          ><i class="fa fa-trash"></i
-                        ></a>
+                        <a href="javascript:void(0)" class="float-end" (click)="removeRoom(roomIds, roomId)"><i
+                            class="fa fa-trash"></i></a>
                         <div>
-                          <strong class="me-2">Room Name: </strong
-                          >{{ findRoomById(roomId).Room_Name }}
+                          <strong class="me-2">Room Name: </strong>{{ findRoomById(roomId).Room_Name }}
                         </div>
                         <div class="d-flex flex-column">
                           <!-- <small>
@@ -380,8 +309,8 @@
                           <small>
                             <strong>Room Tariff:</strong>
                             {{
-                              findRoomById(roomId).Week_Days_Rate
-                                | currency : "INR " : true : "1.2-2"
+                            findRoomById(roomId).Week_Days_Rate
+                            | currency : "INR " : true : "1.2-2"
                             }}
                           </small>
 
@@ -397,48 +326,28 @@
 
                         <div class="cflex-column mt-1">
                           <span>
-                            <mat-form-field
-                              appearance="outline"
-                              class="mat-small"
-                            >
+                            <mat-form-field appearance="outline" class="mat-small">
                               <mat-label>No. of Guests</mat-label>
-                              <mat-select
-                                (selectionChange)="
+                              <mat-select (selectionChange)="
                                   noOfGuestAction($event, roomId)
-                                "
-                                size="small"
-                                #guestSelect="matSelect"
-                              >
+                                " size="small" #guestSelect="matSelect">
                                 <mat-option value="1">1</mat-option>
                                 <mat-option value="2">2</mat-option>
                               </mat-select>
-                              <mat-hint class="px-0"
-                                >Adults/Child over 5 yrs</mat-hint
-                              >
+                              <mat-hint class="px-0">Adults/Child over 5 yrs</mat-hint>
                             </mat-form-field>
                           </span>
-                          <mat-checkbox
-                            [checked]="findRoomById(roomId).extra_guest"
-                            class="example-margin"
-                            color="primary"
-                            (change)="extraGuestActions($event, roomId)"
-                          >
+                          <mat-checkbox [checked]="findRoomById(roomId).extra_guest" class="example-margin"
+                            color="primary" (change)="extraGuestActions($event, roomId)">
                             <label>Add an extra guest </label>
                           </mat-checkbox>
 
-                          <div
-                            *ngIf="findRoomById(roomId).extra_guest"
-                            class="pt-3"
-                          >
-                            <strong
-                              *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                              >INR 1500
+                          <div *ngIf="findRoomById(roomId).extra_guest" class="pt-3">
+                            <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">INR 1500
                             </strong>
-                            <strong
-                              *ngIf="
+                            <strong *ngIf="
                                 selectedResort == 'Vanavihari, Maredumilli'
-                              "
-                              >INR 500
+                              ">INR 500
                             </strong>
                             <!-- <small>+ GST @ 12% will be charged</small> -->
                           </div>
@@ -458,11 +367,7 @@
                     <div class="mt-4">
                       <mat-form-field appearance="outline" class="mat-small">
                         <mat-label>No of children</mat-label>
-                        <mat-select
-                          required
-                          [(ngModel)]="extraChildren"
-                          size="small"
-                        >
+                        <mat-select required [(ngModel)]="extraChildren" size="small">
                           <mat-option value="0">0</mat-option>
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
@@ -482,37 +387,30 @@
                       <span>Room charges</span>
                       <span>{{
                         getRoomCharges()
-                          | currency : "INR " : "symbol" : "1.2-2"
-                      }}</span>
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
                     </div>
-                    <div
-                      class="d-flex justify-content-between pt-1"
-                      *ngIf="
+                    <div class="d-flex justify-content-between pt-1" *ngIf="
                         isAddedExtraGuest ||
                         isAnyRoomChecked() ||
                         calculateExtraGuestCharges()
-                      "
-                    >
+                      ">
                       <span>Extra guest</span>
                       <span>{{
                         calculateExtraGuestCharges()
-                          | currency : "INR " : "symbol" : "1.2-2"
-                      }}</span>
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
                     </div>
 
-                    <div
-                      class="d-flex justify-content-between font-weight-bold py-1"
-                    >
-                      <span class="mb-0"
-                        >Total
+                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                      <span class="mb-0">Total
                         {{
-                          "(" + calculateDurationOfStay() + " days" + ")"
-                        }}</span
-                      >
+                        "(" + calculateDurationOfStay() + " days" + ")"
+                        }}</span>
                       <span>{{
                         calculateTotalPrice() * calculateDurationOfStay()
-                          | currency : "INR " : "symbol" : "1.2-2"
-                      }}</span>
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
                     </div>
                     <!-- <div
                       class="d-flex justify-content-between font-weight-bold py-1"
@@ -524,23 +422,16 @@
                       }}</span>
                     </div> -->
                     <div
-                      class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5"
-                    >
+                      class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
                       <span class="mb-0">Grand Total</span>
                       <span>{{
                         calculatePayablePrice()
-                          | currency : "INR " : "symbol" : "1.2-2"
-                      }}</span>
+                        | currency : "INR " : "symbol" : "1.2-2"
+                        }}</span>
                     </div>
                   </ng-container>
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    class="w-100 mt-3"
-                    (click)="signIn()"
-                    *ngIf="showBookingSummary"
-                    [disabled]="isGuestSelectEmpty(guestSelect)"
-                  >
+                  <button mat-raised-button color="primary" class="w-100 mt-3" (click)="signIn()"
+                    *ngIf="showBookingSummary" [disabled]="isGuestSelectEmpty(guestSelect)">
                     Proceed
                   </button>
                 </div>
@@ -552,44 +443,32 @@
                   <p>No Bookings Available. Please Add Rooms.</p>
                 </div> -->
             <!-- <h5 class="text-center"><u>Booking Summary</u></h5> -->
-            <div
-              class="d-flex my-2 p-3 align-items-center justify-content-around"
-            >
+            <div class="d-flex my-2 p-3 align-items-center justify-content-around">
               <i class="fa fa-plus" aria-hidden="true"></i>
               <p class="m-0">Add your preferred rooms</p>
             </div>
           </ng-template>
           <!-- </section> -->
         </aside>
-        <main class="rooms-listing col-md-9">
+        <main class="rooms-listing col-lg-8">
           <ng-template #loading>
             <div class="text-center">
               <!-- Increase size using Bootstrap utility classes -->
-              <div
-                class="spinner-border text-primary"
-                role="status"
-                style="width: 4rem; height: 4rem"
-              >
+              <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem">
                 <span class="visually-hidden">Loading...</span>
               </div>
               <p>Loading rooms...</p>
             </div>
           </ng-template>
-          <div
-            class="card mb-3 text-center"
-            *ngIf="!filteredRoomData && !loadingRooms"
-          >
+          <div class="card mb-3 text-center" *ngIf="!filteredRoomData && !loadingRooms">
             Sorry, rooms are not available
           </div>
           <div *ngIf="!loadingRooms">
             <div *ngIf="!isRoomDataEmpty">
-              <div
-                class="row my-2 w-100 d-flex align-items-center justify-content-center"
-              >
+              <div class="row my-2 w-100 d-flex align-items-center justify-content-center">
                 <div>
                   <pre *ngIf="showMessage" class="text-center">
-*** Please select dates and search rooms ****</pre
-                  >
+*** Please select dates and search rooms ****</pre>
                 </div>
               </div>
               <div class="card mb-3" *ngFor="let room of filteredRoomData">
@@ -597,92 +476,57 @@
                   <div class="col-md-5">
                     <div class="containerg">
                       <div class="card-containerg" #cardContainer>
-                        <div
-                          class="card"
-                          *ngFor="
+                        <div class="card" *ngFor="
                             let item of getRoomImages(room.Room_Name);
                             let i = index
-                          "
-                        >
-                          <img
-                            class="img-responsive"
-                            src="{{ item }}"
-                            alt=""
-                            (click)="openLightbox(i, room.Room_Name)"
-                          />
+                          ">
+                          <img class="img-responsive" src="{{ item }}" alt=""
+                            (click)="openLightbox(i, room.Room_Name)" />
                         </div>
                       </div>
-                      <div
-                        class="full-image-overlay"
-                        *ngIf="isFullImageVisible"
-                        (click)="closeFullImage()"
-                      >
+                      <div class="full-image-overlay" *ngIf="isFullImageVisible" (click)="closeFullImage()">
                         <div class="full-image-container">
-                          <div
-                            class="scroll-icon left"
-                            (click)="scrollLeft(cardContainer)"
-                            #scrollLeftIcon
-                          >
+                          <div class="scroll-icon left" (click)="scrollLeft(cardContainer)" #scrollLeftIcon>
                             &#10094;
                           </div>
                           <img class="full-image" [src]="fullImageSrc" alt="" />
-                          <div
-                            class="scroll-icon right"
-                            (click)="scrollRight(cardContainer)"
-                            #scrollRightIcon
-                          >
+                          <div class="scroll-icon right" (click)="scrollRight(cardContainer)" #scrollRightIcon>
                             &#10095;
                           </div>
 
                           <div class="overlay-controls">
-                            <button
-                              class="close-button"
-                              (click)="closeFullImage()"
-                            >
+                            <button class="close-button" (click)="closeFullImage()">
                               X
                             </button>
                           </div>
                         </div>
                       </div>
 
-                      <div
-                        class="scroll-icon left"
-                        (click)="scrollLeft(cardContainer)"
-                        #scrollLeftIcon
-                      >
-                        &#10094;
+                      <div class="scroll-icon left" (click)="scrollLeft(cardContainer)" #scrollLeftIcon>
+                        <i class="fas fa-chevron-left    "></i>
+                        <!-- &#10094; -->
                       </div>
-                      <div
-                        class="scroll-icon right"
-                        (click)="scrollRight(cardContainer)"
-                        #scrollRightIcon
-                      >
-                        &#10095;
+                      <div class="scroll-icon right" (click)="scrollRight(cardContainer)" #scrollRightIcon>
+                        <i class="fas fa-chevron-right    "></i>
+                        <!-- &#10095; -->
                       </div>
                     </div>
                   </div>
                   <div class="col-md-7 row justify-content-between">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                       <h5>
-                        <span class="text-primary-dark font-weight-bold"
-                          >Room name: </span
-                        >{{ room.Room_Name }}
+                        <span class="text-primary-dark font-weight-bold">Room name: </span>{{ room.Room_Name }}
                       </h5>
                       <h6>
-                        <span class="text-primary-dark font-weight-bold"
-                          >Cottage type: </span
-                        >{{ room.Cottage_Type }}
+                        <span class="text-primary-dark font-weight-bold">Cottage type: </span>{{ room.Cottage_Type }}
                       </h6>
                       <h6>
-                        <span class="text-primary-dark font-weight-bold"
-                          >Resort name:
+                        <span class="text-primary-dark font-weight-bold">Resort name:
                         </span>
                         {{ room.Select_Resort }}
                       </h6>
                     </div>
-                    <div
-                      class="col-md-4 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0"
-                    >
+                    <div class="col-md-5 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0">
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
                           <!-- <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
@@ -693,32 +537,24 @@
                       </div>
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
-                          <strong
-                            *ngIf="selectedResort == 'Vanavihari, Maredumilli'"
-                            >{{ 500 }}
+                          <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">{{ 500 }}
                           </strong>
-                          <strong
-                            *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                            >{{ 1500 }}
+                          <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">{{ 1500 }}
                           </strong>
                         </h6>
                         <p class="text-primary-dark">For an extra guest</p>
                       </div>
                       <div class="col-12">
-                        <p class="text-primary-dark"  *ngIf="selectedResort == 'Jungle Star, Valamuru'" >Room price includes food</p>
+                        <p class="text-secondary" *ngIf="selectedResort == 'Jungle Star, Valamuru'">Room price includes
+                          food</p>
                       </div>
                       <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>
                 <small>+ gst @ 12%</small><br>
                 <small>(for 1 Extra Bed)</small> -->
                     </div>
                     <div class="col my-2 pe-0">
-                      <button
-                        mat-raised-button
-                        color="primary"
-                        class="float-end float-md-start"
-                        [disabled]="isRoomAdded(room.Room_Id)"
-                        (click)="addRoom(room)"
-                      >
+                      <button mat-raised-button color="primary" class="float-end float-md-start"
+                        [disabled]="isRoomAdded(room.Room_Id)" (click)="addRoom(room)">
                         Add room
                       </button>
                     </div>
@@ -733,22 +569,12 @@
   </div>
 </app-layout>
 
-<div
-  class="modal"
-  tabindex="-1"
-  *ngIf="isPromptModalVisible"
-  style="display: block"
->
+<!-- <div class="modal" tabindex="-1" *ngIf="isPromptModalVisible" style="display: block">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="onCancel()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>
@@ -763,4 +589,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

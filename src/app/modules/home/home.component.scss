@@ -37,7 +37,7 @@ $card-flex-basis: 35%;
 }
 .about {
   // background-color: $clr-primary-light;
-  background: linear-gradient(to bottom right, #42b148, #e4cf57);
+  // background: linear-gradient(to bottom right, #42b148, #e4cf57);
 }
 .resort-intro {
   .card {
@@ -67,70 +67,3 @@ $card-flex-basis: 35%;
   transform: scale(1.1);
 }
 
-
-
-// timer starts
-.count-down-timer {
-  box-shadow: 2px 6px 9px 2px rgb(0 0 0 / 20%);
-  text-align: center;
-  background-color: #4d9900;
-  max-width: 400px;
-  margin: 20px auto;
-  color: #ffffff;
-  border-radius: 6px;
-  padding: 25px;
-  font-family: sans-serif;
-
-  > p {
-    margin: 5px 0 15px 0;
-    color: #ffffff;
-
-  }
-
-  .wrapper {
-    p{
-
-      color: #ffffff;
-    }
-    .description,
-    .times {
-      display: grid;
-      grid-template-columns: repeat(4, calc(25% - 8px));
-      grid-column-gap: 10px;
-    }
-
-    .description {
-      > p {
-        margin: 0;
-        font: normal 14px sans-serif;
-        color: #ffff;
-      }
-    }
-
-    .times {
-      p {
-        letter-spacing: -5px;
-        position: relative;
-        margin: 0;
-        color: #ffff;
-        font: normal 40px courier, sans-serif;
-        ::ng-deep img {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 30px;
-          display: block;
-          height: 30px;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 430px) {
-  .count-down-timer {
-    margin: 20px;
-  }
-}
-// timer ends

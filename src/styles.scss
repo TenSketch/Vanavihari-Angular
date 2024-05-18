@@ -62,7 +62,9 @@ h6 {
     cursor: pointer;
   }
   &:active {
-    background-color: hsl($hue-primary, $saturation-primary, 85%);
+    // background-color: hsl($hue-primary, $saturation-primary, 85%);
+    box-shadow: inset 0 0 4px 0px hsla(0, 0%, 91%, 0.637);
+    border-radius: 5px;
   }
 }
 
@@ -144,7 +146,7 @@ h6 {
 .accordion-button {
   // padding-block: 0.5em !important;
   color: $clr-dark;
-  font-size: 0.9rem;
+  // font-size: 0.9rem;
 }
 
 .info-heading {
@@ -316,7 +318,7 @@ gallery-thumbs {
 @media only screen and (min-width: 481px) {
       .g-btn-close {
           right: 1em !important;
-          top: 5.2em !important;
+          top: 2.2em !important;
       }
       .g-counter {
         top: 70px !important;

@@ -35,33 +35,17 @@
                 <i class="fa-solid fa-location-dot"></i>
                 Jungle Star ECO Camp, Valamuru, AP-533295.
               </address>
-              <div
-                class="map-container"
-                *ngIf="resortName == 'Vanavihari, Maredumilli'"
-              >
+              <div class="map-container" *ngIf="resortName == 'Vanavihari, Maredumilli'">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15212.133581651236!2d81.712357!3d17.601149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a373b5d52758873%3A0x718f2b2059db5e0a!2sVanavihari%20Maredumilli!5e0!3m2!1sen!2sin!4v1708738599849!5m2!1sen!2sin"
-                  width="400"
-                  height="300"
-                  style="border: 0"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
+                  width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
-              <div
-                class="map-container"
-                *ngIf="resortName == 'Jungle Star, Valamuru'"
-              >
+              <div class="map-container" *ngIf="resortName == 'Jungle Star, Valamuru'">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3802.321273036429!2d81.63047557463233!3d17.634936395627708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a3725b319b638ff%3A0x6497bd032f830606!2sJUNGLE%20STAR%20ECO%20CAMP!5e0!3m2!1sen!2sin!4v1708782328839!5m2!1sen!2sin"
-                  width="600"
-                  height="450"
-                  style="border: 0"
-                  allowfullscreen=""
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
+                  width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
               <p><strong>Rating:</strong> 4.5/5</p>
               <h5>Room & Guests Details</h5>
@@ -70,22 +54,18 @@
 
                 <div class="pt-2" *ngFor="let roomId of cardData">
                   <p class="m-0">
-                    <strong>Cottage Type:</strong
-                    ><span> {{ roomId.Cottage_Type }}</span>
+                    <strong>Cottage Type:</strong><span> {{ roomId.Cottage_Type }}</span>
                   </p>
                   <p class="m-0">
-                    <strong class="me-2">Room Name:</strong
-                    ><span> {{ roomId.Room_Name }}</span>
+                    <strong>Room Name:</strong><span> {{ roomId.Room_Name }}</span>
                   </p>
                 </div>
                 <hr />
                 <p>
-                  <strong>Number of room(s): </strong>
-                  <span id="totalRooms">{{ noofrooms }}</span>
+                  <strong>Number of room(s): </strong><span id="totalRooms">{{ noofrooms }}</span>
                 </p>
                 <p>
-                  <strong>Number of guest(s): </strong
-                  ><span>{{ totalGuests }}</span>
+                  <strong>Number of guest(s): </strong><span>{{ totalGuests }}</span>
                 </p>
                 <!-- <small>
                   <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
@@ -93,12 +73,11 @@
 
                 <p><strong>Extra Guest:</strong> {{ extra_guests }}</p>
                 <p>
-                  <strong> No. of Children: {{ extra_children }} </strong>
+                  <strong> No. of Children: </strong><span>{{ extra_children }}</span>
                 </p>
 
-                <a class="font-weight-bold" (click)="triggerModal()"
-                  >Change your selection</a
-                >
+                <a class="font-weight-bold" title="go back to rooms to change selection" (click)="triggerModal()">Change
+                  your selection</a>
               </div>
 
               <!-- <p>
@@ -118,11 +97,10 @@
                   <!-- <h6>{{ checkInDate }}</h6> -->
                   <span class="day display-5">{{
                     formattedCheckinDate.day
-                  }}</span
-                  ><br />
+                    }}</span><br />
                   <span class="month font-weight-bold">{{
                     formattedCheckinDate.month
-                  }}</span>
+                    }}</span>
                   <span class="year"> {{ formattedCheckinDate.year }}</span>
                   <!-- <p>10:00 AM IST</p> -->
                 </div>
@@ -130,18 +108,16 @@
                   <p class="mb-0">Check-out</p>
                   <span class="day display-5">{{
                     formattedCheckoutDate.day
-                  }}</span
-                  ><br />
+                    }}</span><br />
                   <span class="month font-weight-bold">{{
                     formattedCheckoutDate.month
-                  }}</span>
+                    }}</span>
                   <span class="year"> {{ formattedCheckoutDate.year }}</span>
                   <!-- <p>09:00 AM IST</p> -->
                 </div>
               </div>
               <p class="mt-1">
-                <strong>Duration of stay (in days): </strong
-                >{{ calculateDurationOfStay() }}
+                <strong>Duration of stay (in days): </strong>{{ calculateDurationOfStay() }}
               </p>
             </div>
             <!-- <div class="card">
@@ -194,11 +170,7 @@
             </div>
           </div>
           <div class="col-md-6 me-auto mt-5 mt-md-0">
-            <h5
-              class="mb-4"
-              *ngIf="isLoggedIn(); else loginNotify"
-              style="line-height: 1.5"
-            >
+            <h5 class="mb-4" *ngIf="isLoggedIn(); else loginNotify" style="line-height: 1.5">
               Check the details we have fetched from your user account
               {{ getFullUser }}!
             </h5>
@@ -212,121 +184,57 @@
             <form [formGroup]="form">
               <mat-form-field appearance="outline">
                 <mat-label>Guest Name</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  formControlName="gname"
-                  placeholder="Enter Full Name"
-                />
+                <input type="text" matInput required formControlName="gname" placeholder="Enter Full Name" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Mobile no.</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter Mobile Number"
-                  formControlName="gphone"
-                />
+                <input type="text" matInput required placeholder="Enter Mobile Number" formControlName="gphone" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Email</mat-label>
-                <input
-                  type="email"
-                  matInput
-                  required
-                  placeholder="Enter Email Address"
-                  formControlName="gemail"
-                />
+                <input type="email" matInput required placeholder="Enter Email Address" formControlName="gemail" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Address</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your address"
-                  formControlName="gaddress"
-                />
+                <input type="text" matInput required placeholder="Enter your address" formControlName="gaddress" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>City</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your city"
-                  formControlName="gcity"
-                />
+                <input type="text" matInput required placeholder="Enter your city" formControlName="gcity" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>State</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your state"
-                  formControlName="gstate"
-                />
+                <input type="text" matInput required placeholder="Enter your state" formControlName="gstate" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Pincode</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  required
-                  placeholder="Enter your pincode"
-                  formControlName="gpincode"
-                />
+                <input type="number" matInput required placeholder="Enter your pincode" formControlName="gpincode" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Country</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  required
-                  placeholder="Enter your country"
-                  formControlName="gcountry"
-                />
+                <input type="text" matInput required placeholder="Enter your country" formControlName="gcountry" />
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="mt-3">
+              <!-- <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>GST Number</mat-label>
-                <input
-                  matInput
-                  placeholder="Enter GST Number"
-                  formControlName="gstnumber"
-                />
+                <input matInput placeholder="Enter GST Number" formControlName="gstnumber" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mt-3">
                 <mat-label>Company Name</mat-label>
-                <input
-                  matInput
-                  placeholder="Enter Company Name"
-                  formControlName="companyname"
-                />
-              </mat-form-field>
+                <input matInput placeholder="Enter Company Name" formControlName="companyname" />
+              </mat-form-field> -->
 
-              <mat-form-field
-                appearance="outline"
-                class="mt-3"
-                *ngIf="selectedResort == 'Jungle Star, Valamuru'"
-                required
-              >
+              <mat-form-field appearance="outline" class="mt-3" *ngIf="selectedResort == 'Jungle Star, Valamuru'"
+                required>
                 <mat-label>Food Preference</mat-label>
 
-                <select matNativeControl formControlName="foodpreference">
-                  <option value="vegetarian">Vegetarian</option>
-                  <option value="nonvegetarian">Non-Vegetarian</option>
-                </select>
+                <mat-select formControlName="foodpreference">
+                  <mat-option value="vegetarian">Vegetarian</mat-option>
+                  <mat-option value="nonvegetarian">Non-Vegetarian</mat-option>
+                </mat-select>
               </mat-form-field>
-              <button
-                class="btn w-100 mt-1"
-                style="background-color: #4d9900; color: #ffffff"
-                (click)="triggerInfoModal()"
-                [disabled]="!form.valid"
-              >
+              <button class="btn w-100 mt-1" style="background-color: #4d9900; color: #ffffff"
+                (click)="triggerInfoModal()" [disabled]="!form.valid">
                 Confirm and Pay
               </button>
               <section class="booking-terms mt-4">
@@ -441,22 +349,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="onCancel()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to modify booking?</p>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary text-bg-secondary"
-          (click)="onCancel()"
-        >
+        <button type="button" class="btn btn-secondary text-bg-secondary" (click)="onCancel()">
           Cancel
         </button>
         <button type="button" class="btn btn-primary" (click)="onConfirm()">
@@ -467,25 +366,15 @@
   </div>
 </div>
 
-<div
-  class="modal"
-  tabindex="-1"
-  *ngIf="isInfoModalVisible"
-  [ngStyle]="getModalStyles()"
->
+<div class="modal" tabindex="-1" *ngIf="isInfoModalVisible" [ngStyle]="getModalStyles()">
   <div class="modal-overlay" [ngClass]="{ 'dark-overlay': isDarkMode }"></div>
   <!-- Light/Dark overlay -->
 
-  <div class="modal-dialog modal-dialog-centered modal-sm">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Confirmation</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="onCancel()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>
@@ -503,9 +392,7 @@
         </p>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-primary" (click)="onOk()">
-          Ok
-        </button>
+        <button mat-raised-button color="primary" class="font-weight-bold w-25" (click)="onOk()"> OK </button>
       </div>
     </div>
   </div>
