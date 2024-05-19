@@ -69,11 +69,9 @@
       </button>
     </div>
   </nav>
-
   <div id="sidebar" [ngClass]="{ active: isSidebarOpen }">
     <!-- <div class="overlay" [ngClass]="{ 'active': isSidebarOpen }"></div> -->
     <!-- <div class="overlay" [ngClass]="{ 'active': isSidebarOpen }" (click)="closeSidebar()"></div> -->
-
     <div class="sidebar-content">
       <!-- Sidebar content goes here -->
       <ul class="sidebar-menu list-unstyled">
@@ -95,7 +93,6 @@
             </div>
           </div>
         </div>
-
         <li class="sidebar-item d-flex mt-2">
           <a class="sidebar-link" (click)="toggleSidebar(); goToAboutUs()">
             <i class="fa-solid fa-info-circle"></i><span class="ml-5">About Us</span>
@@ -106,13 +103,11 @@
             <i class="fa-regular fa-compass"></i><span class="ml-5">Tourist Destinations</span>
           </a>
         </li>
-
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToTribalPg()">
             <i class="fa-solid fa-users"></i><span class="ml-5">Tribal Community</span>
           </a>
         </li>
-
         <li class="sidebar-item d-flex">
           <a class="sidebar-link" (click)="toggleSidebar(); goToBiodiversity()">
             <i class="fa fa-venus-mars fa-users"></i><span class="ml-5">Biodiversity Zone</span>
@@ -122,8 +117,6 @@
           <a class="sidebar-link" (click)="toggleSidebar(); goToAwards()">
             <i class="fa fa-solid fa-award"></i><span class="ml-5">Awards and News</span></a>
         </li>
-
-
         <li class="sidebar-item d-flex justify-content-start">
           <!-- font awesome email -->
           <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
@@ -136,21 +129,16 @@
           <a class="sidebar-link" href="mailto:info@vanavihari.com" title="click to send email">
             <i class="fa-regular fa-envelope me-2"></i>info@vanavihari.com</a>
         </li>
-
         <!-- <li class="sidebar-item">
           <a class="sidebar-link d-flex gap-2 align-items-center" href="#">
             <i class="fa-regular fa-images"></i><span>Gallery</span>
           </a>
         </li> -->
-
         <li class="sidebar-item d-none">
           <a class="sidebar-link d-flex gap-2 align-items-center" href="#footer">
             <i class="fa-regular fa-envelope"></i><span>Contact Us</span>
           </a>
         </li>
-
-
-
         <!-- <li class="sidebar-item">
           <a class="sidebar-link d-lg-none" routerLink="/sign-in" routerLinkActive="active"
             ariaCurrentWhenActive="page"><i class="fa-solid fa-key"></i> Sign in</a>
@@ -168,7 +156,6 @@
   <app-loader *ngIf="showLoader"></app-loader>
   <ng-content select=".main"></ng-content>
 </main>
-
 <footer id="footer" class="footer py-4">
   <div class="container pt-5">
     <div class="row w-100">
@@ -180,7 +167,6 @@
               <span class="">Vanavihar, Maredumilli</span>
             </a>
           </li>
-
           <li class="d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToJungleStar()">
               <span class="">Jungle star, Valamuru</span>
@@ -196,13 +182,11 @@
               <span class="">Tourist Destinations</span>
             </a>
           </li>
-
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link" (click)="toggleSidebar(); goToTribalPg()">
               <span class="">Tribal Community</span>
             </a>
           </li>
-
           <li class="sidebar-item d-flex mt-2">
             <a class="sidebar-link d-flex" (click)="toggleSidebar(); goToBiodiversity()">
               <span class="">Biodiversity Zone</span>
@@ -216,9 +200,7 @@
       </div>
       <div class="col-md-2">
         <h3>Links</h3>
-
         <ul class="list-unstyled">
-
           <li class="mt-2">
             <a class="" (click)="goToPrivacy()">Privacy Policy</a>
           </li>
@@ -232,8 +214,7 @@
       </div>
       <div class="col-md-8">
         <h3 class=" ">Contact Info</h3>
-
-        <div class="row" *ngIf="!isMobileOrTablet">
+        <div class="row">
           <div class="col-lg-6">
             <ul class="list-unstyled">
               <h5>Vanavihari</h5>
@@ -277,81 +258,7 @@
             </ul>
           </div>
         </div>
-
-        <div class="" *ngIf="isMobileOrTablet">
-          <ul class="list-unstyled">
-            <h5>Vanavihari</h5>
-            <li class="mt-2">
-              <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a class="text-decoration-none" href="mailto:info@vanavihari.com"
-                title="click to send email">info@vanavihari.com</a>
-            </li>
-            <li class="mt-2">
-              <!-- font awesome email -->
-              <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a class="text-decoration-none" href="tel:+919494151617" title="call">+91-9494151617</a>
-            </li>
-            <li class="mt-2 d-flex align-items-start">
-              <!-- font awesome email -->
-              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
-              <address>Vanavihari Eco-tourism Complex,<br>Maredumilli, Andhra Pradesh
-                533295</address>
-
-            </li>
-          </ul>
-          <ul class="list-unstyled">
-            <h5>Junglestar</h5>
-            <li class="mt-2">
-              <i class="fa fa-envelope me-2" aria-hidden="true"></i>
-              <a class="text-decoration-none" href="mailto:junglestarecocamp@gmail.com"
-                title="click to send email">junglestarecocamp@gmail.com</a>
-            </li>
-            <li class="mt-2">
-              <!-- font awesome email -->
-              <i class="fa fa-mobile-screen me-2" aria-hidden="true"></i>
-              <a class="text-decoration-none" href="tel:+919494151617" title="call">+91-7382151617</a>
-            </li>
-            <li class="mt-2 d-flex align-items-start">
-              <!-- font awesome email -->
-              <i class="fa fa-address-card me-2" aria-hidden="true"></i>
-              <address>Jungle Star Eco Camp site<br>Valamuru, Andhra Pradesh
-                533295</address>
-            </li>
-          </ul>
-        </div>
-
       </div>
-
-
-      <!-- <div class="col-md-4">
-        <h3>Send a message</h3>
-        <form >
-          <mat-form-field appearance="outline" class="mt-3">
-            <mat-label>Name</mat-label>
-            <input type="text" matInput required  name="name" placeholder="Full name" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="mt-3">
-            <mat-label>Mobile no.</mat-label>
-            <input type="tel" matInput required name="mobileNo" placeholder="Enter 10 digit mobile no." />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="mt-3">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput required  name="email" placeholder="abc@gmail.com" />
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="mt-3">
-            <mat-label>Message</mat-label>
-            <textarea matInput
-                      cdkTextareaAutosize
-                      #autosize="cdkTextareaAutosize"
-                      cdkAutosizeMinRows="1"
-                      cdkAutosizeMaxRows="5"
-                      placeholder="Enter your message, enquiry, feedback or suggestion"></textarea>
-          </mat-form-field>
-          <button mat-raised-button color="primary" class="w-100 mt-3">
-            Send
-          </button>
-        </form>
-      </div> -->
     </div>
   </div>
 </footer>
@@ -366,11 +273,8 @@
     </div>
   </div>
 </footer>
-
-
 <div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block">
   <div class="modal-overlay" [ngClass]="{'dark-overlay': isDarkMode}"></div> <!-- Light/Dark overlay -->
-
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

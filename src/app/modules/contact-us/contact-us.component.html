@@ -1,1 +1,40 @@
-<p>contact-us works!</p>
+<app-layout>
+    <div class="main">
+        <section class="page-banner d-grid place-items-center">
+            <h1 class="display-3 text-center">About Vanavihari</h1>
+        </section>
+        <section class="my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h3>Send a message</h3>
+                        <form>
+                            <mat-form-field appearance="outline" class="mt-3">
+                                <mat-label>Name</mat-label>
+                                <input type="text" matInput required name="name" placeholder="Full name" />
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mt-3">
+                                <mat-label>Mobile no.</mat-label>
+                                <input type="tel" matInput required name="mobileNo"
+                                    placeholder="Enter 10 digit mobile no." />
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mt-3">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput required name="email" placeholder="abc@gmail.com" />
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mt-3">
+                                <mat-label>Message</mat-label>
+                                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                                    cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"
+                                    placeholder="Enter your message, enquiry, feedback or suggestion"></textarea>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" class="w-100 mt-3">
+                                Send
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</app-layout>

@@ -66,10 +66,10 @@
           <ul>
             <li><strong>Occupancy:</strong> 2 guests (1 extra allowed)</li>
             <li>
-              <strong>Amenities:</strong> AC, geyser, western toilet, Prices
+              <strong>Amenities: </strong> <i class="fa-solid fa-snowflake"></i> AC, <i class="fa-solid fa-hot-tub-person"></i> geyser, <i class="fa-solid fa-toilet"></i> western toilet.
             </li>
             <li *ngIf="selectedResort == 'Jungle Star, Valamuru'">
-              <strong>Food: </strong>Room rates include three meals per day.
+              <strong>Food: </strong><i class="fa-solid fa-utensils"></i> Room rates include three meals per day.
             </li>
           </ul>
         </div>
@@ -103,8 +103,8 @@
             <img class="icon-small me-3" src="/assets/images/icons/filter.svg" alt="filter svg"> Filter
           </div>
 
-          <div id="filterCottage" class=" p-3" [ngClass]="{ 'active': isFilterOpen }">
-            <div class="d-flex justify-content-end mt-2"><i class="fa-solid fa-xmark fa-2xl"
+          <div id="filterCottage" class=" p-3 p-lg-0" [ngClass]="{ 'active': isFilterOpen }">
+            <div class="d-flex justify-content-end mt-2 d-lg-none"><i class="fa-solid fa-xmark fa-2xl"
                 (click)="toggleFilter()"></i></div>
 
             <h4> Filter by Cottage Type</h4>
@@ -244,7 +244,7 @@
                   isAnyRoomChecked() ||
                   calculateExtraGuestCharges()
                 ">
-                <span>Extra guest</span>
+                <span>Extra guest {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
                 <span>{{
                   calculateExtraGuestCharges()
                   | currency : "INR " : "symbol" : "1.2-2"
@@ -252,8 +252,7 @@
               </div>
 
               <div class="d-flex justify-content-between font-weight-bold py-1">
-                <span class="mb-0">Total
-                  {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
+                <span class="mb-0">Total {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
                 <span>{{
                   calculateTotalPrice() * calculateDurationOfStay()
                   | currency : "INR " : "symbol" : "1.2-2"
@@ -533,27 +532,28 @@
                         </span>
                         {{ room.Select_Resort }}
                       </h6>
+
                     </div>
                     <div class="col-md-5 row d-md-block gap-2 text-md-end mt-2 mt-md-0 pe-md-0">
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
                           <!-- <strong>{{ isWeekend ? room.Week_End_Rate : room.Week_Days_Rate }}
                           </strong> -->
-                          <strong>{{ room.Week_Days_Rate }} </strong>
+                          <strong>INR {{ room.Week_Days_Rate }} </strong>
                         </h6>
-                        <p class="text-primary-dark">For 2 guests</p>
+                        <p class="text-primary-dark"> <i class="fas fa-user-times" aria-hidden="true"></i> 2 guests</p>
                       </div>
                       <div class="col-auto">
                         <h6 class="p-0 m-0">
-                          <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">{{ 500 }}
+                          <strong *ngIf="selectedResort == 'Vanavihari, Maredumilli'">INR {{ 500 }}
                           </strong>
-                          <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">{{ 1500 }}
+                          <strong *ngIf="selectedResort == 'Jungle Star, Valamuru'">INR {{ 1500 }}
                           </strong>
                         </h6>
-                        <p class="text-primary-dark">For an extra guest</p>
+                        <p class="text-primary-dark"><i class="fa fa-user" aria-hidden="true"></i> One extra guest</p>
                       </div>
                       <div class="col-12">
-                        <p class="text-secondary" *ngIf="selectedResort == 'Jungle Star, Valamuru'">Room price includes
+                        <p class="text-primary-dark" *ngIf="selectedResort == 'Jungle Star, Valamuru'"><i class="fa-solid fa-utensils"></i> Room price includes
                           food</p>
                       </div>
                       <!-- <div><strong>{{ room.week_day_bed_charge | currency: 'INR ': true: '1.2-2' }}</strong></div>

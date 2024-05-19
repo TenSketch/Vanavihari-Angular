@@ -1,46 +1,46 @@
-.min-vh-noscroll{
-  min-height: 80vh;
-  // overflow: hidden;
-}
+// .min-vh-noscroll{
+//   min-height: 80vh;
+//   // overflow: hidden;
+// }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: 0;
-}
-.booking-container {
-  padding: 20px;
-}
+// p,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   margin-bottom: 0;
+// }
+// .booking-container {
+//   padding: 20px;
+// }
 
 .booking-card {
     border: 1px solid #ced4da;
     border-radius: 10px;
-    padding: 20px;
-    margin-top: 80px;
+    // padding-inline: 1rem;
+    // margin-top: 80px;
 }
 
-.booking-card h1 {
-  margin-bottom: 20px;
-}
+// .booking-card h1 {
+//   margin-bottom: 20px;
+// }
 
-.room-image {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+// .room-image {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
 
-.room-image img {
-  max-width: 100%;
-  height: auto;
-}
+// .room-image img {
+//   max-width: 100%;
+//   height: auto;
+// }
 
-.booking-details {
-  padding-left: 20px;
-}
+// .booking-details {
+//   padding-left: 20px;
+// }
 
 .booking-details h4 {
   margin-top: 0;
@@ -51,9 +51,9 @@ h6 {
 }
 
 
-.booking-status {
-  margin-top: 20px;
-}
+// .booking-status {
+//   margin-top: 20px;
+// }
 
 /* Borders for main columns under first row */
 .bordered-col {
@@ -61,10 +61,10 @@ h6 {
 }
 
 @media (max-width: 768px) {
-  .room-image,
-  .booking-details {
-    padding: 0;
-  }
+  // .room-image,
+  // .booking-details {
+  //   padding: 0;
+  // }
   /* Remove right border on small screens */
   .bordered-col {
     border-right: none;
