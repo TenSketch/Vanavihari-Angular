@@ -12,8 +12,8 @@ export class EnvService {
   constructor(private http: HttpClient) { }
 
   getZohoApiUrl(): Observable<string> {
-    return this.http.get<{ zohoApiUrl: string }>(this.envApiUrl).pipe(
-      map(response => response.zohoApiUrl),
+    return this.http.get<{ billdeskkey: string }>(this.envApiUrl).pipe(
+      map(response => response.billdeskkey),
       catchError(this.handleError)
     );
   }
