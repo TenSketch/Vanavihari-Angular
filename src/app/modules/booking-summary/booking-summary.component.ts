@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
 import { filter } from 'rxjs';
 import { environment } from '@/environments/environment';
+import { EnvService } from '@/app/env.service';
 
 @Component({
   selector: 'app-booking-summary',
@@ -115,6 +116,11 @@ export class BookingSummaryComponent {
     this.date = new Date();
     this.now = this.date.getTime();
   }
+  billdeskkey: string;
+
+  
+  billdesksecurityid:any
+  billdeskmerchantid:any
 
   constructor(
     private router: Router,
@@ -124,7 +130,8 @@ export class BookingSummaryComponent {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private envService:EnvService
   ) {
     this.api_url = environment.API_URL
 
@@ -232,6 +239,21 @@ export class BookingSummaryComponent {
   }
 
   ngOnInit(): void {
+
+    this.envService.getEnvVars().subscribe(
+      envVars => {
+        this.billdeskkey = envVars.billdeskkey;
+        this.billdesksecurityid = envVars.billdesksecurityid;
+        this.billdeskmerchantid = envVars.billdeskmerchantid;
+        
+      },
+      error => {
+        console.error('Error fetching environment variables:', error);
+      }
+    );
+
+    console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
+
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
     this.route.queryParams.subscribe((params) => {
@@ -537,11 +559,11 @@ export class BookingSummaryComponent {
               // this.router.navigate(['/booking-successfull']);
 
               const bookingId = response.result.booking_id;
-              const MerchantId = 'VANAVIHARI';
+              const MerchantId = this.billdeskmerchantid;
               const CurrencyType = 'INR';
-              const SecurityId = 'vanavihari';
+              const SecurityId = this.billdesksecurityid;
               const txtCustomerID = 'BK986239234';
-              const secretKey = 'rmvlozE7R4v9';
+              const secretKey = this.billdeskkey;
               // const amount = this.calculateGrandTotal();
               const amount = '1.00';
               const rU =

@@ -40,8 +40,7 @@ export class HomeComponent implements OnInit {
   localLightBox: any;
   bookingTypeResort: any;
   showLoader = false;
-  billdeskKey: string;
-
+  
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -66,16 +65,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+ 
   ngOnInit(): void {
-    this.envService.getZohoApiUrl().subscribe(
-      url => {
-        this.billdeskKey = url;
-        console.log(this.billdeskKey)
-      },
-      error => {
-        console.error('Error fetching Zoho API URL:', error);
-      }
-    );
+   
   
     
     this.showLoader = true;
