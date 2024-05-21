@@ -242,6 +242,8 @@ export class BookingSummaryComponent {
 
     this.envService.getEnvVars().subscribe(
       envVars => {
+                console.log(envVars)
+
         this.billdeskkey = envVars.billdeskkey;
         this.billdesksecurityid = envVars.billdesksecurityid;
         this.billdeskmerchantid = envVars.billdeskmerchantid;
