@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
 
     this.http.get('/#/api/getkey').subscribe(response=>{
       console.log(response)
-    })
+    }) 
 
     this.showLoader = true;
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
