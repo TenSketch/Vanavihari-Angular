@@ -2,7 +2,7 @@ export default async (req) => {
     const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
     const api_key = process.env.Billdesk_SecretKey
     if (req.path === '/api/getkey') {
-      return new Response(JSON.stringify({ api_key }), {
+      return new Response(JSON.stringify({ apikey:api_key }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
