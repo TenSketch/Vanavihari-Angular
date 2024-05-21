@@ -108,25 +108,33 @@
                 (click)="toggleFilter()"></i></div>
 
             <h4> Filter by Cottage Type</h4>
-            <div class="d-block">
-              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']"
-                (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
-            </div>
-            <div class="d-block">
-              <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']"
-                (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
-            </div>
-            <div class="d-block">
-              <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']"
-                (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
-            </div>
-            <div class="d-block">
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
               <mat-checkbox id="deluxe" [(ngModel)]="cottageTypes['Deluxe Rooms']"
                 (change)="onCottageTypeChange()">Deluxe Rooms</mat-checkbox>
             </div>
-            <div class="d-block">
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
+              <mat-checkbox id="pre-fabricated" [(ngModel)]="cottageTypes['Pre-Fabricated Cottages']"
+                (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']"
+                (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Bison']"
+                (change)="onCottageTypeChange()">Bison</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
+              <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']"
+                (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Jungle Star, Valamuru'">
               <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']"
                 (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Jungle Star, Valamuru'">
+              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Permanent Cottages']"
+                (change)="onCottageTypeChange()">Permanent Cottages</mat-checkbox>
             </div>
             <!-- <mat-form-field>
               <mat-label>Sort by Price</mat-label>
@@ -467,9 +475,10 @@
               <p>Loading rooms...</p>
             </div>
           </ng-template>
-          <div class="card mb-3 text-center" *ngIf="!filteredRoomData && !loadingRooms">
+          <div class="card mb-3 text-center" *ngIf="(!filteredRoomData && !loadingRooms) || filteredRoomData.length==0">
             Sorry, rooms are not available
           </div>
+
           <div *ngIf="!loadingRooms">
             <div *ngIf="!isRoomDataEmpty">
               <div class="row my-2 w-100 d-flex align-items-center justify-content-center">
