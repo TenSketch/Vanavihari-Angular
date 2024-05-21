@@ -246,6 +246,7 @@ export class BookingSummaryComponent {
         this.billdeskkey = envVars.billdeskkey;
         this.billdesksecurityid = envVars.billdesksecurityid;
         this.billdeskmerchantid = envVars.billdeskmerchantid;
+    console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
         
         // console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
       },
