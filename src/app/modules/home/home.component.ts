@@ -64,10 +64,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get('/api/getkey').subscribe(response=>{
+    this.http.get('/#/api/getkey').subscribe(response=>{
       console.log(response)
     })
-    
+
     this.showLoader = true;
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
     setTimeout(() => {
