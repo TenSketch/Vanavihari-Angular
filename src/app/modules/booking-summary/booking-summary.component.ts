@@ -247,6 +247,7 @@ export class BookingSummaryComponent {
         this.billdeskkey = envVars.billdeskkey;
         this.billdesksecurityid = envVars.billdesksecurityid;
         this.billdeskmerchantid = envVars.billdeskmerchantid;
+    console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
         
       },
       error => {
@@ -254,7 +255,6 @@ export class BookingSummaryComponent {
       }
     );
 
-    console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
 
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
