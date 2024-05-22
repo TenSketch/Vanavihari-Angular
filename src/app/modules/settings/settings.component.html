@@ -33,11 +33,15 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Mobile No</mat-label>
                   <input  matInput formControlName="mobile_number" type="tel">
+                  <button mat-icon-button matSuffix (click)="editField('mobile_number')">
+                    <mat-icon class="fa fa-pencil-alt"></mat-icon>
+                  </button>
                 </mat-form-field>              </div>
               <div class="mt-4" *ngIf="editingField === 'mobile_number'">
                 <mat-form-field appearance="outline">
                   <mat-label>Mobile No</mat-label>
                   <input  formControlName="mobile_number" type="tel">
+                  
                 </mat-form-field>
                 <!-- <div class="mt-3 text-start">
                   <button mat-button class="btn btn-danger" (click)="cancelEditing('mobile_number')">Cancel</button>
