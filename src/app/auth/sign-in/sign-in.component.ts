@@ -92,7 +92,7 @@ export class SignInComponent implements OnInit {
               );
               let rooms = localStorage.getItem('booking_rooms');
               if (rooms == '[]' || rooms==null) {
-                this.router.navigateByUrl('resorts/rooms');
+                this.router.navigateByUrl('home');
               } else {
                 this.router.navigateByUrl('booking-summary');
               }

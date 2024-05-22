@@ -285,7 +285,7 @@ export class SettingsComponent {
       mobile_number: [''],
       email: ['', Validators.email],
       dob: ['', Validators.required],
-      nationality: [''],
+      nationality: [{ value: '', disabled: true }],
       address1: [''],
       address2: [''],
       city: [''],
@@ -338,6 +338,13 @@ export class SettingsComponent {
         error: (err) => {
         },
       });
+  }
+
+  editField(name:any) {
+    const field = this.form.get('nationality');
+    if (field) {
+      field.enable();
+    }
   }
 
   get isNationalityDisabled(): boolean {
@@ -406,9 +413,9 @@ export class SettingsComponent {
     this.isModalVisible = false
   }
 
-  editField(field: string) {
-    this.editingField = field;
-  }
+  // editField(field: string) {
+  //   this.editingField = field;
+  // }
 
   cancelEditing(field: string) {
     this.form.patchValue(this.storedUser);

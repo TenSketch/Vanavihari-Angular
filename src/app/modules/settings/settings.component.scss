@@ -14,3 +14,21 @@
       }
     }
   }
+
+
+  input:read-only {
+    // padding: 2%;
+    // background-color: grey;
+    cursor: not-allowed;
+  }
+
+  .read-only{
+    padding: 18px 10px 0px 10px;
+    background-color:#e0e2ec !important;
+  }
+
+  .mat-form-field .mat-icon-button {
+    margin-left: -40px;
+    margin-right: 8px;
+  }
+  

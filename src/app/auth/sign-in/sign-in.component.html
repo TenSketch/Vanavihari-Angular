@@ -10,11 +10,11 @@
             <div class="card-body p-3">
               <h4 *ngIf="">Email Verified! You can now sign in to your account</h4>
               <div class="card-title text-center">
-                <p class="card-title fs-5">Sign into your</p>
+                <p class="card-title fs-5" *ngIf="!showForgotPassword">Sign into your</p>
                 <h5 class="mb-4">Vanavihari user account</h5>
               </div>
-              <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline">
+              <form  [formGroup]="form" (ngSubmit)="onSubmit()">
+                <mat-form-field *ngIf="!showForgotPassword" appearance="outline">
                   <mat-label>Email Address.</mat-label>
                   <input type="email" formControlName="email_address" matInput required placeholder="Enter Email">
                   <mat-error
@@ -22,7 +22,7 @@
                     enter a valid email address</mat-error>
 
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="mt-3">
+                <mat-form-field *ngIf="!showForgotPassword" appearance="outline" class="mt-3">
                   <mat-label>Password</mat-label>
                   <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Enter Password">
                   <button mat-icon-button matSuffix (click)="togglePasswordVisibility($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
@@ -53,7 +53,7 @@
                             <div *ngIf="validCaptchaError && !captchaError">{{'Please enter Valid captcha' | languageTranslatorImpure}}
                             </div> -->
                 <!-- </div> -->
-                <button mat-raised-button color="primary" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1 mb-2">Sign In</button>
+                <button mat-raised-button color="primary" *ngIf="!showForgotPassword" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1 mb-2">Sign In</button>
                 <div *ngIf="showForgotPassword" class="mt-4">
                   <pre>Enter registered email and submit then check email to change your password</pre>
                   <mat-form-field appearance="outline" >
@@ -69,6 +69,10 @@
                     <button mat-raised-button color="primary" (click)="toggleForgotPassword()"  class=" mt-1 mb-2">Cancel</button>
                     <button mat-raised-button color="primary" (click)="forgotPassword($event)" [disabled]="disableSubmit" class="mt-1 ms-2">Submit</button>
                   </div>
+                  <div class="d-flex justify-content-end">
+
+                    <a  (click)="toggleForgotPassword()"  class=" mt-1 mb-2">Go back to sign-in</a>
+                  </div>
 
                 </div>
 
@@ -80,7 +84,7 @@
               </form>
               <div class="d-flex justify-content-between mt-5">
                 <!-- <a class="text-danger">Reset Password</a> -->
-                <a class="text-info-emphasis h6" (click)="toggleForgotPassword()">Forgot password?</a>
+                <a class="text-info-emphasis" style="opacity: 0;" *ngIf="!showForgotPassword"  (click)="toggleForgotPassword()">Forgot password?</a>
 
                 <a class="text-info-emphasis h6" (click)="goToSignup()">New User? Sign Up</a>
               </div>
