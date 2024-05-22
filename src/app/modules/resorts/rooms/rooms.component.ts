@@ -140,7 +140,7 @@ export class RoomsComponent implements OnInit {
   showLoader = false;
   isSelectionSwitched = false;
   isFilterOpen: boolean = false;
-
+  datesSelected = false
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -163,13 +163,14 @@ export class RoomsComponent implements OnInit {
   showMessage= false
 
   cottageTypes: { [key: string]: boolean } = {
-    'Hilltop Guest House': false,
-    'Pre-Fabricated Cottages': false,
-    'Wooden Cottages': false,
+    'Bison Cottages':false,
+    'Vihari':false,
     'Deluxe Rooms': false,
-    'Bison':false,
-    'Tented Cottages': false,
-    'Permanent Cottages':false
+    'Wooden Cottages': false,
+    'Pre-Fabricated Cottages': false,
+    'Hill Top Guest House': false,
+    'Tented Cottage': false,
+    'Permanent Cottage':false
   };
 
   constructor(
@@ -520,6 +521,7 @@ export class RoomsComponent implements OnInit {
       (room: { Select_Resort: string }) => room.Select_Resort == selectResort
     );
   }
+
   filterByPrice(): void {
    
 
@@ -584,6 +586,8 @@ export class RoomsComponent implements OnInit {
     this.showLoader = true;
 
     if (this.checkinDate) {
+      this.datesSelected = true;
+
       this.http
         .get<any>(
           this.api_url+'?api_type=room_list' + perm
@@ -671,6 +675,7 @@ export class RoomsComponent implements OnInit {
           },
         });
     } else {
+      this.datesSelected = false
       this.showLoader = false;
       this.loadingRooms = false;
 

@@ -99,11 +99,11 @@
       <div class="row mt-3">
         <aside class="col-lg-4  mt-3">
           <!-- filter icon mobile -->
-          <div class="text-center py-1 d-lg-none" (click)="toggleFilter()">
+          <div *ngIf="datesSelected" class="text-center py-1 d-lg-none" (click)="toggleFilter()">
             <img class="icon-small me-3" src="/assets/images/icons/filter.svg" alt="filter svg"> Filter
           </div>
 
-          <div id="filterCottage" class=" p-3 p-lg-0" [ngClass]="{ 'active': isFilterOpen }">
+          <div id="filterCottage" *ngIf="datesSelected" class=" p-3 p-lg-0" [ngClass]="{ 'active': isFilterOpen }">
             <div class="d-flex justify-content-end mt-2 d-lg-none"><i class="fa-solid fa-xmark fa-2xl"
                 (click)="toggleFilter()"></i></div>
 
@@ -117,23 +117,27 @@
                 (change)="onCottageTypeChange()">Pre-Fabricated Cottages</mat-checkbox>
             </div>
             <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
-              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hilltop Guest House']"
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Hill Top Guest House']"
                 (change)="onCottageTypeChange()">Hilltop Guest House</mat-checkbox>
             </div>
             <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
-              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Bison']"
+              <mat-checkbox id="hilltop" [(ngModel)]="cottageTypes['Bison Cottages']"
                 (change)="onCottageTypeChange()">Bison</mat-checkbox>
+            </div>
+            <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
+              <mat-checkbox id="vihari" [(ngModel)]="cottageTypes['Vihari']"
+                (change)="onCottageTypeChange()">Vihari</mat-checkbox>
             </div>
             <div class="d-block" *ngIf="selectedResort=='Vanavihari, Maredumilli'">
               <mat-checkbox id="wooden" [(ngModel)]="cottageTypes['Wooden Cottages']"
                 (change)="onCottageTypeChange()">Wooden Cottages</mat-checkbox>
             </div>
             <div class="d-block" *ngIf="selectedResort=='Jungle Star, Valamuru'">
-              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottages']"
+              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Tented Cottage']"
                 (change)="onCottageTypeChange()">Tented Cottages</mat-checkbox>
             </div>
             <div class="d-block" *ngIf="selectedResort=='Jungle Star, Valamuru'">
-              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Permanent Cottages']"
+              <mat-checkbox id="tented" [(ngModel)]="cottageTypes['Permanent Cottage']"
                 (change)="onCottageTypeChange()">Permanent Cottages</mat-checkbox>
             </div>
             <!-- <mat-form-field>
@@ -242,7 +246,7 @@
                 </mat-form-field>
               </div>
               <div class="d-flex justify-content-between pt-1">
-                <span>Room charges</span>
+                <span>Room charges {{ " X " + roomIds.length + " Rooms" + " " }}</span>
                 <span>{{
                   getRoomCharges() | currency : "INR " : "symbol" : "1.2-2"
                   }}</span>
@@ -252,21 +256,21 @@
                   isAnyRoomChecked() ||
                   calculateExtraGuestCharges()
                 ">
-                <span>Extra guest {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
+                <span>Extra guest {{ "X " + calculateDurationOfStay() + " days" + " " }}</span>
                 <span>{{
-                  calculateExtraGuestCharges()
+                  calculateExtraGuestCharges() * calculateDurationOfStay()
                   | currency : "INR " : "symbol" : "1.2-2"
                   }}</span>
               </div>
 
-              <div class="d-flex justify-content-between font-weight-bold py-1">
+              <!-- <div class="d-flex justify-content-between font-weight-bold py-1">
                 <span class="mb-0">Total {{ "(" + calculateDurationOfStay() + " days" + ")" }}</span>
                 <span>{{
                   calculateTotalPrice() * calculateDurationOfStay()
                   | currency : "INR " : "symbol" : "1.2-2"
                   }}
                 </span>
-              </div>
+              </div> -->
               <!-- <div class="d-flex justify-content-between font-weight-bold py-1">
                 <span class="mb-0">GST @ 12%</span>
                 <span>{{
@@ -275,7 +279,7 @@
               </div> -->
               <div
                 class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
-                <span class="mb-0">Grand Total</span>
+                <span class="mb-0">Grand Total X {{ " " + calculateDurationOfStay() + " nights" + " " }}</span>
                 <span>{{
                   calculatePayablePrice()
                   | currency : "INR " : "symbol" : "1.2-2"
@@ -399,9 +403,9 @@
                         </mat-form-field>
                       </div>
                     <div class="d-flex justify-content-between pt-1">
-                      <span>Room charges</span>
+                      <span>Room charges {{ " " + roomIds.length + " Rooms" + " " }}</span>
                       <span>{{
-                        getRoomCharges()
+                        getRoomCharges() * (roomIds.length)
                         | currency : "INR " : "symbol" : "1.2-2"
                         }}</span>
                     </div>
@@ -417,7 +421,7 @@
                         }}</span>
                     </div>
 
-                    <div class="d-flex justify-content-between font-weight-bold py-1">
+                    <!-- <div class="d-flex justify-content-between font-weight-bold py-1">
                       <span class="mb-0">Total
                         {{
                         "(" + calculateDurationOfStay() + " days" + ")"
@@ -426,7 +430,7 @@
                         calculateTotalPrice() * calculateDurationOfStay()
                         | currency : "INR " : "symbol" : "1.2-2"
                         }}</span>
-                    </div>
+                    </div> -->
                     <!-- <div
                       class="d-flex justify-content-between font-weight-bold py-1"
                     >
@@ -438,7 +442,9 @@
                     </div> -->
                     <div
                       class="d-flex justify-content-between border-top border-bottom border-primary py-2 font-weight-bold text-secondary h5">
-                      <span class="mb-0">Grand Total</span>
+                      <span class="mb-0">Grand Total  {{
+                        " " + calculateDurationOfStay() + " nights" + " "
+                        }}</span>
                       <span>{{
                         calculatePayablePrice()
                         | currency : "INR " : "symbol" : "1.2-2"
