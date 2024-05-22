@@ -77,6 +77,7 @@ import { LoaderComponent } from './modules/loader/loader.component';
 import { BioDiversityZoneComponent } from './modules/bio-diversity-zone/bio-diversity-zone.component';
 import { ConfirmationDialogComponent } from './modules/confirmation-dialog/confirmation-dialog.component';
 import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
     LoaderComponent,
     BioDiversityZoneComponent,
     ConfirmationDialogComponent,
-    FoodMenuComponent
+    FoodMenuComponent,
+    ForgotPasswordComponent
 
   ],
   imports: [

@@ -167,7 +167,9 @@ export class RoomsComponent implements OnInit {
     'Pre-Fabricated Cottages': false,
     'Wooden Cottages': false,
     'Deluxe Rooms': false,
+    'Bison':false,
     'Tented Cottages': false,
+    'Permanent Cottages':false
   };
 
   constructor(
@@ -244,7 +246,7 @@ export class RoomsComponent implements OnInit {
       'Tapathi',
       'Bear',
       'Chital',
-      'Chausingha',
+      'Chousingha',
       'Sambar',
       'Bonnet',
       'Panther',
@@ -552,6 +554,9 @@ export class RoomsComponent implements OnInit {
       this.filteredRoomData = [...this.previousFilteredRoomData]; // Restore the previous state
     } else {
       this.filteredRoomData = this.filterRoomsByCottageType();
+      if(this.filteredRoomData.length==0){
+        
+      }
     }
   }
 
@@ -611,7 +616,6 @@ export class RoomsComponent implements OnInit {
             this.loadingRooms = false;
 
             this.filteredRoomData = this.filterByResort(this.selectedResort);
-            this.previousFilteredRoomData = [...this.filteredRoomData]; // Initial previous state
 
             
             const roomIndexMap = new Map<string, number>();
@@ -648,6 +652,8 @@ export class RoomsComponent implements OnInit {
               return 0;
             });
            
+            this.previousFilteredRoomData = [...this.filteredRoomData]; // Initial previous state
+
             if (this.roomData.length == 0) {
               this.isRoomDataEmpty = true;
             } else {

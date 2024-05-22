@@ -53,15 +53,35 @@
                             <div *ngIf="validCaptchaError && !captchaError">{{'Please enter Valid captcha' | languageTranslatorImpure}}
                             </div> -->
                 <!-- </div> -->
-                <button mat-raised-button color="primary" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1">Sign In</button>
+                <button mat-raised-button color="primary" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1 mb-2">Sign In</button>
+                <div *ngIf="showForgotPassword" class="mt-4">
+                  <pre>Enter registered email and submit then check email to change your password</pre>
+                  <mat-form-field appearance="outline" >
+                    <mat-label>Email Address.</mat-label>
+                    <input type="email" formControlName="email_address" matInput required placeholder="Enter Email">
+                    <mat-error
+                      *ngIf="form.controls.email_address.invalid && (form.controls.email_address.dirty || form.controls.email_address.touched)">Please
+                      enter a valid email address</mat-error>
+  
+                  </mat-form-field>
+                  <div class="d-flex justify-content-end">
+
+                    <button mat-raised-button color="primary" (click)="toggleForgotPassword()"  class=" mt-1 mb-2">Cancel</button>
+                    <button mat-raised-button color="primary" (click)="forgotPassword($event)" [disabled]="disableSubmit" class="mt-1 ms-2">Submit</button>
+                  </div>
+
+                </div>
+
                 <!-- <a (click)="register()">Register here</a> -->
                 <!-- <div class="alert alert-success mt-3" role="alert" *ngIf="showAlert">
                   Login successfully
                 </div> -->
                 
               </form>
-              <div class="d-flex justify-content-center mt-5">
+              <div class="d-flex justify-content-between mt-5">
                 <!-- <a class="text-danger">Reset Password</a> -->
+                <a class="text-info-emphasis h6" (click)="toggleForgotPassword()">Forgot password?</a>
+
                 <a class="text-info-emphasis h6" (click)="goToSignup()">New User? Sign Up</a>
               </div>
             </div>
@@ -78,3 +98,7 @@
   [modalBody]="modalBody"
   [modalButtonColor]="modalButtonColor">
 </app-confirmation-modal> -->
+
+<app-loader *ngIf="showLoader">
+
+</app-loader>

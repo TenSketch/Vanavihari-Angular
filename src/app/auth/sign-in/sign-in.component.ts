@@ -18,9 +18,12 @@ export class SignInComponent implements OnInit {
   showAlert: boolean = false;
   returnUrl: string = '';
   disableSign = false;
+  disableSubmit = false;
   lastRoute: string;
   api_url : any
   hide = true;
+  showForgotPassword = false
+  showLoader = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -118,6 +121,17 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['/sign-up'], {
       queryParams: { returnUrl: '/sign-in' },
     });
+  }
+
+  toggleForgotPassword(){
+
+     this.showForgotPassword = !this.showForgotPassword
+  }
+
+  forgotPassword(event:MouseEvent){
+    event.preventDefault(); // Prevent the default action (form submission)
+    this.disableSubmit = true
+    this.showLoader = true;
   }
 
   showSnackBarAlert(msg = '', redirect = true) {

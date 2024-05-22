@@ -344,29 +344,24 @@ export class SettingsComponent {
     return !!this.form.get('nationality')?.value;
   }
 
-  formatDateToDDMMMYYYY(date: Date): string {
-    const monthNames = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-    const formattedDate = `${day}-${monthNames[monthIndex]}-${year}`;
-    return formattedDate;
+   formatDateToDDMMMYYYY(dateString:any) {
+      if (!dateString) {
+        return ''; // Return an empty string if dateString is undefined
+      }
+  
+      const date = new Date(dateString);
+      const day = date.getUTCDate().toString().padStart(2, '0');
+      const month = date.toLocaleString('en-US', { month: 'short' });
+      const year = date.getUTCFullYear();
+  
+      const formattedDate = `${day}-${month}-${year}`;
+      return formattedDate;
+    
   }
+  
 
   onSubmit() {
+    this.showLoader = true
     if (this.form.valid) {
       let params = new HttpParams()
         .set('login_email', this.userService.getUser())
@@ -387,15 +382,19 @@ export class SettingsComponent {
         )
         .subscribe({
           next: (response) => {
+            this.showLoader = false
             if (response.code == 3000 && response.result.status == 'success') {
               // this.router.navigate(['/home']);
               this.isModalVisible = true
               // alert('Profile Update Successfully!');
             } else if (response.code == 3000) {
+              this.showLoader = false
             } else {
+              this.showLoader = false
             }
           },
           error: (err) => {
+            this.showLoader = false
           },
         });
 

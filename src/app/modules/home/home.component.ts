@@ -21,6 +21,7 @@ import {
   ThumbnailsPosition,
 } from 'ng-gallery';
 import { Lightbox } from 'ng-gallery/lightbox';
+import { EnvService } from '@/app/env.service';
 
 @Component({
   selector: 'app-home',
@@ -39,6 +40,7 @@ export class HomeComponent implements OnInit {
   localLightBox: any;
   bookingTypeResort: any;
   showLoader = false;
+  
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -47,7 +49,8 @@ export class HomeComponent implements OnInit {
     public lightbox: Lightbox,
     private authService: AuthService,
     private searchService: SearchService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private envService: EnvService
   ) {
 
     this.authService.clearBookingRooms(this.bookingTypeResort);
@@ -62,7 +65,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+ 
   ngOnInit(): void {
+   
+  
+    
     this.showLoader = true;
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
     setTimeout(() => {
