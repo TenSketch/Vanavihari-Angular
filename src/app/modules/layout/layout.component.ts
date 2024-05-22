@@ -242,4 +242,8 @@ export class LayoutComponent implements OnInit {
   goToTerms() {
     this.router.navigate(['/terms-and-conditions']);
   }
+  goToContact() {
+    this.router.navigate(['/contact-us']);
+  }
+  
 }
