@@ -53,29 +53,30 @@
                 <!-- room name and no.of guests -->
 
                 <div class="pt-2" *ngFor="let roomId of cardData">
-                  <p class="m-0">
+                  <h6 class="fst-italic">
                     <strong>Cottage Type:</strong><span> {{ roomId.Cottage_Type }}</span>
-                  </p>
-                  <p class="m-0">
+                  </h6>
+                  <h6 class="">
                     <strong>Room Name:</strong><span> {{ roomId.Room_Name }}</span>
-                  </p>
+                  </h6>
                 </div>
-                <hr />
-                <p>
+                <!-- <hr> -->
+                <h6>
                   <strong>Number of room(s): </strong><span id="totalRooms">{{ noofrooms }}</span>
-                </p>
-                <p>
-                  <strong>Number of guest(s): </strong><span>{{ totalGuests }}</span>
+                </h6>
+                <p class="mb-1">
+                  <strong>Guest(s): </strong><span>{{ totalGuests }}</span>
                 </p>
                 <!-- <small>
                   <strong>Cottage Type:</strong> {{ findRoomById(roomId).Cottage_Type }}
                 </small> -->
 
-                <p><strong>Extra Guest:</strong> {{ extra_guests }}</p>
-                <p>
-                  <strong> No. of Children: </strong><span>{{ extra_children }}</span>
+                <p class="mb-1"><strong>Extra Guest(s):</strong> {{ extra_guests }}</p>
+                <p class="mb-1">
+                  <strong>Children: </strong><span>{{ extra_children }}</span>
                 </p>
-
+                <hr class="my-2">
+                <h6><strong>Total Guests: </strong>{{totalGuests + extra_guests + extra_children}}</h6>
                 <a class="font-weight-bold" title="go back to rooms to change selection" (click)="triggerModal()">Change
                   your selection</a>
               </div>
@@ -117,7 +118,7 @@
                 </div>
               </div>
               <p class="mt-1">
-                <strong>Duration of stay (in days): </strong>{{ calculateDurationOfStay() }}
+                <strong>Duration of stay: </strong>{{ calculateDurationOfStay() }} night(s)
               </p>
             </div>
             <!-- <div class="card">
@@ -125,10 +126,10 @@
             </div> -->
             <div class="card">
               <h5>Payment details</h5>
-              <p>
+              <!-- <p>
                 <strong>Total Room Charges:</strong>
                 {{ calculateTotalPrice() * calculateDurationOfStay() }}
-              </p>
+              </p> -->
               <!-- <p>Total room tarri: 5400</p> -->
               <!-- <p>
                 <strong>GST @12%:</strong>
@@ -136,7 +137,7 @@
               </p> -->
               <h4>
                 <strong>Grand Total: </strong>
-                {{ calculateGrandTotal() }}
+                INR {{ calculateGrandTotal() }}
               </h4>
             </div>
             <!-- card for Cancellation fees -->

@@ -1,17 +1,24 @@
-.table-responsive{
-    margin-top: 150px;
-    min-height: 60vh;
-}
+@use "/src/scss/base/" as *;
 
-tr{
-    th{
-        color: #ffff;
-        background-color: #198754;
-    }
-}
+// .table-responsive{
+//     margin-top: 150px;
+//     min-height: 60vh;
+// }
+
+// tr{
+//     th{
+//         color: #ffff;
+//         background-color: #198754;
+//     }
+// }
 
 .title-image{
-    height: 250px;
-    width: auto;
-    
+    width: 250px;
+}
+thead{
+    .bg-primary{
+        th{
+            color: $white!important;
+        }
+    }
 }

@@ -37,3 +37,6 @@ $nav-bar-height: 8vh;
 .border-radius-1rem{
     @include border-radius;
 }
+.bg-primary{
+    background-color: $clr-primary!important
+  }

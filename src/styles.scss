@@ -44,11 +44,11 @@ h6 {
 //   margin-top: 1rem;
 // }
 
-// .container {
-//   @media (max-width: 576px) {
-//     padding-inline: 2rem;
-//   }
-// }
+.container, .container-fluid {
+  @media (max-width: 576px) {
+    padding-inline: 2rem;
+  }
+}
 .logo {
   width: min(65%, 200px);
 }
@@ -155,6 +155,9 @@ h6 {
 
 .icon-small {
   width: 18px;
+}
+.icon-big{
+  width: 15%;
 }
 
 .banner {
@@ -325,3 +328,7 @@ gallery-thumbs {
       }
   }
 
+.table{
+  background-color: unset!important;
+  --bs-table-bg: transparent!important;
+}
