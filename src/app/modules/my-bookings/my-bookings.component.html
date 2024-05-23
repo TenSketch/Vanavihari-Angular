@@ -18,10 +18,10 @@
             <p class="mb-0"><strong>Cottage type:</strong> {{ item.rooms.cottage }}</p>
             <p class="mb-0">
               <strong>Guest info:</strong>
-              <title>
+              
                 {{ item.noof_guest }} guests, {{ item.noof_children }} child,
                 {{ item.noof_extra_guest }} extra guest
-              </title>
+              
             </p>
             <p class="mb-0"><strong>Total amount:</strong> {{ item.total_payable_amt }}</p>
             <p class="mb-0" *ngIf="item.food_preference">
