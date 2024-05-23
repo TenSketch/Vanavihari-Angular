@@ -78,6 +78,7 @@ import { BioDiversityZoneComponent } from './modules/bio-diversity-zone/bio-dive
 import { ConfirmationDialogComponent } from './modules/confirmation-dialog/confirmation-dialog.component';
 import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
     BioDiversityZoneComponent,
     ConfirmationDialogComponent,
     FoodMenuComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
 
   ],
   imports: [

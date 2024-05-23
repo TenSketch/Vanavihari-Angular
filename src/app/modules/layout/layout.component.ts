@@ -160,7 +160,7 @@ export class LayoutComponent implements OnInit {
     this.authService.buttonClick$.next();
     this.authService.removeRooms();
     this.router.navigate(['/resorts/rooms'], {
-      queryParams: { bookingTypeResort: 'vanvihari' },
+      queryParams: { bookingTypeResort: this.selectedResort },
       queryParamsHandling: 'merge',
     });
     let status = localStorage.getItem('isSummary')

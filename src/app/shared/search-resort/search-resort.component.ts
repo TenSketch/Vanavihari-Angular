@@ -129,7 +129,10 @@ export class SearchResortComponent implements OnInit {
 
     this.authService.buttonClick$.next();
     localStorage.setItem('booking_rooms', JSON.stringify([]));
-    this.router.navigate(['resorts/rooms']);
+    this.router.navigate(['resorts/rooms'],{
+      queryParams: { bookingTypeResort: this.selectedResort },
+      queryParamsHandling: 'merge',
+    });
     window.location.reload();
   }
 
@@ -166,7 +169,10 @@ export class SearchResortComponent implements OnInit {
       this.searchService.setSearchCriteria(this.selectedResort);
       this.authService.refreshRoomsComponent();
       this.authService.buttonClick$.next();
-      this.router.navigate(['resorts/rooms']);
+      this.router.navigate(['resorts/rooms'],{
+        queryParams: { bookingTypeResort: this.selectedResort },
+        queryParamsHandling: 'merge',
+      });
     } else {
       if (this.selectionChanged && array.length !== 2) {
         this.triggerModal();
@@ -182,7 +188,10 @@ export class SearchResortComponent implements OnInit {
         this.authService.refreshRoomsComponent();
 
         this.authService.buttonClick$.next();
-        this.router.navigate(['resorts/rooms']);
+        this.router.navigate(['resorts/rooms'],{
+          queryParams: { bookingTypeResort: this.selectedResort },
+          queryParamsHandling: 'merge',
+        });
       }
     }
   }

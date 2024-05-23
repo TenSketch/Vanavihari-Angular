@@ -28,6 +28,7 @@ import { BiodiversityZoneComponent } from './modules/biodiversity-zone/biodivers
 import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -79,6 +80,10 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     component: ForgotPasswordComponent,
+  },
+  {
+    path:'reset-password',
+    component: ResetPasswordComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },

@@ -123,6 +123,11 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  gotoResetPassword(){
+    this.router.navigate(['/reset-password']);
+
+  }
+
   toggleForgotPassword(){
 
      this.showForgotPassword = !this.showForgotPassword

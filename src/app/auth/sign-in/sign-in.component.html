@@ -11,8 +11,7 @@
               <h4 *ngIf="">Email Verified! You can now sign in to your account</h4>
               <div class="card-title text-center">
                 <p class="card-title fs-5" *ngIf="!showForgotPassword">Sign into your</p>
-                <h5 class="mb-4" *ngIf="!showForgotPassword">Vanavihari user account</h5>
-                <h5 class="mb-4" *ngIf="showForgotPassword">Reset password</h5>
+                <h5 class="mb-4" >Vanavihari user account</h5>
               </div>
               <form  [formGroup]="form" (ngSubmit)="onSubmit()">
                 <mat-form-field *ngIf="!showForgotPassword" appearance="outline">
@@ -55,27 +54,7 @@
                             </div> -->
                 <!-- </div> -->
                 <button mat-raised-button color="primary" *ngIf="!showForgotPassword" (click)="goToSignin()" [disabled]="disableSign" class="w-100 mt-1 mb-2">Sign In</button>
-                <div *ngIf="showForgotPassword" class="mt-4">
-                  <pre>Enter registered email and submit then check email to change your password</pre>
-                  <mat-form-field appearance="outline" >
-                    <mat-label>Email Address.</mat-label>
-                    <input type="email" formControlName="email_address" matInput required placeholder="Enter Email">
-                    <mat-error
-                      *ngIf="form.controls.email_address.invalid && (form.controls.email_address.dirty || form.controls.email_address.touched)">Please
-                      enter a valid email address</mat-error>
-  
-                  </mat-form-field>
-                  <div class="d-flex justify-content-end">
-
-                    <button mat-raised-button color="primary" (click)="toggleForgotPassword()"  class=" mt-1 mb-2">Cancel</button>
-                    <button mat-raised-button color="primary" (click)="forgotPassword($event)" [disabled]="disableSubmit" class="mt-1 ms-2">Submit</button>
-                  </div>
-                  <div class="d-flex justify-content-end">
-
-                    <a  (click)="toggleForgotPassword()"  class=" mt-1 mb-2">Go back to sign-in</a>
-                  </div>
-
-                </div>
+               
 
                 <!-- <a (click)="register()">Register here</a> -->
                 <!-- <div class="alert alert-success mt-3" role="alert" *ngIf="showAlert">
@@ -85,7 +64,7 @@
               </form>
               <div class="d-flex justify-content-between mt-5">
                 <!-- <a class="text-danger">Reset Password</a> -->
-                <a class="text-info-emphasis" *ngIf="!showForgotPassword"  (click)="toggleForgotPassword()">Reset password?</a>
+                <a class="text-info-emphasis" *ngIf="!showForgotPassword"  (click)="gotoResetPassword()">Reset password?</a>
 
                 <a class="text-info-emphasis h6" (click)="goToSignup()">New User? Sign Up</a>
               </div>
