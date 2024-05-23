@@ -11,7 +11,8 @@
               <h4 *ngIf="">Email Verified! You can now sign in to your account</h4>
               <div class="card-title text-center">
                 <p class="card-title fs-5" *ngIf="!showForgotPassword">Sign into your</p>
-                <h5 class="mb-4">Vanavihari user account</h5>
+                <h5 class="mb-4" *ngIf="!showForgotPassword">Vanavihari user account</h5>
+                <h5 class="mb-4" *ngIf="showForgotPassword">Reset password</h5>
               </div>
               <form  [formGroup]="form" (ngSubmit)="onSubmit()">
                 <mat-form-field *ngIf="!showForgotPassword" appearance="outline">
