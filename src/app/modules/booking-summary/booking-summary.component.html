@@ -234,10 +234,11 @@
                   <mat-option value="nonvegetarian">Non-Vegetarian</mat-option>
                 </mat-select>
               </mat-form-field>
-              <button class="btn w-100 mt-1" style="background-color: #4d9900; color: #ffffff"
+              <button mat-raised-button color="primary" class=" w-100"
                 (click)="triggerInfoModal()" [disabled]="!form.valid">
                 Confirm and Pay
               </button>
+              <br><br>
               <section class="booking-terms mt-4">
                 <p>
                   🛑 Please avoid closing or returning to the previous page
