@@ -556,7 +556,7 @@ export class BookingSummaryComponent {
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
-                'Reservation Success! Booking Id: ' + response.result.booking_id
+                'Reservation submitted! Booking Id: ' + response.result.booking_id
               );
               // this.router.navigate(['/booking-successfull']);
 
@@ -610,7 +610,8 @@ export class BookingSummaryComponent {
                 .set('CheckSumKey', secretKey)
                 .set('CheckSum', checksum)
                 .set('msg', msg);
-
+ 
+                console.log(pg_params)
               const form = document.createElement('form');
               form.method = 'post';
               form.action =
@@ -626,6 +627,9 @@ export class BookingSummaryComponent {
               document.body.appendChild(form);
               form.submit();
             } else if (response.code == 3000) {
+              this.showSnackBarAlert(
+                'Reservation Success! Booking Id: ' + response.result.booking_id
+              );
               this.authService.clearBookingRooms(this.bookingTypeResort);
 
               this.showSnackBarAlert(response.result.msg);
@@ -637,7 +641,7 @@ export class BookingSummaryComponent {
           },
           error: (err) => {
             this.showLoader = false;
-            // console.error('Error:', err);
+            console.error('Error:', err);
           },
         });
     }
