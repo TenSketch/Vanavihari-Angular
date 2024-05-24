@@ -611,7 +611,7 @@ export class BookingSummaryComponent {
                 .set('CheckSum', checksum)
                 .set('msg', msg);
  
-                console.log(pg_params)
+                console.log(msg)
               const form = document.createElement('form');
               form.method = 'post';
               form.action =
