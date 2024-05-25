@@ -74,27 +74,30 @@ export class BookingStatusComponent {
           if (response.result.payment_transaction_id == '') {
             this.bookingStatus = 'failed';
             let input_str = localStorage.getItem('input_str');
-            let username = localStorage.getItem('userfullname')
-            if (input_str && username) {
-              var modifiedString = input_str.replace(/\|/g, "$");
-              this.logMessage(
-                response.result.booking_id,
-                username,
-                'request',
-                modifiedString.toString()              );
+            if(input_str){
+              let inpt_str = JSON.parse(input_str)
+              let username = localStorage.getItem('userfullname')
+              if (input_str && username) {
+                var modifiedString = inpt_str.replace(/\|/g, "$");
+                this.logMessage(
+                  response.result.booking_id,
+                  username,
+                  'request',
+                  modifiedString.toString()              );
+              }
             }
           } else {
             let input_str = localStorage.getItem('input_str');
             let username = localStorage.getItem('userfullname')
 
             if (input_str && username) {
-              var modifiedString = input_str.replace(/\|/g, "$");
+              let modifiedString = input_str.replace(/\|/g, "$");
 
               this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString .toString()             );
+                modifiedString.toString()             );
             }
             this.bookingStatus = 'success';
           }
