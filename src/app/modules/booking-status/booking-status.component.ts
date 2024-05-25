@@ -183,7 +183,7 @@ export class BookingStatusComponent {
     .set('type', type ?? '')
     .set('msg', msg ?? '');
 
-    return this.http.get(this.api_url + '?api_type=logs',{params} );
+    return this.http.get('https://www.zohoapis.com/creator/custom/vanavihari/InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8',{params} );
   }
 
   getRoomImages(roomname: string): string[] {
