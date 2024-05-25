@@ -678,6 +678,7 @@ export class BookingSummaryComponent {
     msg: string
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log('log messaeg is called')
     const body = {
       booking_id: booking_id,
       username: username,
