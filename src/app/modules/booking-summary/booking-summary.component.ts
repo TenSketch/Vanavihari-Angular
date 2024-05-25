@@ -685,7 +685,7 @@ export class BookingSummaryComponent {
       type: type,
       msg: msg,
     };
-    return this.http.post('/zoho-connect?api_type=logs', body, { headers });
+    return this.http.post(this.api_url + '?api_type=logs', body, { headers });
   }
 
   calculateDurationOfStay() {
