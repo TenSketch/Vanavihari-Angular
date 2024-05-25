@@ -53,6 +53,7 @@ export class HomeComponent implements OnInit {
     private envService: EnvService
   ) {
 
+    
     this.authService.clearBookingRooms(this.bookingTypeResort);
 
     for (let i = 2; i <= 16; i++) {

@@ -74,23 +74,25 @@ export class BookingStatusComponent {
           if (response.result.payment_transaction_id == '') {
             this.bookingStatus = 'failed';
             let input_str = localStorage.getItem('input_str');
+            
             if (input_str) {
+              var modifiedString = input_str.replace(/\|/g, "$");
               this.logMessage(
                 response.result.booking_id,
                 'username',
                 'request',
-                input_str.toString()
-              );
+                modifiedString              );
             }
           } else {
             let input_str = localStorage.getItem('input_str');
             if (input_str) {
+              var modifiedString = input_str.replace(/\|/g, "$");
+
               this.logMessage(
                 response.result.booking_id,
                 'username',
                 'request',
-                input_str.toString()
-              );
+                modifiedString              );
             }
             this.bookingStatus = 'success';
           }
@@ -162,7 +164,6 @@ export class BookingStatusComponent {
         error: (err) => {
           this.showLoader = false;
 
-          // console.error('Error:', err);
         },
       });
   }
@@ -175,7 +176,6 @@ export class BookingStatusComponent {
     msg: string
   ) {
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log('log messaeg is called');
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
       .set('username', username ?? '')
@@ -184,13 +184,11 @@ export class BookingStatusComponent {
 
     this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
       next: (response) => {
-        // console.log(response)
       },
     });
   }
 
   getRoomImages(roomname: string): string[] {
-    console.log(roomname);
     let roomName = this.getRoomName(roomname);
 
     const lowercaseRoomName = roomName.toLowerCase();

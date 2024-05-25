@@ -1008,7 +1008,6 @@ export class RoomsComponent implements OnInit {
     }
   }
   toggleFilter() {
-    console.log(this.isFilterOpen);
     this.isFilterOpen = !this.isFilterOpen;
   }
 }
