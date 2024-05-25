@@ -122,7 +122,7 @@ export default async (req) => {
           const body = await req.text();
           const formData = new URLSearchParams(body);
           const msg = formData.get('msg');
-          `${output_msg}` = msg
+          output_msg = msg
           if (msg == null || msg == "" || msg == undefined) {
             return new Response(JSON.stringify({ error: 'Missing required parameters for msg' }), {
                 status: 400,
