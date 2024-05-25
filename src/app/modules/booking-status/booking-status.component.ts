@@ -79,7 +79,7 @@ export class BookingStatusComponent {
                 response.result.booking_id,
                 'username',
                 'request',
-                input_str
+                input_str.toString()
               );
             }
           } else {
@@ -89,7 +89,7 @@ export class BookingStatusComponent {
                 response.result.booking_id,
                 'username',
                 'request',
-                input_str
+                input_str.toString()
               );
             }
             this.bookingStatus = 'success';
@@ -184,7 +184,7 @@ export class BookingStatusComponent {
 
     this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
       next: (response) => {
-        console.log(response)
+        // console.log(response)
       },
     });
   }
