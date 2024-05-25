@@ -642,17 +642,27 @@ export class BookingSummaryComponent {
                   this.output_str
                 );
               }
-              
+
               this.authService.clearBookingRooms(this.bookingTypeResort);
 
               this.showSnackBarAlert(response.result.msg);
             } else {
+              let username = localStorage.getItem('userfullname');
+              if (username) {
+                this.logMessage(
+                  response.result.booking_id,
+                  username,
+                  this.input_str,
+                  this.output_str
+                );
+              }
               this.authService.clearBookingRooms(this.bookingTypeResort);
-
+               
               this.showSnackBarAlert('Reservation Error!');
             }
           },
           error: (err) => {
+            
             this.showLoader = false;
             console.error('Error:', err);
           },
