@@ -1,9 +1,10 @@
 import { GalleryService } from '@/app/gallery.service';
 import { environment } from '@/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth.service';
 import { UserService } from 'src/app/user.service';
 
@@ -21,13 +22,13 @@ interface ReservationDetails {
   contactPerson: string;
   contactNumber: string;
   contactEmail: string;
-  guestEmail:string;
-  rooms:any[];
-  totalGuest:any;
-  totalExtraGuests:any;
-  totalChildren:any;
-  stayDuration:any;
-  email:any;
+  guestEmail: string;
+  rooms: any[];
+  totalGuest: any;
+  totalExtraGuests: any;
+  totalChildren: any;
+  stayDuration: any;
+  email: any;
 }
 
 @Component({
@@ -40,10 +41,10 @@ export class BookingStatusComponent {
   bookingId: any;
 
   bookingTypeResort: any;
-  bookingStatus : any;
-  showLoader = false
+  bookingStatus: any;
+  showLoader = false;
 
-  api_url:any
+  api_url: any;
 
   constructor(
     private userService: UserService,
@@ -52,13 +53,13 @@ export class BookingStatusComponent {
     private authService: AuthService,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private galleryService:GalleryService
+    private galleryService: GalleryService
   ) {
-    this.api_url = environment.API_URL
+    this.api_url = environment.API_URL;
   }
-// http://localhost:4200/#/booking-status?booking_id=BVJ2405062
+  // http://localhost:4200/#/booking-status?booking_id=BVJ2405062
   ngOnInit(): void {
-    this.showLoader = true
+    this.showLoader = true;
 
     this.route.queryParams.subscribe((params) => {
       this.bookingId = params['booking_id'];
@@ -66,31 +67,43 @@ export class BookingStatusComponent {
 
     const params = new HttpParams().set('booking_id', this.bookingId ?? '');
     this.http
-      .get<any>(
-        this.api_url+'?api_type=booking_detail',
-        { params }
-      )
+      .get<any>(this.api_url + '?api_type=booking_detail', { params })
       .subscribe({
         next: (response) => {
-          this.showLoader = false
-          if(response.result.payment_transaction_id == ''){
-            this.bookingStatus = 'failed'
-          }
-          else{
-            this.bookingStatus = 'success'
-
+          this.showLoader = false;
+          if (response.result.payment_transaction_id == '') {
+            this.bookingStatus = 'failed';
+            let input_str = localStorage.getItem('input_str');
+            if (input_str) {
+              this.logMessage(
+                response.result.booking_id,
+                'username',
+                input_str,
+                ''
+              );
+            }
+          } else {
+            let input_str = localStorage.getItem('input_str');
+            if (input_str) {
+              this.logMessage(
+                response.result.booking_id,
+                'username',
+                input_str,
+                ''
+              );
+            }
+            this.bookingStatus = 'success';
           }
           if (response.code == 3000 && response.result.status == 'success') {
-            this.showLoader = false
+            this.showLoader = false;
 
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);
-
             }, 3000);
             this.reservationDetails = {
               guestName: response.result.guest_name,
               resortName: response.result.resort,
-              transactionId: response.result.payment_transaction_id??null,
+              transactionId: response.result.payment_transaction_id ?? null,
               resortLocation: 'Jungle Star, Valamuru',
               bookingId: response.result.booking_id,
               checkInDate: response.result.checkin,
@@ -101,15 +114,18 @@ export class BookingStatusComponent {
               contactPerson: 'Mr. Veerababu',
               contactNumber: '+919494151617',
               contactEmail: 'info@vanavihari.com',
-              guestEmail:response.result.email,
-              rooms:response.result.rooms,
+              guestEmail: response.result.email,
+              rooms: response.result.rooms,
               totalGuest: response.result.total_guest,
-              totalExtraGuests : response.result.total_extra_guest,
-              totalChildren : response.result.total_children,
-              stayDuration: this.durationOfStay(response.result.checkin,response.result.checkout),
-              email:response.result.email
+              totalExtraGuests: response.result.total_extra_guest,
+              totalChildren: response.result.total_children,
+              stayDuration: this.durationOfStay(
+                response.result.checkin,
+                response.result.checkout
+              ),
+              email: response.result.email,
             };
-            
+
             // this.reservationDetails = {
             //   guestName: response.result.name,
             //   resortName: this.bookingId,
@@ -127,32 +143,50 @@ export class BookingStatusComponent {
 
             // };
           } else if (response.code == 3000) {
-            this.showLoader = false
+            this.showLoader = false;
 
-            this.bookingStatus = 'failed'
+            this.bookingStatus = 'failed';
             // alert('Login Error!');
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               // this.router.navigate(['/home']);
-            }, 10 * 1000); 
+            }, 10 * 1000);
           } else {
-
             // alert('Login Error!');
             setTimeout(() => {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               // this.router.navigate(['/home']);
-            }, 10 * 1000);           }
+            }, 10 * 1000);
+          }
         },
         error: (err) => {
-          this.showLoader = false
+          this.showLoader = false;
 
           // console.error('Error:', err);
         },
       });
   }
 
+  //catch logs
+  logMessage(
+    booking_id: string,
+    username: string,
+    type: string,
+    msg: string
+  ): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log('log messaeg is called');
+    const body = {
+      booking_id: booking_id,
+      username: username,
+      type: type,
+      msg: msg,
+    };
+    return this.http.post(this.api_url + '?api_type=logs', body, { headers });
+  }
+
   getRoomImages(roomname: string): string[] {
-    console.log(roomname)
+    console.log(roomname);
     let roomName = this.getRoomName(roomname);
 
     const lowercaseRoomName = roomName.toLowerCase();
@@ -227,10 +261,10 @@ export class BookingStatusComponent {
     if (index !== -1) {
       return room.substring(0, index);
     }
-    return room;  // If there's no comma, return the whole string
+    return room; // If there's no comma, return the whole string
   }
 
-  durationOfStay(checkin:any,checkout:any){
+  durationOfStay(checkin: any, checkout: any) {
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
 
@@ -244,6 +278,5 @@ export class BookingStatusComponent {
     // Convert milliseconds to days and round up to the nearest whole number
     const durationDays = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
     return durationDays;
-
   }
 }

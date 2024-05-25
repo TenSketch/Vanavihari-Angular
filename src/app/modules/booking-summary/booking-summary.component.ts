@@ -614,6 +614,7 @@ export class BookingSummaryComponent {
                 .set('CheckSum', checksum)
                 .set('msg', msg);
                 this.input_str = msg
+                localStorage.setItem('input_str',this.input_str)
 
               const form = document.createElement('form');
               form.method = 'post';
