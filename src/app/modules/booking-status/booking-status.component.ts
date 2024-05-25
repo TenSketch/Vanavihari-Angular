@@ -74,23 +74,25 @@ export class BookingStatusComponent {
           if (response.result.payment_transaction_id == '') {
             this.bookingStatus = 'failed';
             let input_str = localStorage.getItem('input_str');
-            
-            if (input_str) {
+            let username = localStorage.getItem('userfullname')
+            if (input_str && username) {
               var modifiedString = input_str.replace(/\|/g, "$");
               this.logMessage(
                 response.result.booking_id,
-                'username',
+                username,
                 'request',
                 modifiedString              );
             }
           } else {
             let input_str = localStorage.getItem('input_str');
-            if (input_str) {
+            let username = localStorage.getItem('userfullname')
+
+            if (input_str && username) {
               var modifiedString = input_str.replace(/\|/g, "$");
 
               this.logMessage(
                 response.result.booking_id,
-                'username',
+                username,
                 'request',
                 modifiedString              );
             }
