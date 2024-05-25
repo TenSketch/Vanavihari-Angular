@@ -634,27 +634,26 @@ export class BookingSummaryComponent {
                 'Reservation Success! Booking Id: ' + response.result.booking_id
               );
               let username = localStorage.getItem('userfullname');
-              if (username) {
-                this.logMessage(
-                  response.result.booking_id,
-                  username,
-                  this.input_str,
-                  this.output_str
-                );
-              }
+              this.logMessage(
+                response.result.booking_id,
+                "username",
+                this.input_str,
+                this.output_str
+              );
+              
 
               this.authService.clearBookingRooms(this.bookingTypeResort);
 
               this.showSnackBarAlert(response.result.msg);
             } else {
               let username = localStorage.getItem('userfullname');
+              this.logMessage(
+                response.result.booking_id,
+                "username",
+                this.input_str,
+                this.output_str
+              );
               if (username) {
-                this.logMessage(
-                  response.result.booking_id,
-                  username,
-                  this.input_str,
-                  this.output_str
-                );
               }
               this.authService.clearBookingRooms(this.bookingTypeResort);
                
