@@ -176,13 +176,14 @@ export class BookingStatusComponent {
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     console.log('log messaeg is called');
-    const body = {
-      booking_id: booking_id,
-      username: username,
-      type: type,
-      msg: msg,
-    };
-    return this.http.post(this.api_url + '?api_type=logs', body, { headers });
+    
+    const params = new HttpParams()
+    .set('booking_id', booking_id ?? '')
+    .set('username', username ?? '')
+    .set('type', type ?? '')
+    .set('msg', msg ?? '');
+
+    return this.http.post(this.api_url + '?api_type=logs',{params} );
   }
 
   getRoomImages(roomname: string): string[] {
