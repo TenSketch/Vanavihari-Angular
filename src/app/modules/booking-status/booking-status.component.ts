@@ -168,7 +168,7 @@ export class BookingStatusComponent {
 
         },
       });
-  }
+  }   
 
   //catch logs
   logMessage(
