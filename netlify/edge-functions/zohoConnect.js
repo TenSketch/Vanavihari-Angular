@@ -149,7 +149,7 @@ export default async (req) => {
               );
             }
             apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8`;
-            method = "POST";
+            method = "get";
             requestBody = {
               booking_id: queryParams.get("booking_id"),
               username: queryParams.get("username"),

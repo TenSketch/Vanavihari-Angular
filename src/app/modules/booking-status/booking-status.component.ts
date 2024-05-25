@@ -183,7 +183,7 @@ export class BookingStatusComponent {
     .set('type', type ?? '')
     .set('msg', msg ?? '');
 
-    return this.http.post(this.api_url + '?api_type=logs',{params} );
+    return this.http.get(this.api_url + '?api_type=logs',{params} );
   }
 
   getRoomImages(roomname: string): string[] {
