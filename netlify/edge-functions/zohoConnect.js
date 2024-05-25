@@ -1,5 +1,6 @@
 export default async (req) => {
     const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
+    let output_msg
     const api_key = process.env.Billdesk_SecretKey
     if (req.path === '/api/getkey') {
       return new Response(JSON.stringify({ "apikey":api_key }), {
@@ -121,6 +122,7 @@ export default async (req) => {
           const body = await req.text();
           const formData = new URLSearchParams(body);
           const msg = formData.get('msg');
+          `${output_msg}` = msg
           if (msg == null || msg == "" || msg == undefined) {
             return new Response(JSON.stringify({ error: 'Missing required parameters for msg' }), {
                 status: 400,
@@ -136,6 +138,27 @@ export default async (req) => {
           apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${process.env.Reservation_Detail}&${queryParams.toString()}`;
           method = "GET";
           break;
+          case "logs":
+            if (!queryParams.has("booking_id") || !queryParams.has("username") || !queryParams.has("type") || !queryParams.has("msg")) {
+              return new Response(
+                JSON.stringify({ error: "Missing required parameters for logs" }),
+                {
+                  status: 400,
+                  headers: { "Content-Type": "application/json" },
+                }
+              );
+            }
+            apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8`;
+            method = "POST";
+            requestBody = {
+              booking_id: queryParams.get("booking_id"),
+              username: queryParams.get("username"),
+              type: queryParams.get("type"),
+              msg: queryParams.get(`${output_msg}`),
+              timestamp: new Date().toISOString(),
+            };
+            break;
+      
         default:
           return new Response(
             JSON.stringify({ error: "Invalid api_type parameter" }),

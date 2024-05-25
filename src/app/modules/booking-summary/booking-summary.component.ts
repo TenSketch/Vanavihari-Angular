@@ -13,7 +13,7 @@ import {
 import { UserService } from '../../user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HmacSHA256, enc } from 'crypto-js';
-import { filter } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { environment } from '@/environments/environment';
 import { EnvService } from '@/app/env.service';
 
@@ -74,7 +74,9 @@ export class BookingSummaryComponent {
   @ViewChild('seconds', { static: true }) seconds: ElementRef;
   intervalId: any;
 
-  api_url:any
+  api_url: any;
+  input_str: any;
+  output_str: any;
 
   ngAfterViewInit() {
     // Set target time 5 minutes from now
@@ -90,21 +92,20 @@ export class BookingSummaryComponent {
         (this.difference % (1000 * 60 * 60)) / (1000 * 60)
       );
       const secondsLeft = Math.floor((this.difference % (1000 * 60)) / 1000);
-      
+
       if (this.difference <= 0 && !redirectDone) {
         redirectDone = true; // Set flag to true to indicate redirection
         clearInterval(this.intervalId); // Clear the interval when difference reaches 0
-        localStorage.setItem('showCancel','no')
+        localStorage.setItem('showCancel', 'no');
         this.router.navigate(['resorts/rooms']);
         this.authService.clearBookingRooms(this.bookingTypeResort);
       }
-      
+
       this.minutes.nativeElement.innerText =
         minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft;
       this.seconds.nativeElement.innerText =
         secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft;
     }, 1000);
-    
   }
 
   ngOnDestroy() {
@@ -118,9 +119,8 @@ export class BookingSummaryComponent {
   }
   billdeskkey: string;
 
-  
-  billdesksecurityid:any
-  billdeskmerchantid:any
+  billdesksecurityid: any;
+  billdeskmerchantid: any;
 
   constructor(
     private router: Router,
@@ -131,18 +131,22 @@ export class BookingSummaryComponent {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private envService:EnvService
+    private envService: EnvService
   ) {
-    this.api_url = environment.API_URL
+    this.api_url = environment.API_URL;
 
-    localStorage.setItem('isSummary','yes')
+    localStorage.setItem('isSummary', 'yes');
 
     this.selectedResort = this.authService.getSearchData('resort');
 
     // this.checkinDate = this.authService.getSearchData('checkin');
-    this.checkinDate = JSON.parse(localStorage.getItem('checkindate') as string);
+    this.checkinDate = JSON.parse(
+      localStorage.getItem('checkindate') as string
+    );
     // this.checkoutDate = this.authService.getSearchData('checkout');
-    this.checkoutDate = JSON.parse(localStorage.getItem('checkoutdate') as string);
+    this.checkoutDate = JSON.parse(
+      localStorage.getItem('checkoutdate') as string
+    );
     this.fetchRoomList();
 
     this.roomDetails = this.authService.getBookingRooms('vanvihari');
@@ -239,22 +243,24 @@ export class BookingSummaryComponent {
   }
 
   ngOnInit(): void {
-
     this.envService.getEnvVars().subscribe(
-      envVars => {
+      (envVars) => {
         // console.log(envVars)
         this.billdeskkey = envVars.billdeskkey;
         this.billdesksecurityid = envVars.billdesksecurityid;
         this.billdeskmerchantid = envVars.billdeskmerchantid;
-    console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
-        
+        console.log(
+          this.billdeskkey,
+          this.billdesksecurityid,
+          this.billdeskmerchantid
+        );
+
         // console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
       },
-      error => {
+      (error) => {
         console.error('Error fetching environment variables:', error);
       }
     );
-
 
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
@@ -349,10 +355,7 @@ export class BookingSummaryComponent {
       .set('email', this.authService.getAccountUsername() ?? '')
       .set('token', this.authService.getAccessToken() ?? '');
     this.http
-      .get<any>(
-        this.api_url+'?api_type=profile_details',
-        { params }
-      )
+      .get<any>(this.api_url + '?api_type=profile_details', { params })
       .subscribe({
         next: (response) => {
           this.showLoader = false;
@@ -547,7 +550,7 @@ export class BookingSummaryComponent {
       // this.showSnackBarAlert("Reservation Success! Booking Id");
       // this.router.navigate(['/booking-successfull']);
       this.http
-        .get<any>(this.api_url+'?api_type=booking', {
+        .get<any>(this.api_url + '?api_type=booking', {
           params,
         })
         .subscribe({
@@ -556,7 +559,8 @@ export class BookingSummaryComponent {
             if (response.code == 3000 && response.result.status == 'success') {
               this.authService.clearBookingRooms(this.bookingTypeResort);
               this.showSnackBarAlert(
-                'Reservation submitted! Booking Id: ' + response.result.booking_id
+                'Reservation submitted! Booking Id: ' +
+                  response.result.booking_id
               );
               // this.router.navigate(['/booking-successfull']);
 
@@ -568,8 +572,7 @@ export class BookingSummaryComponent {
               const secretKey = this.billdeskkey;
               // const amount = this.calculateGrandTotal();
               const amount = '1.00';
-              const rU =
-                this.api_url+'?api_type=get_payment_response';
+              const rU = this.api_url + '?api_type=get_payment_response';
 
               const str =
                 MerchantId +
@@ -610,8 +613,8 @@ export class BookingSummaryComponent {
                 .set('CheckSumKey', secretKey)
                 .set('CheckSum', checksum)
                 .set('msg', msg);
- 
-                console.log(msg)
+                this.input_str = msg
+
               const form = document.createElement('form');
               form.method = 'post';
               form.action =
@@ -630,6 +633,16 @@ export class BookingSummaryComponent {
               this.showSnackBarAlert(
                 'Reservation Success! Booking Id: ' + response.result.booking_id
               );
+              let username = localStorage.getItem('userfullname');
+              if (username) {
+                this.logMessage(
+                  response.result.booking_id,
+                  username,
+                  this.input_str,
+                  this.output_str
+                );
+              }
+              
               this.authService.clearBookingRooms(this.bookingTypeResort);
 
               this.showSnackBarAlert(response.result.msg);
@@ -645,6 +658,23 @@ export class BookingSummaryComponent {
           },
         });
     }
+  }
+
+  //catch logs
+  logMessage(
+    booking_id: string,
+    username: string,
+    type: string,
+    msg: string
+  ): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      booking_id: booking_id,
+      username: username,
+      type: type,
+      msg: msg,
+    };
+    return this.http.post('/zoho-connect?api_type=logs', body, { headers });
   }
 
   calculateDurationOfStay() {
