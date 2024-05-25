@@ -78,8 +78,8 @@ export class BookingStatusComponent {
               this.logMessage(
                 response.result.booking_id,
                 'username',
-                input_str,
-                ''
+                'request',
+                input_str
               );
             }
           } else {
@@ -88,8 +88,8 @@ export class BookingStatusComponent {
               this.logMessage(
                 response.result.booking_id,
                 'username',
-                input_str,
-                ''
+                'request',
+                input_str
               );
             }
             this.bookingStatus = 'success';

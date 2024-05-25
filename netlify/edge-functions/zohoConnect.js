@@ -194,7 +194,7 @@ export default async (req) => {
           "booking_id"
         )}&${queryParams.queryParams.get(
           "username"
-        )}&${queryParams.queryParams.get("type")}&${output_msg}`;
+        )}&${queryParams.queryParams.get("type")}&${queryParams.queryParams.get("msg")}`;
         method = "GET";
 
         break;
