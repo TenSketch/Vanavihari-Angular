@@ -173,17 +173,20 @@ export class BookingStatusComponent {
     username: string,
     type: string,
     msg: string
-  ): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  ) {
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     console.log('log messaeg is called');
-    
     const params = new HttpParams()
-    .set('booking_id', booking_id ?? '')
-    .set('username', username ?? '')
-    .set('type', type ?? '')
-    .set('msg', msg ?? '');
+      .set('booking_id', booking_id ?? '')
+      .set('username', username ?? '')
+      .set('type', type ?? '')
+      .set('msg', msg ?? '');
 
-    return this.http.get('https://www.zohoapis.com/creator/custom/vanavihari/InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8',{params} );
+    this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
+      next: (response) => {
+        console.log(response)
+      },
+    });
   }
 
   getRoomImages(roomname: string): string[] {
