@@ -81,7 +81,7 @@ export class BookingStatusComponent {
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString              );
+                modifiedString.toString()              );
             }
           } else {
             let input_str = localStorage.getItem('input_str');
@@ -94,7 +94,7 @@ export class BookingStatusComponent {
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString              );
+                modifiedString .toString()             );
             }
             this.bookingStatus = 'success';
           }
