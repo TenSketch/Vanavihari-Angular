@@ -76,13 +76,12 @@ export class BookingStatusComponent {
             let input_str = localStorage.getItem('input_str');
             let username = localStorage.getItem('userfullname');
             if (input_str && username) {
-              let modifiedString = input_str.replace(/\|/g, '$');
               
               this.logMessage(    
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString
+                input_str
               );
             }
           } else {
@@ -90,13 +89,13 @@ export class BookingStatusComponent {
             let username = localStorage.getItem('userfullname');
 
             if (input_str && username) {
-              let modifiedString = input_str.replace(/\|/g, '$');
+              // let modifiedString = input_str.replace(/\|/g, '$');
 
               this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString
+                input_str
               );
             }
             this.bookingStatus = 'success';
@@ -175,21 +174,21 @@ export class BookingStatusComponent {
   //catch logs    
   logMessage(booking_id: string, username: string, type: string, msg: string) {
 
-    let modifiedString = msg
-    .replace(/\$/g, 'dollar')
-    .replace(/\+/g, 'plus')
-    .replace(/%/g, 'percentage')
-    .replace(/-/g, 'dash')
-    .replace(/_/g, 'underscore')
-    .replace(/\//g, 'fslash')
-    .replace(/:/g, 'colan')
-    .replace(/\?/g, 'qmark');
+    // let modifiedString = msg
+    // .replace(/\$/g, 'dollar')
+    // .replace(/\+/g, 'plus')
+    // .replace(/%/g, 'percentage')
+    // .replace(/-/g, 'dash')
+    // .replace(/_/g, 'underscore')
+    // .replace(/\//g, 'fslash')
+    // .replace(/:/g, 'colan')
+    // .replace(/\?/g, 'qmark');
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
       .set('username', username ?? '')
       .set('type', type ?? '')
-      .set('msg', modifiedString ?? '');
+      .set('msg', msg ?? '');
 
     this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
       next: (response) => {},
