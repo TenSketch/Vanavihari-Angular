@@ -77,21 +77,12 @@ export class BookingStatusComponent {
             let username = localStorage.getItem('userfullname');
             if (input_str && username) {
               let modifiedString = input_str.replace(/\|/g, '$');
-              var parts = modifiedString.split('$');
-              var encodedParts = parts.map((part, index) => {
-                if (part.startsWith('http')) {
-                  return encodeURIComponent(part); // Encode URL part
-                }
-                return part;
-              });
-
-              // Join the parts back with dollar sign
-              var encodedString = encodedParts.join('$');
-              this.logMessage(
+              
+              this.logMessage(    
                 response.result.booking_id,
                 username,
                 'request',
-                encodedString
+                modifiedString
               );
             }
           } else {
@@ -100,21 +91,12 @@ export class BookingStatusComponent {
 
             if (input_str && username) {
               let modifiedString = input_str.replace(/\|/g, '$');
-              var parts = modifiedString.split('$');
-              var encodedParts = parts.map((part, index) => {
-                if (part.startsWith("http")) {
-                  return encodeURIComponent(part); // Encode URL part
-                }
-                return part;
-              });
-              
-              // Join the parts back with dollar sign
-              var encodedString = encodedParts.join('$');
+
               this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                encodedString
+                modifiedString
               );
             }
             this.bookingStatus = 'success';
@@ -192,13 +174,19 @@ export class BookingStatusComponent {
 
   //catch logs
   logMessage(booking_id: string, username: string, type: string, msg: string) {
+
+    let modifiedString = msg
+    .replace(/\$/g, 'dollar')
+    .replace(/\+/g, 'plus')
+    .replace(/%/g, 'percentage')
+    .replace(/-/g, 'dash')
+    .replace(/_/g, 'underscore');
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log(msg)
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
       .set('username', username ?? '')
       .set('type', type ?? '')
-      .set('msg', msg ?? '');
+      .set('msg', modifiedString ?? '');
 
     this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
       next: (response) => {},
