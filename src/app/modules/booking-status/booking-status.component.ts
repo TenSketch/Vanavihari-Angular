@@ -74,30 +74,29 @@ export class BookingStatusComponent {
           if (response.result.payment_transaction_id == '') {
             this.bookingStatus = 'failed';
             let input_str = localStorage.getItem('input_str');
-            if(input_str){
-              let inpt_str = JSON.parse(input_str)
-              let username = localStorage.getItem('userfullname')
-              if (input_str && username) {
-                var modifiedString = inpt_str.replace(/\|/g, "$");
-                this.logMessage(
-                  response.result.booking_id,
-                  username,
-                  'request',
-                  modifiedString.toString()              );
-              }
+            let username = localStorage.getItem('userfullname');
+            if (input_str && username) {
+              var modifiedString = input_str.replace(/\|/g, '$');
+              this.logMessage(
+                response.result.booking_id,
+                username,
+                'request',
+                modifiedString.toString()
+              );
             }
           } else {
             let input_str = localStorage.getItem('input_str');
-            let username = localStorage.getItem('userfullname')
+            let username = localStorage.getItem('userfullname');
 
             if (input_str && username) {
-              let modifiedString = input_str.replace(/\|/g, "$");
+              let modifiedString = input_str.replace(/\|/g, '$');
 
               this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString.toString()             );
+                modifiedString.toString()
+              );
             }
             this.bookingStatus = 'success';
           }
@@ -168,18 +167,12 @@ export class BookingStatusComponent {
         },
         error: (err) => {
           this.showLoader = false;
-
         },
       });
-  }   
+  }
 
   //catch logs
-  logMessage(
-    booking_id: string,
-    username: string,
-    type: string,
-    msg: string
-  ) {
+  logMessage(booking_id: string, username: string, type: string, msg: string) {
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
@@ -188,8 +181,7 @@ export class BookingStatusComponent {
       .set('msg', msg ?? '');
 
     this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
-      next: (response) => {
-      },
+      next: (response) => {},
     });
   }
 
