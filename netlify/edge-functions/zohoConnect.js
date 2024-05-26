@@ -190,11 +190,11 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&${queryParams.get(
+        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${queryParams.get(
           "booking_id"
-        ).toString()}&${queryParams.get(
+        ).toString()}&username=${queryParams.get(
           "username"
-        ).toString()}&${queryParams.get("type").toString()}&${queryParams.get("msg").toString()}`;
+        ).toString()}&type=${queryParams.get("type").toString()}&msg=${queryParams.get("msg").toString()}`;
         method = "GET";
         console.log(apiUrl)
 
