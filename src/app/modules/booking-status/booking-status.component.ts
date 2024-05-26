@@ -76,12 +76,22 @@ export class BookingStatusComponent {
             let input_str = localStorage.getItem('input_str');
             let username = localStorage.getItem('userfullname');
             if (input_str && username) {
-              var modifiedString = input_str.replace(/\|/g, '$');
-              this.logMessage(    
+              let modifiedString = input_str.replace(/\|/g, '$');
+              var parts = modifiedString.split('$');
+              var encodedParts = parts.map((part, index) => {
+                if (part.startsWith('http')) {
+                  return encodeURIComponent(part); // Encode URL part
+                }
+                return part;
+              });
+
+              // Join the parts back with dollar sign
+              var encodedString = encodedParts.join('$');
+              this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString.toString()
+                encodedString
               );
             }
           } else {
@@ -90,12 +100,21 @@ export class BookingStatusComponent {
 
             if (input_str && username) {
               let modifiedString = input_str.replace(/\|/g, '$');
-
+              var parts = modifiedString.split('$');
+              var encodedParts = parts.map((part, index) => {
+                if (part.startsWith("http")) {
+                  return encodeURIComponent(part); // Encode URL part
+                }
+                return part;
+              });
+              
+              // Join the parts back with dollar sign
+              var encodedString = encodedParts.join('$');
               this.logMessage(
                 response.result.booking_id,
                 username,
                 'request',
-                modifiedString.toString()
+                encodedString
               );
             }
             this.bookingStatus = 'success';
