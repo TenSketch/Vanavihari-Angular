@@ -172,7 +172,7 @@ export class BookingStatusComponent {
       });
   }
 
-  //catch logs
+  //catch logs    
   logMessage(booking_id: string, username: string, type: string, msg: string) {
 
     let modifiedString = msg

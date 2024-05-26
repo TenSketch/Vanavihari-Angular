@@ -196,6 +196,7 @@ export default async (req) => {
           "username"
         ).toString()}&${queryParams.get("type").toString()}&${queryParams.get("msg").toString()}`;
         method = "GET";
+        console.log(apiUrl)
 
         break;
 
