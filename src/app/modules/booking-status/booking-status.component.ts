@@ -193,6 +193,7 @@ export class BookingStatusComponent {
   //catch logs
   logMessage(booking_id: string, username: string, type: string, msg: string) {
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    console.log(msg)
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
       .set('username', username ?? '')
