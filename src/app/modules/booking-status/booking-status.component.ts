@@ -180,7 +180,10 @@ export class BookingStatusComponent {
     .replace(/\+/g, 'plus')
     .replace(/%/g, 'percentage')
     .replace(/-/g, 'dash')
-    .replace(/_/g, 'underscore');
+    .replace(/_/g, 'underscore')
+    .replace(/\//g, 'fslash')
+    .replace(/:/g, 'colan')
+    .replace(/\?/g, 'qmark');
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const params = new HttpParams()
       .set('booking_id', booking_id ?? '')
