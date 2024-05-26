@@ -192,9 +192,9 @@ export default async (req) => {
         }
         apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&${queryParams.get(
           "booking_id"
-        )}&${queryParams.get(
+        ).toString()}&${queryParams.get(
           "username"
-        )}&${queryParams.get("type")}&${queryParams.get("msg")}`;
+        ).toString()}&${queryParams.get("type").toString()}&${queryParams.get("msg").toString()}`;
         method = "GET";
 
         break;
