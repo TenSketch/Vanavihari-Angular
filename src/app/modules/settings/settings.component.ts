@@ -270,6 +270,18 @@ export class SettingsComponent {
   showLoader = false;
   api_url:any
   isModalVisible = false
+
+  isFieldEditable: { [key: string]: boolean } = {
+    mobile_number:false,
+    nationality: false,
+    address1: false,
+    address2: false,
+    city: false,
+    state:false,
+    pincode:false,
+    country :false
+  };
+
   constructor(
     private renderer: Renderer2,
     private formBuilder: FormBuilder,
@@ -285,7 +297,7 @@ export class SettingsComponent {
       mobile_number: [''],
       email: ['', Validators.email],
       dob: ['', Validators.required],
-      nationality: [{ value: '', disabled: true }],
+      nationality: [''],
       address1: [''],
       address2: [''],
       city: [''],
@@ -340,11 +352,9 @@ export class SettingsComponent {
       });
   }
 
-  editField(name:any) {
-    const field = this.form.get('nationality');
-    if (field) {
-      field.enable();
-    }
+ editField(field: string) {
+  this.isFieldEditable[field] = !this.isFieldEditable[field];
+
   }
 
   get isNationalityDisabled(): boolean {

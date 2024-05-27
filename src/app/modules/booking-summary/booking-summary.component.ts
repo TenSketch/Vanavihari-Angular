@@ -77,7 +77,8 @@ export class BookingSummaryComponent {
   api_url: any;
   input_str: any;
   output_str: any;
-
+  updatingGSTNumber = false;
+  updatingCompanyName = false;
   ngAfterViewInit() {
     // Set target time 5 minutes from now
     this.targetTime = new Date();
@@ -203,15 +204,21 @@ export class BookingSummaryComponent {
     }
 
     this.form.get('gstnumber')?.valueChanges.subscribe(() => {
-      this.updateGSTNumberValidators();
+      if (!this.updatingGSTNumber) {
+        this.updateGSTNumberValidators();
+      }
     });
 
     this.form.get('companyname')?.valueChanges.subscribe(() => {
-      this.updateCompanyNameValidators();
+      if (!this.updatingCompanyName) {
+        this.updateCompanyNameValidators();
+      }
     });
   }
 
   private updateGSTNumberValidators(): void {
+    this.updatingGSTNumber = true;
+
     const gstNumberControl = this.form.get('gstnumber');
 
     if (gstNumberControl?.value) {
@@ -221,9 +228,13 @@ export class BookingSummaryComponent {
     }
 
     gstNumberControl?.updateValueAndValidity();
+    this.updatingGSTNumber = false;
+
   }
 
   private updateCompanyNameValidators(): void {
+    this.updatingCompanyName = true;
+
     const companyNameControl = this.form.get('companyname');
 
     if (companyNameControl?.value) {
@@ -235,6 +246,8 @@ export class BookingSummaryComponent {
     }
 
     companyNameControl?.updateValueAndValidity();
+    this.updatingCompanyName = false;
+
   }
 
   // Function to access form control
@@ -245,17 +258,11 @@ export class BookingSummaryComponent {
   ngOnInit(): void {
     this.envService.getEnvVars().subscribe(
       (envVars) => {
-        // console.log(envVars)
         this.billdeskkey = envVars.billdeskkey;
         this.billdesksecurityid = envVars.billdesksecurityid;
         this.billdeskmerchantid = envVars.billdeskmerchantid;
-        console.log(
-          this.billdeskkey,
-          this.billdesksecurityid,
-          this.billdeskmerchantid
-        );
+       
 
-        // console.log(this.billdeskkey,this.billdesksecurityid,this.billdeskmerchantid)
       },
       (error) => {
         console.error('Error fetching environment variables:', error);
@@ -383,7 +390,6 @@ export class BookingSummaryComponent {
         },
         error: (err) => {
           this.showLoader = false;
-          // console.error('Error:', err);
         },
       });
   }
@@ -664,7 +670,6 @@ export class BookingSummaryComponent {
           error: (err) => {
             
             this.showLoader = false;
-            console.error('Error:', err);
           },
         });
     }
@@ -678,7 +683,6 @@ export class BookingSummaryComponent {
     msg: string
   ): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    console.log('log messaeg is called')
     const body = {
       booking_id: booking_id,
       username: username,

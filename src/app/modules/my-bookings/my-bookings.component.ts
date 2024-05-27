@@ -51,7 +51,6 @@ export class MyBookingsComponent {
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details;
-          console.log(this.bookingData)
           this.showLoader = false;
           this.bookingData.forEach(item => {
             if (item.pay_trans_id) {
@@ -63,13 +62,11 @@ export class MyBookingsComponent {
             this.noBookings = true;
           }
 
-          console.log(this.bookingData)
          this.bookingData.sort((a, b) => {
           const dateA = new Date(a.reservation_date);
           const dateB = new Date(b.reservation_date);
           return dateB.getTime() - dateA.getTime();
         });
-          console.log(this.bookingData)
         },
         error: (err) => {
           this.noBookings = true;

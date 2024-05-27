@@ -92,7 +92,6 @@ export default async (req) => {
         method = "GET";
         break;
       case "room_list":
-        console.log(process.env.Account_Registration);
         apiUrl = `${zoho_api_uri}Rooms_List?publickey=${
           process.env.Rooms_List
         }&${queryParams.toString()}`;
@@ -148,7 +147,10 @@ export default async (req) => {
         const body = await req.text();
         const formData = new URLSearchParams(body);
         const msg = formData.get("msg");
-        output_msg = msg;
+        const booking_id = formData.get("booking_id")
+        const username = ''
+        const type = "response"
+        console.log(booking_id,msg)
         if (msg == null || msg == "" || msg == undefined) {
           return new Response(
             JSON.stringify({ error: "Missing required parameters for msg" }),
@@ -167,6 +169,10 @@ export default async (req) => {
         }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
           msgres[24].split("-")[1]
         }`;
+        method = "GET";
+        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${
+          booking_id}&username=${
+          username}&type=${type}&msg=${msg}`;
         method = "GET";
         break;
       case "booking_detail":
@@ -196,7 +202,6 @@ export default async (req) => {
           "username"
         ).toString()}&type=${queryParams.get("type").toString()}&msg=${queryParams.get("msg").toString()}`;
         method = "GET";
-        console.log(apiUrl)
 
         break;
 
@@ -221,7 +226,6 @@ export default async (req) => {
 
     const data = await response.json();
     if (apiType == "get_payment_response") {
-      console.log(data.result.status);
       if (data.code == 3000 && data.result.status == "success") {
         return new Response(null, {
           status: 302,
