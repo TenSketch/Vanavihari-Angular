@@ -76,7 +76,7 @@ export class BookingStatusComponent {
             let input_str = localStorage.getItem('input_str');
             let username = localStorage.getItem('userfullname');
             if (input_str && username) {
-              let modifiedString = input_str.replace(/\|/g, '$');
+              let modifiedString = input_str.replace(/\|/g, 'dollar');
 
               this.logMessage(    
                 response.result.booking_id,
@@ -90,7 +90,7 @@ export class BookingStatusComponent {
             let username = localStorage.getItem('userfullname');
 
             if (input_str && username) {
-              let modifiedString = input_str.replace(/\|/g, '$');
+              let modifiedString = input_str.replace(/\|/g, 'dollar');
 
               this.logMessage(
                 response.result.booking_id,
