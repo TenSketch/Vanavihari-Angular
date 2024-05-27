@@ -681,15 +681,18 @@ export class BookingSummaryComponent {
     username: string,
     type: string,
     msg: string
-  ): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const body = {
-      booking_id: booking_id,
-      username: username,
-      type: type,
-      msg: msg,
-    };
-    return this.http.post(this.api_url + '?api_type=logs', body, { headers });
+  )  {
+
+    console.log(type,+"out"+msg)
+    
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    // const body = {
+    //   booking_id: booking_id,
+    //   username: username,
+    //   type: type,
+    //   msg: msg,
+    // };
+    // return this.http.post(this.api_url + '?api_type=logs', body, { headers });
   }
 
   calculateDurationOfStay() {
