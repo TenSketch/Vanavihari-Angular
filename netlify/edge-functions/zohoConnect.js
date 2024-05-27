@@ -143,39 +143,59 @@ export default async (req) => {
         }&${queryParams.toString()}`;
         method = "GET";
         break;
-      case "get_payment_response":
-        const body = await req.text();
-        const formData = new URLSearchParams(body);
-        const msg = formData.get("msg");
-        const modifiedMsg = msg.replace(/\|/g, '$');
-
-        const booking_id = formData.get("booking_id")
-        const username = ''
-        const type = "response"
-        if (msg == null || msg == "" || msg == undefined) {
-          return new Response(
-            JSON.stringify({ error: "Missing required parameters for msg" }),
-            {
-              status: 400,
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-        }
-        const msgres = msg.split("|");
-        booking_id = msgres[1];
-        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
-          process.env.Update_Payment_Status
-        }&booking_id=${booking_id}&transaction_id=${
-          msgres[2]
-        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
-          msgres[24].split("-")[1]
-        }`;
-        method = "GET";
-        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${
-          booking_id}&username=${
-          username}&type=${type}&msg=${modifiedMsg}`;
-        method = "GET";
-        break;
+        case "get_payment_response":
+          const body = await req.text();
+          const formData = new URLSearchParams(body);
+          const msg = formData.get("msg");
+  
+          if (!msg) {
+            return new Response(
+              JSON.stringify({ error: "Missing required parameters for msg" }),
+              {
+                status: 400,
+                headers: { "Content-Type": "application/json" },
+              }
+            );
+          }
+  
+          const modifiedMsg = msg.replace(/\|/g, '$');
+          const msgres = modifiedMsg.split("$");
+          const booking_id = msgres[1];
+          
+          const updatePaymentStatusUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${process.env.Update_Payment_Status}&booking_id=${booking_id}&transaction_id=${msgres[2]}&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${msgres[24].split("-")[1]}`;
+          
+          const updatePaymentStatusResponse = await fetch(updatePaymentStatusUrl, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          });
+  
+          if (!updatePaymentStatusResponse.ok) {
+            throw new Error('Failed to update payment status');
+          }
+  
+          const insertLogUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${booking_id}&username=&type=response&msg=${modifiedMsg}`;
+          
+          const insertLogResponse = await fetch(insertLogUrl, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          });
+  
+          if (!insertLogResponse.ok) {
+            throw new Error('Failed to insert log');
+          }
+  
+          const data = await insertLogResponse.json();
+  
+          return new Response(JSON.stringify(data), {
+            headers: { "Content-Type": "application/json" },
+          });
+          break;
       case "booking_detail":
         apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${
           process.env.Reservation_Detail
