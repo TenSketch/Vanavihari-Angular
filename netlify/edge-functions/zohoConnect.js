@@ -145,34 +145,78 @@ export default async (req) => {
         method = "GET";
         break;
       case "get_payment_response":
-        const body = await req.text();
-        const formData = new URLSearchParams(body);
-        const msg = formData.get("msg");
-        if (msg == null || msg == "" || msg == undefined) {
-          return new Response(
-            JSON.stringify({ error: "Missing required parameters for msg" }),
-            {
-              status: 400,
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-        }
-        const msgres = msg.split("|");
-        booking_id = msgres[1];
-        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
-          process.env.Update_Payment_Status
-        }&booking_id=${booking_id}&transaction_id=${
-          msgres[2]
-        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
-          msgres[24].split("-")[1]
-        }`;
-        method = "GET";
-        break;
-      case "booking_detail":
-        apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${
-          process.env.Reservation_Detail
-        }&${queryParams.toString()}`;
-        method = "GET";
+        case "get_payment_response":
+          const body = await req.text();
+          const formData = new URLSearchParams(body);
+          const msg = formData.get("msg");
+          if (msg == null || msg == "" || msg == undefined) {
+              return new Response(
+                  JSON.stringify({ error: "Missing required parameters for msg" }),
+                  {
+                      status: 400,
+                      headers: { "Content-Type": "application/json" },
+                  }
+              );
+          }
+      
+          const msgres = msg.split("|");
+          const booking_id = msgres[1];
+      
+          // First API call to update payment status
+          let apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
+              process.env.Update_Payment_Status
+          }&booking_id=${booking_id}&transaction_id=${
+              msgres[2]
+          }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
+              msgres[24].split("-")[1]
+          }`;
+          let method = "GET";
+      
+          // Execute the first API call
+          const response1 = await fetch(apiUrl, {
+              method: method,
+              headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+              },
+          });
+      
+          const data1 = await response1.json();
+      
+          // Check if the first API call was successful
+          if (response1.ok) {
+              // Log the success of the first API call
+              console.log("Update_Payment_Status API call successful:", data1);
+      
+              // Prepare for the second API call to insert log
+              const modifiedMsg = msg.replace(/\|/g, '$');
+              apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${booking_id}&username=${''}&type=${''}&msg=${modifiedMsg}`;
+              method = "GET";
+      
+              // Execute the second API call
+              const response2 = await fetch(apiUrl, {
+                  method: method,
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Access-Control-Allow-Origin": "*",
+                  },
+              });
+      
+              const data2 = await response2.json();
+      
+              // Return the response of the second API call
+              return new Response(JSON.stringify(data2), {
+                  headers: { "Content-Type": "application/json" },
+              });
+          } else {
+              // Handle the failure of the first API call
+              console.error("Update_Payment_Status API call failed:", data1);
+              return new Response(JSON.stringify({ error: "Failed to update payment status" }), {
+                  status: 500,
+                  headers: { "Content-Type": "application/json" },
+              });
+          }
+      
         break;
       case "logs":
         if (
