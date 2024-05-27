@@ -144,7 +144,6 @@ export default async (req) => {
         }&${queryParams.toString()}`;
         method = "GET";
         break;
-      case "get_payment_response":
         case "get_payment_response":
           const body = await req.text();
           const formData = new URLSearchParams(body);
