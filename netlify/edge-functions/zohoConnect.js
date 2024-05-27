@@ -147,10 +147,11 @@ export default async (req) => {
         const body = await req.text();
         const formData = new URLSearchParams(body);
         const msg = formData.get("msg");
+        const modifiedMsg = msg.replace(/\|/g, '$');
+
         const booking_id = formData.get("booking_id")
         const username = ''
         const type = "response"
-        console.log(booking_id,msg)
         if (msg == null || msg == "" || msg == undefined) {
           return new Response(
             JSON.stringify({ error: "Missing required parameters for msg" }),
@@ -172,7 +173,7 @@ export default async (req) => {
         method = "GET";
         apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${
           booking_id}&username=${
-          username}&type=${type}&msg=${msg}`;
+          username}&type=${type}&msg=${modifiedMsg}`;
         method = "GET";
         break;
       case "booking_detail":
