@@ -1,3 +1,4 @@
+import { environment } from '@/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,7 +15,9 @@ export class ResetPasswordComponent {
   disableSubmit = false
   api_url:any 
 
-  constructor(private formBuilder: FormBuilder, private router:Router,    private http: HttpClient    ) {}
+  constructor(private formBuilder: FormBuilder, private router:Router,    private http: HttpClient    ) {
+    this.api_url = environment.API_URL
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
