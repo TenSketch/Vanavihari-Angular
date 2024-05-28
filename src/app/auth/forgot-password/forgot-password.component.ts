@@ -23,30 +23,32 @@ export class ForgotPasswordComponent {
   api_url: any;
   showLoader = false;
   client_key: any;
-  email_id:any;
-  userId:any
-  token:any
+  email_id: any;
+  userId: any;
+  token: any;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient,private route: ActivatedRoute,    private snackBar: MatSnackBar, private router:Router
-    ) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {
     this.api_url = environment.API_URL;
     this.client_key = '6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ';
-    this.route.queryParams.subscribe(queryParams => {
+    this.route.queryParams.subscribe((queryParams) => {
       this.email_id = queryParams['email'];
       console.log('Email:', this.email_id);
     });
 
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.userId = params['userid'];
       this.token = params['token'];
-      console.log(this.userId,this.token)
+      console.log(this.userId, this.token);
     });
   }
 
   ngOnInit() {
-    
-
-
     this.form = this.formBuilder.group(
       {
         password: [
@@ -60,14 +62,12 @@ export class ForgotPasswordComponent {
           ]),
         ],
         repeat_password: ['', Validators.compose([Validators.required])],
-        recaptcha: ['',Validators.required],
+        recaptcha: ['', Validators.required],
       },
       {
         validators: this.passwordMatchValidator,
       }
     );
-
-
   }
 
   togglePasswordVisibility(): void {
@@ -91,7 +91,7 @@ export class ForgotPasswordComponent {
   }
 
   onSubmit() {
-    this.showLoader = true
+    this.showLoader = true;
     let params = new HttpParams()
       .set('userid', this.userId)
       .set('token', this.token)
@@ -101,13 +101,14 @@ export class ForgotPasswordComponent {
       .get<any>(this.api_url + '?api_type=update_password', { params })
       .subscribe({
         next: (response) => {
-          this.showSnackBarAlert(response.result.msg)
-          this.showLoader = false
-          this.router.navigate(['/sign-in']);
-
+          this.showSnackBarAlert(response.result.status);
+          this.showLoader = false;
+          if (response.result.status == 'success') {
+            this.router.navigate(['/sign-in']);
+          }
         },
         error: (err) => {
-          this.showSnackBarAlert(err)
+          this.showSnackBarAlert(err);
           this.showLoader = false;
         },
       });
@@ -118,6 +119,5 @@ export class ForgotPasswordComponent {
       duration: 5000,
       horizontalPosition: 'right',
     });
-    
   }
 }
