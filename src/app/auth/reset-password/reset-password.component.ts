@@ -50,7 +50,8 @@ export class ResetPasswordComponent {
   }
 
   goToSignup(){
-    this.router.navigate(['/reset-password']);
+    console.log('clicked')
+    this.router.navigate(['/sign-up']);
 
   }
 
