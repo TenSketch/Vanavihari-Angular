@@ -84,6 +84,11 @@
                     <span *ngIf="form.controls.repeat_password.errors.passwordsNotMatch">Passwords do not match.</span>
                   </mat-error>
                 </mat-form-field>
+                <re-captcha
+                formControlName="recaptcha"
+                siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ
+              "
+              ></re-captcha>
                 <mat-checkbox [(ngModel)]="termsAccepted" [ngModelOptions]="{standalone: true}"
                   (change)="openTermsModal($event)" value="" color="primary" class="">I agree to the terms and
                   conditions</mat-checkbox>

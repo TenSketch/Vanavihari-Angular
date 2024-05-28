@@ -36,6 +36,7 @@ export class ResetPasswordComponent {
         next: (response) => {
           this.showLoader = false
            this.message=(response.result.msg)
+           console.log(this.message)
         },
         error: (err) => {
           this.showLoader = false;
@@ -49,6 +50,7 @@ export class ResetPasswordComponent {
   }
 
   goToSignup(){
+    this.router.navigate(['/reset-password']);
 
   }
 
