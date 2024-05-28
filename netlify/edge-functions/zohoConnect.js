@@ -92,7 +92,6 @@ export default async (req) => {
         method = "GET";
         break;
       case "room_list":
-        console.log(process.env.Account_Registration);
         apiUrl = `${zoho_api_uri}Rooms_List?publickey=${
           process.env.Rooms_List
         }&${queryParams.toString()}`;
@@ -190,16 +189,32 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${queryParams.get(
-          "booking_id"
-        ).toString()}&username=${queryParams.get(
-          "username"
-        ).toString()}&type=${queryParams.get("type").toString()}&msg=${queryParams.get("msg").toString()}`;
+        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${queryParams
+          .get("booking_id")
+          .toString()}&username=${queryParams
+          .get("username")
+          .toString()}&type=${queryParams
+          .get("type")
+          .toString()}&msg=${queryParams.get("msg").toString()}`;
         method = "GET";
-        console.log(apiUrl)
 
         break;
 
+      case "reset_password":
+        if (!queryParams.has("email_id")) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for logs" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+        apiUrl = `${zoho_api_uri}sendResetPasswordLink?publickey=FUtMQGpTzkWAC5qSJvytFRyJj&email_id=${queryParams.get(
+          "email_id"
+        )}`;
+        method = "GET";
+        break;
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
@@ -221,7 +236,6 @@ export default async (req) => {
 
     const data = await response.json();
     if (apiType == "get_payment_response") {
-      console.log(data.result.status);
       if (data.code == 3000 && data.result.status == "success") {
         return new Response(null, {
           status: 302,

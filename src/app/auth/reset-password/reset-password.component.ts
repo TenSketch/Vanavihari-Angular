@@ -1,3 +1,4 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,16 +12,29 @@ export class ResetPasswordComponent {
   form: FormGroup;
   showLoader=false;
   disableSubmit = false
-  constructor(private formBuilder: FormBuilder, private router:Router) {}
+  api_url:any 
+
+  constructor(private formBuilder: FormBuilder, private router:Router,    private http: HttpClient    ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email_address: ['', Validators.required],
+      email_address: ['', [Validators.required, Validators.email]],
     });
   }
 
   onSubmit(){
-
+      // console.log(this.form.value.email_address)
+      const params = new HttpParams().set('email_id', this.form.value.email_address ?? '');
+    this.http
+      .get<any>(this.api_url + '?api_type=reset_password', { params })
+      .subscribe({
+        next: (response) => {
+           console.log(response)
+        },
+        error: (err) => {
+          this.showLoader = false;
+        },
+      });
   }
 
   goToSignin(){

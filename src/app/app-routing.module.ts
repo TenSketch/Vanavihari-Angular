@@ -78,7 +78,7 @@ const routes: Routes = [
   { path: 'biodiversity-zone', component: BiodiversityZoneComponent },
   { path: 'food-menu', component: FoodMenuComponent },
   {
-    path: 'forgot-password',
+    path: 'forgot-password/:userid/:token',
     component: ForgotPasswordComponent,
   },
   {
