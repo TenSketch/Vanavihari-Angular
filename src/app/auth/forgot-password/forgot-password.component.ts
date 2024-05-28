@@ -60,7 +60,7 @@ export class ForgotPasswordComponent {
           ]),
         ],
         repeat_password: ['', Validators.compose([Validators.required])],
-        recaptcha: [''],
+        recaptcha: ['',Validators.required],
       },
       {
         validators: this.passwordMatchValidator,
@@ -101,25 +101,23 @@ export class ForgotPasswordComponent {
       .get<any>(this.api_url + '?api_type=update_password', { params })
       .subscribe({
         next: (response) => {
-          this.showSnackBarAlert(response.result.msg,true)
+          this.showSnackBarAlert(response.result.msg)
           this.showLoader = false
+          this.router.navigate(['/sign-in']);
+
         },
         error: (err) => {
-          this.showSnackBarAlert(err,false)
+          this.showSnackBarAlert(err)
           this.showLoader = false;
         },
       });
   }
 
-  showSnackBarAlert(msg = '', redirect:any) {
+  showSnackBarAlert(msg = '') {
     var snackBar = this.snackBar.open(msg, 'Close', {
       duration: 5000,
       horizontalPosition: 'right',
     });
-    if (redirect) {
-      snackBar.afterDismissed().subscribe(() => {
-        this.router.navigate(['/sign-in']);
-      });
-    }
+    
   }
 }
