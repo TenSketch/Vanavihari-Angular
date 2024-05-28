@@ -215,6 +215,27 @@ export default async (req) => {
         )}`;
         method = "GET";
         break;
+      case "update_password":
+        if (
+          !queryParams.has("userid") ||
+          !queryParams.has("token") ||
+          !queryParams.has("password")
+        ) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for logs" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+        apiUrl = `${zoho_api_uri}updatePassword?publickey=4ePXe7sFTYuwK4xEXrUaENMZh&userid=${queryParams.get(
+          "userid"
+        )}&token=${queryParams.get("token")}&password=${queryParams.get(
+          "password"
+        )}`;
+        method = "GET";
+        break;
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),

@@ -79,6 +79,8 @@ import { ConfirmationDialogComponent } from './modules/confirmation-dialog/confi
 import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+
 
 @NgModule({
   declarations: [
@@ -161,7 +163,8 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     RouterModule,
     SharedModule,
     ReactiveFormsModule,
-
+    RecaptchaModule,
+    RecaptchaFormsModule
 
   ],
   exports: [

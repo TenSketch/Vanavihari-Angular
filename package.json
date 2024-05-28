@@ -39,6 +39,7 @@
     "lightgallery": "^2.7.2",
     "lodash": "^4.17.21",
     "ng-gallery": "^11.0.0",
+    "ng-recaptcha": "^12.0.0",
     "querystring": "^0.2.1",
     "rxjs": "~7.8.0",
     "some-library": "^1.0.0",

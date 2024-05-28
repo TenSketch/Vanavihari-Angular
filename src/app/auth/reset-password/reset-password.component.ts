@@ -14,6 +14,7 @@ export class ResetPasswordComponent {
   showLoader=false;
   disableSubmit = false
   api_url:any 
+  message=''
 
   constructor(private formBuilder: FormBuilder, private router:Router,    private http: HttpClient    ) {
     this.api_url = environment.API_URL
@@ -26,13 +27,15 @@ export class ResetPasswordComponent {
   }
 
   onSubmit(){
+    this.showLoader = true
       // console.log(this.form.value.email_address)
       const params = new HttpParams().set('email_id', this.form.value.email_address ?? '');
     this.http
       .get<any>(this.api_url + '?api_type=reset_password', { params })
       .subscribe({
         next: (response) => {
-           console.log(response)
+          this.showLoader = false
+           this.message=(response.result.msg)
         },
         error: (err) => {
           this.showLoader = false;
