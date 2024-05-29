@@ -616,9 +616,7 @@ export class TestRoomComponent {
                 isExtraGuestChecked: false,
               };
             });
-            console.log(this.roomData)
             this.roomData = this.filterRoomData(this.roomData)
-            console.log(this.roomData)
 
             this.loadingRooms = false;
 
@@ -971,7 +969,6 @@ export class TestRoomComponent {
     this.removeExtraGuestCharge = false;
     this.extraGuestsIds.push(roomId);
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-    console.log(this.roomIds.length)
     this.calculatePayablePrice();
   }
 
@@ -987,7 +984,6 @@ export class TestRoomComponent {
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
     
     this.removeExtraGuestCharge = true;
-    console.log(this.roomIds.length)
     this.calculatePayablePrice();
   }
 

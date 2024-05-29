@@ -683,7 +683,6 @@ export class BookingSummaryComponent {
     msg: string
   )  {
 
-    console.log(type,+"out"+msg)
     
     // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // const body = {
