@@ -576,8 +576,8 @@ export class BookingSummaryComponent {
               const SecurityId = this.billdesksecurityid;
               const txtCustomerID = 'BK986239234';
               const secretKey = this.billdeskkey;
-              // const amount = this.calculateGrandTotal();
-              const amount = '1.00';
+              const amount = this.calculateGrandTotal();
+              // const amount = '1.00';
               const rU = this.api_url + '?api_type=get_payment_response';
 
               const str =
