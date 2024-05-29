@@ -698,7 +698,7 @@ export class RoomsComponent implements OnInit {
   filterRoomData(roomData: any[]): any[] {
       const result = [];
       for (const room of roomData) {
-        if (room.name !== 'Test1' && room.name !== 'Test2') {
+        if (room.Room_Name !== 'Test1' && room.Room_Name !== 'Test2') {
           result.push(room);
         }
       }
