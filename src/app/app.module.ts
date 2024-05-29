@@ -80,6 +80,7 @@ import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { TestRoomComponent } from './modules/test-room/test-room.component';
 
 
 @NgModule({
@@ -116,7 +117,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
     ConfirmationDialogComponent,
     FoodMenuComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    TestRoomComponent
 
   ],
   imports: [

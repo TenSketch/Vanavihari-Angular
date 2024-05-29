@@ -29,6 +29,7 @@ import { FoodMenuComponent } from './modules/food-menu/food-menu.component';
 import { CanDeactivateGuard } from './can-deactivate-guard.service';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { TestRoomComponent } from './modules/test-room/test-room.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -77,6 +78,9 @@ const routes: Routes = [
   { path: 'booking-status-test', component: BookingStatusTestComponent },
   { path: 'biodiversity-zone', component: BiodiversityZoneComponent },
   { path: 'food-menu', component: FoodMenuComponent },
+  {
+    path: 'resorts/test-rooms', component: TestRoomComponent
+  },
   {
     path: 'forgot-password/:userid/:token',
     component: ForgotPasswordComponent,

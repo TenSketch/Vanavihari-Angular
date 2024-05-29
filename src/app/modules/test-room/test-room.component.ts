@@ -10,19 +10,17 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { AuthService } from '../../../auth.service';
 import { filter, Subscription } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { RoomsComponent } from '../rooms/rooms.component';
 // import { UserService } from '../../user.service';
-import { SharedService } from '../../../shared.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 
-import * as data from '../../../../assets/json/rooms.json';
+import * as data from '../../../assets/json/rooms.json';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { UserService } from 'src/app/user.service';
@@ -36,6 +34,8 @@ import {
   ThumbnailsPosition,
 } from 'ng-gallery';
 import { environment } from '@/environments/environment';
+import { AuthService } from '@/app/auth.service';
+import { SharedService } from '@/app/shared.service';
 
 interface Room {
   //roomId:string;
@@ -71,13 +71,12 @@ interface RoomData {
   isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
   // Add more properties as needed
 }
-
 @Component({
-  selector: 'app-rooms',
-  templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.scss'],
+  selector: 'app-test-room',
+  templateUrl: './test-room.component.html',
+  styleUrls: ['./test-room.component.scss']
 })
-export class RoomsComponent implements OnInit {
+export class TestRoomComponent {
   @ViewChild('guestSelect') guestSelect: MatSelect;
   isRoomDataEmpty = false;
 
@@ -698,7 +697,7 @@ export class RoomsComponent implements OnInit {
   filterRoomData(roomData: any[]): any[] {
       const result = [];
       for (const room of roomData) {
-        if (room.name !== 'Test1' && room.name !== 'Test2') {
+        if (room.name == 'Test1' && room.name == 'Test2') {
           result.push(room);
         }
       }
