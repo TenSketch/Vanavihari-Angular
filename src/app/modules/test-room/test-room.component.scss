@@ -1,0 +1,246 @@
+@use "/src/scss/base/" as *;
+
+.page-banner {
+  background-image: url("/assets/img/home-gallery/vanavihari-home-gallery-1.jpg");
+}
+
+.breadcrumb {
+  padding: 10px;
+  background-color: #f8f9fa;
+  // margin-bottom: 20px;
+}
+
+#filterCottage {
+  // background-color: #f8f9fa;
+  background-color: $clr-primary-lighter;
+
+  // margin-bottom: 20px;
+  width: 100vw;
+  // height: 100vh;
+  position: fixed;
+  top: $nav-bar-height;
+  right: -100vw;
+  transition: right 0.3s ease;
+  visibility: hidden;
+
+  // overflow-y: auto; 
+  &.active {
+    right: 0;
+    visibility: visible;
+    z-index: 1000000;
+    transition: right 0.3s ease;
+    box-shadow: 0 1px 8px 1px hsla(0, 0%, 20%, 0.639)
+
+  }
+}
+
+
+@media(min-width: 991px) {
+  #filterCottage {
+    width: auto;
+    height: auto;
+    position: static;
+    right: auto;
+    visibility: visible;
+  }
+}
+
+.card {
+  margin-bottom: 20px;
+  // padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+aside {
+  position: sticky;
+  background-color: $clr-primary-lighter;
+  padding-bottom: 1rem;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  top: $nav-bar-height;
+
+  @media (min-width: 991px) {
+    overflow-y: auto;
+    bottom: 0;
+    height: 90vh;
+    padding: 20px;
+    z-index: unset;
+  }
+
+  .booking-summary-bar {
+    &--title {
+      // color: red;
+      position: relative;
+
+      &::after {
+        position: absolute;
+        content: "\f0f3";
+        font-family: "Font Awesome 6 Free";
+        font-size: 18px;
+        color: red;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -22%;
+      }
+    }
+  }
+}
+
+main {
+  &.rooms-listing {
+    @media (min-width: 768px) {}
+  }
+}
+
+pre {
+  color: red;
+}
+
+.accordion-body {
+  height: 50dvh;
+  overflow-y: scroll;
+}
+
+.policy-section {
+  background: hsl(90, 100%, 85%);
+  // padding: 20px;
+  margin: 20px 0px;
+}
+
+// .custom-h4 {
+//   padding-left: 10px;
+// }
+
+/* room card gallery scss */
+
+.containerg {
+  // width: min(991px, 80%);
+  position: relative;
+
+  .card-containerg {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    align-items: center;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      flex: 1 0 auto;
+      // margin: 10px;
+      border: 0;
+      box-shadow: unset;
+      padding-left: 0;
+
+      img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  .scroll-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    color: yellow;
+
+    &.left {
+      left: 10px;
+    }
+
+    &.right {
+      right: 0;
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &.left {
+      left: 1%;
+    }
+
+    &.right {
+      right: 1%;
+    }
+  }
+}
+
+.full-image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.full-image-container {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.full-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+.overlay-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.download-button,
+.close-button {
+  background-color: #ffffff;
+  color: #333333;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.download-button:hover,
+.close-button:hover {
+  background-color: #f0f0f0;
+}
+
+
+// .star-rating {
+//   display: inline-block;
+//   font-size: 1.5rem;
+//   color: #ffd700;
+
+//   &::before {
+//     content: "\2605\2605\2605\2605";
+//   }
+
+//   &::after {
+//     content: "\2606";
+//     margin-left: 3px;
+//   }
+// }
