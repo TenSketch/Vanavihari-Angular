@@ -982,9 +982,9 @@ export class RoomsComponent implements OnInit {
     let totalExtraGuests = extraGuests?.length;
     let resortName = this.authService.getSearchData('resort');
     if (resortName == 'Vanavihari, Maredumilli') {
-      totalExtraGuestCharges = totalExtraGuests * 500;
+      totalExtraGuestCharges = totalExtraGuests * 500 *this.calculateDurationOfStay();
     } else {
-      totalExtraGuestCharges = totalExtraGuests * 1500;
+      totalExtraGuestCharges = totalExtraGuests * 1500 *this.calculateDurationOfStay();
     }
     return totalExtraGuestCharges;
   }
