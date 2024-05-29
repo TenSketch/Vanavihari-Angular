@@ -697,7 +697,7 @@ export class TestRoomComponent {
   filterRoomData(roomData: any[]): any[] {
       const result = [];
       for (const room of roomData) {
-        if (room.Room_Name == 'Test1' && room.Room_Name == 'Test2') {
+        if (room.Room_Name == 'Test1' || room.Room_Name == 'Test2') {
           result.push(room);
         }
       }
