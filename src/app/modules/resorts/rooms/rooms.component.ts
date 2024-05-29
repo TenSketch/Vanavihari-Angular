@@ -69,7 +69,6 @@ interface RoomData {
   Room_Name: string;
   is_button_disabled: boolean;
   isExtraGuestChecked: boolean; // or whatever the type of isExtraGuestChecked is
-
   // Add more properties as needed
 }
 
@@ -83,7 +82,7 @@ export class RoomsComponent implements OnInit {
   isRoomDataEmpty = false;
 
   previousFilteredRoomData: any[] = []; // Store the previous filtered data
-
+  
   currentImage: string | null = null;
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
@@ -93,10 +92,11 @@ export class RoomsComponent implements OnInit {
   // imageFilenames2: string[] = [];
   noof_guests: any = 0;
   isWeekend: boolean = false; // Variable to determine if it's a weekend
-
+  
   searchResortData: any;
   api_url:any
-
+  extraGuestNumber :any
+  
   resorts: any = {
     'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
@@ -788,7 +788,7 @@ export class RoomsComponent implements OnInit {
       return (totalPrice += this.calculateExtraGuestCharges());
     }
     if (this.removeExtraGuestCharge) {
-      return (totalPrice -= this.calculateExtraGuestCharges());
+      return (totalPrice += this.calculateExtraGuestCharges());
     }
 
     totalPrice = totalPrice
@@ -957,7 +957,7 @@ export class RoomsComponent implements OnInit {
     this.removeExtraGuestCharge = false;
     this.extraGuestsIds.push(roomId);
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-
+    console.log(this.roomIds.length)
     this.calculatePayablePrice();
   }
 
@@ -965,14 +965,15 @@ export class RoomsComponent implements OnInit {
     this.addExtraGuestCharge = false;
     this.isAddedExtraGuest = false;
     const indexToRemove = this.extraGuestsIds.indexOf(roomId);
-
+    
     if (indexToRemove !== -1) {
       this.extraGuestsIds.splice(indexToRemove, 1);
     }
-
+    
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-
+    
     this.removeExtraGuestCharge = true;
+    console.log(this.roomIds.length)
     this.calculatePayablePrice();
   }
 
@@ -980,11 +981,12 @@ export class RoomsComponent implements OnInit {
     let totalExtraGuestCharges = 0;
     let extraGuests = this.authService.getExtraGuests(this.extraGuestsType);
     let totalExtraGuests = extraGuests?.length;
+    this.extraGuestNumber = extraGuests?.length;
     let resortName = this.authService.getSearchData('resort');
     if (resortName == 'Vanavihari, Maredumilli') {
-      totalExtraGuestCharges = totalExtraGuests * 500 *this.calculateDurationOfStay();
+      totalExtraGuestCharges = totalExtraGuests * 500;
     } else {
-      totalExtraGuestCharges = totalExtraGuests * 1500 *this.calculateDurationOfStay();
+      totalExtraGuestCharges = totalExtraGuests * 1500;
     }
     return totalExtraGuestCharges;
   }
