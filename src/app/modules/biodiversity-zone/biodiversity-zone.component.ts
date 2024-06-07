@@ -56,18 +56,30 @@ export class BiodiversityZoneComponent {
   ngOnInit() {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
     localStorage.setItem('booking_rooms', JSON.stringify([]));
+  
+  }
+
+  generateFilenames(prefix: string, count: number): string[] {
+    const filenames = [];
+    for (let i = 1; i <= count; i++) {
+      filenames.push(`assets/images/Bio Diversity Zone/${prefix}${i}.jpg`);
+    }
+    return filenames;
+  }
+
+  setImages(){
     const lightboxRef = this.gallery.ref('lightbox');
-    if (this.resortTypeId === 'animals') {
+    if (this.resortTypeId == 'animals') {
       this.items = this.animalsFilenames.map(
         (item) => new ImageItem({ src: item, thumb: item })
       );
     }
-    if ((this.resortTypeId = 'birds')) {
+    if ((this.resortTypeId == 'birds')) {
       this.items = this.birdsFilenames.map(
         (item) => new ImageItem({ src: item, thumb: item })
       );
     }
-    if ((this.resortTypeId = 'trees')) {
+    if ((this.resortTypeId == 'trees')) {
       this.items = this.treesFilenames.map(
         (item) => new ImageItem({ src: item, thumb: item })
       );
@@ -82,18 +94,9 @@ export class BiodiversityZoneComponent {
     lightboxRef.setConfig(lightboxConfig);
     lightboxRef.load(this.items);
   }
-
-  generateFilenames(prefix: string, count: number): string[] {
-    const filenames = [];
-    for (let i = 1; i <= count; i++) {
-      filenames.push(`assets/images/Bio Diversity Zone/${prefix}${i}.jpg`);
-    }
-    return filenames;
-  }
-
   openLightbox(index: number, id: string) {
     this.resortTypeId = id;
-    this.ngOnInit();
+    this.setImages();
     // this.lightbox.setConfig({
     //   closeIcon: `<img src="assets/images/icons/close.png">    `,
     // });
