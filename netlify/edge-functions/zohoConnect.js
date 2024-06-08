@@ -147,6 +147,8 @@ export default async (req) => {
           const body = await req.text();
           const formData = new URLSearchParams(body);
           const msg = formData.get("msg");
+          msg = msg.replace(/\$/g, 'dollar');
+
           output_msg = msg;
       
           if (msg == null || msg == "" || msg == undefined) {
