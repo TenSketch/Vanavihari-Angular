@@ -189,22 +189,20 @@ export default async (req) => {
       
           const insertLogResponse = await fetch(insertLogUrl, { method: "GET" });
           if (!insertLogResponse.ok) {
-            return new Response(
-              JSON.stringify({ error: "Failed to insert log" }),
-              {
-                status: insertLogResponse.status,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
+            return new Response(null, {
+              status: 302,
+              headers: {
+                Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+              },
+            });
           }
       
-          // return new Response(
-          //   JSON.stringify({ success: "Payment status updated and log inserted" }),
-          //   {
-          //     status: 200,
-          //     headers: { "Content-Type": "application/json" },
-          //   }
-          // );
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+            },
+          });
       
           break;
        case "booking_detail":
