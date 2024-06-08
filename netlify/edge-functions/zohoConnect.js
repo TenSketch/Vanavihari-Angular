@@ -198,13 +198,13 @@ export default async (req) => {
             );
           }
       
-          return new Response(
-            JSON.stringify({ success: "Payment status updated and log inserted" }),
-            {
-              status: 200,
-              headers: { "Content-Type": "application/json" },
-            }
-          );
+          // return new Response(
+          //   JSON.stringify({ success: "Payment status updated and log inserted" }),
+          //   {
+          //     status: 200,
+          //     headers: { "Content-Type": "application/json" },
+          //   }
+          // );
       
           break;
        case "booking_detail":
