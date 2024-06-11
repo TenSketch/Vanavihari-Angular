@@ -1,4 +1,4 @@
-eexport default async (req) => {
+export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   let output_msg;
   const api_key = process.env.Billdesk_SecretKey;
@@ -143,71 +143,32 @@ eexport default async (req) => {
         }&${queryParams.toString()}`;
         method = "GET";
         break;
-        case "get_payment_response":
-          const body = await req.text();
-          const formData = new URLSearchParams(body);
-          
-          const msg = formData.get("msg");
-          
-          output_msg = msg;
-      
-          if (msg == null || msg == "" || msg == undefined) {
-            return new Response(
-              JSON.stringify({ error: "Missing required parameters for msg" }),
-              {
-                status: 400,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-          }
-      
-          const msgres = msg.split("|");
-          const booking_id = msgres[1];
-      
-          const updatePaymentUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
-            process.env.Update_Payment_Status
-          }&booking_id=${booking_id}&transaction_id=${
-            msgres[2]
-          }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
-            msgres[24].split("-")[1]
-          }`;
-      
-          // First API call
-          const updatePaymentResponse = await fetch(updatePaymentUrl, { method: "GET" });
-          if (!updatePaymentResponse.ok) {
-            return new Response(
-              JSON.stringify({ error: "Failed to update payment status" }),
-              {
-                status: updatePaymentResponse.status,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-          }
-      
-          // Second API call
-          const insertLogUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${
-            booking_id
-          }&username=user&type=response&msg=${msg.replace(/\|/g, 'dollar')}`;
-      
-          const insertLogResponse = await fetch(insertLogUrl, { method: "GET" });
-          if (!insertLogResponse.ok) {
-            return new Response(null, {
-              status: 302,
-              headers: {
-                Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
-              },
-            });
-          }
-      
-          return new Response(null, {
-            status: 302,
-            headers: {
-              Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
-            },
-          });
-      
-          break;
-       case "booking_detail":
+      case "get_payment_response":
+        const body = await req.text();
+        const formData = new URLSearchParams(body);
+        const msg = formData.get("msg");
+        output_msg = msg;
+        if (msg == null || msg == "" || msg == undefined) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for msg" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+        const msgres = msg.split("|");
+        booking_id = msgres[1];
+        apiUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
+          process.env.Update_Payment_Status
+        }&booking_id=${booking_id}&transaction_id=${
+          msgres[2]
+        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
+          msgres[24].split("-")[1]
+        }`;
+        method = "GET";
+        break;
+      case "booking_detail":
         apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${
           process.env.Reservation_Detail
         }&${queryParams.toString()}`;
