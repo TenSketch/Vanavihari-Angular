@@ -30,6 +30,8 @@ import { CanDeactivateGuard } from './can-deactivate-guard.service';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { TestRoomComponent } from './modules/test-room/test-room.component';
+import { CancelRequestComponent } from './modules/cancel-request/cancel-request.component';
+import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -88,6 +90,14 @@ const routes: Routes = [
   {
     path:'reset-password',
     component: ResetPasswordComponent,
+  },
+  {
+    path:'cancel-request',
+    component: CancelRequestComponent,
+  },
+  {
+    path:'test-bookings',
+    component: TestBookingsComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },

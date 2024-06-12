@@ -1,0 +1,125 @@
+<app-layout>
+  <div class="main text-center justify-content-center">
+    <div class="cancellation-container">
+      <h1 class="title">Cancellation Request</h1>
+      <mat-icon class="icon">warning</mat-icon>
+
+      <form [formGroup]="form" (ngSubmit)="submitCancellation()">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Reason for cancellation</mat-label>
+            <mat-select formControlName="reason" required>
+              <mat-option *ngFor="let reason of reasons" [value]="reason">{{
+                reason
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-label class="float-start">Please provide more details</mat-label>
+          <mat-form-field appearance="outline" class="full-width">
+            <textarea
+              matInput
+              formControlName="details"
+              rows="4"
+              class="outlined-textarea"
+              required
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <label class="float-start">Complete the captcha to proceed</label>
+          <re-captcha
+            class="mb-2"
+            (resolved)="resolvedCaptcha($event)"
+            siteKey="YOUR_SITE_KEY"
+          ></re-captcha>
+        </div>
+
+        <div class="actions">
+          <button
+            mat-button
+            color="warn"
+            type="submit"
+            (click)="triggerModal()"
+            class="submit-button"
+          >
+            Submit
+          </button>
+          <button
+            mat-button
+            type="button"
+            (click)="goBack()"
+            mat-raised-button color="primary"          >
+            Go Back
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-layout>
+<div class="modal" tabindex="-1" *ngIf="isModalVisible" style="display: block">
+  <div class="modal-overlay" [ngClass]="{ 'dark-overlay': isDarkMode }"></div>
+  <!-- Light/Dark overlay -->
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> Are you sure you want to cancel?         </h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="cancelTriggerModal()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>Please review our refund policy</p>
+        <table class="table table-hover mt-3">
+          <thead>
+            <tr>
+              <th>Cancellation Timeframe</th>
+              <th>Refund Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>48 to 72 hours prior</td>
+              <td>90%</td>
+            </tr>
+            <tr>
+              <td>24 to 48 hours prior</td>
+              <td>80%</td>
+            </tr>
+            <tr>
+              <td>Within 24 hours</td>
+              <td>No refund</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="modal-footer d-flex justify-content-between"
+      >
+        <button
+          type="button"
+          class="submit-button p-2"
+
+          (click)="confirmCancellation()"
+        >
+          Confirm Cancel
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="cancelTriggerModal()"
+          class="p-1"
+        >
+          Don't cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

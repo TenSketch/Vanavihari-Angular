@@ -1,10 +1,16 @@
 <app-layout>
   <div class="main">
+    <!-- Button trigger modal -->
+
+
+
     <app-loader *ngIf="showLoader"></app-loader>
     <section class="mt-3 pt-5">
       <div class="container text-center d-grid place-items-center" style="min-height: 20vh;"
         *ngIf="noBookings">
         <h2 class="text-secondary">{{ message }}</h2>
+        <!-- <button class="btn mt-2 btn-outline-danger" (click)="InitiateCancel()" >Cancel Booking</button> -->
+
       </div>
       <div class="container" *ngIf="!noBookings">
         <h1 class="text-center mb-3 mt-4">My Bookings</h1>
@@ -82,7 +88,7 @@
               Call Support
             </button>
 
-            <button class="btn mt-2 d-none" [disabled]="true">Cancel</button>
+            <button class="btn mt-2 btn-outline-danger" (click)="InitiateCancel(item)" >Cancel Booking</button>
 
             <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
               Add Review

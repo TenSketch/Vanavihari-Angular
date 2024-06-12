@@ -1,18 +1,17 @@
-import { Component, Renderer2 } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { UserService } from '../../user.service';
-import { GalleryService } from '@/app/gallery.service';
 import { AuthService } from '@/app/auth.service';
-import {  SafeUrl } from '@angular/platform-browser';
+import { GalleryService } from '@/app/gallery.service';
+import { UserService } from '@/app/user.service';
 import { environment } from '@/environments/environment';
-import { Router } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, Renderer2 } from '@angular/core';
+import { HmacSHA256 } from 'crypto-js';
 
 @Component({
-  selector: 'app-my-bookings',
-  templateUrl: './my-bookings.component.html',
-  styleUrls: ['./my-bookings.component.scss'],
+  selector: 'app-test-bookings',
+  templateUrl: './test-bookings.component.html',
+  styleUrls: ['./test-bookings.component.scss']
 })
-export class MyBookingsComponent {
+export class TestBookingsComponent {
   bookingData: any[] = [];
   successData: any[] = [];
   message: any;
@@ -24,9 +23,7 @@ export class MyBookingsComponent {
   // pdfUrl: any;
   showPdfViewer: boolean = false;
   api_url:any
-  confirmCancel = false
   pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
-  cancellationReason: string = '';
 
   constructor(
     private authService: AuthService,
@@ -34,11 +31,9 @@ export class MyBookingsComponent {
     private http: HttpClient,
     private userService: UserService,
     private galleryService: GalleryService,
-    private router:Router
   ) {
     this.api_url = environment.API_URL
   }
-
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
@@ -81,17 +76,6 @@ export class MyBookingsComponent {
       });
   }
 
-  
-
-  confirmCancelAction(){
-    this.confirmCancel = true
-  }
-
-  // initializing cancel request.
-
-  submitCancellationRequest(){
-      console.log(this.cancellationReason)
-  }
 
   // Function to download PDF
   downloadPdf() {
@@ -111,6 +95,84 @@ export class MyBookingsComponent {
           }
     window.location.href = 'tel:' + this.resortNumber;
   }
+
+
+
+
+  refundTest() {
+    
+    
+
+    
+    const bookingId = 'BVV2406127';
+    const MerchantId = 'VANAVIHARI';
+    const CurrencyType = 'INR';
+    const SecurityId = 'vanavihari';
+    const txtCustomerID = 'BK986239234';
+    const secretKey = 'rmvlozE7R4v9';
+    const amount = '10.00';
+    const rU = this.api_url + '?api_type=get_payment_response';
+
+    const str = '0400'+
+    '|'+
+    MerchantId+
+    '|'+
+    'ZHD52065322042'+
+    '|'+
+    '20240612'+
+    '|'+
+    txtCustomerID+
+    '|'+
+    '12.00'+
+    '|'+
+    '12.00'+
+    '|'+
+    '20240612141615'+
+    '|'+
+    '12121212'+
+    '|'+
+    'NA|NA|NA';
+
+    const hmac = HmacSHA256(str, secretKey);
+    const checksum = hmac.toString().toUpperCase();
+    const msg = `${str}|${checksum}`;
+    alert(msg);
+    
+    let pg_params = new HttpParams()
+      .set('MerchantId', MerchantId)
+      .set('CurrencyType', CurrencyType)
+      .set('SecurityId', SecurityId)
+      .set('txtCustomerID', txtCustomerID)
+      .set('txtTxnAmount', amount)
+      .set('txtAdditionalInfo1', 'MMILLI') // Sub Biller id
+      .set('txtAdditionalInfo2', bookingId)
+      .set('txtAdditionalInfo3', "Venkat")
+      .set('txtAdditionalInfo4', '918056562076')
+      .set('RU', rU)
+      .set('CheckSumKey', secretKey)
+      .set('CheckSum', checksum)
+      .set('msg', msg);
+
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = 'https://pgi.billdesk.com/pgidsk/PGIRefundController';
+    pg_params.keys().forEach((key) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      const value = pg_params.get(key) || '';
+      input.value = value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+
+
+
+
+  }
+
+
 
   getRoomImages(roomname: any): string[] {
     const lowercaseRoomName = roomname.toLowerCase();
@@ -277,10 +339,5 @@ export class MyBookingsComponent {
     // setTimeout(() => {
     //    this.loadingRooms = false;
     // }, 2000);
-  }
-
-  InitiateCancel(item:any){
-    console.log(item)
-    this.router.navigateByUrl('cancel-request');
   }
 }
