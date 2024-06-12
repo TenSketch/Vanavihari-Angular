@@ -1,4 +1,4 @@
-eexport default async (req) => {
+export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   let output_msg;
   const api_key = process.env.Billdesk_SecretKey;
