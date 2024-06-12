@@ -308,6 +308,7 @@ export class BookingSummaryComponent {
     this.getUserDetails();
   }
 
+  
   isCompanyNameValidationRequired(): boolean {
     // Add your condition to determine whether company name validation is required or not
     // For example, you can return true or false based on certain criteria
@@ -578,7 +579,7 @@ export class BookingSummaryComponent {
               const secretKey = this.billdeskkey;
               const amount = this.calculateGrandTotal();
               // const amount = '1.00';
-              const rU = this.api_url + '?api_type=get_payment_response';
+              const rU = this.api_url + '?api_type =get_payment_response';
 
               const str =
                 MerchantId +

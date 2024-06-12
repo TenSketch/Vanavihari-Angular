@@ -82,7 +82,7 @@ export class RoomsComponent implements OnInit {
   isRoomDataEmpty = false;
 
   previousFilteredRoomData: any[] = []; // Store the previous filtered data
-  
+
   currentImage: string | null = null;
   imageFilenames: string[] = [];
   fullImageSrc: string | null = null;
@@ -92,11 +92,11 @@ export class RoomsComponent implements OnInit {
   // imageFilenames2: string[] = [];
   noof_guests: any = 0;
   isWeekend: boolean = false; // Variable to determine if it's a weekend
-  
+
   searchResortData: any;
-  api_url:any
-  extraGuestNumber :any
-  
+  api_url: any;
+  extraGuestNumber: any;
+
   resorts: any = {
     'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
@@ -140,7 +140,7 @@ export class RoomsComponent implements OnInit {
   showLoader = false;
   isSelectionSwitched = false;
   isFilterOpen: boolean = false;
-  datesSelected = false
+  datesSelected = false;
   @HostBinding('class.sticky')
   get stickyClass() {
     return this.isMobile;
@@ -160,17 +160,17 @@ export class RoomsComponent implements OnInit {
 
   vanavihariOrder: any[] = [];
   junglestarOrder: any[] = [];
-  showMessage= false
+  showMessage = false;
 
   cottageTypes: { [key: string]: boolean } = {
-    'Bison Cottages':false,
-    'Vihari':false,
+    'Bison Cottages': false,
+    Vihari: false,
     'Deluxe Rooms': false,
     'Wooden Cottages': false,
     'Pre-Fabricated Cottages': false,
     'Hill Top Guest House': false,
     'Tented Cottage': false,
-    'Permanent Cottage':false
+    'Permanent Cottage': false,
   };
 
   constructor(
@@ -188,7 +188,7 @@ export class RoomsComponent implements OnInit {
     public gallery: Gallery
   ) {
     // this.authService.clearBookingRooms(this.bookingTypeResort);
-     this.api_url = environment.API_URL
+    this.api_url = environment.API_URL;
     // for navigation filter
     this.selectedResort = this.authService.getSearchData('resort');
     const storedObjectString = localStorage.getItem('summaryData');
@@ -205,12 +205,11 @@ export class RoomsComponent implements OnInit {
       this.checkoutDate = this.authService.getSearchData('checkout');
       this.isSelectionSwitched = true;
       // window.location.reload()
-      if(this.checkinDate && this.checkoutDate){
-        this.showMessage = false
-     }
-     else{
-       this.showMessage = true
-     }
+      if (this.checkinDate && this.checkoutDate) {
+        this.showMessage = false;
+      } else {
+        this.showMessage = true;
+      }
       this.fetchRoomList();
     });
     this.checkIfWeekend(); // Check if it's a weekend on component initialization
@@ -232,12 +231,11 @@ export class RoomsComponent implements OnInit {
     if (this.selectedResort && !this.isSelectionSwitched) {
       this.fetchRoomList();
     }
-    if(this.checkinDate && this.checkoutDate){
-      this.showMessage = false
-   }
-   else{
-     this.showMessage = true
-   }
+    if (this.checkinDate && this.checkoutDate) {
+      this.showMessage = false;
+    } else {
+      this.showMessage = true;
+    }
 
     // this.extraChildren = this.storedData?.extra_children;
     // this.noof_guests = this.storedData?.noof_guests?.length;
@@ -305,9 +303,8 @@ export class RoomsComponent implements OnInit {
 
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
-    }else
-    {
-      this.showBookingSummary =false;
+    } else {
+      this.showBookingSummary = false;
     }
   }
 
@@ -390,8 +387,8 @@ export class RoomsComponent implements OnInit {
         return this.galleryService.peacock();
       case 'redjunglefowl':
         return this.galleryService.redjunglefowl();
-        case 'red jungle fowl':
-          return this.galleryService.redjunglefowl();
+      case 'red jungle fowl':
+        return this.galleryService.redjunglefowl();
       case 'sambar':
         return this.galleryService.sambar();
       case 'sokuleru':
@@ -523,25 +520,29 @@ export class RoomsComponent implements OnInit {
   }
 
   filterByPrice(): void {
-   
-
     if (this.selectedSortOption === 'lowToHigh') {
-      this.filteredRoomData.sort((a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) => a.Week_Days_Rate - b.Week_Days_Rate);
+      this.filteredRoomData.sort(
+        (a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) =>
+          a.Week_Days_Rate - b.Week_Days_Rate
+      );
     } else if (this.selectedSortOption === 'highToLow') {
-      this.filteredRoomData.sort((a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) => b.Week_Days_Rate - a.Week_Days_Rate);
-    }
-
-  }
-
-  filterRoomsByCottageType(){
-    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(key => this.cottageTypes[key]);
-    if (selectedCottageTypes.length > 0 && selectedCottageTypes.length <2) {
-      this.filteredRoomData = this.filteredRoomData.filter(
-        (room: { Cottage_Type: string }) => selectedCottageTypes.includes(room.Cottage_Type)
+      this.filteredRoomData.sort(
+        (a: { Week_Days_Rate: number }, b: { Week_Days_Rate: number }) =>
+          b.Week_Days_Rate - a.Week_Days_Rate
       );
     }
+  }
 
-   
+  filterRoomsByCottageType() {
+    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(
+      (key) => this.cottageTypes[key]
+    );
+    if (selectedCottageTypes.length > 0 && selectedCottageTypes.length < 2) {
+      this.filteredRoomData = this.filteredRoomData.filter(
+        (room: { Cottage_Type: string }) =>
+          selectedCottageTypes.includes(room.Cottage_Type)
+      );
+    }
 
     return this.filteredRoomData;
   }
@@ -551,13 +552,14 @@ export class RoomsComponent implements OnInit {
   }
 
   onCottageTypeChange(): void {
-    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(key => this.cottageTypes[key]);
+    const selectedCottageTypes = Object.keys(this.cottageTypes).filter(
+      (key) => this.cottageTypes[key]
+    );
     if (selectedCottageTypes.length == 0) {
       this.filteredRoomData = [...this.previousFilteredRoomData]; // Restore the previous state
     } else {
       this.filteredRoomData = this.filterRoomsByCottageType();
-      if(this.filteredRoomData.length==0){
-        
+      if (this.filteredRoomData.length == 0) {
       }
     }
   }
@@ -589,9 +591,7 @@ export class RoomsComponent implements OnInit {
       this.datesSelected = true;
 
       this.http
-        .get<any>(
-          this.api_url+'?api_type=room_list' + perm
-        )
+        .get<any>(this.api_url + '?api_type=room_list' + perm)
         .subscribe({
           next: (response) => {
             this.showLoader = false;
@@ -617,47 +617,46 @@ export class RoomsComponent implements OnInit {
                 isExtraGuestChecked: false,
               };
             });
-            this.roomData = this.filterRoomData(this.roomData)
+            this.roomData = this.filterRoomData(this.roomData);
 
             this.loadingRooms = false;
 
             this.filteredRoomData = this.filterByResort(this.selectedResort);
 
-            
             const roomIndexMap = new Map<string, number>();
-            if(this.selectedResort == 'Jungle Star, Valamuru'){
+            if (this.selectedResort == 'Jungle Star, Valamuru') {
               this.junglestarOrder.forEach((roomName, index) => {
                 roomIndexMap.set(roomName, index);
               });
-
-            }
-            else{
+            } else {
               this.vanavihariOrder.forEach((roomName, index) => {
                 roomIndexMap.set(roomName, index);
               });
             }
 
-            this.filteredRoomData = this.filteredRoomData.sort((a:any, b:any) => {
-              const indexA = roomIndexMap.get(a.Room_Name);
-              const indexB = roomIndexMap.get(b.Room_Name);
-              
-              // If both Room_Names are in junglestarOrder, compare their indices
-              if (indexA !== undefined && indexB !== undefined) {
-                return indexA - indexB;
+            this.filteredRoomData = this.filteredRoomData.sort(
+              (a: any, b: any) => {
+                const indexA = roomIndexMap.get(a.Room_Name);
+                const indexB = roomIndexMap.get(b.Room_Name);
+
+                // If both Room_Names are in junglestarOrder, compare their indices
+                if (indexA !== undefined && indexB !== undefined) {
+                  return indexA - indexB;
+                }
+
+                // If one of the Room_Names is not in junglestarOrder, prioritize the one that is
+                if (indexA !== undefined) {
+                  return -1; // Place a before b
+                }
+                if (indexB !== undefined) {
+                  return 1; // Place b before a
+                }
+
+                // If neither Room_Name is in junglestarOrder, maintain the current order
+                return 0;
               }
-              
-              // If one of the Room_Names is not in junglestarOrder, prioritize the one that is
-              if (indexA !== undefined) {
-                return -1; // Place a before b
-              }
-              if (indexB !== undefined) {
-                return 1; // Place b before a
-              }
-              
-              // If neither Room_Name is in junglestarOrder, maintain the current order
-              return 0;
-            });
-           
+            );
+
             this.previousFilteredRoomData = [...this.filteredRoomData]; // Initial previous state
 
             if (this.roomData.length == 0) {
@@ -677,7 +676,7 @@ export class RoomsComponent implements OnInit {
           },
         });
     } else {
-      this.datesSelected = false
+      this.datesSelected = false;
       this.showLoader = false;
       this.loadingRooms = false;
 
@@ -688,20 +687,40 @@ export class RoomsComponent implements OnInit {
         } else {
           this.isRoomDataEmpty = false;
         }
-        this.filteredRoomData = this.filterByResort(this.selectedResort)
+        this.filteredRoomData = this.filterByResort(this.selectedResort);
       });
     }
   }
 
   filterRoomData(roomData: any[]): any[] {
-      const result = [];
-      for (const room of roomData) {
-        if (room.Room_Name !== 'Test1' && room.Room_Name !== 'Test2') {
-          result.push(room);
-        }
+    const result = [];
+    for (const room of roomData) {
+      if (
+        room.Room_Name !== 'Test1' &&
+        room.Room_Name !== 'Test2' &&
+        room.Room_Name !== 'Test3' &&
+        room.Room_Name !== 'Test4' &&
+        room.Room_Name !== 'Test5' &&
+        room.Room_Name !== 'Test6' &&
+        room.Room_Name !== 'Test7' &&
+        room.Room_Name !== 'Test8' &&
+        room.Room_Name !== 'Test9' &&
+        room.Room_Name !== 'Test10' &&
+        room.Room_Name !== 'Test11' &&
+        room.Room_Name !== 'Test12' &&
+        room.Room_Name !== 'Test13' &&
+        room.Room_Name !== 'Test14' &&
+        room.Room_Name !== 'Test15' &&
+        room.Room_Name !== 'Test16' &&
+        room.Room_Name !== 'Test17' &&
+        room.Room_Name !== 'Test18' &&
+        room.Room_Name !== 'Test18' &&
+        room.Room_Name !== 'Test20'
+      ) {
+        result.push(room);
       }
-      return result;
-    
+    }
+    return result;
   }
 
   isAnyRoomChecked(): boolean {
@@ -766,7 +785,7 @@ export class RoomsComponent implements OnInit {
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
     if (this.roomIds.length > 0) {
       this.showBookingSummary = true;
-    }else{
+    } else {
       this.showBookingSummary = false;
     }
 
@@ -785,9 +804,9 @@ export class RoomsComponent implements OnInit {
         (room: { Room_Id: any }) => room.Room_Id === roomId
       );
 
-      if(room){
-        const rate = parseFloat(room.Week_Days_Rate)
-        totalPrice = this.getRoomCharges()
+      if (room) {
+        const rate = parseFloat(room.Week_Days_Rate);
+        totalPrice = this.getRoomCharges();
       }
       // for week ends
       // if (room) {
@@ -804,7 +823,7 @@ export class RoomsComponent implements OnInit {
       return (totalPrice += this.calculateExtraGuestCharges());
     }
 
-    totalPrice = totalPrice
+    totalPrice = totalPrice;
 
     return totalPrice;
   }
@@ -835,7 +854,8 @@ export class RoomsComponent implements OnInit {
   }
 
   calculateTotalGst(): number {
-    let totalPrice = this.calculateTotalPrice()*this.calculateDurationOfStay();
+    let totalPrice =
+      this.calculateTotalPrice() * this.calculateDurationOfStay();
     const gstRate = 0; // GST rate is 12%
 
     totalPrice = (totalPrice * gstRate) / 100;
@@ -845,8 +865,7 @@ export class RoomsComponent implements OnInit {
   calculatePayablePrice(): number {
     const totalPrice = this.calculateTotalPrice();
     // const gstPercentage = 0.12; // GST @12%
-    let payablePrice =
-      (totalPrice ) * this.calculateDurationOfStay();
+    let payablePrice = totalPrice * this.calculateDurationOfStay();
 
     return payablePrice;
   }
@@ -876,15 +895,13 @@ export class RoomsComponent implements OnInit {
 
     const bookingRoomsString = localStorage.getItem('booking_rooms');
     const bookingRoomsArray = JSON.parse(bookingRoomsString || '[]');
-        const length = bookingRoomsArray.length;
-    
-    
+    const length = bookingRoomsArray.length;
+
     let summaryData = JSON.stringify(summary);
     localStorage.setItem('summaryData', summaryData);
     localStorage.setItem('checkindate', JSON.stringify(this.checkinDate));
     localStorage.setItem('checkoutdate', JSON.stringify(this.checkoutDate));
-    localStorage.setItem('noofrooms',JSON.stringify(length))
-   
+    localStorage.setItem('noofrooms', JSON.stringify(length));
 
     const bookingRoomsStr = localStorage.getItem('booking_rooms');
     if (bookingRoomsStr) {
@@ -919,8 +936,6 @@ export class RoomsComponent implements OnInit {
         }
       });
     }
-
-    
   }
 
   signIn() {
@@ -977,13 +992,13 @@ export class RoomsComponent implements OnInit {
     this.addExtraGuestCharge = false;
     this.isAddedExtraGuest = false;
     const indexToRemove = this.extraGuestsIds.indexOf(roomId);
-    
+
     if (indexToRemove !== -1) {
       this.extraGuestsIds.splice(indexToRemove, 1);
     }
-    
+
     this.authService.setExtraGuests(this.extraGuestsType, this.extraGuestsIds);
-    
+
     this.removeExtraGuestCharge = true;
     this.calculatePayablePrice();
   }
