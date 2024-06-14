@@ -144,71 +144,74 @@ export default async (req) => {
         }&${queryParams.toString()}`;
         method = "GET";
         break;
-        case "get_payment_response":
-          const body = await req.text();
-          const formData = new URLSearchParams(body);
-          
-          const msg = formData.get("msg");
-          
-          output_msg = msg;
-      
-          if (msg == null || msg == "" || msg == undefined) {
-            return new Response(
-              JSON.stringify({ error: "Missing required parameters for msg" }),
-              {
-                status: 400,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-          }
-      
-          const msgres = msg.split("|");
-          const booking_id = msgres[1];
-      
-          const updatePaymentUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
-            process.env.Update_Payment_Status
-          }&booking_id=${booking_id}&transaction_id=${
-            msgres[2]
-          }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
-            msgres[24].split("-")[1]
-          }`;
-      
-          // First API call
-          const updatePaymentResponse = await fetch(updatePaymentUrl, { method: "GET" });
-          if (!updatePaymentResponse.ok) {
-            return new Response(
-              JSON.stringify({ error: "Failed to update payment status" }),
-              {
-                status: updatePaymentResponse.status,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-          }
-      
-          // Second API call
-          const insertLogUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${
-            booking_id
-          }&username=user&type=response&msg=${msg.replace(/\|/g, 'dollar')}`;
-      
-          const insertLogResponse = await fetch(insertLogUrl, { method: "GET" });
-          if (!insertLogResponse.ok) {
-            return new Response(null, {
-              status: 302,
-              headers: {
-                Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
-              },
-            });
-          }
-      
+      case "get_payment_response":
+        const body = await req.text();
+        const formData = new URLSearchParams(body);
+
+        const msg = formData.get("msg");
+
+        output_msg = msg;
+
+        if (msg == null || msg == "" || msg == undefined) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for msg" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        const msgres = msg.split("|");
+        const booking_id = msgres[1];
+
+        const updatePaymentUrl = `${zoho_api_uri}Update_Payment_Status?publickey=${
+          process.env.Update_Payment_Status
+        }&booking_id=${booking_id}&transaction_id=${
+          msgres[2]
+        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
+          msgres[24].split("-")[1]
+        }`;
+
+        // First API call
+        const updatePaymentResponse = await fetch(updatePaymentUrl, {
+          method: "GET",
+        });
+        if (!updatePaymentResponse.ok) {
+          return new Response(
+            JSON.stringify({ error: "Failed to update payment status" }),
+            {
+              status: updatePaymentResponse.status,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        // Second API call
+        const insertLogUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${booking_id}&username=user&type=response&msg=${msg.replace(
+          /\|/g,
+          "dollar"
+        )}`;
+
+        const insertLogResponse = await fetch(insertLogUrl, { method: "GET" });
+        if (!insertLogResponse.ok) {
           return new Response(null, {
             status: 302,
             headers: {
               Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
             },
           });
-      
-          break;
-       case "booking_detail":
+        }
+
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+          },
+        });
+
+        break;
+      case "booking_detail":
         apiUrl = `${zoho_api_uri}Reservation_Detail?publickey=${
           process.env.Reservation_Detail
         }&${queryParams.toString()}`;
@@ -276,37 +279,30 @@ export default async (req) => {
         )}`;
         method = "GET";
         break;
-      
-        
-        case "cancel_init":
-          // console.log(queryParams)
-          console.log(req.body)
-          if (
-            !queryParams.has("email") ||
-            !queryParams.has("token") ||
-            !queryParams.has("booking_id")||
-            !queryParams.has("cancel_reason") 
-          ) {
-            return new Response(
-              JSON.stringify({ error: "Missing required parameters for logs" }),
-              {
-                status: 400,
-                headers: { "Content-Type": "application/json" },
-              }
-            );
-          }
-          apiUrl = `${zoho_api_uri}cancelBooking?email=${queryParams.get(
-            "email"
-          )}&token=${queryParams.get("token")}&booking_id=${queryParams.get(
-            "booking_id"
-          )}&cancel_reason=${queryParams.get(
-            "cancel_reason"
-          )}&more_details=${queryParams.get(
-            "more_details"
-          )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
-          method = "POST";
-          break;
-        default:
+
+      case "cancel_init":
+        // console.log(queryParams)
+        console.log(req.body);
+        if (
+          !req.body.email ||
+          !req.body.token ||
+          !req.body.booking_id ||
+          !req.body.cancel_reason
+        ) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for cancel_init" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+        apiUrl = `${zoho_api_uri}cancelBooking?email=${
+          req.body.email
+        }&token=${req.body.token}&booking_id=${req.body.booking_id}&cancel_reason=${req.body.cancel_reason}&more_details=${req.body.more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        method = "POST";
+        break;
+      default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
           {
