@@ -28,14 +28,14 @@ export class CancelRequestComponent {
   isDialogOpen = true;
   currentBooking_id: any;
   api_url: any;
-  showLoader = false
+  showLoader = false;
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
-    private authService:AuthService
+    private authService: AuthService
   ) {
     this.form = this.fb.group({
       reason: ['', Validators.required],
@@ -72,15 +72,24 @@ export class CancelRequestComponent {
     console.log('Cancellation reason:', this.form.value.reason);
     console.log('Cancellation details:', this.form.value.details);
     // this.showLoader = true;
-    const params = new HttpParams()
-    .set('email', this.authService.getAccountUsername() ?? '')
-    .set('token', this.authService.getAccessToken() ?? '')
-    .set('booking_id', this.currentBooking_id ?? '')
-    .set('more_details', this.form.value.details ?? '')
+    // const params = new HttpParams()
+    // .set('email', this.authService.getAccountUsername() ?? '')
+    // .set('token', this.authService.getAccessToken() ?? '')
+    // .set('booking_id', this.currentBooking_id ?? '')
+    // .set('more_details', this.form.value.details ?? '')
 
-    .set('cancel_reason', this.form.value.reason ?? '');
+    // .set('cancel_reason', this.form.value.reason ?? '');
 
-    this.http.post<any>(`${this.api_url}?api_type=cancel_init`, params)
+    let params = {
+      email: this.authService.getAccountUsername() ?? '',
+      token: this.authService.getAccessToken() ?? '',
+      booking_id: this.currentBooking_id ?? '',
+      more_details: this.form.value.details ?? '',
+      cancel_reason: this.form.value.reason ?? '',
+    };
+    console.log(params)
+    this.http
+      .post<any>(`${this.api_url}?api_type=cancel_init`, params)
       .subscribe({
         next: (response: any) => {
           // this.showLoader = false; // Uncomment if you have a loader
@@ -91,7 +100,7 @@ export class CancelRequestComponent {
           console.error(err);
           // this.showLoader = false; // Uncomment if you have a loader
           this.isDialogOpen = false;
-        }
+        },
       });
   }
 
