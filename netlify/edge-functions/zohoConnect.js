@@ -288,6 +288,7 @@ export default async (req) => {
         const booking_id1 = bodyParams.get("booking_id");
         const cancel_reason = bodyParams.get("cancel_reason");
         const more_details = bodyParams.get("more_details");
+        console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
@@ -300,7 +301,6 @@ export default async (req) => {
         }
 
         // Log parameters for debugging
-        console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
 
         apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "POST";
