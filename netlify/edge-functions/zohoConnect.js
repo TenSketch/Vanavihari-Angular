@@ -11,7 +11,9 @@ export default async (req) => {
 
   try {
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
-     console.log(req.body)
+    const bodyText = await req.text();
+    const bodyParams = new URLSearchParams(bodyText);
+     console.log(bodyParams)
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -281,14 +283,13 @@ export default async (req) => {
         break;
 
       case "cancel_init":
-        // console.log(queryParams)
-        console.log(req.body);
-        if (
-          !req.body.email ||
-          !req.body.token ||
-          !req.body.booking_id ||
-          !req.body.cancel_reason
-        ) {
+        const email = bodyParams.get("email");
+        const token = bodyParams.get("token");
+        const booking_id1 = bodyParams.get("booking_id");
+        const cancel_reason = bodyParams.get("cancel_reason");
+        const more_details = bodyParams.get("more_details");
+
+        if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
             JSON.stringify({ error: "Missing required parameters for cancel_init" }),
             {
@@ -297,9 +298,11 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}cancelBooking?email=${
-          req.body.email
-        }&token=${req.body.token}&booking_id=${req.body.booking_id}&cancel_reason=${req.body.cancel_reason}&more_details=${req.body.more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+
+        // Log parameters for debugging
+        console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
+
+        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "POST";
         break;
       default:
