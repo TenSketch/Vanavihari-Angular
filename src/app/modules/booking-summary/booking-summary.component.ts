@@ -579,7 +579,7 @@ export class BookingSummaryComponent {
               const secretKey = this.billdeskkey;
               const amount = this.calculateGrandTotal();
               // const amount = '1.00';
-              const rU = this.api_url + '?api_type =get_payment_response';
+              const rU = this.api_url + '?api_type=get_payment_response';   
 
               const str =
                 MerchantId +

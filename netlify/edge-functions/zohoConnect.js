@@ -275,7 +275,9 @@ export default async (req) => {
         )}`;
         method = "GET";
         break;
-      default:
+      
+      
+        default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
           {
