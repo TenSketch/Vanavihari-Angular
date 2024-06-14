@@ -337,7 +337,7 @@ export default async (req) => {
     </body>
     </html>
   `;
-
+   break;
         
       default:
         return new Response(
