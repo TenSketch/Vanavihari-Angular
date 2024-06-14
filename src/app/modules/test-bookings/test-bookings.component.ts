@@ -2,14 +2,14 @@ import { AuthService } from '@/app/auth.service';
 import { GalleryService } from '@/app/gallery.service';
 import { UserService } from '@/app/user.service';
 import { environment } from '@/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Renderer2 } from '@angular/core';
 import { HmacSHA256 } from 'crypto-js';
 
 @Component({
   selector: 'app-test-bookings',
   templateUrl: './test-bookings.component.html',
-  styleUrls: ['./test-bookings.component.scss']
+  styleUrls: ['./test-bookings.component.scss'],
 })
 export class TestBookingsComponent {
   bookingData: any[] = [];
@@ -22,7 +22,7 @@ export class TestBookingsComponent {
   resortNumber: any;
   // pdfUrl: any;
   showPdfViewer: boolean = false;
-  api_url:any
+  api_url: any;
   pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
 
   constructor(
@@ -30,43 +30,38 @@ export class TestBookingsComponent {
     private renderer: Renderer2,
     private http: HttpClient,
     private userService: UserService,
-    private galleryService: GalleryService,
+    private galleryService: GalleryService
   ) {
-    this.api_url = environment.API_URL
+    this.api_url = environment.API_URL;
   }
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
-
-   
 
     this.showLoader = true;
     let params = new HttpParams()
       .set('email', this.userService.getUser())
       .set('token', this.userService.getUserToken());
     this.http
-      .get<any>(
-        this.api_url+'?api_type=booking_history&' +
-          params.toString()
-      )
+      .get<any>(this.api_url + '?api_type=booking_history&' + params.toString())
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details;
           this.showLoader = false;
-          this.bookingData.forEach(item => {
+          this.bookingData.forEach((item) => {
             if (item.pay_trans_id) {
-                this.successData.push(item);
+              this.successData.push(item);
             }
-        });
+          });
           if (this.bookingData.length == 0) {
             this.message = 'You have not made any bookings yet';
             this.noBookings = true;
           }
 
-         this.bookingData.sort((a, b) => {
-          const dateA = new Date(a.reservation_date);
-          const dateB = new Date(b.reservation_date);
-          return dateB.getTime() - dateA.getTime();
-        });
+          this.bookingData.sort((a, b) => {
+            const dateA = new Date(a.reservation_date);
+            const dateB = new Date(b.reservation_date);
+            return dateB.getTime() - dateA.getTime();
+          });
         },
         error: (err) => {
           this.noBookings = true;
@@ -76,7 +71,6 @@ export class TestBookingsComponent {
       });
   }
 
-
   // Function to download PDF
   downloadPdf() {
     const link = document.createElement('a');
@@ -85,25 +79,18 @@ export class TestBookingsComponent {
     link.click();
   }
 
-  callSupport(resort:any) {
-    this.selectedResort = resort
-          if (this.selectedResort == 'Vanavihari, Maredumilli') {
-            this.resortNumber = '+919494151623';
-          }
-          if (this.selectedResort == 'Jungle Star, Valamuru') {
-            this.resortNumber = '+9173821 51617';
-          }
+  callSupport(resort: any) {
+    this.selectedResort = resort;
+    if (this.selectedResort == 'Vanavihari, Maredumilli') {
+      this.resortNumber = '+919494151623';
+    }
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
+      this.resortNumber = '+9173821 51617';
+    }
     window.location.href = 'tel:' + this.resortNumber;
   }
 
-
-
-
   refundTest() {
-    
-    
-
-    
     const bookingId = 'BVV2406127';
     const MerchantId = 'VANAVIHARI';
     const CurrencyType = 'INR';
@@ -113,66 +100,66 @@ export class TestBookingsComponent {
     const amount = '10.00';
     const rU = this.api_url + '?api_type=get_payment_response';
 
-    const str = '0400'+
-    '|'+
-    MerchantId+
-    '|'+
-    'ZHD52065322042'+
-    '|'+
-    '20240612'+
-    '|'+
-    txtCustomerID+
-    '|'+
-    '12.00'+
-    '|'+
-    '12.00'+
-    '|'+
-    '20240612141615'+
-    '|'+
-    '12121212'+
-    '|'+
-    'NA|NA|NA';
+    const str =
+      '0400' +
+      '|' +
+      MerchantId +
+      '|' +
+      'ZHD52065322042' +
+      '|' +
+      '20240612' +
+      '|' +
+      txtCustomerID +
+      '|' +
+      '12.00' +
+      '|' +
+      '12.00' +
+      '|' +
+      '20240612141615' +
+      '|' +
+      '12121212' +
+      '|' +
+      'NA|NA|NA';
 
     const hmac = HmacSHA256(str, secretKey);
     const checksum = hmac.toString().toUpperCase();
     const msg = `${str}|${checksum}`;
     alert(msg);
-    
-    let pg_params = new HttpParams()
-      .set('MerchantId', MerchantId)
-      .set('CurrencyType', CurrencyType)
-      .set('SecurityId', SecurityId)
-      .set('txtCustomerID', txtCustomerID)
-      .set('txtTxnAmount', amount)
-      .set('txtAdditionalInfo1', 'MMILLI') // Sub Biller id
-      .set('txtAdditionalInfo2', bookingId)
-      .set('txtAdditionalInfo3', "Venkat")
-      .set('txtAdditionalInfo4', '918056562076')
-      .set('RU', rU)
-      .set('CheckSumKey', secretKey)
-      .set('CheckSum', checksum)
-      .set('msg', msg);
 
-    const form = document.createElement('form');
-    form.method = 'post';
-    form.action = 'https://pgi.billdesk.com/pgidsk/PGIRefundController';
-    pg_params.keys().forEach((key) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      const value = pg_params.get(key) || '';
-      input.value = value;
-      form.appendChild(input);
+    const pg_params = {
+      MerchantId: MerchantId,
+      CurrencyType: CurrencyType,
+      SecurityId: SecurityId,
+      txtCustomerID: txtCustomerID,
+      amount: amount,
+      bookingId: bookingId,
+      rU: rU,
+      secretKey: secretKey,
+      checksum: checksum,
+      msg: msg,
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
-    document.body.appendChild(form);
-    form.submit();
+    const body = new URLSearchParams(pg_params).toString();
 
+    this.http
+      .post(this.api_url + '?api_type=cancel_init', body, {
+        headers,
+        responseType: 'text',
+      })
+      .subscribe((response) => {
+        console.log(response)
 
-
-
+        const newWindow = window.open();
+        if (newWindow) {
+          console.log(response)
+          newWindow.document.write(response);
+          newWindow.document.close();
+        }
+      });
   }
-
-
 
   getRoomImages(roomname: any): string[] {
     const lowercaseRoomName = roomname.toLowerCase();
