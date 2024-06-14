@@ -71,27 +71,27 @@ export class CancelRequestComponent {
     // Logic to handle the cancellation request submission
     console.log('Cancellation reason:', this.form.value.reason);
     console.log('Cancellation details:', this.form.value.details);
-    this.showLoader = true;
+    // this.showLoader = true;
     const params = new HttpParams()
     .set('email', this.authService.getAccountUsername() ?? '')
     .set('token', this.authService.getAccessToken() ?? '')
     .set('booking_id', this.currentBooking_id ?? '')
     .set('more_details', this.form.value.details ?? '')
 
-    .set('cancel_reason', this.authService.getAccessToken() ?? '');
+    .set('cancel_reason', this.form.value.reason ?? '');
 
     this.http
       .post<any>(this.api_url + '?api_type=cancel_init', { params })
       .subscribe({
         next: (response: any) => {
-          this.showLoader = false;
+          // this.showLoader = false;
 
           this.isDialogOpen = false;
           console.log(response)
         },
         error: (err) => {
           console.log(err)
-          this.showLoader = false;
+          // this.showLoader = false;
           this.isDialogOpen = false;
 
         },

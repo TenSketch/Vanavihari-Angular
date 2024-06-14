@@ -278,6 +278,7 @@ export default async (req) => {
       
         
         case "cancel_init":
+          console.log(queryParams)
           if (
             !queryParams.has("email") ||
             !queryParams.has("token") ||
