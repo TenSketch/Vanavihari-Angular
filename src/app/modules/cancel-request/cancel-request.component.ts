@@ -80,21 +80,18 @@ export class CancelRequestComponent {
 
     .set('cancel_reason', this.form.value.reason ?? '');
 
-    this.http
-      .post<any>(this.api_url + '?api_type=cancel_init', { params })
+    this.http.post<any>(`${this.api_url}?api_type=cancel_init`, params)
       .subscribe({
         next: (response: any) => {
-          // this.showLoader = false;
-
+          // this.showLoader = false; // Uncomment if you have a loader
           this.isDialogOpen = false;
-          console.log(response)
+          console.log(response);
         },
         error: (err) => {
-          console.log(err)
-          // this.showLoader = false;
+          console.error(err);
+          // this.showLoader = false; // Uncomment if you have a loader
           this.isDialogOpen = false;
-
-        },
+        }
       });
   }
 
