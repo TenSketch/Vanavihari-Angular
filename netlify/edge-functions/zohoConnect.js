@@ -338,11 +338,7 @@ export default async (req) => {
     </html>
   `;
 
-        return {
-          statusCode: 200,
-          headers: { "Content-Type": "text/html" },
-          body: formHtml,
-        };
+        
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
