@@ -11,6 +11,8 @@ export default async (req) => {
 
   try {
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
+    const body = req.body ? JSON.parse(req.body) : {};
+
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -278,7 +280,7 @@ export default async (req) => {
       
         
         case "cancel_init":
-          console.log(queryParams)
+          // console.log(queryParams)
           console.log(body)
           if (
             !queryParams.has("email") ||
