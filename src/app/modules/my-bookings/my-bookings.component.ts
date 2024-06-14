@@ -280,7 +280,8 @@ export class MyBookingsComponent {
   }
 
   InitiateCancel(item:any){
-    console.log(item)
+    console.log(item.booking_id)
+    localStorage.setItem('current_id',item.booking_id)
     this.router.navigateByUrl('cancel-request');
   }
 }
