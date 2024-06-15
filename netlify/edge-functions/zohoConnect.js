@@ -317,7 +317,7 @@ export default async (req) => {
             JSON.stringify({ error: "Missing required parameters for cancel_init" }),
             {
               status: 400,
-              headers: { "Content-Type": "application/json" }, 
+              headers: { "Content-Type": "application/json" },
             }
           );
         }
@@ -363,6 +363,10 @@ export default async (req) => {
           },
         });
       }
+    } else if(apiType == "cancel_init") {
+      return new Response(JSON.stringify(data), {
+        headers: { "Content-Type": "application/json" },
+      });
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
