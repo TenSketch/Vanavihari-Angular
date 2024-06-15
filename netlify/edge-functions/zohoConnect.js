@@ -11,9 +11,9 @@ export default async (req) => {
 
   try {
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
-    const bodyText = await req.text();
-    const bodyParams = new URLSearchParams(bodyText);
-     console.log(bodyText)
+    // const bodyText = await req.text();
+    // const bodyParams = new URLSearchParams(bodyText);
+    //  console.log(bodyText)
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -285,7 +285,7 @@ export default async (req) => {
       case "cancel_init":
         const bodyText = await req.text();
         const bodyParams = new URLSearchParams(bodyText);
-
+        console.log("email is ",bodyText.email)
         const email = bodyParams.get("email");
         const token = bodyParams.get("token");
         const booking_id1 = bodyParams.get("booking_id");
