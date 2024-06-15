@@ -174,7 +174,7 @@ export default async (req) => {
           process.env.Update_Payment_Status
         }&booking_id=${booking_id}&transaction_id=${
           msgres[2]
-        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&ref_no=${msgres[2]}&status=${
+        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
           msgres[24].split("-")[1]
         }`;
 
@@ -363,6 +363,13 @@ export default async (req) => {
           },
         });
       }
+    } if (apiType == "cancel_init") {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+        },
+      });
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
