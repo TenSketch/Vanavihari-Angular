@@ -310,7 +310,7 @@ export default async (req) => {
         // const booking_id1 = bodyParams.get("booking_id");
         // const cancel_reason = bodyParams.get("cancel_reason");
         // const more_details = bodyParams.get("more_details");
-        // console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
+        console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
