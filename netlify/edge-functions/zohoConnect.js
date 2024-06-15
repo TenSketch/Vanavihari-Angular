@@ -363,13 +363,6 @@ export default async (req) => {
           },
         });
       }
-    } if (apiType == "cancel_init") {
-      // return new Response(null, {
-      //   status: 302,
-      //   headers: {
-      //     Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
-      //   },
-      // });
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
