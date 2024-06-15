@@ -367,53 +367,70 @@ export default async (req) => {
         });
       }
     } else if(apiType == "cancel_init") {
-      if (data.code == 3000 && data.result.status == "success") {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = String(date.getSeconds()).padStart(2, '0');
-      
-      const MerchantId = 'VANAVIHARI';
-      const CurrencyType = 'INR';
-      const SecurityId = 'vanavihari';
-      const secretKey = 'rmvlozE7R4v9';
-      // const amount = '10.00';
-      // const rU = this.api_url + '?api_type=get_payment_response';
-      const inputDateString = "15-06-2024 13:48:28";
+        if (data.code == 3000 && data.result.status == "success") {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        
+        const MerchantId = 'VANAVIHARI';
+        const CurrencyType = 'INR';
+        const SecurityId = 'vanavihari';
+        const secretKey = 'rmvlozE7R4v9';
+        // const amount = '10.00';
+        // const rU = this.api_url + '?api_type=get_payment_response';
+        const inputDateString = "15-06-2024 13:48:28";
 
-      // Parse the input date string
-      const [datePart, timePart] = data.result.transaction_date.split(' ');
-      const [transactionday, transactionmonth, transactionyear] = datePart.split('-');
+        // Parse the input date string
+        const [datePart, timePart] = data.result.transaction_date.split(' ');
+        const [transactionday, transactionmonth, transactionyear] = datePart.split('-');
 
-      const str = '0400'+
-      '|'+
-      MerchantId+
-      '|'+
-      data.result.reference_id+
-      '|'+
-      `${transactionyear}${transactionmonth}${transactionday}`+
-      '|'+
-      data.result.customer_id+
-      '|'+
-      data.result.total_paid_amount+
-      '|'+
-      data.result.refundable_amt+
-      '|'+
-      `${year}${month}${day}${hours}${minutes}${seconds}`+
-      '|'+
-      '12121212'+
-      '|'+
-      'NA|NA|NA';
-      console.log(str);
-      // const hmac = HmacSHA256(str, secretKey);
-      const hmac = createHmac('sha256', secretKey).update(str).digest('base64');
-      const checksum = hmac.toString().toUpperCase();
-      const msg = `${str}|${checksum}`;
-      console.log(msg);
+        const str = '0400'+
+        '|'+
+        MerchantId+
+        '|'+
+        data.result.reference_id+
+        '|'+
+        `${transactionyear}${transactionmonth}${transactionday}`+
+        '|'+
+        data.result.customer_id+
+        '|'+
+        data.result.total_paid_amount+
+        '|'+
+        data.result.refundable_amt+
+        '|'+
+        `${year}${month}${day}${hours}${minutes}${seconds}`+
+        '|'+
+        '12121212'+
+        '|'+
+        'NA|NA|NA';
+        console.log(str);
+        // const hmac = HmacSHA256(str, secretKey);
+        const hmac = createHmac('sha256', secretKey).update(str);
+        const checksum = hmac.toString().toUpperCase();
+        const msg = `${str}|${checksum}`;
+        console.log(msg);
 
+        const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+          const payload = {
+            msg: msg
+          };
+        const apiResponse = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const apiResponseData = await apiResponse.json();
+        console.log(apiResponseData);
+        return new Response(JSON.stringify({
+          message: 'Data forwarded successfully',
+          apiResponse: apiResponseData
+        }), {
+          headers: { 'Content-Type': 'application/json' }
+        });
 
         return new Response(null, {
           status: 302,
@@ -430,24 +447,6 @@ export default async (req) => {
         });
       }
       
-      
-      // const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
-      //   const payload = {
-      //     msg: "0400|VANAVIHARI|ZHD52057153986|20240609|BK986239234|12.00|12.00|20240609163305|12121212|NA|NA|NA|8415C3131B7023D71FA509E49C2906490568CED346D4FDDC5688AB69B959EB95"
-      //   };
-      // const apiResponse = await fetch(endpoint, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(payload)
-      // });
-      // const apiResponseData = await apiResponse.json();
-      // console.log(apiResponseData);
-      // return new Response(JSON.stringify({
-      //   message: 'Data forwarded successfully',
-      //   apiResponse: apiResponseData
-      // }), {
-      //   headers: { 'Content-Type': 'application/json' }
-      // });
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
