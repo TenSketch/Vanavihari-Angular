@@ -1,3 +1,5 @@
+import { HmacSHA256, enc } from 'crypto-js';
+
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   let output_msg;
@@ -364,17 +366,69 @@ export default async (req) => {
         });
       }
     } else if(apiType == "cancel_init") {
-      const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
-        const payload = {
-          msg: "0400|VANAVIHARI|ZHD52057153986|20240609|BK986239234|12.00|12.00|20240609163305|12121212|NA|NA|NA|8415C3131B7023D71FA509E49C2906490568CED346D4FDDC5688AB69B959EB95"
-        };
-      const apiResponse = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const apiResponseData = await apiResponse.json();
-      console.log(apiResponseData);
+
+      console.log(data);
+
+      if (data.code == 3000 && data.result.status == "success") {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+          },
+        });
+      } else {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+          },
+        });
+      }
+      
+      // const bookingId = 'BVV2406127';
+      // const MerchantId = 'VANAVIHARI';
+      // const CurrencyType = 'INR';
+      // const SecurityId = 'vanavihari';
+      // const txtCustomerID = 'BK986239234';
+      // const secretKey = 'rmvlozE7R4v9';
+      // const amount = '10.00';
+      // const rU = this.api_url + '?api_type=get_payment_response';
+
+      // const str = '0400'+
+      // '|'+
+      // MerchantId+
+      // '|'+
+      // 'ZHD52065322042'+
+      // '|'+
+      // '20240612'+
+      // '|'+
+      // txtCustomerID+
+      // '|'+
+      // '12.00'+
+      // '|'+
+      // '12.00'+
+      // '|'+
+      // '20240612141615'+
+      // '|'+
+      // '12121212'+
+      // '|'+
+      // 'NA|NA|NA';
+
+      // const hmac = HmacSHA256(str, secretKey);
+      // const checksum = hmac.toString().toUpperCase();
+      // const msg = `${str}|${checksum}`;
+      
+      // const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+      //   const payload = {
+      //     msg: "0400|VANAVIHARI|ZHD52057153986|20240609|BK986239234|12.00|12.00|20240609163305|12121212|NA|NA|NA|8415C3131B7023D71FA509E49C2906490568CED346D4FDDC5688AB69B959EB95"
+      //   };
+      // const apiResponse = await fetch(endpoint, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(payload)
+      // });
+      // const apiResponseData = await apiResponse.json();
+      // console.log(apiResponseData);
       // return new Response(JSON.stringify({
       //   message: 'Data forwarded successfully',
       //   apiResponse: apiResponseData
