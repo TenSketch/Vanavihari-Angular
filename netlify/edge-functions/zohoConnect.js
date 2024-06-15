@@ -1,4 +1,5 @@
-import { HmacSHA256, enc } from 'crypto-js';
+import { CompactSign, jwtVerify } from 'jose';
+import { createHmac } from 'crypto';
 
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
