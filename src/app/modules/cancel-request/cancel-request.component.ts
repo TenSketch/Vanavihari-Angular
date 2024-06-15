@@ -83,7 +83,7 @@ export class CancelRequestComponent {
     let params = {
       email: this.authService.getAccountUsername() ?? '',
       token: this.authService.getAccessToken() ?? '',
-      booking_id: this.currentBooking_id ?? '',
+      booking_id1: this.currentBooking_id ?? '',
       more_details: this.form.value.details ?? '',
       cancel_reason: this.form.value.reason ?? '',
     };

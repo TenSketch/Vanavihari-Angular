@@ -11,12 +11,12 @@ export default async (req) => {
 
   try {
     const queryParams = new URLSearchParams(req.url.split("?")[1]);
-    const bodyText = await req.text();
-    const bodyParams = new URLSearchParams(bodyText);
-     console.log(bodyText)
-     console.log("email is bt",bodyText.email)
-     console.log("email is bp",bodyParams.get("email"))
-     console.log(JSON.parse(bodyText))
+    // const bodyText = await req.text();
+    // const bodyParams = new URLSearchParams(bodyText);
+    //  console.log(bodyText)
+    //  console.log("email is bt",bodyText.email)
+    //  console.log("email is bp",bodyParams.get("email"))
+    //  console.log(JSON.parse(bodyText))
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
@@ -286,13 +286,31 @@ export default async (req) => {
         break;
 
       case "cancel_init":
+        const bodyText = await req.text();
+        let bodyParams;
 
-        const email = bodyParams.get("email");
-        const token = bodyParams.get("token");
-        const booking_id1 = bodyParams.get("booking_id");
-        const cancel_reason = bodyParams.get("cancel_reason");
-        const more_details = bodyParams.get("more_details");
-        console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
+        try {
+          bodyParams = JSON.parse(bodyText);
+        } catch (error) {
+          return new Response(
+            JSON.stringify({ error: "Invalid JSON in request body" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        const { email, token, booking_id1, cancel_reason, more_details } = bodyParams;
+
+        // Log parameters for debugging
+        
+        // const email = bodyParams.get("email");
+        // const token = bodyParams.get("token");
+        // const booking_id1 = bodyParams.get("booking_id");
+        // const cancel_reason = bodyParams.get("cancel_reason");
+        // const more_details = bodyParams.get("more_details");
+        // console.log("Cancel Init Parameters:", { email, token, booking_id1, cancel_reason, more_details });
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
