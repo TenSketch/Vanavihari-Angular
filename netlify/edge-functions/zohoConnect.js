@@ -409,7 +409,7 @@ export default async (req) => {
         'NA|NA|NA';
         console.log(str);
         // const hmac = HmacSHA256(str, secretKey);
-        const hmac = createHmac('sha256', secretKey).update(str).digest('base64');
+        const hmac = createHmac('sha256', secretKey).update(str).digest('hex');
         const checksum = hmac.toString().toUpperCase();
         const msg = `${str}|${checksum}`;
         console.log(msg);
