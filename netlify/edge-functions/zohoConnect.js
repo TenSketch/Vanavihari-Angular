@@ -365,10 +365,13 @@ export default async (req) => {
       }
     } else if(apiType == "cancel_init") {
       const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+        const payload = {
+          msg: 'Test Msg'
+        };
       const apiResponse = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestData)
+        body: JSON.stringify(payload)
       });
       const apiResponseData = await apiResponse.json();
       return new Response(JSON.stringify({
