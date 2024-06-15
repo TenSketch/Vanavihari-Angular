@@ -364,8 +364,18 @@ export default async (req) => {
         });
       }
     } else if(apiType == "cancel_init") {
-      return new Response(JSON.stringify(data), {
-        headers: { "Content-Type": "application/json" },
+      const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+      const apiResponse = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+      const apiResponseData = await apiResponse.json();
+      return new Response(JSON.stringify({
+        message: 'Data forwarded successfully',
+        apiResponse: apiResponseData
+      }), {
+        headers: { 'Content-Type': 'application/json' }
       });
     } else {
       return new Response(JSON.stringify(data), {
