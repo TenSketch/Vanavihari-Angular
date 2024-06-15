@@ -317,7 +317,7 @@ export default async (req) => {
             JSON.stringify({ error: "Missing required parameters for cancel_init" }),
             {
               status: 400,
-              headers: { "Content-Type": "application/json" },
+              headers: { "Content-Type": "application/json" }, 
             }
           );
         }
