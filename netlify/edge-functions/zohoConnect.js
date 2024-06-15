@@ -174,7 +174,7 @@ export default async (req) => {
           process.env.Update_Payment_Status
         }&booking_id=${booking_id}&transaction_id=${
           msgres[2]
-        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&status=${
+        }&transaction_date=${msgres[13]}&transaction_amt=${msgres[4]}&ref_no=${msgres[2]}&status=${
           msgres[24].split("-")[1]
         }`;
 
