@@ -325,7 +325,7 @@ export default async (req) => {
         // Log parameters for debugging
 
         apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
-        method = "POST";
+        method = "GET";
         break;
       default:
         return new Response(
