@@ -382,6 +382,11 @@ export default async (req) => {
       const secretKey = 'rmvlozE7R4v9';
       // const amount = '10.00';
       // const rU = this.api_url + '?api_type=get_payment_response';
+      const inputDateString = "15-06-2024 13:48:28";
+
+      // Parse the input date string
+      const [datePart, timePart] = data.result.transaction_date.split(' ');
+      const [transactionday, transactionmonth, transactionyear] = datePart.split('-');
 
       const str = '0400'+
       '|'+
@@ -389,7 +394,7 @@ export default async (req) => {
       '|'+
       data.result.reference_id+
       '|'+
-      data.result.transaction_date+
+      `${transactionyear}${transactionmonth}${transactionday}`+
       '|'+
       data.result.customer_id+
       '|'+
