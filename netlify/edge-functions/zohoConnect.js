@@ -373,13 +373,14 @@ export default async (req) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      const apiResponseData = await apiResponse.json();
-      return new Response(JSON.stringify({
-        message: 'Data forwarded successfully',
-        apiResponse: apiResponseData
-      }), {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      console.log(apiResponse);
+      // const apiResponseData = await apiResponse.json();
+      // return new Response(JSON.stringify({
+      //   message: 'Data forwarded successfully',
+      //   apiResponse: apiResponseData
+      // }), {
+      //   headers: { 'Content-Type': 'application/json' }
+      // });
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
