@@ -413,24 +413,36 @@ export default async (req) => {
         const checksum = hmac.toString().toUpperCase();
         const msg = `${str}|${checksum}`;
         console.log(msg);
+ 
 
-        const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
-          const payload = {
-            msg: msg
+          const apiUrl = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded' // Adjust content type if needed
+            },
+            body: new URLSearchParams({ msg }).toString()
           };
-        const apiResponse = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const apiResponseData = await apiResponse.json();
-        console.log(apiResponseData);
-        return new Response(JSON.stringify({
-          message: 'Data forwarded successfully',
-          apiResponse: apiResponseData
-        }), {
-          headers: { 'Content-Type': 'application/json' }
-        });
+
+
+          try {
+            const response = await fetch(apiUrl, options);
+            console.log(response);
+            if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+        
+            const result = await response.text(); // Or response.json() if the response is JSON
+            return new Response(result, {
+              headers: { 'Content-Type': 'text/plain' }, // Adjust content type if needed
+            });
+          } catch (error) {
+            return new Response(`Fetch error: ${error.message}`, {
+              status: 500,
+              headers: { 'Content-Type': 'text/plain' }
+            });
+          }
+
 
         return new Response(null, {
           status: 302,
