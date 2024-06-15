@@ -14,8 +14,9 @@ export default async (req) => {
     const bodyText = await req.text();
     const bodyParams = new URLSearchParams(bodyText);
      console.log(bodyText)
-     console.log("email is ",bodyText.email)
-
+     console.log("email is bt",bodyText.email)
+     console.log("email is bp",bodyParams.get("email"))
+     console.log(JSON.parse(bodyText))
     if (!queryParams) {
       return new Response(JSON.stringify({ error: "Invalid request" }), {
         status: 400,
