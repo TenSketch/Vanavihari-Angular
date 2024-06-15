@@ -366,15 +366,15 @@ export default async (req) => {
     } else if(apiType == "cancel_init") {
       const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
         const payload = {
-          msg: 'Test Msg'
+          msg: "0400|VANAVIHARI|ZHD52057153986|20240609|BK986239234|12.00|12.00|20240609163305|12121212|NA|NA|NA|8415C3131B7023D71FA509E49C2906490568CED346D4FDDC5688AB69B959EB95"
         };
       const apiResponse = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      console.log(apiResponse);
-      // const apiResponseData = await apiResponse.json();
+      const apiResponseData = await apiResponse.json();
+      console.log(apiResponseData);
       // return new Response(JSON.stringify({
       //   message: 'Data forwarded successfully',
       //   apiResponse: apiResponseData
