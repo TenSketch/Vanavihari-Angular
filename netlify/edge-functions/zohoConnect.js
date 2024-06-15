@@ -367,10 +367,48 @@ export default async (req) => {
         });
       }
     } else if(apiType == "cancel_init") {
-
-      console.log(data);
-
       if (data.code == 3000 && data.result.status == "success") {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      
+      const MerchantId = 'VANAVIHARI';
+      const CurrencyType = 'INR';
+      const SecurityId = 'vanavihari';
+      const secretKey = 'rmvlozE7R4v9';
+      // const amount = '10.00';
+      // const rU = this.api_url + '?api_type=get_payment_response';
+
+      const str = '0400'+
+      '|'+
+      MerchantId+
+      '|'+
+      data.result.reference_id+
+      '|'+
+      data.result.transaction_date+
+      '|'+
+      data.result.customer_id+
+      '|'+
+      data.result.total_paid_amount+
+      '|'+
+      data.result.refundable_amt+
+      '|'+
+      `${year}${month}${day}${hours}${minutes}${seconds}`+
+      '|'+
+      '12121212'+
+      '|'+
+      'NA|NA|NA';
+      console.log(str);
+      // const hmac = HmacSHA256(str, secretKey);
+      const hmac = createHmac('sha256', secretKey).update(str).digest('base64');
+      const checksum = hmac.toString().toUpperCase();
+      const msg = `${str}|${checksum}`;
+      console.log(msg);
+
+
         return new Response(null, {
           status: 302,
           headers: {
@@ -386,38 +424,6 @@ export default async (req) => {
         });
       }
       
-      // const bookingId = 'BVV2406127';
-      // const MerchantId = 'VANAVIHARI';
-      // const CurrencyType = 'INR';
-      // const SecurityId = 'vanavihari';
-      // const txtCustomerID = 'BK986239234';
-      // const secretKey = 'rmvlozE7R4v9';
-      // const amount = '10.00';
-      // const rU = this.api_url + '?api_type=get_payment_response';
-
-      // const str = '0400'+
-      // '|'+
-      // MerchantId+
-      // '|'+
-      // 'ZHD52065322042'+
-      // '|'+
-      // '20240612'+
-      // '|'+
-      // txtCustomerID+
-      // '|'+
-      // '12.00'+
-      // '|'+
-      // '12.00'+
-      // '|'+
-      // '20240612141615'+
-      // '|'+
-      // '12121212'+
-      // '|'+
-      // 'NA|NA|NA';
-
-      // const hmac = HmacSHA256(str, secretKey);
-      // const checksum = hmac.toString().toUpperCase();
-      // const msg = `${str}|${checksum}`;
       
       // const endpoint = 'https://www.billdesk.com/pgidsk/PGIRefundController';
       //   const payload = {
