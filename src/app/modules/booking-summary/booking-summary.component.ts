@@ -606,6 +606,13 @@ export class BookingSummaryComponent {
               const checksum = hmac.toString().toUpperCase();
               const msg = `${str}|${checksum}`;
 
+              let username = localStorage.getItem('userfullname');
+              this.logMessage(
+                bookingId,
+                this.form.value.gname,
+                "request",
+                msg
+              );
               let pg_params = new HttpParams()
                 .set('MerchantId', MerchantId)
                 .set('CurrencyType', CurrencyType)
@@ -637,35 +644,6 @@ export class BookingSummaryComponent {
               });
               document.body.appendChild(form);
               form.submit();
-            } else if (response.code == 3000) {
-              this.showSnackBarAlert(
-                'Reservation Success! Booking Id: ' + response.result.booking_id
-              );
-              let username = localStorage.getItem('userfullname');
-              this.logMessage(
-                response.result.booking_id,
-                "username",
-                this.input_str,
-                this.output_str
-              );
-              
-
-              this.authService.clearBookingRooms(this.bookingTypeResort);
-
-              this.showSnackBarAlert(response.result.msg);
-            } else {
-              let username = localStorage.getItem('userfullname');
-              this.logMessage(
-                response.result.booking_id,
-                "username",
-                this.input_str,
-                this.output_str
-              );
-              if (username) {
-              }
-              this.authService.clearBookingRooms(this.bookingTypeResort);
-               
-              this.showSnackBarAlert('Reservation Error!');
             }
           },
           error: (err) => {
@@ -684,15 +662,15 @@ export class BookingSummaryComponent {
     msg: string
   )  {
 
-    
-    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    // const body = {
-    //   booking_id: booking_id,
-    //   username: username,
-    //   type: type,
-    //   msg: msg,
-    // };
-    // return this.http.post(this.api_url + '?api_type=logs', body, { headers });
+    const params = new HttpParams()
+    .set('booking_id', booking_id ?? '')
+    .set('username', username ?? '')
+    .set('type', type ?? '')
+    .set('msg', msg ?? '');
+
+  this.http.get(this.api_url + '?api_type=logs', { params }).subscribe({
+    next: (response) => {},
+  });
   }
 
   calculateDurationOfStay() {

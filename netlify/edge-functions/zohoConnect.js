@@ -1,3 +1,6 @@
+import { CompactSign, jwtVerify } from 'jose';
+import { createHmac } from 'crypto';
+
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
   let output_msg;
@@ -448,8 +451,13 @@ export default async (req) => {
 
         // Log parameters for debugging
 
+<<<<<<< HEAD
         apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "POST";
+=======
+        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        method = "GET";
+>>>>>>> b46e496edb0c542d79cd195e0c92fdaaa05a3571
         break;
       default:
         return new Response(
@@ -487,6 +495,99 @@ export default async (req) => {
           },
         });
       }
+    } else if(apiType == "cancel_init") {
+        if (data.code == 3000 && data.result.status == "success") {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0'); // 24-hour format
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        
+        const MerchantId = 'VANAVIHARI';
+        const CurrencyType = 'INR';
+        const SecurityId = 'vanavihari';
+        const secretKey = 'rmvlozE7R4v9';
+        // const amount = '10.00';
+        // const rU = this.api_url + '?api_type=get_payment_response';
+        const inputDateString = "15-06-2024 13:48:28";
+
+        // Parse the input date string
+        const [datePart, timePart] = data.result.transaction_date.split(' ');
+        const [transactionday, transactionmonth, transactionyear] = datePart.split('-');
+
+        const str = '0400'+
+        '|'+
+        MerchantId+
+        '|'+
+        data.result.reference_id+
+        '|'+
+        `${transactionyear}${transactionmonth}${transactionday}`+
+        '|'+
+        data.result.customer_id+
+        '|'+
+        data.result.total_paid_amount+
+        '|'+
+        data.result.refundable_amt+
+        '|'+
+        `${year}${month}${day}${hours}${minutes}${seconds}`+
+        '|'+
+        '12121212'+
+        '|'+
+        'NA|NA|NA';
+        console.log(str);
+        // const hmac = HmacSHA256(str, secretKey);
+        const hmac = createHmac('sha256', secretKey).update(str).digest('hex');
+        const checksum = hmac.toString().toUpperCase();
+        const msg = `${str}|${checksum}`;
+        console.log(msg);
+ 
+
+          const apiUrl = 'https://www.billdesk.com/pgidsk/PGIRefundController';
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded' // Adjust content type if needed
+            },
+            body: new URLSearchParams({ msg }).toString()
+          };
+
+
+          try {
+            const response = await fetch(apiUrl, options);
+            console.log(response);
+            if (!response.ok) {
+              throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+        
+            const result = await response.text(); // Or response.json() if the response is JSON
+            return new Response(result, {
+              headers: { 'Content-Type': 'text/plain' }, // Adjust content type if needed
+            });
+          } catch (error) {
+            return new Response(`Fetch error: ${error.message}`, {
+              status: 500,
+              headers: { 'Content-Type': 'text/plain' }
+            });
+          }
+
+
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+          },
+        });
+      } else {
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: `https://vanavihari.com/#/booking-status?booking_id=${booking_id}`,
+          },
+        });
+      }
+      
     } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
