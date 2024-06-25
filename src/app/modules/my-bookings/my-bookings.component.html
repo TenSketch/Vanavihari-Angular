@@ -88,7 +88,7 @@
               Call Support
             </button>
 
-            <button class="btn mt-2 btn-outline-danger" (click)="InitiateCancel(item)" >Cancel Booking</button>
+            <button class="btn mt-2 btn-outline-danger" *ngIf="item.pay_status =='Paid'" (click)="InitiateCancel(item)" >Cancel Booking</button>
 
             <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
               Add Review

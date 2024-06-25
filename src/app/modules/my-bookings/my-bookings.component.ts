@@ -280,8 +280,11 @@ export class MyBookingsComponent {
   }
 
   InitiateCancel(item:any){
-    console.log(item.booking_id)
     localStorage.setItem('current_id',item.booking_id)
+    localStorage.setItem('Payment_Transaction_Id',item.pay_trans_id)
+    localStorage.setItem('Payment_Transaction_Date',item.pay_trans_date)
+    localStorage.setItem('Payment_Transaction_Amt',item.pay_trans_amt)
+
     this.router.navigateByUrl('cancel-request');
   }
 }
