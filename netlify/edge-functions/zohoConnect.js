@@ -342,7 +342,10 @@ export default async (req) => {
         console.log("msg:",msg1)
         // Log parameters for debugging
 
-        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1.replace(
+          /\|/g,
+          "dollar"
+        )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "POST";
         break;
       default:
