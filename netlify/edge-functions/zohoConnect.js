@@ -335,13 +335,14 @@ export default async (req) => {
 
         let str = '0400|' + MerchantId + '|' + Payment_Transaction_Id + '|' + Payment_Transaction_Date + '|' + booking_id1 + '|'+ Payment_Transaction_Amt + '|' + refundableAmount + '|' + formattedDateTimeStr + '|' + uniqueKey + '|NA|NA|NA'
         console.log(str)
-        const signature = createHmac('sha256', secretKey).update(str).digest('base64');
+        // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
+        const signature = createHmac('sha256', secretKey).update(str).digest('hex');
         const msg1 = str + "|" + signature;
         console.log("msg:",msg1)
         // Log parameters for debugging
 
-        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
-        method = "POST";
+        // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        // method = "POST";
         break;
       default:
         return new Response(
