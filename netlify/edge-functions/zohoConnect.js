@@ -346,7 +346,7 @@ export default async (req) => {
           /\|/g,
           "dollar"
         )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
-        method = "POST";
+        method = "GET";
         break;
       default:
         return new Response(
