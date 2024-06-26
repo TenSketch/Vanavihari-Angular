@@ -30,6 +30,10 @@ export class CancelRequestComponent {
   api_url: any;
   showLoader = false;
 
+  totalAmount:any
+  currentDate:any
+  Payment_Transaction_Id:any 
+
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -37,6 +41,9 @@ export class CancelRequestComponent {
     private http: HttpClient,
     private authService: AuthService
   ) {
+    this.totalAmount=localStorage.getItem("Payment_Transaction_Amt")
+    this.Payment_Transaction_Id = localStorage.getItem("Payment_Transaction_Id")
+
     this.form = this.fb.group({
       reason: ['', Validators.required],
       details: ['', Validators.required],
@@ -71,14 +78,11 @@ export class CancelRequestComponent {
     // Logic to handle the cancellation request submission
     console.log('Cancellation reason:', this.form.value.reason);
     console.log('Cancellation details:', this.form.value.details);
-    // this.showLoader = true;
-    // const params = new HttpParams()
-    // .set('email', this.authService.getAccountUsername() ?? '')
-    // .set('token', this.authService.getAccessToken() ?? '')
-    // .set('booking_id', this.currentBooking_id ?? '')
-    // .set('more_details', this.form.value.details ?? '')
 
-    // .set('cancel_reason', this.form.value.reason ?? '');
+    const refundableAmount = this.calculateAmount(this.getpaymentTransactionDate(), this.totalAmount);
+    const formattedDateTimeStr = this.getformattedDateTimeStr()
+    const uniqueKey = this.generateUniqueKey();
+    const Payment_Transaction_Date = this.getpaymentTransactionDate()
 
     let params = {
       email: this.authService.getAccountUsername() ?? '',
@@ -86,6 +90,12 @@ export class CancelRequestComponent {
       booking_id1: this.currentBooking_id ?? '',
       more_details: this.form.value.details ?? '',
       cancel_reason: this.form.value.reason ?? '',
+      refundableAmount : refundableAmount,
+      uniqueKey : uniqueKey,
+      formattedDateTimeStr : formattedDateTimeStr,
+      Payment_Transaction_Amt : this.totalAmount,
+      Payment_Transaction_Date : Payment_Transaction_Date,
+      Payment_Transaction_Id : this.Payment_Transaction_Id
     };
     console.log(params)
     this.http
@@ -102,6 +112,77 @@ export class CancelRequestComponent {
           this.isDialogOpen = false;
         },
       });
+  }
+
+  
+  calculateAmount(paymentTransactionDate:any, totalAmount:any) {
+    this.currentDate = new Date();
+
+    const timeDifference = this.currentDate - paymentTransactionDate;
+    const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let refundableAmount = 0;
+  
+    if (dayDifference <= 1) {
+      refundableAmount = 0;
+    } else if (dayDifference > 1 && dayDifference <= 2) {
+      refundableAmount = (totalAmount * 80) / 100;
+    } else {
+      refundableAmount = (totalAmount * 90) / 100;
+    }
+  
+    // Ensure the refundable amount is a floating-point number with two decimal places
+    refundableAmount = parseFloat(refundableAmount.toFixed(2));
+  
+    return refundableAmount;
+  };
+
+  generateUniqueKey() {
+    // Get the current timestamp in milliseconds
+    const timestamp = Date.now();
+    
+    // Convert the timestamp to a string
+    let timestampStr = timestamp.toString();
+    
+    // Ensure the timestamp is 13 digits long
+    if (timestampStr.length > 13) {
+      timestampStr = timestampStr.slice(0, 13);
+    } else if (timestampStr.length < 13) {
+      const padding = '0'.repeat(13 - timestampStr.length);
+      timestampStr = timestampStr + padding;
+    }
+    
+    return timestampStr;
+  };
+
+  getformattedDateTimeStr(){
+    const currentDateTime = new Date();
+
+    const year = currentDateTime.getFullYear();
+    const month = String(currentDateTime.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDateTime.getDate()).padStart(2, '0');
+    const hours = String(currentDateTime.getHours()).padStart(2, '0');
+    const minutes = String(currentDateTime.getMinutes()).padStart(2, '0');
+    const seconds = String(currentDateTime.getSeconds()).padStart(2, '0');
+  
+    const formattedDateTimeStr = `${year}${month}${day}${hours}${minutes}${seconds}`;
+    return formattedDateTimeStr
+  }
+
+  getpaymentTransactionDate():any{
+    const paymentTransactionDateStr = localStorage.getItem("Payment_Transaction_Date");
+
+  if (paymentTransactionDateStr) {
+    
+    // Parse the Payment_Transaction_Date string
+    const [datePart, timePart] = paymentTransactionDateStr.split(' ');
+    const [day, month, year] = datePart.split('-').map(Number);
+    const [hours, minutes, seconds] = timePart.split(':').map(Number);
+    
+    // Create a Date object for the Payment_Transaction_Date
+    const paymentTransactionDate = new Date(year, month - 1, day, hours, minutes, seconds);
+    return paymentTransactionDate
+  }
+  
   }
 
   closeDialog() {

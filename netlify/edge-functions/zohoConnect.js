@@ -307,135 +307,19 @@ export default async (req) => {
         const {
           email,
           token,
-          booking_id1,
           cancel_reason,
           more_details,
           Payment_Transaction_Id,
           Payment_Transaction_Date,
+          booking_id1,
           Payment_Transaction_Amt,
+          refundableAmount,
+          formattedDateTimeStr,
+          uniqueKey
         } = bodyParams;
 
-        const currentDateTime = new Date();
-
-        const year = currentDateTime.getFullYear();
-        const month = String(currentDateTime.getMonth() + 1).padStart(2, "0");
-        const day = String(currentDateTime.getDate()).padStart(2, "0");
-        const hours = String(currentDateTime.getHours()).padStart(2, "0");
-        const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
-        const seconds = String(currentDateTime.getSeconds()).padStart(2, "0");
-        // 1
-        const formattedDateTimeStr = `${year}${month}${day}${hours}${minutes}${seconds}`;
-        // 2
-        const paymentTransactionDateStr = Payment_Transaction_Date;
-        const [datePart, timePart] = paymentTransactionDateStr.split(" ");
-        const [daypt, monthpt, yearpt] = datePart.split("-").map(Number);
-        const [hourspt, minutespt, secondspt] = timePart.split(":").map(Number);
-
-        // Create a Date object for the Payment_Transaction_Date
-        const paymentTransactionDate = new Date(
-          yearpt,
-          monthpt - 1,
-          daypt,
-          hourspt,
-          minutespt,
-          secondspt
-        );
-
-        const calculateAmount = () => {
-          const currentDate = new Date();
-          const timeDifference = currentDate - paymentTransactionDate;
-          const dayDifference = Math.floor(
-            timeDifference / (1000 * 60 * 60 * 24)
-          );
-          if (dayDifference <= 1) {
-            refundableAmount = 0;
-          } else if (dayDifference > 1 && dayDifference <= 2) {
-            refundableAmount = (totalAmount * 80) / 100;
-          } else {
-            refundableAmount = (totalAmount * 90) / 100;
-          }
-          refundableAmount = parseFloat(refundableAmount.toFixed(2));
-          return refundableAmount;
-        };
-
-        const generateUniqueKey = () => {
-          const timestamp = Date.now();
-          let timestampStr = timestamp.toString();
-          if (timestampStr.length > 13) {
-            timestampStr = timestampStr.slice(0, 13);
-          } else if (timestampStr.length < 13) {
-            const padding = "0".repeat(13 - timestampStr.length);
-            timestampStr = timestampStr + padding;
-          }
-          return timestampStr;
-        };
-
-        let uniqueKey = generateUniqueKey();
-        let refundableAmount = calculateAmount();
-        let Payment_Transaction_Amt_f = Payment_Transaction_Amt.parseFloat(
-          Payment_Transaction_Amt.toFixed(2)
-        );
-        console.log(
-          "formattedDateTimeStr,refundable amount, and unique key ",
-          formattedDateTimeStr,
-          refundableAmount,
-          uniqueKey,
-          Payment_Transaction_Amt_f
-        );
-
-        let strForEnc =
-          "0400|" +
-          "|" +
-          process.env.Billdesk_MerchantId +
-          "|" +
-          Payment_Transaction_Id +
-          "|" +
-          Payment_Transaction_Date +
-          "|" +
-          booking_id1 +
-          "|" +
-          Payment_Transaction_Amt_f +
-          "|" +
-          refundableAmount +
-          "|" +
-          uniqueKey +
-          "|NA|NA|NA";
-
-        // Function to convert string to ArrayBuffer
-        const stringToArrayBuffer = (str) => {
-          const encoder = new TextEncoder();
-          return encoder.encode(str);
-        };
-
-        // Function to convert ArrayBuffer to Base64
-        const arrayBufferToBase64 = (buffer) => {
-          let binary = "";
-          const bytes = new Uint8Array(buffer);
-          for (let i = 0; i < bytes.byteLength; i++) {
-            binary += String.fromCharCode(bytes[i]);
-          }
-          return btoa(binary);
-        };
-         secretKey = process.env.Billdesk_SecretKey
-        // Function to create HMAC SHA-256 signature and encode it to Base64
-        const createHmacSignature = async (secretKey, str) => {
-          const keyData = stringToArrayBuffer(secretKey);
-          const key = await crypto.subtle.importKey(
-            "raw",
-            keyData,
-            { name: "HMAC", hash: "SHA-256" },
-            false,
-            ["sign"]
-          );
-
-          const data = stringToArrayBuffer(str);
-          const signature = await crypto.subtle.sign("HMAC", key, data);
-          return arrayBufferToBase64(signature);
-        };
-
-        const signature = await createHmacSignature(secretKey, strForEnc);
-
-        let msg1 = str + "|" + signature;
+       const MerchantId = process.env.Billdesk_MerchantId
+       const secretKey = process.env.Billdesk_MerchantId
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
@@ -448,6 +332,11 @@ export default async (req) => {
             }
           );
         }
+
+        let str = '0400|' + MerchantId + '|' + Payment_Transaction_Id + '|' + Payment_Transaction_Date + '|' + booking_id1 + '|'+ Payment_Transaction_Amt + '|' + refundableAmount + '|' + formattedDateTimeStr + '|' + uniqueKey + '|NA|NA|NA'
+        console.log(str)
+        const signature = createHmac('sha256', secretKey).update(str).digest('base64');
+        msg1 = str + "|" + signature;
 
         // Log parameters for debugging
 
