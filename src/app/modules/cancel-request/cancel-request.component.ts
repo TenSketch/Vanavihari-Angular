@@ -79,11 +79,11 @@ export class CancelRequestComponent {
     console.log('Cancellation reason:', this.form.value.reason);
     console.log('Cancellation details:', this.form.value.details);
 
-    const refundableAmount = this.calculateAmount(this.getpaymentTransactionDate(), this.totalAmount);
+    const refundableAmount = this.calculateAmount(this.getpaymentTransactionDate(), this.totalAmount).toFixed(2);
     const formattedDateTimeStr = this.getformattedDateTimeStr()
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate()
-
+    console.log(refundableAmount)
     let params = {
       email: this.authService.getAccountUsername() ?? '',
       token: this.authService.getAccessToken() ?? '',
@@ -132,7 +132,7 @@ export class CancelRequestComponent {
   
     // Ensure the refundable amount is a floating-point number with two decimal places
     refundableAmount = parseFloat(refundableAmount.toFixed(2));
-  
+    console.log(refundableAmount)
     return refundableAmount;
   };
 
