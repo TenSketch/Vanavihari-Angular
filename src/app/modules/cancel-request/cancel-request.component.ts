@@ -171,17 +171,18 @@ export class CancelRequestComponent {
   getpaymentTransactionDate():any{
     const paymentTransactionDateStr = localStorage.getItem("Payment_Transaction_Date");
 
-  if (paymentTransactionDateStr) {
-    
-    // Parse the Payment_Transaction_Date string
-    const [datePart, timePart] = paymentTransactionDateStr.split(' ');
-    const [day, month, year] = datePart.split('-').map(Number);
-    const [hours, minutes, seconds] = timePart.split(':').map(Number);
-    
-    // Create a Date object for the Payment_Transaction_Date
-    const paymentTransactionDate = new Date(year, month - 1, day, hours, minutes, seconds);
-    return paymentTransactionDate
-  }
+    if (paymentTransactionDateStr) {
+      // Parse the Payment_Transaction_Date string
+      const [datePart] = paymentTransactionDateStr.split(' ');
+      const [day, month, year] = datePart.split('-').map(Number);
+  
+      // Format the date in YYYYMMDD format
+      const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
+      
+      return formattedDate;
+    }
+  
+    return null;
   
   }
 
