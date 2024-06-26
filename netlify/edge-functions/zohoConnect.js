@@ -319,7 +319,7 @@ export default async (req) => {
         } = bodyParams;
 
        const MerchantId = process.env.Billdesk_MerchantId
-       const secretKey = process.env.Billdesk_MerchantId
+       const secretKey = process.env.Billdesk_SecretKey
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
@@ -342,8 +342,8 @@ export default async (req) => {
         console.log("msg:",msg1)
         // Log parameters for debugging
 
-        // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
-        // method = "POST";
+        apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        method = "POST";
         break;
       default:
         return new Response(
