@@ -32,7 +32,8 @@ export class CancelRequestComponent {
 
   totalAmount:any
   currentDate:any
-  Payment_Transaction_Id:any 
+  Payment_Transaction_Id:any
+  showMessage = false 
 
   constructor(
     private fb: FormBuilder,
@@ -76,14 +77,11 @@ export class CancelRequestComponent {
 
   confirmCancellation() {
     // Logic to handle the cancellation request submission
-    console.log('Cancellation reason:', this.form.value.reason);
-    console.log('Cancellation details:', this.form.value.details);
-
-    const refundableAmount = this.calculateAmount(this.getpaymentTransactionDate(), this.totalAmount).toFixed(2);
+    this.showLoader = true
+    const refundableAmount = this.calculateAmount(this.getCheckInDate(), this.totalAmount).toFixed(2);
     const formattedDateTimeStr = this.getformattedDateTimeStr()
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate()
-    console.log(refundableAmount)
     let params = {
       email: this.authService.getAccountUsername() ?? '',
       token: this.authService.getAccessToken() ?? '',
@@ -97,42 +95,47 @@ export class CancelRequestComponent {
       Payment_Transaction_Date : Payment_Transaction_Date,
       Payment_Transaction_Id : this.Payment_Transaction_Id
     };
-    console.log(params)
     this.http
-      .post<any>(`${this.api_url}?api_type=cancel_init`, params)
-      .subscribe({
-        next: (response: any) => {
-          // this.showLoader = false; // Uncomment if you have a loader
-          this.isDialogOpen = false;
-          console.log(response);
-        },
-        error: (err) => {
-          console.error(err);
-          // this.showLoader = false; // Uncomment if you have a loader
-          this.isDialogOpen = false;
-        },
-      });
+    .post<any>(`${this.api_url}?api_type=cancel_init`, params)
+    .subscribe({
+      next: (response: any) => {
+        
+        this.showLoader = false;
+      },
+      error: (err) => {
+        this.showLoader = false;
+      },
+    });
+
+    if(this.calculateAmount(this.getCheckInDate,this.totalAmount)==0){
+      this.showMessage = true
+      setTimeout(()=>{
+         this.showMessage = false
+      },4000)
+    }
   }
 
   
-  calculateAmount(paymentTransactionDate:any, totalAmount:any) {
-    this.currentDate = new Date();
+  calculateAmount(checkinDate:any, totalAmount:any) {
+    const [year, month, day] = checkinDate.split('-').map(Number);
+    const fcheckinDate = new Date(year, month - 1, day, 10, 0, 0); // Set check-in time to 10am
+    const currentDateWithTime = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()); 
 
-    const timeDifference = this.currentDate - paymentTransactionDate;
-    const dayDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const timeDifference = fcheckinDate.getTime() - currentDateWithTime.getTime();
+    console.log(fcheckinDate.getTime(),currentDateWithTime.getTime())
+    const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
     let refundableAmount = 0;
   
-    if (dayDifference <= 1) {
-      refundableAmount = 0;
-    } else if (dayDifference > 1 && dayDifference <= 2) {
+    if (dayDifference >=2) {
+      refundableAmount = (totalAmount * 90) / 100;
+    } else if (dayDifference >= 1 && dayDifference < 2) {
       refundableAmount = (totalAmount * 80) / 100;
     } else {
-      refundableAmount = (totalAmount * 90) / 100;
+      refundableAmount = 0;
     }
   
     // Ensure the refundable amount is a floating-point number with two decimal places
     refundableAmount = parseFloat(refundableAmount.toFixed(2));
-    console.log(refundableAmount)
     return refundableAmount;
   };
 
@@ -185,6 +188,25 @@ export class CancelRequestComponent {
     return null;
   
   }
+
+  getCheckInDate():any{
+    const paymentTransactionDateStr = localStorage.getItem("booking_checkin");
+
+    if (paymentTransactionDateStr) {
+      // Parse the Payment_Transaction_Date string
+      const [datePart] = paymentTransactionDateStr.split(' ');
+      const [day, month, year] = datePart.split('-').map(Number);
+  
+      // Format the date in YYYYMMDD format
+      const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
+      
+      return formattedDate;
+    }
+  
+    return null;
+  
+  }
+
 
   closeDialog() {
     this.isDialogOpen = false;

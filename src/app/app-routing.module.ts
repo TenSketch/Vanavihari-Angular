@@ -32,6 +32,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { TestRoomComponent } from './modules/test-room/test-room.component';
 import { CancelRequestComponent } from './modules/cancel-request/cancel-request.component';
 import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
+import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -98,6 +99,10 @@ const routes: Routes = [
   {
     path:'test-bookings',
     component: TestBookingsComponent,
+  },
+  {
+    path:'cancel-status',
+    component:CancelStatusComponent
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },

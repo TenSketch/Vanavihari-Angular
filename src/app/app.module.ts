@@ -83,6 +83,7 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { TestRoomComponent } from './modules/test-room/test-room.component';
 import { CancelRequestComponent } from './modules/cancel-request/cancel-request.component';
 import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
+import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 
 
 @NgModule({
@@ -122,7 +123,8 @@ import { TestBookingsComponent } from './modules/test-bookings/test-bookings.com
     ResetPasswordComponent,
     TestRoomComponent,
     CancelRequestComponent,
-    TestBookingsComponent
+    TestBookingsComponent,
+    CancelStatusComponent
 
   ],
   imports: [

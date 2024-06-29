@@ -45,6 +45,7 @@
             type="submit"
             (click)="triggerModal()"
             class="submit-button"
+            
           >
             Submit
           </button>
@@ -56,6 +57,7 @@
             Go Back
           </button>
         </div>
+        <pre *ngIf="showMessage">You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre>
       </form>
     </div>
   </div>

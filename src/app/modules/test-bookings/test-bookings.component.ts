@@ -4,6 +4,7 @@ import { UserService } from '@/app/user.service';
 import { environment } from '@/environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import { HmacSHA256 } from 'crypto-js';
 
 @Component({
@@ -22,46 +23,56 @@ export class TestBookingsComponent {
   resortNumber: any;
   // pdfUrl: any;
   showPdfViewer: boolean = false;
-  api_url: any;
+  api_url:any
+  confirmCancel = false
   pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
+  cancellationReason: string = '';
+  currentDate: Date = new Date();
 
   constructor(
     private authService: AuthService,
     private renderer: Renderer2,
     private http: HttpClient,
     private userService: UserService,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
+    private router:Router
   ) {
-    this.api_url = environment.API_URL;
+    this.api_url = environment.API_URL
   }
+
   ngOnInit(): void {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
+
+   
 
     this.showLoader = true;
     let params = new HttpParams()
       .set('email', this.userService.getUser())
       .set('token', this.userService.getUserToken());
     this.http
-      .get<any>(this.api_url + '?api_type=booking_history&' + params.toString())
+      .get<any>(
+        this.api_url+'?api_type=booking_history&' +
+          params.toString()
+      )
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details;
           this.showLoader = false;
-          this.bookingData.forEach((item) => {
+          this.bookingData.forEach(item => {
             if (item.pay_trans_id) {
-              this.successData.push(item);
+                this.successData.push(item);
             }
-          });
+        });
           if (this.bookingData.length == 0) {
             this.message = 'You have not made any bookings yet';
             this.noBookings = true;
           }
 
-          this.bookingData.sort((a, b) => {
-            const dateA = new Date(a.reservation_date);
-            const dateB = new Date(b.reservation_date);
-            return dateB.getTime() - dateA.getTime();
-          });
+         this.bookingData.sort((a, b) => {
+          const dateA = new Date(a.reservation_date);
+          const dateB = new Date(b.reservation_date);
+          return dateB.getTime() - dateA.getTime();
+        });
         },
         error: (err) => {
           this.noBookings = true;
@@ -69,6 +80,18 @@ export class TestBookingsComponent {
           this.message = err;
         },
       });
+  }
+
+  
+
+  confirmCancelAction(){
+    this.confirmCancel = true
+  }
+
+  // initializing cancel request.
+
+  submitCancellationRequest(){
+      console.log(this.cancellationReason)
   }
 
   // Function to download PDF
@@ -79,86 +102,15 @@ export class TestBookingsComponent {
     link.click();
   }
 
-  callSupport(resort: any) {
-    this.selectedResort = resort;
-    if (this.selectedResort == 'Vanavihari, Maredumilli') {
-      this.resortNumber = '+919494151623';
-    }
-    if (this.selectedResort == 'Jungle Star, Valamuru') {
-      this.resortNumber = '+9173821 51617';
-    }
+  callSupport(resort:any) {
+    this.selectedResort = resort
+          if (this.selectedResort == 'Vanavihari, Maredumilli') {
+            this.resortNumber = '+919494151623';
+          }
+          if (this.selectedResort == 'Jungle Star, Valamuru') {
+            this.resortNumber = '+9173821 51617';
+          }
     window.location.href = 'tel:' + this.resortNumber;
-  }
-
-  refundTest() {
-    const bookingId = 'BVV2406127';
-    const MerchantId = 'VANAVIHARI';
-    const CurrencyType = 'INR';
-    const SecurityId = 'vanavihari';
-    const txtCustomerID = 'BK986239234';
-    const secretKey = 'rmvlozE7R4v9';
-    const amount = '10.00';
-    const rU = this.api_url + '?api_type=get_payment_response';
-
-    const str =
-      '0400' +
-      '|' +
-      MerchantId +
-      '|' +
-      'ZHD52065322042' +
-      '|' +
-      '20240612' +
-      '|' +
-      txtCustomerID +
-      '|' +
-      '12.00' +
-      '|' +
-      '12.00' +
-      '|' +
-      '20240612141615' +
-      '|' +
-      '12121212' +
-      '|' +
-      'NA|NA|NA';
-
-    const hmac = HmacSHA256(str, secretKey);
-    const checksum = hmac.toString().toUpperCase();
-    const msg = `${str}|${checksum}`;
-    alert(msg);
-
-    const pg_params = {
-      MerchantId: MerchantId,
-      CurrencyType: CurrencyType,
-      SecurityId: SecurityId,
-      txtCustomerID: txtCustomerID,
-      amount: amount,
-      bookingId: bookingId,
-      rU: rU,
-      secretKey: secretKey,
-      checksum: checksum,
-      msg: msg,
-    };
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    const body = new URLSearchParams(pg_params).toString();
-
-    this.http
-      .post(this.api_url + '?api_type=cancel_init', body, {
-        headers,
-        responseType: 'text',
-      })
-      .subscribe((response) => {
-        console.log(response)
-
-        const newWindow = window.open();
-        if (newWindow) {
-          console.log(response)
-          newWindow.document.write(response);
-          newWindow.document.close();
-        }
-      });
   }
 
   getRoomImages(roomname: any): string[] {
@@ -326,5 +278,28 @@ export class TestBookingsComponent {
     // setTimeout(() => {
     //    this.loadingRooms = false;
     // }, 2000);
+  }
+
+  InitiateCancel(item:any){
+    localStorage.setItem('current_id',item.booking_id)
+    localStorage.setItem('Payment_Transaction_Id',item.pay_trans_id)
+    localStorage.setItem('Payment_Transaction_Date',item.pay_trans_date)
+    localStorage.setItem('Payment_Transaction_Amt',item.pay_trans_amt)
+    localStorage.setItem('booking_checkin',item.checkin)
+    this.router.navigateByUrl('cancel-request');
+  }
+
+  isCheckinDateValid(checkinDateStr: string): boolean {
+    const [year, month, day] = checkinDateStr.split('-').map(Number);
+    const checkinDate = new Date(year, month - 1, day);
+    
+    // Calculate the difference in time
+    const timeDifference = checkinDate.getTime() - this.currentDate.getTime();
+    
+    // Calculate the difference in days
+    const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    
+    // Return true if the checkin date is at least 1 day more than the current date
+    return dayDifference > 1;
   }
 }
