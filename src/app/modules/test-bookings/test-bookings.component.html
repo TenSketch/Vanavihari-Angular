@@ -102,20 +102,20 @@
               support with your <br />
               booking ID : {{ item.booking_id }}
             </p>
-            <button class="btn mt-2" (click)="callSupport('Vanavihari, Maredumilli')"
+            <button class="btn mt-2" style="border: 1px solid;"  (click)="callSupport('Vanavihari, Maredumilli')"
               *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">
               <i class="fa fa-phone" aria-hidden="true"></i>
 
               9494151617
             </button>
-            <button class="btn mt-2" (click)="callSupport('Jungle Star, Valamuru')"
+            <button class="btn mt-2" style="border: 1px solid;"  (click)="callSupport('Jungle Star, Valamuru')"
               *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">
               <i class="fa fa-phone" aria-hidden="true"></i>
 
               7382151617
             </button>
 
-            <button class="btn mt-2 btn-outline-danger" style="border: 1px solid;" 
+            <button class="btn mt-2 btn-outline-danger" 
             *ngIf="item.pay_status == 'Paid' && isCheckinDateValid(item.checkin)" 
             (click)="InitiateCancel(item)">Cancel Booking</button>
     
