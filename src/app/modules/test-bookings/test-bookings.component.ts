@@ -293,15 +293,12 @@ export class TestBookingsComponent {
     const [year, month, day] = checkinDateStr.split('-').map(Number);
     const checkinDate = new Date(year, month - 1, day);
     
-    // Calculate the difference in time
-    const timeDifference = checkinDate.getTime() - this.currentDate.getTime();
+    // Get the current date
+    const currentDate = this.currentDate;
     
-    // Calculate the difference in days
-    const dayDifference = Math.abs(timeDifference / (1000 * 60 * 60 * 24));
-    console.log(dayDifference)
-    
-    // Return true if the checkin date is at least 1 day more than the current date
-    return dayDifference >= 1;
+    // Return true if the checkin date is greater than the current date
+    return checkinDate > currentDate;
 }
+
 
 }
