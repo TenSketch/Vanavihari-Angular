@@ -65,21 +65,19 @@
             <div class="d-flex gap-3">
               <div class="show-date">
                 <h5 class="mb-0">Check-in Time</h5>
-                <h1 class="display-3 mb-0">{{ formatDate(item.checkin).day }}</h1>
-                <p class="mb-0">
+                <h1 class="display-3 mb-0">10 AM</h1>
+                <!-- <p class="mb-0">
                   {{ formatDate(item.checkin).month }}
                   {{ formatDate(item.checkin).year }}
-                </p>
-                <p>10 AM</p>
+                </p> -->
               </div>
               <div class="show-date">
                 <h5 class="mb-0">Check-out Time</h5>
-                <h1 class="display-3 mb-0">{{ formatDate(item.checkout).day }}</h1>
-                <p class="mb-0">
+                <h1 class="display-3 mb-0">9 AM</h1>
+                <!-- <p class="mb-0">
                   {{ formatDate(item.checkout).month }}
                   {{ formatDate(item.checkout).year }}
-                </p>
-                <p>9 AM</p>
+                </p> -->
               </div>
             </div>
             <h5 class="mt-3">Date of reservation: </h5>
@@ -116,7 +114,7 @@
             </button>
 
             <button class="btn mt-2 btn-outline-danger" 
-            *ngIf="item.pay_status == 'Paid' && isCheckinDateValid(item.checkin)" 
+            *ngIf="item.pay_status == 'Paid'" 
             (click)="InitiateCancel(item)">Cancel Booking</button>
     
             <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
