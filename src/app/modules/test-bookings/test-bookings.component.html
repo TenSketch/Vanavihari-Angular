@@ -61,7 +61,7 @@
                   {{ formatDate(item.checkout).year }}
                 </p>
               </div>
-            </div>
+            </div> <br>
             <div class="d-flex gap-3">
               <div class="show-date">
                 <h5 class="mb-0">Check-in Time</h5>
@@ -83,7 +83,7 @@
               </div>
             </div>
             <h5 class="mt-3">Date of reservation: </h5>
-             <p class="mb-0">{{item.reservation_date}}</p> <br>
+             <p class="mb-0">{{item.reservation_date}}</p>
              <h5 class="mt-3">Booking Id: </h5>
              <p class="mb-0">{{item.booking_id}}</p>
           </div>
@@ -115,7 +115,7 @@
               7382151617
             </button>
 
-            <button class="btn mt-2 btn-outline-danger" 
+            <button class="btn mt-2 btn-outline-danger" style="border: 1px solid;" 
             *ngIf="item.pay_status == 'Paid' && isCheckinDateValid(item.checkin)" 
             (click)="InitiateCancel(item)">Cancel Booking</button>
     
