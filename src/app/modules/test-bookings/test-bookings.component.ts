@@ -300,6 +300,6 @@ export class TestBookingsComponent {
     const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
     
     // Return true if the checkin date is at least 1 day more than the current date
-    return dayDifference > 1;
+    return dayDifference >=1;
   }
 }
