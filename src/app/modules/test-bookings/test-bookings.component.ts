@@ -297,9 +297,11 @@ export class TestBookingsComponent {
     const timeDifference = checkinDate.getTime() - this.currentDate.getTime();
     
     // Calculate the difference in days
-    const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    const dayDifference = Math.abs(timeDifference / (1000 * 60 * 60 * 24));
     console.log(dayDifference)
+    
     // Return true if the checkin date is at least 1 day more than the current date
-    return dayDifference >=1;
-  }
+    return dayDifference >= 1;
+}
+
 }
