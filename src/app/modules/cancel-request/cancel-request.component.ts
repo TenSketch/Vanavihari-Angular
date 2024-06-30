@@ -95,17 +95,18 @@ export class CancelRequestComponent {
       Payment_Transaction_Date : Payment_Transaction_Date,
       Payment_Transaction_Id : this.Payment_Transaction_Id
     };
-    this.http
-    .post<any>(`${this.api_url}?api_type=cancel_init`, params)
-    .subscribe({
-      next: (response: any) => {
+    console.log("params",params)
+    // this.http
+    // .post<any>(`${this.api_url}?api_type=cancel_init`, params)
+    // .subscribe({
+    //   next: (response: any) => {
         
-        this.showLoader = false;
-      },
-      error: (err) => {
-        this.showLoader = false;
-      },
-    });
+    //     this.showLoader = false;
+    //   },
+    //   error: (err) => {
+    //     this.showLoader = false;
+    //   },
+    // });
 
     if(this.calculateAmount(this.getCheckInDate,this.totalAmount)==0){
       this.showMessage = true
@@ -126,7 +127,7 @@ export class CancelRequestComponent {
 
     const timeDifference = fcheckinDate.getTime() - currentDateWithTime.getTime();
     const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-
+    console.log("day-difference",dayDifference)
     let refundableAmount = 0;
     if (dayDifference >= 2) {
       refundableAmount = (totalAmount * 90) / 100;
