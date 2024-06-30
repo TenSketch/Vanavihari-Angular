@@ -118,17 +118,22 @@ export class CancelRequestComponent {
 
   
   calculateAmount(checkinDate: any, totalAmount: number): number {
+    // Parse checkinDate and set check-in time to 10am
     const [year, month, day] = checkinDate.split('-').map(Number);
     const fcheckinDate = new Date(year, month - 1, day, 10, 0, 0); // Set check-in time to 10am
-    
-    // Check if currentDate is defined, if not use the current system date
-    const currentDate = this.currentDate ? new Date(this.currentDate) : new Date();
-    const currentDateWithTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()); 
-
+  
+    // Use current system date without setting specific check-out time
+    const currentDate = new Date();
+    const currentDateWithTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 10, 0, 0); // Set current time to 10am
+  
+    // Calculate the time difference in milliseconds
     const timeDifference = fcheckinDate.getTime() - currentDateWithTime.getTime();
     const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-    console.log("day-difference",dayDifference)
+    console.log("day-difference", dayDifference);
+  
     let refundableAmount = 0;
+  
+    // Calculate refundable amount based on day difference
     if (dayDifference >= 2) {
       refundableAmount = (totalAmount * 90) / 100;
     } else if (dayDifference >= 1 && dayDifference < 2) {
@@ -138,9 +143,9 @@ export class CancelRequestComponent {
     }
   
     // Ensure the refundable amount is a floating-point number with two decimal places
-    refundableAmount = parseFloat(refundableAmount.toFixed(2));
-    return refundableAmount;
-}
+    return parseFloat(refundableAmount.toFixed(2));
+  }
+  
 
 
   generateUniqueKey() {
