@@ -190,7 +190,6 @@ export class CancelRequestComponent {
   
       // Format the date in YYYYMMDD format
       const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
-      console.log(formattedDate)
       return formattedDate;
     }
   
@@ -208,7 +207,8 @@ export class CancelRequestComponent {
   
       // Format the date in YYYYMMDD format
       const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
-      
+      console.log(formattedDate)
+
       return formattedDate;
     }
   
