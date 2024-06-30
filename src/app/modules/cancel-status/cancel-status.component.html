@@ -9,10 +9,10 @@
             <p>Your booking with ID <strong>[Booking ID]</strong> has been successfully cancelled as requested.</p>
             <h5 class="fw-bold">Booking Details:</h5>
             <ul class="list-unstyled">
-                <li><i class="bi bi-house-door"></i> Resort Name: <strong>[Resort Name]</strong></li>
-                <li><i class="bi bi-house"></i> Cottage Type(s): <strong>[Cottage Type]</strong></li>
-                <li><i class="bi bi-door-closed"></i> Room Name(s): <strong>[Room Name]</strong></li>
-                <li><i class="bi bi-calendar-check"></i> Check-in date: <strong>[Check-in date]</strong></li>
+                <li><i class="bi bi-house-door"></i> Resort Name: <strong>{{singleBooking.rooms.restort}}</strong></li>
+                <li><i class="bi bi-house"></i> Cottage Type(s): <strong>{{singleBooking.rooms.cottage}}</strong></li>
+                <li><i class="bi bi-door-closed"></i> Room Name(s): <strong>{{singleBooking.rooms.name}}</strong></li>
+                <li><i class="bi bi-calendar-check"></i> Check-in date: <strong>{{singleBooking.checkin}}</strong></li>
                 <li><i class="bi bi-clock"></i> Check-in time: <strong>10:00 a.m.</strong></li>
                 <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time: <strong>[Cancellation requested date and time]</strong></li>
             </ul>

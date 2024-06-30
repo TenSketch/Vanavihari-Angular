@@ -96,17 +96,20 @@ export class CancelRequestComponent {
       Payment_Transaction_Id : this.Payment_Transaction_Id
     };
     console.log("params",params)
-    // this.http
-    // .post<any>(`${this.api_url}?api_type=cancel_init`, params)
-    // .subscribe({
-    //   next: (response: any) => {
+    this.http
+    .post<any>(`${this.api_url}?api_type=cancel_init`, params)
+    .subscribe({
+      next: (response: any) => {
         
-    //     this.showLoader = false;
-    //   },
-    //   error: (err) => {
-    //     this.showLoader = false;
-    //   },
-    // });
+        this.showLoader = false;
+        this.router.navigate(['/cancel-status']);
+
+      },
+      error: (err) => {
+        this.router.navigate(['/cancel-status']);
+        this.showLoader = false;
+      },
+    });
 
     if(this.calculateAmount(this.getCheckInDate(),this.totalAmount)==0){
       this.showMessage = true
