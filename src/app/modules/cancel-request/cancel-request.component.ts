@@ -108,7 +108,7 @@ export class CancelRequestComponent {
     //   },
     // });
 
-    if(this.calculateAmount(this.getCheckInDate,this.totalAmount)==0){
+    if(this.calculateAmount(this.getCheckInDate(),this.totalAmount)==0){
       this.showMessage = true
       setTimeout(()=>{
          this.showMessage = false
@@ -117,19 +117,20 @@ export class CancelRequestComponent {
   }
 
   
-  calculateAmount(checkinDate: any, totalAmount: number): number {
-    // Parse checkinDate from the format DDMMYYYY
-    const day = parseInt(checkinDate.slice(0, 2));
-    const month = parseInt(checkinDate.slice(2, 4)) - 1; // Convert month to zero-based index
-    const year = parseInt(checkinDate.slice(4, 8));
+  calculateAmount(checkinDate: string, totalAmount: number): number {
+    // Parse checkinDate from the format YYYY-MM-DD
+    const [year, month, day] = checkinDate.split('-').map(Number);
   
     // Create Date object with the check-in date set to 10am
-    const fcheckinDate = new Date(year, month, day, 10, 0, 0);
-  
-    // Use current system date without setting specific check-out time
+    const fcheckinDate = new Date(year, month - 1, day, 10, 0, 0); // month is zero-based
+    
+    // Use current system date
     const currentDate = new Date();
-    const currentDateWithTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 10, 0, 0); // Set current time to 10am
   
+    // Set current date with time to 10am
+    const currentDateWithTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 10, 0, 0);
+    console.log("fcheckinDate",fcheckinDate)
+    console.log("current time",currentDateWithTime)
     // Calculate the time difference in milliseconds
     const timeDifference = fcheckinDate.getTime() - currentDateWithTime.getTime();
     const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
@@ -207,14 +208,14 @@ export class CancelRequestComponent {
 
     if (paymentTransactionDateStr) {
       // Parse the Payment_Transaction_Date string
-      const [datePart] = paymentTransactionDateStr.split(' ');
-      const [day, month, year] = datePart.split('-').map(Number);
+      // const [datePart] = paymentTransactionDateStr.split(' ');
+      // const [day, month, year] = datePart.split('-').map(Number);
   
       // Format the date in YYYYMMDD format
-      const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
-      console.log(formattedDate)
+      // const formattedDate = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
+      // console.log(formattedDate)
 
-      return formattedDate;
+      return paymentTransactionDateStr;
     }
   
     return null;
