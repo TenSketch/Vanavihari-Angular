@@ -118,9 +118,13 @@ export class CancelRequestComponent {
 
   
   calculateAmount(checkinDate: any, totalAmount: number): number {
-    // Parse checkinDate and set check-in time to 10am
-    const [year, month, day] = checkinDate.split('-').map(Number);
-    const fcheckinDate = new Date(year, month - 1, day, 10, 0, 0); // Set check-in time to 10am
+    // Parse checkinDate from the format DDMMYYYY
+    const day = parseInt(checkinDate.slice(0, 2));
+    const month = parseInt(checkinDate.slice(2, 4)) - 1; // Convert month to zero-based index
+    const year = parseInt(checkinDate.slice(4, 8));
+  
+    // Create Date object with the check-in date set to 10am
+    const fcheckinDate = new Date(year, month, day, 10, 0, 0);
   
     // Use current system date without setting specific check-out time
     const currentDate = new Date();
@@ -145,6 +149,7 @@ export class CancelRequestComponent {
     // Ensure the refundable amount is a floating-point number with two decimal places
     return parseFloat(refundableAmount.toFixed(2));
   }
+  
   
 
 
