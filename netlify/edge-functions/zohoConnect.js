@@ -315,7 +315,8 @@ export default async (req) => {
           Payment_Transaction_Amt,
           refundableAmount,
           formattedDateTimeStr,
-          uniqueKey
+          uniqueKey,
+          refund_percent
         } = bodyParams;
 
        const MerchantId = process.env.Billdesk_MerchantId

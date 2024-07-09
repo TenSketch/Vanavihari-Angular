@@ -11,6 +11,17 @@
         <h2 class="text-secondary">{{ message }}</h2>
         <!-- <button class="btn mt-2 btn-outline-danger" (click)="InitiateCancel()" >Cancel Booking</button> -->
 
+        <!-- <div class="calendar">
+          <div class="month">
+            <div class="month-name">{{ monthName }} {{ year }}</div>
+            <div class="days">
+              <div *ngFor="let day of days" [ngClass]="{'booked': day.booked, 'not-booked': !day.booked}" class="day">
+                {{ day.date }}
+              </div>
+            </div>
+          </div>
+        </div> -->
+        
       </div>
       <div class="container" *ngIf="!noBookings">
         <h1 class="text-center mb-3 mt-4">My Bookings</h1>
@@ -65,7 +76,7 @@
             <div class="d-flex gap-3">
               <div class="show-date">
                 <h5 class="mb-0">Check-in Time</h5>
-                <h1 class="display-4 mb-0">10 AM</h1>
+                <h1 class="display-custom mb-0">10 AM</h1>
                 <!-- <p class="mb-0">
                   {{ formatDate(item.checkin).month }}
                   {{ formatDate(item.checkin).year }}
@@ -73,7 +84,7 @@
               </div>
               <div class="show-date">
                 <h5 class="mb-0">Check-out Time</h5>
-                <h1 class="display-4 mb-0">9 AM</h1>
+                <h1 class="display-custom mb-0">9 AM</h1>
                 <!-- <p class="mb-0">
                   {{ formatDate(item.checkout).month }}
                   {{ formatDate(item.checkout).year }}
@@ -100,22 +111,40 @@
               support with your <br />
               booking ID : {{ item.booking_id }}
             </p>
-            <button class="btn mt-2" style="border: 1px solid;"  (click)="callSupport('Vanavihari, Maredumilli')"
-              *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-
-              9494151617
-            </button>
-            <button class="btn mt-2" style="border: 1px solid;"  (click)="callSupport('Jungle Star, Valamuru')"
-              *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">
-              <i class="fa fa-phone" aria-hidden="true"></i>
-
-              7382151617
-            </button>
-
-            <button class="btn mt-2 btn-outline-danger" 
-            *ngIf="item.pay_status == 'Paid' && isCheckinDateValid(item.checkin)" 
-            (click)="InitiateCancel(item)">Cancel Booking</button>
+            <div class="dropdown mt-2">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                Contact & Actions
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li>
+                  <button class="dropdown-item" (click)="callSupport('Vanavihari, Maredumilli')" *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">
+                    <i class="fa fa-phone" aria-hidden="true"></i> 9494151617
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" (click)="callSupport('Jungle Star, Valamuru')" *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">
+                    <i class="fa fa-phone" aria-hidden="true"></i> 7382151617
+                  </button>
+                </li>
+                
+                <li>
+                  <button class="dropdown-item" (click)="sendEmail(item)">
+                    <i class="fa fa-envelope" aria-hidden="true"></i> Email
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" (click)="sendWhatsApp(item)">
+                    <i class="fa fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" *ngIf="item.pay_status == 'Paid' && isCheckinDateValid(item.checkin)" (click)="InitiateCancel(item)">
+                    Cancel Booking
+                  </button>
+                </li>
+              </ul>
+            </div>
+            
     
             <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
               Add Review
@@ -129,3 +158,4 @@
     </section>
   </div>
 </app-layout>
+

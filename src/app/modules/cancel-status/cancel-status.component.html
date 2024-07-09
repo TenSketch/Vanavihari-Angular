@@ -4,9 +4,9 @@
             <h3 class="mb-0">Booking Cancellation Confirmation</h3>
         </div>
         <div class="card-body">
-            <p class="lead">Dear <strong>[Guest Name]</strong>,</p>
+            <p class="lead">Dear <strong>{{userName}}</strong>,</p>
             
-            <p>Your booking with ID <strong>[Booking ID]</strong> has been successfully cancelled as requested.</p>
+            <p>Your booking with ID <strong>{{singleBooking.booking_id}}</strong> has been successfully cancelled as requested.</p>
             <h5 class="fw-bold">Booking Details:</h5>
             <ul class="list-unstyled">
                 <li><i class="bi bi-house-door"></i> Resort Name: <strong>{{singleBooking.rooms.restort}}</strong></li>
@@ -14,9 +14,9 @@
                 <li><i class="bi bi-door-closed"></i> Room Name(s): <strong>{{singleBooking.rooms.name}}</strong></li>
                 <li><i class="bi bi-calendar-check"></i> Check-in date: <strong>{{singleBooking.checkin}}</strong></li>
                 <li><i class="bi bi-clock"></i> Check-in time: <strong>10:00 a.m.</strong></li>
-                <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time: <strong>[Cancellation requested date and time]</strong></li>
+                <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time: <strong>{{refundData.date}}</strong></li>
             </ul>
-            <p>You will receive a refund of <strong>Rs [X,000.00]</strong>, which is <strong>[X]%</strong> of the total amount <strong>[X,000.00]</strong>, in your account within 5 to 7 working days. <span class="text-danger fw-bold">Please note that bank charges won't be refunded.</span></p>
+            <p>You will receive a refund of <strong>Rs {{refundData.refundableAmount}}</strong>, which is <strong>{{refundData.refund_percent}}%</strong> of the total amount <strong>{{refundData.totalAmount}}</strong>, in your account within 5 to 7 working days. <span class="text-danger fw-bold">Please note that bank charges won't be refunded.</span></p>
             
             <h5 class="fw-bold text-primary">Refund Policy:</h5>
             <ul class="list-unstyled">

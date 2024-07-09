@@ -86,6 +86,7 @@ import { TestBookingsComponent } from './modules/test-bookings/test-bookings.com
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

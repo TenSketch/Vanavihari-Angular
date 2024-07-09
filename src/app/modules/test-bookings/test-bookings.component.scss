@@ -1,0 +1,54 @@
+.display-custom{
+    font-size: 1.5rem !important;
+}
+
+// $booked-color: #ff6961; // Red for booked days
+// $not-booked-color: #77dd77; // Green for not booked days
+// $border-color: #ccc;
+// $day-size: 40px;
+
+// .calendar {
+// //   width: 300px;
+//   background: #fff;
+//   border: 1px solid $border-color;
+//   border-radius: 10px;
+//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+//   overflow: hidden;
+
+//   .month {
+//     padding: 20px;
+
+//     .month-name {
+//       text-align: center;
+//       font-size: 1.5em;
+//       margin-bottom: 10px;
+//     }
+
+//     .days {
+//       display: grid;
+//       grid-template-columns: repeat(7, $day-size);
+//       gap: 5px;
+
+//       .day {
+//         width: $day-size;
+//         height: $day-size;
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//         border: 1px solid $border-color;
+//         border-radius: 5px;
+//         cursor: pointer;
+
+//         &.booked {
+//           background-color: $booked-color;
+//           color: #fff;
+//         }
+
+//         &.not-booked {
+//           background-color: $not-booked-color;
+//           color: #fff;
+//         }
+//       }
+//     }
+//   }
+// }

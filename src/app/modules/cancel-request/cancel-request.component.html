@@ -30,12 +30,17 @@
         </div>
 
         <div class="form-group">
-          <label class="float-start">Complete the captcha to proceed</label>
+          <!-- <label class="float-start">Complete the captcha to proceed</label>
           <re-captcha
             class="mb-2"
             (resolved)="resolvedCaptcha($event)"
             siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
-          ></re-captcha>
+          ></re-captcha> -->
+          <label class="float-start">Complete the captcha to proceed</label>
+          <div class="h-captcha mb-2"
+          data-sitekey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
+          data-callback="resolvedCaptcha">
+     </div>
         </div>
 
         <div class="actions">
@@ -45,7 +50,6 @@
             type="submit"
             (click)="triggerModal()"
             class="submit-button"
-            
           >
             Submit
           </button>
@@ -53,11 +57,15 @@
             mat-button
             type="button"
             (click)="goBack()"
-            mat-raised-button color="primary"          >
+            mat-raised-button
+            color="primary"
+          >
             Go Back
           </button>
         </div>
-        <pre *ngIf="showMessage">You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre>
+        <pre *ngIf="showMessage">
+You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre
+        >
       </form>
     </div>
   </div>
@@ -68,7 +76,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"> Are you sure you want to cancel?         </h5>
+        <h5 class="modal-title">Are you sure you want to cancel?</h5>
         <button
           type="button"
           class="btn-close"
@@ -101,13 +109,10 @@
           </tbody>
         </table>
       </div>
-      <div
-        class="modal-footer d-flex justify-content-between"
-      >
+      <div class="modal-footer d-flex justify-content-between">
         <button
           type="button"
           class="submit-button p-2"
-
           (click)="confirmCancellation()"
         >
           Confirm Cancel

@@ -29,6 +29,11 @@ export class TestBookingsComponent {
   cancellationReason: string = '';
   currentDate: Date = new Date();
 
+  days: { date: number, booked: boolean }[] = [];
+  monthName: string = '';
+  year: number = new Date().getFullYear();
+  month: number = new Date().getMonth();
+
   constructor(
     private authService: AuthService,
     private renderer: Renderer2,
@@ -41,6 +46,8 @@ export class TestBookingsComponent {
   }
 
   ngOnInit(): void {
+    this.generateCalendar(this.year, this.month);
+
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
    
@@ -80,6 +87,25 @@ export class TestBookingsComponent {
           this.message = err;
         },
       });
+  }
+
+  generateCalendar(year: number, month: number): void {
+    const date = new Date(year, month, 1);
+    this.monthName = date.toLocaleString('default', { month: 'long' });
+    this.days = [];
+
+    while (date.getMonth() === month) {
+      this.days.push({ date: date.getDate(), booked: Math.random() > 0.5 }); // Randomly mark days as booked/not booked
+      date.setDate(date.getDate() + 1);
+    }
+  }
+
+  sendEmail(item:any){
+
+  }
+
+  sendWhatsApp(item:any){
+
   }
 
   
@@ -299,6 +325,5 @@ export class TestBookingsComponent {
     // Return true if the checkin date is greater than the current date
     return checkinDate > currentDate;
 }
-
 
 }

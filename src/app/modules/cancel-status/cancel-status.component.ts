@@ -14,14 +14,25 @@ export class CancelStatusComponent {
   bookingData:any
   currentId:any
   singleBooking:any
+  refundData:any
+  userName:any;
 
   constructor(private userService:UserService,     private http: HttpClient  ){
     this.api_url = environment.API_URL
     this.currentId = localStorage.getItem("current_id")
+    let myObjectString = localStorage.getItem('refunddata');
+    if (myObjectString) {
+      // Parse the JSON string back into an object
+      let myObject = JSON.parse(myObjectString);
+      this.refundData = myObject
+      // Use the object, including the date and time
+      console.log(myObject);
+    }
+    this.userName = userService.getFullUser()
   }
 
   ngOnInit(): void {
-  
+    
     let params = new HttpParams()
         .set('email', this.userService.getUser())
         .set('token', this.userService.getUserToken());
