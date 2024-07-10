@@ -112,7 +112,10 @@ export class TestBookingsComponent {
 
 
 
+
     
+
+
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
       subject
