@@ -96,8 +96,11 @@ export class TestBookingsComponent {
   }
 
   sendEmail(item: any) {
+    console.log(item)
+    console.log(item.rooms.restort)
     let email;
-    if (item.room.restort == 'Jungle Star, Valamuru') {
+    if (item.rooms.restort == 'Jungle Star, Valamuru') {
+      
       email = "junglestarecocamp@gmail.com"
     }
     else{
@@ -107,14 +110,19 @@ export class TestBookingsComponent {
     const subject = 'Subject Text';
     const body = 'Body Text';
 
+
+
+    
+
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
   }
 
   sendWhatsApp(item: any): void {
+    console.log(item)
     let phoneNumber;
-    if (item.room.restort == 'Jungle Star, Valamuru') {
+    if (item.rooms.restort == 'Jungle Star, Valamuru') {
       phoneNumber = '7382151617'
     }
     else{
