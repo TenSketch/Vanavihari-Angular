@@ -23,13 +23,13 @@ export class TestBookingsComponent {
   resortNumber: any;
   // pdfUrl: any;
   showPdfViewer: boolean = false;
-  api_url:any
-  confirmCancel = false
+  api_url: any;
+  confirmCancel = false;
   pdfUrl: string = 'assets/PDF/Foodmenu.pdf'; // Path to your PDF file in the assets folder
   cancellationReason: string = '';
   currentDate: Date = new Date();
 
-  days: { date: number, booked: boolean }[] = [];
+  days: { date: number; booked: boolean }[] = [];
   monthName: string = '';
   year: number = new Date().getFullYear();
   month: number = new Date().getMonth();
@@ -40,9 +40,9 @@ export class TestBookingsComponent {
     private http: HttpClient,
     private userService: UserService,
     private galleryService: GalleryService,
-    private router:Router
+    private router: Router
   ) {
-    this.api_url = environment.API_URL
+    this.api_url = environment.API_URL;
   }
 
   ngOnInit(): void {
@@ -50,36 +50,31 @@ export class TestBookingsComponent {
 
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
 
-   
-
     this.showLoader = true;
     let params = new HttpParams()
       .set('email', this.userService.getUser())
       .set('token', this.userService.getUserToken());
     this.http
-      .get<any>(
-        this.api_url+'?api_type=booking_history&' +
-          params.toString()
-      )
+      .get<any>(this.api_url + '?api_type=booking_history&' + params.toString())
       .subscribe({
         next: (response) => {
           this.bookingData = response.result.details;
           this.showLoader = false;
-          this.bookingData.forEach(item => {
+          this.bookingData.forEach((item) => {
             if (item.pay_trans_id) {
-                this.successData.push(item);
+              this.successData.push(item);
             }
-        });
+          });
           if (this.bookingData.length == 0) {
             this.message = 'You have not made any bookings yet';
             this.noBookings = true;
           }
 
-         this.bookingData.sort((a, b) => {
-          const dateA = new Date(a.reservation_date);
-          const dateB = new Date(b.reservation_date);
-          return dateB.getTime() - dateA.getTime();
-        });
+          this.bookingData.sort((a, b) => {
+            const dateA = new Date(a.reservation_date);
+            const dateB = new Date(b.reservation_date);
+            return dateB.getTime() - dateA.getTime();
+          });
         },
         error: (err) => {
           this.noBookings = true;
@@ -100,24 +95,43 @@ export class TestBookingsComponent {
     }
   }
 
-  sendEmail(item:any){
+  sendEmail(item: any) {
+    let email;
+    if (item.room.restort == 'Jungle Star, Valamuru') {
+      email = "junglestarecocamp@gmail.com"
+    }
+    else{
 
+      email = 'info@vanavihari.com';
+    }
+    const subject = 'Subject Text';
+    const body = 'Body Text';
+
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
   }
 
-  sendWhatsApp(item:any){
-
+  sendWhatsApp(item: any): void {
+    let phoneNumber;
+    if (item.room.restort == 'Jungle Star, Valamuru') {
+      phoneNumber = '7382151617'
+    }
+    else{
+      phoneNumber = '9494151617';
+    }
+    const message = 'Hello, this is a predefined message!';
+    window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   }
 
-  
-
-  confirmCancelAction(){
-    this.confirmCancel = true
+  confirmCancelAction() {
+    this.confirmCancel = true;
   }
 
   // initializing cancel request.
 
-  submitCancellationRequest(){
-      console.log(this.cancellationReason)
+  submitCancellationRequest() {
+    console.log(this.cancellationReason);
   }
 
   // Function to download PDF
@@ -128,14 +142,14 @@ export class TestBookingsComponent {
     link.click();
   }
 
-  callSupport(resort:any) {
-    this.selectedResort = resort
-          if (this.selectedResort == 'Vanavihari, Maredumilli') {
-            this.resortNumber = '+919494151623';
-          }
-          if (this.selectedResort == 'Jungle Star, Valamuru') {
-            this.resortNumber = '+9173821 51617';
-          }
+  callSupport(resort: any) {
+    this.selectedResort = resort;
+    if (this.selectedResort == 'Vanavihari, Maredumilli') {
+      this.resortNumber = '+919494151623';
+    }
+    if (this.selectedResort == 'Jungle Star, Valamuru') {
+      this.resortNumber = '+9173821 51617';
+    }
     window.location.href = 'tel:' + this.resortNumber;
   }
 
@@ -306,24 +320,23 @@ export class TestBookingsComponent {
     // }, 2000);
   }
 
-  InitiateCancel(item:any){
-    localStorage.setItem('current_id',item.booking_id)
-    localStorage.setItem('Payment_Transaction_Id',item.pay_trans_id)
-    localStorage.setItem('Payment_Transaction_Date',item.pay_trans_date)
-    localStorage.setItem('Payment_Transaction_Amt',item.pay_trans_amt)
-    localStorage.setItem('booking_checkin',item.checkin)
+  InitiateCancel(item: any) {
+    localStorage.setItem('current_id', item.booking_id);
+    localStorage.setItem('Payment_Transaction_Id', item.pay_trans_id);
+    localStorage.setItem('Payment_Transaction_Date', item.pay_trans_date);
+    localStorage.setItem('Payment_Transaction_Amt', item.pay_trans_amt);
+    localStorage.setItem('booking_checkin', item.checkin);
     this.router.navigateByUrl('cancel-request');
   }
 
   isCheckinDateValid(checkinDateStr: string): boolean {
     const [year, month, day] = checkinDateStr.split('-').map(Number);
     const checkinDate = new Date(year, month - 1, day);
-    
+
     // Get the current date
     const currentDate = this.currentDate;
-    
+
     // Return true if the checkin date is greater than the current date
     return checkinDate > currentDate;
-}
-
+  }
 }
