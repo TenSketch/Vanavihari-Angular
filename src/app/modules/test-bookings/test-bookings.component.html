@@ -180,9 +180,7 @@
                   <button
                     class="dropdown-item btn-outline-danger"
                     *ngIf="
-                      item.pay_status == 'Paid' &&
-                      isCheckinDateValid(item.checkin)
-                    "
+                      item.pay_status == 'Paid'"
                     (click)="InitiateCancel(item)"
                   >
                     <i class="fa fa-times" aria-hidden="true"></i> Cancel
