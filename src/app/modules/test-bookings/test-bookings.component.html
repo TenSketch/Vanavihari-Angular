@@ -180,7 +180,7 @@
                   <button
                     class="dropdown-item btn-outline-danger"
                     *ngIf="
-                      item.pay_status == 'Paid'"
+                      item.pay_status == 'Paid' && item.status != 'Canceled'"
                     (click)="InitiateCancel(item)"
                   >
                     <i class="fa fa-times" aria-hidden="true"></i> Cancel
