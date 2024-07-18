@@ -405,7 +405,8 @@ export default async (req) => {
         console.log("msg:",msg11)
         // Log parameters for debugging
 
-        apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?msg=${msg11.replace(
+       
+        apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&msg=${msg11.replace(
           /\|/g,
           "dollar"
         )}`
