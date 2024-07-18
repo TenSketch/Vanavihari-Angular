@@ -349,6 +349,7 @@ export default async (req) => {
         )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "GET";
         break;
+
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),

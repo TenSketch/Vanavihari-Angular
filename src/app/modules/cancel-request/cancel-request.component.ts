@@ -151,9 +151,9 @@ export class CancelRequestComponent {
       currentDate.getFullYear(),
       currentDate.getMonth(),
       currentDate.getDate(),
-      10,
-      0,
-      0
+      currentDate.getHours(),
+      currentDate.getMinutes(),
+      currentDate.getSeconds()
     );
     console.log('fcheckinDate', fcheckinDate);
     console.log('current time', currentDateWithTime);
