@@ -337,7 +337,9 @@ export class TestBookingsComponent {
     localStorage.setItem('Payment_Transaction_Date', item.pay_trans_date);
     localStorage.setItem('Payment_Transaction_Amt', item.pay_trans_amt);
     localStorage.setItem('booking_checkin', item.checkin);
-    this.router.navigateByUrl('cancel-request');
+    // this.router.navigateByUrl('cancel-request');
+    this.router.navigateByUrl('cancel-request-manual');
+
   }
 
   isCheckinDateValid(checkinDateStr: string): boolean {

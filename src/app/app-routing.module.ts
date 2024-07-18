@@ -33,6 +33,7 @@ import { TestRoomComponent } from './modules/test-room/test-room.component';
 import { CancelRequestComponent } from './modules/cancel-request/cancel-request.component';
 import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
+import { CancelRequestManualComponent } from './modules/cancel-request-manual/cancel-request-manual.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -95,6 +96,10 @@ const routes: Routes = [
   {
     path:'cancel-request',
     component: CancelRequestComponent,
+  },
+  {
+    path:'cancel-request-manual',
+    component: CancelRequestManualComponent,
   },
   {
     path:'test-bookings',
