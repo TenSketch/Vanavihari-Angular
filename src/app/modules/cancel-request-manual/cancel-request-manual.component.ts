@@ -49,7 +49,7 @@ export class CancelRequestManualComponent {
     this.form = this.fb.group({
       reason: ['', Validators.required],
       details: ['', Validators.required],
-      amount:['', Validators.required]
+      amount: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],  // Add amount field
     });
     this.currentBooking_id = localStorage.getItem('current_id');
     this.api_url = environment.API_URL;
@@ -90,22 +90,22 @@ export class CancelRequestManualComponent {
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate();
     let params = {
-      email: this.authService.getAccountUsername() ?? '',
-      token: this.authService.getAccessToken() ?? '',
-      booking_id1: this.currentBooking_id ?? '',
-      more_details: this.form.value.details ?? '',
-      cancel_reason: this.form.value.reason ?? '',
-      refundableAmount: refundableAmount,
-      uniqueKey: uniqueKey,
-      formattedDateTimeStr: formattedDateTimeStr,
-      Payment_Transaction_Amt: this.totalAmount,
-      Payment_Transaction_Date: Payment_Transaction_Date,
-      Payment_Transaction_Id: this.Payment_Transaction_Id,
-      refund_percent: this.refund_percent,
+      email1: this.authService.getAccountUsername() ?? '',
+      token1: this.authService.getAccessToken() ?? '',
+      booking_id11: this.currentBooking_id ?? '',
+      more_details1: this.form.value.details ?? '',
+      cancel_reason1: this.form.value.reason ?? '',
+      refundableAmount1: refundableAmount,
+      uniqueKey1: uniqueKey,
+      formattedDateTimeStr1: formattedDateTimeStr,
+      Payment_Transaction_Amt1: this.totalAmount,
+      Payment_Transaction_Date1: Payment_Transaction_Date,
+      Payment_Transaction_Id1: this.Payment_Transaction_Id,
+      refund_percent1: this.refund_percent,
     };
     console.log('params', params);
     this.http
-      .post<any>(`${this.api_url}?api_type=cancel_init`, params)
+      .post<any>(`${this.api_url}?api_type=manual_cancel_init`, params)
       .subscribe({
         next: (response: any) => {
           this.showLoader = false;

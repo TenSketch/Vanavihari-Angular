@@ -350,6 +350,72 @@ export default async (req) => {
         method = "GET";
         break;
 
+        case "manual_cancel_init":
+        const bodyText1 = await req.text();
+        let bodyParams1;
+
+        try {
+          bodyParams = JSON.parse(bodyText1);
+        } catch (error) {
+          return new Response(
+            JSON.stringify({ error: "Invalid JSON in request body" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        const {
+          email1,
+          token1,
+          cancel_reason1,
+          more_details1,
+          Payment_Transaction_Id1,
+          Payment_Transaction_Date1,
+          booking_id11,
+          Payment_Transaction_Amt1,
+          refundableAmount1,
+          formattedDateTimeStr1,
+          uniqueKey1,
+          refund_percent1
+        } = bodyParams;
+
+       const MerchantId1 = process.env.Billdesk_MerchantId
+       const secretKey1 = process.env.Billdesk_SecretKey
+
+        if (!email || !token || !booking_id1 || !cancel_reason) {
+          return new Response(
+            JSON.stringify({
+              error: "Missing required parameters for cancel_init",
+            }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        let str1 = '0400|' + MerchantId1 + '|' + Payment_Transaction_Id1 + '|' + Payment_Transaction_Date1 + '|' + booking_id11 + '|'+ Payment_Transaction_Amt1 + '|' + refundableAmount1 + '|' + formattedDateTimeStr1 + '|' + uniqueKey1 + '|NA|NA|NA'
+        console.log(str1)
+        // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
+        const signature1 = createHmac('sha256', secretKey1).update(str).digest('hex').toUpperCase();
+
+        const msg11 = str1 + "|" + signature1;
+        console.log("msg:",msg11)
+        // Log parameters for debugging
+
+        apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?msg=${msg11.replace(
+          /\|/g,
+          "dollar"
+        )}`
+        // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg11.replace(
+        //   /\|/g,
+        //   "dollar"
+        // )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
+        method = "GET";
+        break;
+
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
