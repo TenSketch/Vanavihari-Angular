@@ -399,7 +399,7 @@ export default async (req) => {
         let str1 = '0400|' + MerchantId1 + '|' + Payment_Transaction_Id1 + '|' + Payment_Transaction_Date1 + '|' + booking_id11 + '|'+ Payment_Transaction_Amt1 + '|' + refundableAmount1 + '|' + formattedDateTimeStr1 + '|' + uniqueKey1 + '|NA|NA|NA'
         console.log(str1)
         // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
-        const signature1 = createHmac('sha256', secretKey1).update(str).digest('hex').toUpperCase();
+        const signature1 = createHmac('sha256', secretKey1).update(str1).digest('hex').toUpperCase();
 
         const msg11 = str1 + "|" + signature1;
         console.log("msg:",msg11)
