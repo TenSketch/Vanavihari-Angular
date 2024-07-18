@@ -355,7 +355,7 @@ export default async (req) => {
         let bodyParams1;
 
         try {
-          bodyParams = JSON.parse(bodyText1);
+          bodyParams1 = JSON.parse(bodyText1);
         } catch (error) {
           return new Response(
             JSON.stringify({ error: "Invalid JSON in request body" }),
@@ -379,7 +379,7 @@ export default async (req) => {
           formattedDateTimeStr1,
           uniqueKey1,
           refund_percent1
-        } = bodyParams;
+        } = bodyParams1;
 
        const MerchantId1 = process.env.Billdesk_MerchantId
        const secretKey1 = process.env.Billdesk_SecretKey
