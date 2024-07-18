@@ -84,6 +84,7 @@ import { TestRoomComponent } from './modules/test-room/test-room.component';
 import { CancelRequestComponent } from './modules/cancel-request/cancel-request.component';
 import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
+import { CancelRequestManualComponent } from './modules/cancel-request-manual/cancel-request-manual.component';
 
 
 
@@ -125,7 +126,8 @@ import { CancelStatusComponent } from './modules/cancel-status/cancel-status.com
     TestRoomComponent,
     CancelRequestComponent,
     TestBookingsComponent,
-    CancelStatusComponent
+    CancelStatusComponent,
+    CancelRequestManualComponent
 
   ],
   imports: [
