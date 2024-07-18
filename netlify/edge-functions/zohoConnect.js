@@ -405,11 +405,11 @@ export default async (req) => {
         console.log("msg:",msg11)
         // Log parameters for debugging
 
+       apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&msg=${msg11.replace(
+        /\|/g,
+        "dollar"
+      )}`
        
-        apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&msg=${msg11.replace(
-          /\|/g,
-          "dollar"
-        )}`
         // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg11.replace(
         //   /\|/g,
         //   "dollar"
