@@ -349,9 +349,7 @@ export default async (req) => {
         )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "GET";
         break;
-      case "test_refund":
-        console.log("test refund");
-      break;
+
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
