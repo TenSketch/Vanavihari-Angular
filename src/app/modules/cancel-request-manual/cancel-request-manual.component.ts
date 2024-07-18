@@ -49,7 +49,8 @@ export class CancelRequestManualComponent {
     this.form = this.fb.group({
       reason: ['', Validators.required],
       details: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],  // Add amount field
+      amount: ['', [Validators.required, Validators.pattern('^[0-9]*$')]], 
+      refund_per :['', Validators.required]
     });
     this.currentBooking_id = localStorage.getItem('current_id');
     this.api_url = environment.API_URL;
@@ -102,7 +103,7 @@ export class CancelRequestManualComponent {
       Payment_Transaction_Amt1: this.totalAmount,
       Payment_Transaction_Date1: Payment_Transaction_Date,
       Payment_Transaction_Id1: this.Payment_Transaction_Id,
-      refund_percent1: this.refund_percent,
+      refund_percent1: this.form.value.refund_per,
     };
     console.log('params', params);
     this.http
