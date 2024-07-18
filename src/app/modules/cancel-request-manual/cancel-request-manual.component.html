@@ -9,13 +9,13 @@
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Reason for cancellation</mat-label>
               <mat-select formControlName="reason" required>
-                <mat-option *ngFor="let reason of reasons" [value]="reason">{{
-                  reason
-                }}</mat-option>
+                <mat-option *ngFor="let reason of reasons" [value]="reason">
+                  {{ reason }}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-  
+        
           <div class="form-group">
             <mat-label class="float-start">Please provide more details</mat-label>
             <mat-form-field appearance="outline" class="full-width">
@@ -28,16 +28,14 @@
               ></textarea>
             </mat-form-field>
           </div>
-  
-          
-          <!-- <div class="form-group">
-            <mat-label class="float-start">Enter amount</mat-label>
+        
+          <div class="form-group">
             <mat-form-field appearance="outline" class="full-width">
-              <input matInput type="number"  formControlName="amount"                 class="outlined-textarea"
-               required>
+              <mat-label>Amount</mat-label>
+              <input matInput formControlName="amount" required />
             </mat-form-field>
           </div>
-   -->
+        
           <div class="form-group">
             <label class="float-start">Complete the captcha to proceed</label>
             <re-captcha
@@ -45,13 +43,8 @@
               (resolved)="resolvedCaptcha($event)"
               siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
             ></re-captcha>
-            <!-- <label class="float-start">Complete the captcha to proceed</label>
-            <div class="h-captcha mb-2"
-            data-sitekey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
-            data-callback="resolvedCaptcha">
-       </div> -->
           </div>
-  
+        
           <div class="actions">
             <button
               mat-button
@@ -72,10 +65,13 @@
               Go Back
             </button>
           </div>
+        
           <pre *ngIf="showMessage">
-  You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre
-          >
+            You will not receive any refund since you submitted the cancellation
+            request within 24 hours of check-in.
+          </pre>
         </form>
+        
       </div>
     </div>
   </app-layout>
