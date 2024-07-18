@@ -384,7 +384,7 @@ export default async (req) => {
        const MerchantId1 = process.env.Billdesk_MerchantId
        const secretKey1 = process.env.Billdesk_SecretKey
 
-        if (!email || !token || !booking_id1 || !cancel_reason) {
+        if (!email1 || !token1 || !booking_id11 || !cancel_reason1) {
           return new Response(
             JSON.stringify({
               error: "Missing required parameters for cancel_init",
