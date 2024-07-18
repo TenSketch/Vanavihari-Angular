@@ -1,0 +1,68 @@
+.cancellation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+  }
+  
+  .title {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .icon {
+    font-size: 20px;
+    color: red;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 40px;
+  }
+  
+  .back-button {
+    background-color: #4d9900;
+    color: white;
+  }
+  
+  .submit-button {
+    border: 1px solid red;
+    color: red;
+  }
+  
+  mat-dialog-content,
+  mat-dialog-actions {
+    text-align: center;
+  }
+  
+  textarea.outlined-textarea {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .outline-red{
+    border: 1px solid red;
+  }
+
+  .modal{
+    z-index: 200 !important;
+  }
