@@ -421,7 +421,73 @@ export default async (req) => {
         // )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2`;
         method = "GET";
         break;
+      case "get_payment_response_from_server":
+        const body_res = await req.text();
+        const formDataRes = new URLSearchParams(body_res);
 
+        const msg_res = formDataRes.get("msg");
+
+        output_msg = msg_res;
+
+        if (msg_res == null || msg_res == "" || msg_res == undefined) {
+          return new Response(
+            JSON.stringify({ error: "Missing required parameters for msg" }),
+            {
+              status: 400,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        msg_res = msg_res.split("|");
+        const bookingid = msg_res[1];
+
+        const updatePaymentUrlRes = `${zoho_api_uri}Update_Payment_Status?publickey=${
+          process.env.Update_Payment_Status
+        }&booking_id=${bookingid}&transaction_id=${
+          msg_res[2]
+        }&transaction_date=${msg_res[13]}&transaction_amt=${msg_res[4]}&status=${
+          msg_res[24].split("-")[1]
+        }`;
+
+        // First API call
+        const updatePaymentRes = await fetch(updatePaymentUrlRes, {
+          method: "GET",
+        });
+        if (!updatePaymentRes.ok) {
+          return new Response(
+            JSON.stringify({ error: "Failed to update payment status" }),
+            {
+              status: updatePaymentRes.status,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+
+        // Second API call
+        const insertLog = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${booking_id}&username=user&type=response&msg=${msg.replace(
+          /\|/g,
+          "dollar"
+        )}`;
+
+        const insertLogResp = await fetch(insertLog, { method: "GET" });
+        if (!insertLogResp.ok) {
+          return new Response(
+            JSON.stringify({ success: "Request Send Success!" }),
+            {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+        }
+        return new Response(
+          JSON.stringify({ error: "Invalid api_type parameter" }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        break;
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
