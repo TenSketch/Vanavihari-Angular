@@ -1,0 +1,104 @@
+<app-layout>
+    <div class="main">
+      <!-- Button trigger modal -->
+  
+  
+  
+      <app-loader *ngIf="showLoader"></app-loader>
+      <section class="mt-3 pt-5">
+        <div class="container text-center d-grid place-items-center" style="min-height: 20vh;"
+          *ngIf="noBookings">
+          <h2 class="text-secondary">{{ message }}</h2>
+          <!-- <button class="btn mt-2 btn-outline-danger" (click)="InitiateCancel()" >Cancel Booking</button> -->
+  
+        </div>
+        <div class="container" *ngIf="!noBookings">
+          <h1 class="text-center mb-3 mt-4">My Bookings</h1>
+          <!-- <div class="booking-card"> -->
+          <div class="row py-3 py-md-4 px-1 px-md-4 booking-card mb-4 mx-2 mx-md-0" *ngFor="let item of bookingData">
+            <!--  details of resort, cottage, roomm image, guest -->
+            <div class="col-md-4 bordered-col">
+              <img src="{{ getRoomImages(item.rooms.name)[0] }}" class="" alt="Room Image" />
+              <h5 class="my-2"><strong>Resort name:</strong> {{ item.rooms.restort }}</h5>
+              <p class="mb-0"><strong>Room name:</strong> {{ item.rooms.name }}</p>
+              <p class="mb-0"><strong>Cottage type:</strong> {{ item.rooms.cottage }}</p>
+              <p class="mb-0">
+                <strong>Guest info:</strong>
+                
+                  {{ item.noof_guest }} guests, {{ item.noof_children }} child,
+                  {{ item.noof_extra_guest }} extra guest
+                
+              </p>
+              <p class="mb-0"><strong>Total amount:</strong> {{ item.total_payable_amt }}</p>
+              <p class="mb-0" *ngIf="item.food_preference">
+                <strong>Food preference:</strong> {{ item.food_preference }}
+              </p>
+              <div class="w-100 d-flex flex-column align-items-start justify-content-start p-0 m-0"
+                *ngIf="item.rooms.restort == 'Jungle Star, Valamuru'">
+                <!-- <a class="text-decoration-none" style="color: #ffffff !important;" href="assets/PDF/Foodmenu.pdf" target="_blank">View Food Menu</a> -->
+                <a class="mt-1 text-decoration-none" href="/#/food-menu" target="_blank"><i class="fa-solid fa-utensils me-2"></i>View Food Menu</a>
+  
+  
+              </div>
+            </div>
+            <hr class="d-md-none mt-3">
+            <!-- Booking dates -->
+            <div class="col-md-4 bordered-col mt-3 mt-md-0">
+              <div class="d-flex gap-3">
+                <div class="show-date">
+                  <h5 class="mb-0">Check-in date</h5>
+                  <h1 class="display-3 mb-0">{{ formatDate(item.checkin).day }}</h1>
+                  <p class="mb-0">
+                    {{ formatDate(item.checkin).month }}
+                    {{ formatDate(item.checkin).year }}
+                  </p>
+                </div>
+                <div class="show-date">
+                  <h5 class="mb-0">Check-out date</h5>
+                  <h1 class="display-3 mb-0">{{ formatDate(item.checkout).day }}</h1>
+                  <p class="mb-0">
+                    {{ formatDate(item.checkout).month }}
+                    {{ formatDate(item.checkout).year }}
+                  </p>
+                </div>
+              </div>
+              <h5 class="mt-3">Date of reservation: </h5>
+               <p class="mb-0">{{item.reservation_date}}</p>
+            </div>
+            <hr class="d-md-none mt-3">
+            <!-- booking-status -->
+            <div class="col-md-4 d-flex flex-column booking-status">
+              <h5 class="font-weight-bold mb-0">Booking Status:</h5>
+              <p class="mb-0">{{ item.status }}</p>
+              <h5 class="font-weight-bold mb-0">Payment Status:</h5>
+              <p class="mb-0">{{ item.pay_status }}</p>
+              <p *ngIf="item.pay_status == 'Not Paid'" class="my-2">
+                We haven't received your payment yet. If the amount has been
+                debited, it will be refunded to your account within 5 to 7
+                working days. To confirm your booking, please reach out to
+                support with your <br />
+                booking ID : {{ item.booking_id }}
+              </p>
+              <button class="btn mt-2" (click)="callSupport('Vanavihari, Maredumilli')"
+                *ngIf="item.rooms.restort === 'Vanavihari, Maredumilli'">
+                Call Support
+              </button>
+              <button class="btn mt-2" (click)="callSupport('Jungle Star, Valamuru')"
+                *ngIf="item.rooms.restort === 'Jungle Star, Valamuru'">
+                Call Support
+              </button>
+  
+              <!-- <button class="btn mt-2 btn-outline-danger" *ngIf="item.pay_status =='Paid'" (click)="InitiateCancel(item)" >Cancel Booking</button> -->
+  
+              <button class="btn mt-2 d-none" [disabled]="item.status !== 'completed'">
+                Add Review
+              </button>
+  
+              <!-- Booking status and completion button -->
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+      </section>
+    </div>
+  </app-layout>
