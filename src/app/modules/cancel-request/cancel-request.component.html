@@ -2,71 +2,73 @@
   <div class="main text-center justify-content-center">
     <div class="cancellation-container">
       <h1 class="title">Cancellation Request</h1>
-      <mat-icon class="icon">warning</mat-icon>
+      <!-- <mat-icon class="icon">warning</mat-icon> -->
 
-      <form [formGroup]="form" (ngSubmit)="submitCancellation()">
-        <div class="form-group">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Reason for cancellation</mat-label>
-            <mat-select formControlName="reason" required>
-              <mat-option *ngFor="let reason of reasons" [value]="reason">{{
-                reason
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <mat-label class="float-start">Please provide more details</mat-label>
-          <mat-form-field appearance="outline" class="full-width">
-            <textarea
-              matInput
-              formControlName="details"
-              rows="4"
-              class="outlined-textarea"
-              required
-            ></textarea>
-          </mat-form-field>
-        </div>
-
-        <div class="form-group">
-          <label class="float-start">Complete the captcha to proceed</label>
-          <re-captcha
-            class="mb-2"
-            (resolved)="resolvedCaptcha($event)"
-            siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
-          ></re-captcha>
-          <!-- <label class="float-start">Complete the captcha to proceed</label>
-          <div class="h-captcha mb-2"
-          data-sitekey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
-          data-callback="resolvedCaptcha">
-     </div> -->
-        </div>
-
-        <div class="actions">
-          <button
-            mat-button
-            color="warn"
-            type="submit"
-            (click)="triggerModal()"
-            class="submit-button"
+      <div class="container justify-content-center d-flex align-items-center">
+        <form [formGroup]="form" (ngSubmit)="submitCancellation()">
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Reason for cancellation</mat-label>
+              <mat-select formControlName="reason" required>
+                <mat-option *ngFor="let reason of reasons" [value]="reason">{{
+                  reason
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-group">
+            <mat-label class="float-start">Please provide more details</mat-label>
+            <mat-form-field appearance="outline" class="full-width">
+              <textarea
+                matInput
+                formControlName="details"
+                rows="4"
+                class="outlined-textarea"
+                required
+              ></textarea>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-group">
+            <label class="float-start">Complete the captcha to proceed</label>
+            <re-captcha
+              class="mb-2"
+              (resolved)="resolvedCaptcha($event)"
+              siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
+            ></re-captcha>
+            <!-- <label class="float-start">Complete the captcha to proceed</label>
+            <div class="h-captcha mb-2"
+            data-sitekey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
+            data-callback="resolvedCaptcha">
+       </div> -->
+          </div>
+  
+          <div class="actions">
+            <button
+              mat-button
+              color="warn"
+              type="submit"
+              (click)="triggerModal()"
+              class="submit-button"
+            >
+              Submit
+            </button>
+            <button
+              mat-button
+              type="button"
+              (click)="goBack()"
+              mat-raised-button
+              color="primary"
+            >
+              Go Back
+            </button>
+          </div>
+          <pre *ngIf="showMessage">
+  You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre
           >
-            Submit
-          </button>
-          <button
-            mat-button
-            type="button"
-            (click)="goBack()"
-            mat-raised-button
-            color="primary"
-          >
-            Go Back
-          </button>
-        </div>
-        <pre *ngIf="showMessage">
-You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre
-        >
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </app-layout>
@@ -111,8 +113,10 @@ You will not receive any refund since you submitted the cancellation request wit
       </div>
       <div class="modal-footer d-flex justify-content-between">
         <button
-          type="button"
-          class="submit-button p-2"
+        mat-button
+        color="warn"
+        type="submit"
+        class="submit-button"
           (click)="confirmCancellation()"
         >
           Confirm Cancel

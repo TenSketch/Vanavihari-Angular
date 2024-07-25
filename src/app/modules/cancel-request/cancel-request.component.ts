@@ -70,7 +70,11 @@ export class CancelRequestComponent {
   }
 
   triggerModal() {
-    this.isModalVisible = true;
+    this.showLoader = true
+    setTimeout(() => {
+      this.showLoader = false
+      this.isModalVisible = true;
+    }, 1000);
   }
 
   cancelTriggerModal() {
