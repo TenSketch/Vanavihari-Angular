@@ -16,8 +16,13 @@
                 <li><i class="bi bi-clock"></i> Check-in time: <strong>10:00 a.m.</strong></li>
                 <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time: <strong>{{refundData.date}}</strong></li>
             </ul>
-            <p>You will receive a refund of <strong>Rs {{refundData.refundableAmount}}</strong>, which is <strong>{{refundData.refund_percent}}%</strong> of the total amount <strong>{{refundData.totalAmount}}</strong>, in your account within 5 to 7 working days. <span class="text-danger fw-bold">Please note that bank charges won't be refunded.</span></p>
-            
+            <p *ngIf="refundData.refundableAmount != 0">
+                You will receive a refund of <strong>Rs {{refundData.refundableAmount}}</strong>, which is <strong>{{refundData.refund_percent}}%</strong> of the total amount <strong>{{refundData.totalAmount}}</strong>, in your account within 5 to 7 working days. 
+                <span class="text-danger fw-bold">Please note that bank charges won't be refunded.</span>
+              </p>
+              <p *ngIf="refundData.refundableAmount == 0">
+                You will not receive any refund since you submitted the cancellation request within 24 hours of check-in date.
+              </p>
             <h5 class="fw-bold text-primary">Refund Policy:</h5>
             <ul class="list-unstyled">
                 <li><i class="bi bi-check-circle-fill text-success"></i> <strong>Above 48 hours before check-in:</strong> 90% refund</li>

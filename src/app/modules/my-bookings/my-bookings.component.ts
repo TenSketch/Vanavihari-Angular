@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UserService } from '../../user.service';
 import { GalleryService } from '@/app/gallery.service';
 import { AuthService } from '@/app/auth.service';
-import {  SafeUrl } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser';
 import { environment } from '@/environments/environment';
 import { Router } from '@angular/router';
 
@@ -96,26 +96,16 @@ export class MyBookingsComponent {
   }
 
   sendEmail(item: any) {
-    console.log(item)
-    console.log(item.rooms.restort)
+    console.log(item);
+    console.log(item.rooms.restort);
     let email;
     if (item.rooms.restort == 'Jungle Star, Valamuru') {
-      
-      email = "junglestarecocamp@gmail.com"
-    }
-    else{
-
+      email = 'junglestarecocamp@gmail.com';
+    } else {
       email = 'info@vanavihari.com';
     }
     const subject = 'Subject Text';
     const body = 'Body Text';
-
-
-
-
-    
-
-
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(
       subject
@@ -123,16 +113,17 @@ export class MyBookingsComponent {
   }
 
   sendWhatsApp(item: any): void {
-    console.log(item)
+    console.log(item);
     let phoneNumber;
     if (item.rooms.restort == 'Jungle Star, Valamuru') {
-      phoneNumber = '7382151617'
-    }
-    else{
+      phoneNumber = '7382151617';
+    } else {
       phoneNumber = '9494151617';
     }
     const message = 'Hello, this is a predefined message!';
-    window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
   }
 
   confirmCancelAction() {
@@ -338,8 +329,12 @@ export class MyBookingsComponent {
     localStorage.setItem('Payment_Transaction_Amt', item.pay_trans_amt);
     localStorage.setItem('booking_checkin', item.checkin);
     // this.router.navigateByUrl('cancel-request');
-    this.router.navigateByUrl('cancel-request');
+    this.showLoader = true
 
+    setTimeout(() => {
+      this.showLoader = false
+      this.router.navigateByUrl('cancel-request');
+    }, 2000);
   }
 
   isCheckinDateValid(checkinDateStr: string): boolean {
