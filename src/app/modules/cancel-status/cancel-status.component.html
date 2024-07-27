@@ -1,53 +1,67 @@
 <app-layout>
     <div class="main">
         <app-loader *ngIf="showLoader"></app-loader>
-        <div class="container mt-5">
-            <div class="card">
-                <div class="card-header text-white text-center"
-                    style="background-color: #4d9900; padding: 2rem 0; border-radius: 4px 4px 0 0;">
-                    <h3 class="mb-0 text-white">Booking Cancellation Confirmation</h3>
-                </div>
-                <div class="card-body">
-                    <p class="lead">Dear <strong>{{userName}}</strong>,</p>
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="card">
+                        <div class="card-header text-white text-center"
+                            style="background-color: #4d9900; padding: 2rem 0; border-radius: 4px 4px 0 0;">
+                            <h3 class="mb-0 text-white">Booking Cancellation Confirmation</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="lead">Dear <strong>{{userName}}</strong>,</p>
+                            <p>Your booking with ID <strong>{{singleBooking.booking_id}}</strong> has been successfully
+                                cancelled as requested.</p>
+                            <h5 class="fw-bold">Booking Details:</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-house-door"></i> Resort Name:
+                                    <strong>{{singleBooking.rooms.restort}}</strong>
+                                </li>
+                                <li><i class="bi bi-house"></i> Cottage Type(s):
+                                    <strong>{{singleBooking.rooms.cottage}}</strong>
+                                </li>
+                                <li><i class="bi bi-door-closed"></i> Room Name(s):
+                                    <strong>{{singleBooking.rooms.name}}</strong>
+                                </li>
+                                <li><i class="bi bi-calendar-check"></i> Check-in date:
+                                    <strong>{{singleBooking.checkin}}</strong>
+                                </li>
+                                <li><i class="bi bi-clock"></i> Check-in time: <strong>10:00 a.m.</strong></li>
+                                <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time:
+                                    <strong>{{refundData.date}}</strong>
+                                </li>
+                            </ul>
+                            <p *ngIf="refundData.refundableAmount != 0">
+                                You will receive a refund of <strong>Rs {{refundData.refundableAmount}}</strong>, which
+                                is
+                                <strong>{{refundData.refund_percent}}%</strong> of the total amount
+                                <strong>{{refundData.totalAmount}}</strong>, in your account within 5 to 7 working days.
+                                <span class="text-danger fw-bold">Please note that bank charges won't be
+                                    refunded.</span>
+                            </p>
+                            <p *ngIf="refundData.refundableAmount == 0">
+                                You will not receive any refund since you submitted the cancellation request within 24
+                                hours of
+                                check-in date.
+                            </p>
+                            <a class="text-decoration-none d-block" href="/#/my-account/my-bookings">Go to : <strong>My
+                                    Bookings</strong> </a>
 
-                    <p>Your booking with ID <strong>{{singleBooking.booking_id}}</strong> has been successfully
-                        cancelled as requested.</p>
-                    <h5 class="fw-bold">Booking Details:</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="bi bi-house-door"></i> Resort Name:
-                            <strong>{{singleBooking.rooms.restort}}</strong></li>
-                        <li><i class="bi bi-house"></i> Cottage Type(s):
-                            <strong>{{singleBooking.rooms.cottage}}</strong></li>
-                        <li><i class="bi bi-door-closed"></i> Room Name(s):
-                            <strong>{{singleBooking.rooms.name}}</strong></li>
-                        <li><i class="bi bi-calendar-check"></i> Check-in date:
-                            <strong>{{singleBooking.checkin}}</strong></li>
-                        <li><i class="bi bi-clock"></i> Check-in time: <strong>10:00 a.m.</strong></li>
-                        <li><i class="bi bi-calendar-x"></i> Cancellation requested date and time:
-                            <strong>{{refundData.date}}</strong></li>
-                    </ul>
-                    <p *ngIf="refundData.refundableAmount != 0">
-                        You will receive a refund of <strong>Rs {{refundData.refundableAmount}}</strong>, which is
-                        <strong>{{refundData.refund_percent}}%</strong> of the total amount
-                        <strong>{{refundData.totalAmount}}</strong>, in your account within 5 to 7 working days.
-                        <span class="text-danger fw-bold">Please note that bank charges won't be refunded.</span>
-                    </p>
-                    <p *ngIf="refundData.refundableAmount == 0">
-                        You will not receive any refund since you submitted the cancellation request within 24 hours of
-                        check-in date.
-                    </p>
-                    <h5 class="fw-bold text-primary">Refund Policy:</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="bi bi-check-circle-fill text-success"></i> <strong>Above 48 hours before
-                                check-in:</strong> 90% refund</li>
-                        <li><i class="bi bi-check-circle-fill text-warning"></i> <strong>24-48 hours before check-in:
-                                80% refund</strong></li>
-                        <li><i class="bi bi-x-circle-fill text-danger"></i> <strong>Within 24 hours:</strong> No refund
-                        </li>
-                    </ul>
-
-                    <p>Thank you for choosing our services. We hope to serve you again in the future.</p>
-
+                            <h5 class="fw-bold text-primary">Refund Policy:</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle-fill text-success"></i> <strong>Above 48 hours before
+                                        check-in:</strong> 90% refund</li>
+                                <li><i class="bi bi-check-circle-fill text-warning"></i> <strong>24-48 hours before
+                                        check-in:
+                                        80% refund</strong></li>
+                                <li><i class="bi bi-x-circle-fill text-danger"></i> <strong>Within 24 hours:</strong> No
+                                    refund
+                                </li>
+                            </ul>
+                            <p>Thank you for choosing our services. We hope to serve you again in the future.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
