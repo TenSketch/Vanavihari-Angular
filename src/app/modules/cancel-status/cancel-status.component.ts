@@ -16,6 +16,7 @@ export class CancelStatusComponent {
   singleBooking:any
   refundData:any
   userName:any;
+  showLoader = false;
 
   constructor(private userService:UserService,     private http: HttpClient  ){
     this.api_url = environment.API_URL
@@ -32,6 +33,10 @@ export class CancelStatusComponent {
   }
 
   ngOnInit(): void {
+    this.showLoader = true;
+    setTimeout(() => {
+      this.showLoader = false;
+    }, 1000);
     
     let params = new HttpParams()
         .set('email', this.userService.getUser())

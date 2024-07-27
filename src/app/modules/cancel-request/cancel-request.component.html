@@ -12,62 +12,43 @@
               <mat-select formControlName="reason" required>
                 <mat-option *ngFor="let reason of reasons" [value]="reason">{{
                   reason
-                }}</mat-option>
+                  }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
-  
+
           <div class="form-group">
             <mat-label class="float-start">Please provide more details</mat-label>
             <mat-form-field appearance="outline" class="full-width">
-              <textarea
-                matInput
-                formControlName="details"
-                rows="4"
-                class="outlined-textarea"
-                required
-              ></textarea>
+              <textarea matInput formControlName="details" rows="4" class="outlined-textarea" required></textarea>
             </mat-form-field>
           </div>
-  
+
           <div class="form-group">
             <label class="float-start">Complete the captcha to proceed</label>
-            <re-captcha
-              class="mb-2"
-              (resolved)="resolvedCaptcha($event)"
-              siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
-            ></re-captcha>
+            <re-captcha class="mb-2" (resolved)="resolvedCaptcha($event)"
+              siteKey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"></re-captcha>
             <!-- <label class="float-start">Complete the captcha to proceed</label>
             <div class="h-captcha mb-2"
             data-sitekey="6Lc1LuopAAAAANFzqMeEI67Y-o8Zt-lhlsMn1CWQ"
             data-callback="resolvedCaptcha">
        </div> -->
           </div>
-  
+
           <div class="actions">
-            <button
-              mat-button
-              color="warn"
-              type="submit"
-              (click)="triggerModal()"
-              class="submit-button"
-            >
+            <button mat-button color="warn" type="submit" (click)="triggerModal()" class="submit-button">
               Submit
             </button>
-            <button
-              mat-button
-              type="button"
-              (click)="goBack()"
-              mat-raised-button
-              color="primary"
-            >
+            <button mat-button type="button" (click)="goBack()" mat-raised-button color="primary">
               Go Back
             </button>
           </div>
           <pre *ngIf="showMessage">
-  You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre
-          >
+  You will not receive any refund since you submitted the cancellation request within 24 hours of check-in.</pre>
         </form>
+        <div class="d-flex flex-column justify-content-center align-items-center w-100">
+          <a class="text-decoration-none" href="/#/my-account/my-bookings">Go to : <strong>My Bookings</strong> </a>
+      </div>
       </div>
     </div>
   </div>
@@ -79,12 +60,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Are you sure you want to cancel?</h5>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="cancelTriggerModal()"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" (click)="cancelTriggerModal()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <p>Please review our refund policy</p>
@@ -112,22 +88,10 @@
         </table>
       </div>
       <div class="modal-footer d-flex justify-content-between">
-        <button
-        mat-button
-        color="warn"
-        type="submit"
-        class="submit-button"
-          (click)="confirmCancellation()"
-        >
+        <button mat-button color="warn" type="submit" class="submit-button" (click)="confirmCancellation()">
           Confirm Cancel
         </button>
-        <button
-          type="button"
-          mat-raised-button
-          color="primary"
-          (click)="cancelTriggerModal()"
-          class="p-1"
-        >
+        <button type="button" mat-raised-button color="primary" (click)="cancelTriggerModal()" class="p-1">
           Don't cancel
         </button>
       </div>
