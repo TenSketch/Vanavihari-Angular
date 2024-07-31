@@ -1,9 +1,13 @@
 <app-layout>
   <div class="main">
     <app-loader *ngIf="showLoader"> </app-loader>
-    <section class="page-banner d-grid place-items-center" *ngIf="selectedResortInfo">
+    <!-- <section class="page-banner d-grid place-items-center" *ngIf="selectedResortInfo">
+      <h1 class="display-3 text-center">{{ selectedResortInfo.title }}</h1>
+    </section> -->
+    <section class="page-banner d-grid place-items-center" *ngIf="selectedResortInfo" [ngStyle]="{'background-image': 'url(' + selectedResortInfo.backgroundImageUrl + ')'}">
       <h1 class="display-3 text-center">{{ selectedResortInfo.title }}</h1>
     </section>
+    
 
     <div class="container-fluid">
       <nav aria-label="breadcrumb">
@@ -76,13 +80,13 @@
         <div class="col-md-4">
           <h4 class="custom-h4">Cancellation</h4>
           <ul>
-            <li><strong> 48-72 hours before:</strong> 90% refund</li>
+            <li><strong> More than 48 hours:</strong> 90% refund</li>
             <li><strong> 24-48 hours before:</strong> 80% refund</li>
             <li><strong> Within 24 hours:</strong> No refund</li>
           </ul>
         </div>
         <div class="col-md-4">
-          <h4 class="custom-h4">Check-In/Out:</h4>
+          <h4 class="custom-h4">Check-In/Out</h4>
           <ul>
             <li><strong>Check-in:</strong> 10:00 AM IST</li>
             <li><strong> Check-out:</strong> 9:00 AM IST</li>

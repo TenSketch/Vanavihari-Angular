@@ -25,7 +25,7 @@ a {
   // cursor: pointer;
   color: $clr-primary-dark !important;
   cursor: pointer;
-  text-decoration: underline !important;
+  text-decoration: none !important;
 }
 
 img {
@@ -331,4 +331,9 @@ gallery-thumbs {
 .table{
   background-color: unset!important;
   --bs-table-bg: transparent!important;
+}
+.dropdown-item{
+  &.active,&:active{
+    background-color: $clr-primary-lighter!important;
+  }
 }

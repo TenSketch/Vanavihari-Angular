@@ -97,16 +97,31 @@ export class RoomsComponent implements OnInit {
   api_url: any;
   extraGuestNumber: any;
 
+  // resorts: any = {
+  //   'Vanavihari, Maredumilli': {
+  //     title: 'Vanavihari',
+  //     about: 'About Vanavihari',
+  //   },
+  //   'Jungle Star, Valamuru': {
+  //     title: 'Jungle Star',
+  //     about: 'About Jungle Star',
+  //   },
+  // };
   resorts: any = {
     'Vanavihari, Maredumilli': {
       title: 'Vanavihari',
       about: 'About Vanavihari',
+      backgroundImageUrl:
+        '/assets/img/home-gallery/vanavihari-home-gallery-1.jpg',
     },
     'Jungle Star, Valamuru': {
       title: 'Jungle Star',
       about: 'About Jungle Star',
+      backgroundImageUrl:
+        '/assets/img/home-gallery-junglestar/junglestar-home-gallery-11.jpg',
     },
   };
+
   selectedResortInfo: any = {};
   private subscription: Subscription;
   selectedSortOption: string;
@@ -491,7 +506,9 @@ export class RoomsComponent implements OnInit {
   toggleBookingSummary() {
     this.showBookingSummary = !this.showBookingSummary;
   }
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   getSelectedResortInfo(): void {
     this.selectedResort = this.authService.getSearchData('resort');
     if (this.selectedResort) {
