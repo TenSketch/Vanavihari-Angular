@@ -109,14 +109,14 @@ export class RoomsComponent implements OnInit {
   // };
   resorts: any = {
     'Vanavihari, Maredumilli': {
-      title: 'Vanavihari',
-      about: 'About Vanavihari',
+      title: 'Vanavihari, Maredumilli',
+      about: 'Vanavihari, Maredumilli',
       backgroundImageUrl:
         '/assets/img/home-gallery/vanavihari-home-gallery-1.jpg',
     },
     'Jungle Star, Valamuru': {
-      title: 'Jungle Star',
-      about: 'About Jungle Star',
+      title: 'Jungle Star, Valamuru',
+      about: 'Jungle Star, Valamuru',
       backgroundImageUrl:
         '/assets/img/home-gallery-junglestar/junglestar-home-gallery-11.jpg',
     },
