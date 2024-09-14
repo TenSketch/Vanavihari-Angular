@@ -135,7 +135,7 @@ export class SignUpComponent implements OnInit {
           ]),
         ],
         repeat_password: ['', Validators.compose([Validators.required])],
-        recaptcha:['',Validators.required]
+        // recaptcha:['',Validators.required]
       },
       {
         validators: this.passwordMatchValidator,
