@@ -85,6 +85,7 @@ import { CancelRequestComponent } from './modules/cancel-request/cancel-request.
 import { TestBookingsComponent } from './modules/test-bookings/test-bookings.component';
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 import { CancelRequestManualComponent } from './modules/cancel-request-manual/cancel-request-manual.component';
+import { PageNotFoundPageComponentComponent } from './modules/page-not-found-page-component/page-not-found-page-component.component';
 
 
 
@@ -127,7 +128,8 @@ import { CancelRequestManualComponent } from './modules/cancel-request-manual/ca
     CancelRequestComponent,
     TestBookingsComponent,
     CancelStatusComponent,
-    CancelRequestManualComponent
+    CancelRequestManualComponent,
+    PageNotFoundPageComponentComponent
 
   ],
   imports: [
