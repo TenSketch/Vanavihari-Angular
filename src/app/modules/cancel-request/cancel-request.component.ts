@@ -89,7 +89,7 @@ export class CancelRequestComponent {
     const refundableAmount = this.calculateAmount(
       this.getCheckInDate(),
       this.totalAmount
-    ).toFixed(2);
+    ).toFixed(2).replace(/,/g, '');
     const formattedDateTimeStr = this.getformattedDateTimeStr();
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate();

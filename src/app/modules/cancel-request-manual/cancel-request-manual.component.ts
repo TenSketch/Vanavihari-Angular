@@ -86,7 +86,7 @@ export class CancelRequestManualComponent {
     const refundableAmount = this.calculateAmount(
       this.getCheckInDate(),
       this.totalAmount
-    ).toFixed(2);
+    ).toFixed(2).replace(/,/g, '');
     const formattedDateTimeStr = this.getformattedDateTimeStr();
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate();
@@ -97,7 +97,7 @@ export class CancelRequestManualComponent {
       more_details1: this.form.value.details ?? '',
       cancel_reason1: this.form.value.reason ?? '',
       // refundableAmount1: refundableAmount,
-      refundableAmount1 : parseFloat(this.form.value.amount).toFixed(2),
+      refundableAmount1 : parseFloat(this.form.value.amount).toFixed(2).replace(/,/g, ''),
       uniqueKey1: uniqueKey,
       formattedDateTimeStr1: formattedDateTimeStr,
       Payment_Transaction_Amt1: this.totalAmount,

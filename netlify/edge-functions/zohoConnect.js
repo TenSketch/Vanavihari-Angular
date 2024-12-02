@@ -250,7 +250,6 @@ export default async (req) => {
         method = "GET";
 
         break;
-
       case "reset_password":
         if (!queryParams.has("email_id")) {
           return new Response(
@@ -287,7 +286,6 @@ export default async (req) => {
         )}`;
         method = "GET";
         break;
-
       case "cancel_init":
         const bodyText = await req.text();
         let bodyParams;
@@ -349,8 +347,7 @@ export default async (req) => {
         )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2&refund_percent=${refund_percent}`;
         method = "GET";
         break;
-
-        case "manual_cancel_init":
+      case "manual_cancel_init":
         const bodyText1 = await req.text();
         let bodyParams1;
 
