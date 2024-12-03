@@ -86,10 +86,10 @@ export class CancelRequestComponent {
   confirmCancellation() {
     // Logic to handle the cancellation request submission
     this.showLoader = true;
-    const refundableAmount = parseFloat(this.calculateAmount(
+    const refundableAmount = this.calculateAmount(
       this.getCheckInDate(),
       this.totalAmount
-    ).toFixed(2));
+    ).toFixed(2);
     const formattedDateTimeStr = this.getformattedDateTimeStr();
     const uniqueKey = this.generateUniqueKey();
     const Payment_Transaction_Date = this.getpaymentTransactionDate();
