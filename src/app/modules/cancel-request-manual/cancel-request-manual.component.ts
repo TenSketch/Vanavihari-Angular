@@ -23,7 +23,7 @@ export class CancelRequestManualComponent {
     'Health concerns',
     'Other (please specify)',
   ];
-  captchaResponse: string | null = null;
+  // captchaResponse: string | null = null;
   isDialogOpen = true;
   currentBooking_id: any;
   api_url: any;
@@ -56,18 +56,18 @@ export class CancelRequestManualComponent {
     this.api_url = environment.API_URL;
   }
 
-  resolvedCaptcha(captchaResponse: string) {
-    this.captchaResponse = captchaResponse;
-  }
+  // resolvedCaptcha(captchaResponse: string) {
+  //   this.captchaResponse = captchaResponse;
+  // }
 
   goBack() {
     this.router.navigateByUrl('my-account/my-bookings');
   }
 
   submitCancellation() {
-    if (this.form.valid && this.captchaResponse) {
-      this.isDialogOpen = true;
-    }
+    // if (this.form.valid && this.captchaResponse) {
+    //   this.isDialogOpen = true;
+    // }
   }
 
   triggerModal() {
