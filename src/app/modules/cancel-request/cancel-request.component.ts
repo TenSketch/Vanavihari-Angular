@@ -99,7 +99,7 @@ export class CancelRequestComponent {
       refundableAmount: refundableAmount,
       uniqueKey: uniqueKey,
       formattedDateTimeStr: formattedDateTimeStr,
-      Payment_Transaction_Amt: this.totalAmount,
+      Payment_Transaction_Amt: parseFloat(this.totalAmount).toFixed(2),
       Payment_Transaction_Date: Payment_Transaction_Date,
       Payment_Transaction_Id: this.Payment_Transaction_Id,
       refund_percent: this.refund_percent,
