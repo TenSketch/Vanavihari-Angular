@@ -100,7 +100,7 @@ export class CancelRequestManualComponent {
       refundableAmount1 : parseFloat(this.form.value.amount).toFixed(2),
       uniqueKey1: uniqueKey,
       formattedDateTimeStr1: formattedDateTimeStr,
-      Payment_Transaction_Amt1: this.totalAmount,
+      Payment_Transaction_Amt1: parseFloat(this.totalAmount).toFixed(2),
       Payment_Transaction_Date1: Payment_Transaction_Date,
       Payment_Transaction_Id1: this.Payment_Transaction_Id,
       refund_percent1: this.form.value.refund_per,
