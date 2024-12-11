@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './modules/home/home.component';
-import { PageNotFoundPageComponentComponent } from './modules/page-not-found-page-component/page-not-found-page-component.component';
+import { PageNotFoundPageComponentComponent } from './modules/under-construction/under-construction.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { TouristPlacesComponent } from './modules/tourist-places/tourist-places.component';
