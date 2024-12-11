@@ -40,7 +40,7 @@ import { CancelRequestManualComponent } from './modules/cancel-request-manual/ca
 
 const routes: Routes = [
   { path: 'home', component: PageNotFoundPageComponentComponent },
-  { path: 'sign-in', component: PageNotFoundPageComponentComponent },
+  { path: 'sign-in', component:  SignInComponent },
   { path: 'sign-up', component: PageNotFoundPageComponentComponent },
   { path: 'success', component: PageNotFoundPageComponentComponent },
   {
@@ -76,7 +76,7 @@ const routes: Routes = [
     canDeactivate: [CanDeactivateGuard],
   },
   { path: 'booking-status', component: PageNotFoundPageComponentComponent },
-  { path: 'resorts/rooms', component: PageNotFoundPageComponentComponent },
+  { path: 'resorts/rooms', component: RoomsComponent },
   { path: 'tourist-destination', component: PageNotFoundPageComponentComponent },
   { path: 'dashboard', component: PageNotFoundPageComponentComponent },
   { path: 'resort-listing', component: PageNotFoundPageComponentComponent },
@@ -86,7 +86,7 @@ const routes: Routes = [
   { path: 'biodiversity-zone', component: PageNotFoundPageComponentComponent },
   { path: 'food-menu', component: PageNotFoundPageComponentComponent },
   {
-    path: 'resorts/test-rooms', component: PageNotFoundPageComponentComponent
+    path: 'resorts/test-rooms', component: TestRoomComponent
   },
   {
     path: 'forgot-password/:userid/:token',
@@ -106,7 +106,7 @@ const routes: Routes = [
   },
   {
     path:'test-bookings',
-    component: PageNotFoundPageComponentComponent,
+    component: TestBookingsComponent,
   },
   {
     path:'cancel-status',
