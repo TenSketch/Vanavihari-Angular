@@ -117,7 +117,7 @@ import { CancelRequestManualComponent } from './modules/cancel-request-manual/ca
 // ];
 
 const routes: Routes = [
-  { path: 'home', component: PageNotFoundPageComponentComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'success', component: ShowSuccessMessageComponent },

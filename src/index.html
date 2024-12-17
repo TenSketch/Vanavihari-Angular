@@ -16,109 +16,117 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <style>
-    body {height: 100vh;display: flex;}
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
-  <app-root style="margin: auto;"></app-root>
+  <app-root></app-root>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.1.1/gsap.min.js'></script>
 
 <script>
 
 
-setTimeout(() => {
-  
-  gsap.set("svg", { visibility: "visible" });
-gsap.to("#headStripe", {
-y: 0.5,
-rotation: 1,
-yoyo: true,
-repeat: -1,
-ease: "sine.inOut",
-duration: 1 });
+  setTimeout(() => {
 
-gsap.to("#spaceman", {
-y: 0.5,
-rotation: 1,
-yoyo: true,
-repeat: -1,
-ease: "sine.inOut",
-duration: 1 });
+    gsap.set("svg", { visibility: "visible" });
+    gsap.to("#headStripe", {
+      y: 0.5,
+      rotation: 1,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+      duration: 1
+    });
 
-gsap.to("#craterSmall", {
-x: -3,
-yoyo: true,
-repeat: -1,
-duration: 1,
-ease: "sine.inOut" });
+    gsap.to("#spaceman", {
+      y: 0.5,
+      rotation: 1,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+      duration: 1
+    });
 
-gsap.to("#craterBig", {
-x: 3,
-yoyo: true,
-repeat: -1,
-duration: 1,
-ease: "sine.inOut" });
+    gsap.to("#craterSmall", {
+      x: -3,
+      yoyo: true,
+      repeat: -1,
+      duration: 1,
+      ease: "sine.inOut"
+    });
 
-gsap.to("#planet", {
-rotation: -2,
-yoyo: true,
-repeat: -1,
-duration: 1,
-ease: "sine.inOut",
-transformOrigin: "50% 50%" });
+    gsap.to("#craterBig", {
+      x: 3,
+      yoyo: true,
+      repeat: -1,
+      duration: 1,
+      ease: "sine.inOut"
+    });
 
-
-gsap.to("#starsBig g", {
-rotation: "random(-30,30)",
-transformOrigin: "50% 50%",
-yoyo: true,
-repeat: -1,
-ease: "sine.inOut" });
-
-gsap.fromTo(
-"#starsSmall g",
-{ scale: 0, transformOrigin: "50% 50%" },
-{ scale: 1, transformOrigin: "50% 50%", yoyo: true, repeat: -1, stagger: 0.1 });
-
-gsap.to("#circlesSmall circle", {
-y: -4,
-yoyo: true,
-duration: 1,
-ease: "sine.inOut",
-repeat: -1 });
-
-gsap.to("#circlesBig circle", {
-y: -2,
-yoyo: true,
-duration: 1,
-ease: "sine.inOut",
-repeat: -1 });
+    gsap.to("#planet", {
+      rotation: -2,
+      yoyo: true,
+      repeat: -1,
+      duration: 1,
+      ease: "sine.inOut",
+      transformOrigin: "50% 50%"
+    });
 
 
-gsap.set("#glassShine", { x: -68 });
+    gsap.to("#starsBig g", {
+      rotation: "random(-30,30)",
+      transformOrigin: "50% 50%",
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut"
+    });
 
-gsap.to("#glassShine", {
-x: 80,
-duration: 2,
-rotation: -30,
-ease: "expo.inOut",
-transformOrigin: "50% 50%",
-repeat: -1,
-repeatDelay: 8,
-delay: 2 });
+    gsap.fromTo(
+      "#starsSmall g",
+      { scale: 0, transformOrigin: "50% 50%" },
+      { scale: 1, transformOrigin: "50% 50%", yoyo: true, repeat: -1, stagger: 0.1 });
 
-}, 800);
+    gsap.to("#circlesSmall circle", {
+      y: -4,
+      yoyo: true,
+      duration: 1,
+      ease: "sine.inOut",
+      repeat: -1
+    });
 
-const burger = document.querySelector('.burger');
-const nav = document.querySelector('nav');
+    gsap.to("#circlesBig circle", {
+      y: -2,
+      yoyo: true,
+      duration: 1,
+      ease: "sine.inOut",
+      repeat: -1
+    });
 
-burger.addEventListener('click', e => {
-burger.dataset.state === 'closed' ? burger.dataset.state = "open" : burger.dataset.state = "closed";
-nav.dataset.state === "closed" ? nav.dataset.state = "open" : nav.dataset.state = "closed";
-});
+
+    gsap.set("#glassShine", { x: -68 });
+
+    gsap.to("#glassShine", {
+      x: 80,
+      duration: 2,
+      rotation: -30,
+      ease: "expo.inOut",
+      transformOrigin: "50% 50%",
+      repeat: -1,
+      repeatDelay: 8,
+      delay: 2
+    });
+
+  }, 800);
+
+  const burger = document.querySelector('.burger');
+  const nav = document.querySelector('nav');
+
+  burger.addEventListener('click', e => {
+    burger.dataset.state === 'closed' ? burger.dataset.state = "open" : burger.dataset.state = "closed";
+    nav.dataset.state === "closed" ? nav.dataset.state = "open" : nav.dataset.state = "closed";
+  });
 </script>
+
 </html>
