@@ -524,7 +524,9 @@ export default async (req) => {
         );
         break;
       case "query_api":
-        console.log("test");
+        const checksum = "0122|VANAVIHARI|43127240|20200825162200";
+        const hmacsha256 = createHmac("sha256", checksum)
+        console.log(hmacsha256);
         return new Response(null, {
             status: 302,
             headers: {
