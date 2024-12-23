@@ -524,21 +524,8 @@ export default async (req) => {
         );
         break;
       case "query_api":
-        const bodyText11 = await req.text();
-        let bodyParams11;
-        try {
-            bodyParams11 = JSON.parse(bodyText11);
-        } catch (error) {
-          return new Response(
-            JSON.stringify({ error: "Invalid JSON in request body" }),
-            {
-              status: 400,
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-        }
-        console.log(bodyParams11);
-        const checksum = "0122|VANAVIHARI|43127240|20200825162200";
+        const bodyText11 =  queryParams.get("test");
+        const checksum = "0122|VANAVIHARI|"+bodyText11+"|20200825162200";
         const hmacsha256 = createHmac("sha256", process.env.Billdesk_SecretKey)
         .update(checksum)
         .digest("hex")
