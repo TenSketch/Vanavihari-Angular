@@ -532,12 +532,13 @@ export default async (req) => {
         .digest("hex")
         .toUpperCase();
         console.log(hmacsha256);
-        return new Response(null, {
-            status: 302,
-            headers: {
-              Location: `https://vanavihari.com`,
-            },
-          });
+        return new Response(
+            JSON.stringify({ data: checksum+"|"+hmacsha256 }),
+            {
+                status: 400,
+                headers: { "Content-Type": "application/json" },
+            }
+        );
         // const bodyText = await req.text();
         // let bodyParams;
 
