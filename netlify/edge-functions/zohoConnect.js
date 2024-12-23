@@ -526,6 +526,9 @@ export default async (req) => {
       case "query_api":
         const checksum = "0122|VANAVIHARI|43127240|20200825162200";
         const hmacsha256 = createHmac("sha256", checksum)
+        .update(str1)
+        .digest("hex")
+        .toUpperCase();
         console.log(hmacsha256);
         return new Response(null, {
             status: 302,
