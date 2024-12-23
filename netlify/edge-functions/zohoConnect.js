@@ -48,7 +48,6 @@ export default async (req) => {
 
     const MerchantId1 = process.env.Billdesk_MerchantId;
     const secretKey1 = process.env.Billdesk_SecretKey;
-    
     switch (apiType) {
       case "register":
         if (
