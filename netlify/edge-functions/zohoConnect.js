@@ -1,5 +1,5 @@
-import { CompactSign, jwtVerify } from 'jose';
-import { createHmac } from 'crypto';
+import { CompactSign, jwtVerify } from "jose";
+import { createHmac } from "crypto";
 
 export default async (req) => {
   const zoho_api_uri = "https://www.zohoapis.com/creator/custom/vanavihari/";
@@ -314,11 +314,11 @@ export default async (req) => {
           refundableAmount,
           formattedDateTimeStr,
           uniqueKey,
-          refund_percent
+          refund_percent,
         } = bodyParams;
 
-       const MerchantId = process.env.Billdesk_MerchantId
-       const secretKey = process.env.Billdesk_SecretKey
+        const MerchantId = process.env.Billdesk_MerchantId;
+        const secretKey = process.env.Billdesk_SecretKey;
 
         if (!email || !token || !booking_id1 || !cancel_reason) {
           return new Response(
@@ -332,13 +332,33 @@ export default async (req) => {
           );
         }
 
-        let str = '0400|' + MerchantId + '|' + Payment_Transaction_Id + '|' + Payment_Transaction_Date + '|' + booking_id1 + '|'+ Payment_Transaction_Amt + '|' + refundableAmount + '|' + formattedDateTimeStr + '|' + uniqueKey + '|NA|NA|NA'
-        console.log(str)
+        let str =
+          "0400|" +
+          MerchantId +
+          "|" +
+          Payment_Transaction_Id +
+          "|" +
+          Payment_Transaction_Date +
+          "|" +
+          booking_id1 +
+          "|" +
+          Payment_Transaction_Amt +
+          "|" +
+          refundableAmount +
+          "|" +
+          formattedDateTimeStr +
+          "|" +
+          uniqueKey +
+          "|NA|NA|NA";
+        console.log(str);
         // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
-        const signature = createHmac('sha256', secretKey).update(str).digest('hex').toUpperCase();
+        const signature = createHmac("sha256", secretKey)
+          .update(str)
+          .digest("hex")
+          .toUpperCase();
 
         const msg1 = str + "|" + signature;
-        console.log("msg:",msg1)
+        console.log("msg:", msg1);
         // Log parameters for debugging
 
         apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1.replace(
@@ -375,11 +395,11 @@ export default async (req) => {
           refundableAmount1,
           formattedDateTimeStr1,
           uniqueKey1,
-          refund_percent1
+          refund_percent1,
         } = bodyParams1;
 
-       const MerchantId1 = process.env.Billdesk_MerchantId
-       const secretKey1 = process.env.Billdesk_SecretKey
+        const MerchantId1 = process.env.Billdesk_MerchantId;
+        const secretKey1 = process.env.Billdesk_SecretKey;
 
         if (!email1 || !token1 || !booking_id11 || !cancel_reason1) {
           return new Response(
@@ -393,25 +413,45 @@ export default async (req) => {
           );
         }
 
-        let str1 = '0400|' + MerchantId1 + '|' + Payment_Transaction_Id1 + '|' + Payment_Transaction_Date1 + '|' + booking_id11 + '|'+ Payment_Transaction_Amt1 + '|' + refundableAmount1 + '|' + formattedDateTimeStr1 + '|' + uniqueKey1 + '|NA|NA|NA'
-        console.log(str1)
+        let str1 =
+          "0400|" +
+          MerchantId1 +
+          "|" +
+          Payment_Transaction_Id1 +
+          "|" +
+          Payment_Transaction_Date1 +
+          "|" +
+          booking_id11 +
+          "|" +
+          Payment_Transaction_Amt1 +
+          "|" +
+          refundableAmount1 +
+          "|" +
+          formattedDateTimeStr1 +
+          "|" +
+          uniqueKey1 +
+          "|NA|NA|NA";
+        console.log(str1);
         // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
-        const signature1 = createHmac('sha256', secretKey1).update(str1).digest('hex').toUpperCase();
+        const signature1 = createHmac("sha256", secretKey1)
+          .update(str1)
+          .digest("hex")
+          .toUpperCase();
 
         const msg11 = str1 + "|" + signature1;
-        console.log("msg:",msg11)
+        console.log("msg:", msg11);
         // Log parameters for debugging
 
-      //  apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&booking_id=${booking_id11}&msg=${msg11.replace(
-      //   /\|/g,
-      //   "dollar"
-      // )}`
+        //  apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&booking_id=${booking_id11}&msg=${msg11.replace(
+        //   /\|/g,
+        //   "dollar"
+        // )}`
 
-      apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&email=${email1}&token=${token1}&booking_id=${booking_id11}&cancel_reason=${cancel_reason1}&more_details=${more_details1}&msg=${msg11.replace(
-        /\|/g,
-        "dollar"
-      )}&refund_percent=${refund_percent1}`
-       
+        apiUrl = `https://www.zohoapis.com/creator/custom/vanavihari/Manual_Cancel_Request?publickey=m4fggT5aYz4BVOdzYUY7BR4jV&email=${email1}&token=${token1}&booking_id=${booking_id11}&cancel_reason=${cancel_reason1}&more_details=${more_details1}&msg=${msg11.replace(
+          /\|/g,
+          "dollar"
+        )}&refund_percent=${refund_percent1}`;
+
         // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg11.replace(
         //   /\|/g,
         //   "dollar"
@@ -483,6 +523,88 @@ export default async (req) => {
           }
         );
         break;
+      case "query_api":
+        console.log("test");
+        // const bodyText = await req.text();
+        // let bodyParams;
+
+        // try {
+        //   bodyParams = JSON.parse(bodyText);
+        // } catch (error) {
+        //   return new Response(
+        //     JSON.stringify({ error: "Invalid JSON in request body" }),
+        //     {
+        //       status: 400,
+        //       headers: { "Content-Type": "application/json" },
+        //     }
+        //   );
+        // }
+
+        // const {
+        //   email,
+        //   token,
+        //   cancel_reason,
+        //   more_details,
+        //   Payment_Transaction_Id,
+        //   Payment_Transaction_Date,
+        //   booking_id1,
+        //   Payment_Transaction_Amt,
+        //   refundableAmount,
+        //   formattedDateTimeStr,
+        //   uniqueKey,
+        //   refund_percent,
+        // } = bodyParams;
+
+        // const MerchantId = process.env.Billdesk_MerchantId;
+        // const secretKey = process.env.Billdesk_SecretKey;
+
+        // if (!email || !token || !booking_id1 || !cancel_reason) {
+        //   return new Response(
+        //     JSON.stringify({
+        //       error: "Missing required parameters for cancel_init",
+        //     }),
+        //     {
+        //       status: 400,
+        //       headers: { "Content-Type": "application/json" },
+        //     }
+        //   );
+        // }
+
+        // let str =
+        //   "0400|" +
+        //   MerchantId +
+        //   "|" +
+        //   Payment_Transaction_Id +
+        //   "|" +
+        //   Payment_Transaction_Date +
+        //   "|" +
+        //   booking_id1 +
+        //   "|" +
+        //   Payment_Transaction_Amt +
+        //   "|" +
+        //   refundableAmount +
+        //   "|" +
+        //   formattedDateTimeStr +
+        //   "|" +
+        //   uniqueKey +
+        //   "|NA|NA|NA";
+        // console.log(str);
+        // // const signature = createHmac('sha256', secretKey).update(str).digest('base64');
+        // const signature = createHmac("sha256", secretKey)
+        //   .update(str)
+        //   .digest("hex")
+        //   .toUpperCase();
+
+        // const msg1 = str + "|" + signature;
+        // console.log("msg:", msg1);
+        // // Log parameters for debugging
+
+        // apiUrl = `${zoho_api_uri}cancelBooking?email=${email}&token=${token}&booking_id=${booking_id1}&cancel_reason=${cancel_reason}&more_details=${more_details}&msg=${msg1.replace(
+        //   /\|/g,
+        //   "dollar"
+        // )}&publickey=M8mGGeNM6TzRB01ss3qqBN0G2&refund_percent=${refund_percent}`;
+        // method = "GET";
+        break;
       default:
         return new Response(
           JSON.stringify({ error: "Invalid api_type parameter" }),
@@ -519,12 +641,11 @@ export default async (req) => {
           },
         });
       }
-    }  else {
+    } else {
       return new Response(JSON.stringify(data), {
         headers: { "Content-Type": "application/json" },
       });
     }
-    
   } catch (error) {
     console.error("Error:", error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
