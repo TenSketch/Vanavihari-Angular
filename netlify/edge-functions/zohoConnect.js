@@ -524,8 +524,9 @@ export default async (req) => {
         );
         break;
       case "query_api":
+        const nowTime = new Date();
         const bodyText11 =  queryParams.get("test");
-        const checksum = "0122|VANAVIHARI|"+bodyText11+"|20200825162200";
+        const checksum = "0122|VANAVIHARI|"+bodyText11+"|"+(nowTime.toISOString().slice(0, 19).replace('T', ' '));
         const hmacsha256 = createHmac("sha256", process.env.Billdesk_SecretKey)
         .update(checksum)
         .digest("hex")
