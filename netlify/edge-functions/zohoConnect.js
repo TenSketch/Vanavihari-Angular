@@ -45,9 +45,6 @@ export default async (req) => {
     let requestBody = {};
     let perm = "";
     let booking_id = "";
-
-    const MerchantId1 = process.env.Billdesk_MerchantId;
-    const secretKey1 = process.env.Billdesk_SecretKey;
     switch (apiType) {
       case "register":
         if (
@@ -401,6 +398,9 @@ export default async (req) => {
           refund_percent1,
         } = bodyParams1;
 
+        const MerchantId1 = process.env.Billdesk_MerchantId;
+        const secretKey1 = process.env.Billdesk_SecretKey;
+
         if (!email1 || !token1 || !booking_id11 || !cancel_reason1) {
           return new Response(
             JSON.stringify({
@@ -524,9 +524,10 @@ export default async (req) => {
         );
         break;
       case "query_api":
+        secretKey11 = process.env.Billdesk_SecretKey;
         const checksum = "0122|VANAVIHARI|43127240|20200825162200";
         const hmacsha256 = createHmac("sha256", secretKey1)
-        .update(str1)
+        .update(checksum)
         .digest("hex")
         .toUpperCase();
         console.log(hmacsha256);
