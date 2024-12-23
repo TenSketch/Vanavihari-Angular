@@ -524,8 +524,6 @@ export default async (req) => {
         );
         break;
       case "query_api":
-        MerchantId1 = process.env.Billdesk_MerchantId;
-        secretKey1 = process.env.Billdesk_SecretKey;
         const checksum = "0122|VANAVIHARI|43127240|20200825162200";
         const hmacsha256 = createHmac("sha256", secretKey1)
         .update(str1)
