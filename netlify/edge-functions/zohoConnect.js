@@ -525,6 +525,12 @@ export default async (req) => {
         break;
       case "query_api":
         console.log("test");
+        return new Response(null, {
+            status: 302,
+            headers: {
+              Location: `https://vanavihari.com`,
+            },
+          });
         // const bodyText = await req.text();
         // let bodyParams;
 
