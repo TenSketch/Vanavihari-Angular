@@ -45,6 +45,10 @@ export default async (req) => {
     let requestBody = {};
     let perm = "";
     let booking_id = "";
+
+    const MerchantId1 = process.env.Billdesk_MerchantId;
+    const secretKey1 = process.env.Billdesk_SecretKey;
+    
     switch (apiType) {
       case "register":
         if (
@@ -397,9 +401,6 @@ export default async (req) => {
           uniqueKey1,
           refund_percent1,
         } = bodyParams1;
-
-        const MerchantId1 = process.env.Billdesk_MerchantId;
-        const secretKey1 = process.env.Billdesk_SecretKey;
 
         if (!email1 || !token1 || !booking_id11 || !cancel_reason1) {
           return new Response(
