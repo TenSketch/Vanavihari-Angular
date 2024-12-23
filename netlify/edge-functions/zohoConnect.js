@@ -524,6 +524,7 @@ export default async (req) => {
         );
         break;
       case "query_api":
+        const bodyText11 =  queryParams.get("booking_id");
         const nowTime = new Date();
         const year = nowTime.getFullYear();
         const month = String(nowTime.getMonth() + 1).padStart(2, '0');
@@ -533,8 +534,6 @@ export default async (req) => {
         const seconds = String(nowTime.getSeconds()).padStart(2, '0');
         const formattedDateTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
 
-
-        const bodyText11 =  queryParams.get("test");
         const checksum = "0122|VANAVIHARI|"+bodyText11+"|"+formattedDateTime;
         const hmacsha256 = createHmac("sha256", process.env.Billdesk_SecretKey)
         .update(checksum)
