@@ -380,21 +380,31 @@
         <h5 class="modal-title">Confirmation</h5>
         <button type="button" class="btn-close" (click)="onCancel()" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <p>
-          🛑 Please avoid closing or returning to the previous page before
-          completing payment.
-        </p>
-        <p>
-          💳 If payment isn't successful, you won't receive an invoice via
-          email. However, you'll still get booking details. Contact support with
-          your booking ID to confirm your reservation.
-        </p>
-        <p>
-          If payment page doesn't open or fails, do not attempt rebooking. Check
-          your email and contact the support team with the booking ID received
-        </p>
-      </div>
+      <div class="modal-body">  
+        <ul>  
+            <li>🛑 <strong>Payment Instructions:</strong>  
+                <ul>  
+                    <li>Please avoid refreshing, closing, or returning to the previous page before completing payment.</li>  
+                    <li>Avoid swapping apps manually from the payment UPI app to the browser after completing payment. Wait until you are automatically redirected to the browser (this usually takes up to 2 minutes).</li>  
+                </ul>  
+            </li>  
+            <li>💳 <strong>Booking Confirmation</strong>:  
+                <ul>  
+                    <li>If you do not receive booking confirmation immediately after the payment is debited, you will receive it within 10 to 15 minutes.</li>  
+                    <li>Do not attempt rebooking, as the room will stay blocked for 10 to 15 minutes.</li>  
+                    <li>If not confirmed, it means your payment is either pending or failed.</li>  
+                    <li>For payments successful after 15 minutes from booking, the amount will be auto-refunded to your account in 7 days.</li>  
+                    <li>If the payment is not debited, then you can rebook.</li>  
+                </ul>  
+            </li>  
+            <li>⚠️ <strong>Payment Issues:</strong>  
+                <ul>  
+                    <li>If the payment page doesn't open or fails, do not attempt rebooking.</li>  
+                    <li>Contact the support team with the booking ID (check the "My Bookings" page under your profile).</li>  
+                </ul>  
+            </li>  
+        </ul>  
+    </div>
       <div class="modal-footer justify-content-center">
         <button mat-raised-button color="primary" class="font-weight-bold w-25" (click)="onOk()"> OK </button>
       </div>
