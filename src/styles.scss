@@ -57,12 +57,12 @@ h6 {
 //   margin-top: 1rem;
 // }
 
-.container,
-.container-fluid {
-  @media (max-width: 576px) {
-    padding-inline: 2rem;
-  }
-}
+// .container,
+// .container-fluid {
+//   @media (max-width: 576px) {
+//     padding-inline: 2rem;
+//   }
+// }
 
 .logo {
   width: min(65%, 200px);
@@ -376,5 +376,19 @@ gallery-thumbs {
   &.active,
   &:active {
     background-color: $clr-primary-lighter !important;
+  }
+}
+
+.iframe-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+
+  .responsive-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
   }
 }

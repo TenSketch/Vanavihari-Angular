@@ -10,3 +10,32 @@
   margin: 0 auto;
   /* Center the card horizontally */
 }
+
+
+/* main container */
+.container {
+    // background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid #c5d9b2;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(180deg, #eaf6e0 0%, #d2e6b5 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+    // color: #011301;
+    font-weight: 600;
+}
+
+/* table */
+.table {
+    background-color: #f9fff4;
+}
+.table th {
+    background-color: #689c2d;
+    color: #fff;
+    font-weight: 500;
+}
+.table td {
+    background-color: #ffffff;
+}
