@@ -43,3 +43,6 @@ src/app/modules/home/temp.html
 
 # Local Netlify folder
 .netlify
+
+#Bulk Rename txt
+.BULK_RENAME.txt
