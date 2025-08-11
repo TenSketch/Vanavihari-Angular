@@ -11,4 +11,5 @@ export class TouristPlacesComponent {
   ngOnInit() {
     this.renderer.setProperty(document.documentElement, 'scrollTop', 0);
   }
+  
 }
