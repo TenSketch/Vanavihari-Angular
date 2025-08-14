@@ -1,5 +1,16 @@
 .page-banner {
-  background-image: url("/assets/img/amruthadhara.jpg");
+  background-image: url("/assets/img/Rampa-falls.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: hsla(0, 0%, 51%, 0.49);
+    background-blend-mode: multiply;
+    // min-height: 100vh;
+    @media(min-width:768px){
+        // min-height: 100vh;
+    // background-size: contain;
+
+    }
 }
 
 
