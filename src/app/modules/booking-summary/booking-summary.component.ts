@@ -548,9 +548,9 @@ export class BookingSummaryComponent {
             .map((item) => `${item.id}-${item.noof_guest}`)
             .join(',')
         )
-        .set('noof_adult', this.totalGuests)
-        .set('noof_guest', this.extra_guests)
-        .set('noof_child', this.extra_children);
+        .set('noof_adult', this.totalGuests ?? 0)
+        .set('noof_guest', this.extra_guests ?? 0)
+        .set('noof_child', this.extra_children ?? 0);
       Object.keys(this.form.value).forEach((key) => {
         params = params.append(key, this.form.value[key]);
       });
