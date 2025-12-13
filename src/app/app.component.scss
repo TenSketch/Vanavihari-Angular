@@ -1,0 +1,155 @@
+.whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.whatsapp-label {
+  background: #25d366;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  animation: slideInLeft 0.5s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.whatsapp-float {
+  width: 60px;
+  height: 60px;
+  background: #25d366;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite, float 3s ease-in-out infinite;
+  
+  svg {
+    width: 35px;
+    height: 35px;
+    fill: white;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover {
+    background: #20ba5a;
+    transform: scale(1.1);
+    animation: none;
+    
+    svg {
+      transform: rotate(15deg);
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.whatsapp-options {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  min-width: 250px;
+  animation: slideUp 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.whatsapp-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background: #f5f5f5;
+    padding-left: 20px;
+    
+    svg {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+  
+  svg {
+    width: 30px;
+    height: 30px;
+    fill: #25d366;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+  
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    
+    strong {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    span {
+      font-size: 13px;
+      color: #666;
+    }
+  }
+}

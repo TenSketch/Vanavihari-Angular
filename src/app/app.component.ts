@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 export class AppComponent {
   title = 'vKYC';
   private routerEventsSubscription: Subscription;
+  showWhatsAppOptions = false;
 
   constructor(private router: Router) {
     this.routerEventsSubscription = this.router.events.subscribe(event => {
