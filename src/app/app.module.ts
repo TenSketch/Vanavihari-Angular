@@ -86,6 +86,7 @@ import { TestBookingsComponent } from './modules/test-bookings/test-bookings.com
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 import { CancelRequestManualComponent } from './modules/cancel-request-manual/cancel-request-manual.component';
 import { PageNotFoundPageComponentComponent } from './modules/page-not-found-page-component/page-not-found-page-component.component';
+import { UnderConstructionComponent } from './modules/under-construction/under-construction.component';
 
 
 
@@ -129,7 +130,8 @@ import { PageNotFoundPageComponentComponent } from './modules/page-not-found-pag
     TestBookingsComponent,
     CancelStatusComponent,
     CancelRequestManualComponent,
-    PageNotFoundPageComponentComponent
+    PageNotFoundPageComponentComponent,
+    UnderConstructionComponent
 
   ],
   imports: [

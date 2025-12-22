@@ -5,6 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './under-construction.component.html',
   styleUrls: ['./under-construction.component.scss'],
 })
-export class PageNotFoundPageComponentComponent {
+export class UnderConstructionComponent {
 
 }

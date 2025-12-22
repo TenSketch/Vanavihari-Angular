@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './modules/home/home.component';
-import { PageNotFoundPageComponentComponent } from './modules/under-construction/under-construction.component';
+import { PageNotFoundPageComponentComponent } from './modules/page-not-found-page-component/page-not-found-page-component.component';
+import { UnderConstructionComponent } from './modules/under-construction/under-construction.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { TouristPlacesComponent } from './modules/tourist-places/tourist-places.component';
@@ -36,7 +37,7 @@ import { TestBookingsComponent } from './modules/test-bookings/test-bookings.com
 import { CancelStatusComponent } from './modules/cancel-status/cancel-status.component';
 import { CancelRequestManualComponent } from './modules/cancel-request-manual/cancel-request-manual.component';
 
-
+/*
 const routes: Routes = [
   { path: 'home', component: PageNotFoundPageComponentComponent },
   { path: 'sign-in', component: PageNotFoundPageComponentComponent },
@@ -114,85 +115,167 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];
+*/
 
+// All Routes main
+/*
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'success', component: ShowSuccessMessageComponent },
+  {
+    path: 'email-verification/:userid/:token',
+    component: EmailVerificationComponent,
+  },
+  {
+    path: 'payment-transaction-rdurl',
+    component: ReadPaymentTransactionResponseComponent,
+  },
+  { path: 'about-vanavihari', component: AboutVanavihariComponent },
+  { path: 'my-account/settings', component: SettingsComponent },
+  { path: 'my-account/my-bookings', component: MyBookingsComponent },
+  {
+    path: 'resorts/vanavihari-maredumilli',
+    component: VanavihariMaredumilliComponent,
+  },
+  {
+    path: 'resorts/junglestar-valamuru',
+    component: JungleStarValamuruComponent,
+  },
+  { path: 'tribal-community', component: TribalCommunityComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'payment-policy', component: PaymentPoliciesComponent },
+  { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
+  {
+    path: 'awards-and-publications',
+    component: AwardsNewsPublicationsComponent,
+  },
+  {
+    path: 'booking-summary',
+    component: BookingSummaryComponent,
+    canDeactivate: [CanDeactivateGuard],
+  },
+  { path: 'booking-status', component: BookingStatusComponent },
+  { path: 'resorts/rooms', component: RoomsComponent },
+  { path: 'tourist-destination', component: TouristPlacesComponent },
+  { path: 'dashboard', component: SettingsComponent },
+  { path: 'resort-listing', component: ResortListingComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'contact-us', component: ContactUsComponent },
+  { path: 'booking-status-test', component: BookingStatusTestComponent },
+  { path: 'biodiversity-zone', component: BiodiversityZoneComponent },
+  { path: 'food-menu', component: FoodMenuComponent },
+  {
+    path: 'resorts/test-rooms', component: TestRoomComponent
+  },
+  {
+    path: 'forgot-password/:userid/:token',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path:'reset-password',
+    component: ResetPasswordComponent,
+  },
+  {
+    path:'cancel-request',
+    component: CancelRequestComponent,
+  },
+  {
+    path:'cancel-request-manual',
+    component: CancelRequestManualComponent,
+  },
+  {
+    path:'test-bookings',
+    component: TestBookingsComponent,
+  },
+  {
+    path:'cancel-status',
+    component:CancelStatusComponent
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
+];
+*/
 
-// const routes: Routes = [
-//   { path: 'home', component: HomeComponent },
-//   { path: 'sign-in', component: SignInComponent },
-//   { path: 'sign-up', component: SignUpComponent },
-//   { path: 'success', component: ShowSuccessMessageComponent },
-//   {
-//     path: 'email-verification/:userid/:token',
-//     component: EmailVerificationComponent,
-//   },
-//   {
-//     path: 'payment-transaction-rdurl',
-//     component: ReadPaymentTransactionResponseComponent,
-//   },
-//   { path: 'about-vanavihari', component: AboutVanavihariComponent },
-//   { path: 'my-account/settings', component: SettingsComponent },
-//   { path: 'my-account/my-bookings', component: MyBookingsComponent },
-//   {
-//     path: 'resorts/vanavihari-maredumilli',
-//     component: VanavihariMaredumilliComponent,
-//   },
-//   {
-//     path: 'resorts/junglestar-valamuru',
-//     component: JungleStarValamuruComponent,
-//   },
-//   { path: 'tribal-community', component: TribalCommunityComponent },
-//   { path: 'privacy-policy', component: PrivacyPolicyComponent },
-//   { path: 'payment-policy', component: PaymentPoliciesComponent },
-//   { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
-//   {
-//     path: 'awards-and-publications',
-//     component: AwardsNewsPublicationsComponent,
-//   },
-//   {
-//     path: 'booking-summary',
-//     component: BookingSummaryComponent,
-//     canDeactivate: [CanDeactivateGuard],
-//   },
-//   { path: 'booking-status', component: BookingStatusComponent },
-//   { path: 'resorts/rooms', component: RoomsComponent },
-//   { path: 'tourist-destination', component: TouristPlacesComponent },
-//   { path: 'dashboard', component: SettingsComponent },
-//   { path: 'resort-listing', component: ResortListingComponent },
-//   { path: 'change-password', component: ChangePasswordComponent },
-//   { path: 'contact-us', component: ContactUsComponent },
-//   { path: 'booking-status-test', component: BookingStatusTestComponent },
-//   { path: 'biodiversity-zone', component: BiodiversityZoneComponent },
-//   { path: 'food-menu', component: FoodMenuComponent },
-//   {
-//     path: 'resorts/test-rooms', component: TestRoomComponent
-//   },
-//   {
-//     path: 'forgot-password/:userid/:token',
-//     component: ForgotPasswordComponent,
-//   },
-//   {
-//     path:'reset-password',
-//     component: ResetPasswordComponent,
-//   },
-//   {
-//     path:'cancel-request',
-//     component: CancelRequestComponent,
-//   },
-//   {
-//     path:'cancel-request-manual',
-//     component: CancelRequestManualComponent,
-//   },
-//   {
-//     path:'test-bookings',
-//     component: TestBookingsComponent,
-//   },
-//   {
-//     path:'cancel-status',
-//     component:CancelStatusComponent
-//   },
-//   { path: '', redirectTo: '/home', pathMatch: 'full' },
-//   { path: '**', redirectTo: '/home' },
-// ];
+// comment the book resort
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'sign-in', component: SignInComponent },
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'success', component: ShowSuccessMessageComponent },
+  {
+    path: 'email-verification/:userid/:token',
+    component: EmailVerificationComponent,
+  },
+  {
+    path: 'payment-transaction-rdurl',
+    component: ReadPaymentTransactionResponseComponent,
+  },
+  { path: 'about-vanavihari', component: AboutVanavihariComponent },
+  { path: 'my-account/settings', component: SettingsComponent },
+  { path: 'my-account/my-bookings', component: MyBookingsComponent },
+  {
+    path: 'resorts/vanavihari-maredumilli',
+    component: UnderConstructionComponent,
+  },
+  {
+    path: 'resorts/junglestar-valamuru',
+    component: UnderConstructionComponent,
+  },
+  { path: 'tribal-community', component: TribalCommunityComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'payment-policy', component: PaymentPoliciesComponent },
+  { path: 'terms-and-conditions', component: TermsAndConditionsComponent },
+  {
+    path: 'awards-and-publications',
+    component: AwardsNewsPublicationsComponent,
+  },
+  {
+    path: 'booking-summary',
+    component: BookingSummaryComponent,
+    canDeactivate: [CanDeactivateGuard],
+  },
+  { path: 'booking-status', component: BookingStatusComponent },
+  { path: 'resorts/rooms', component: UnderConstructionComponent },
+  { path: 'tourist-destination', component: TouristPlacesComponent },
+  { path: 'dashboard', component: SettingsComponent },
+  { path: 'resort-listing', component: ResortListingComponent },
+  { path: 'change-password', component: ChangePasswordComponent },
+  { path: 'contact-us', component: ContactUsComponent },
+  { path: 'booking-status-test', component: BookingStatusTestComponent },
+  { path: 'biodiversity-zone', component: BiodiversityZoneComponent },
+  { path: 'food-menu', component: FoodMenuComponent },
+  {
+    path: 'resorts/test-rooms', component: TestRoomComponent
+  },
+  {
+    path: 'forgot-password/:userid/:token',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path:'reset-password',
+    component: ResetPasswordComponent,
+  },
+  {
+    path:'cancel-request',
+    component: CancelRequestComponent,
+  },
+  {
+    path:'cancel-request-manual',
+    component: CancelRequestManualComponent,
+  },
+  {
+    path:'test-bookings',
+    component: TestBookingsComponent,
+  },
+  {
+    path:'cancel-status',
+    component:CancelStatusComponent
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
