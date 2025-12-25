@@ -118,7 +118,7 @@ const routes: Routes = [
 */
 
 // All Routes main
-
+/*
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'sign-in', component: SignInComponent },
@@ -197,10 +197,11 @@ const routes: Routes = [
   { path: '**', redirectTo: '/home' },
 ];
 
+*/
+
 
 // comment the book resort
 
-/*
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'sign-in', component: SignInComponent },
@@ -278,7 +279,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' },
 ];
-*/
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
