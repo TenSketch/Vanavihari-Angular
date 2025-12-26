@@ -567,6 +567,21 @@ export default async (req) => {
       // body: JSON.stringify(requestBody), // Include any request body if needed
     });
 
+    // Check if response is OK and content-type is JSON
+    const contentType = response.headers.get("content-type");
+    if (!response.ok || !contentType?.includes("application/json")) {
+      const text = await response.text();
+      console.error(`Zoho API error - Status: ${response.status}, URL: ${apiUrl}, Response: ${text.substring(0, 500)}`);
+      return new Response(JSON.stringify({ 
+        error: "Zoho API returned an error",
+        status: response.status,
+        details: text.substring(0, 200)
+      }), {
+        status: response.status || 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const data = await response.json();
     if (apiType == "get_payment_response") {
       if (data.code == 3000 && data.result.status == "success") {
