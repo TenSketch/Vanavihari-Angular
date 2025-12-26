@@ -71,17 +71,9 @@ export class SearchResortComponent implements OnInit {
     this.previousResort = this.authService.getSearchData('resort');
 
     const currentDate = new Date();
-
-    if(this.selectedResort == 'Vanavihari, Maredumilli'){
-      currentDate.setDate(currentDate.getDate());
-      this.minDate = currentDate;
-
-    }
-    if(this.selectedResort == 'Jungle Star, Valamuru'){
-      currentDate.setDate(currentDate.getDate()+1); // Increment current date by 1 day
-      this.minDate = currentDate;
-
-    }
+    // Set minimum check-in date to tomorrow for all resorts
+    currentDate.setDate(currentDate.getDate() + 1);
+    this.minDate = currentDate;
   }
   ngOnInit(): void {}
 
@@ -97,17 +89,9 @@ export class SearchResortComponent implements OnInit {
     this.selectionChanged = true
 
     const currentDate = new Date();
-    if(this.selectedResort == 'Vanavihari, Maredumilli'){
-      currentDate.setDate(currentDate.getDate());
-      this.minDate = currentDate;
-
-    }
-    if(this.selectedResort == 'Jungle Star, Valamuru'){
-      currentDate.setDate(currentDate.getDate()+1); // Increment current date by 1 day
-      this.minDate = currentDate;
-
-    }
-
+    // Set minimum check-in date to tomorrow for all resorts
+    currentDate.setDate(currentDate.getDate() + 1);
+    this.minDate = currentDate;
   }
 
   onCancel() {
