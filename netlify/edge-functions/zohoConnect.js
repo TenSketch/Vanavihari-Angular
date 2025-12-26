@@ -240,13 +240,13 @@ export default async (req) => {
             }
           );
         }
-        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${queryParams
+        apiUrl = `${zoho_api_uri}InsertLog?publickey=w9Sz5javdSMfJzgMAJs579Vy8&booking_id=${encodeURIComponent(queryParams
           .get("booking_id")
-          .toString()}&username=${queryParams
+          .toString())}&username=${encodeURIComponent(queryParams
           .get("username")
-          .toString()}&type=${queryParams
+          .toString())}&type=${encodeURIComponent(queryParams
           .get("type")
-          .toString()}&msg=${queryParams.get("msg").toString()}`;
+          .toString())}&msg=${encodeURIComponent(queryParams.get("msg").toString())}`;
         method = "GET";
 
         break;
